@@ -10,6 +10,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 | `pnpm dev` | Dev server (Turbopack). |
 | `pnpm build` | Production build. |
 | `pnpm start` | Serve the last production build. |
+| `pnpm clean` | Deletes build and cache folders: `.next`, `out`, `build`, `coverage`, `.turbo` (via [`rimraf`](https://www.npmjs.com/package/rimraf), cross-platform). |
+| `pnpm clean:full` | Runs `clean`, then removes `node_modules`. Run `pnpm install` afterward. |
 | `pnpm lint` | ESLint (`src` + `next.config.ts`) and Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
 | `pnpm lint:fix` | Same linters with auto-fix. |
 | `pnpm lint:ts` | ESLint only for `./src/**/*.{ts,tsx}` and `./next.config.ts`. |
