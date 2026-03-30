@@ -1,0 +1,19 @@
+# зависимости и артефакты сборки
+node_modules
+.next
+out
+dist
+build
+coverage
+
+# Markdown files
+*.md
+
+# lock-файлы (форматирование обычно не нужно)
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+
+# минифицированное
+*.min.js
+*.min.css
