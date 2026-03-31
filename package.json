@@ -20,10 +20,14 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@apollo/client": "^4.1.6",
+    "@apollo/client-integration-nextjs": "^0.14.4",
     "clsx": "^2.1.1",
+    "graphql": "^16.13.2",
     "next": "16.2.1",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "rxjs": "^7.8.2",
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {

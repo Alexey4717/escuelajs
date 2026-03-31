@@ -1,7 +1,45 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+Шрифты подключаются через [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) ([Geist](https://vercel.com/font)).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Архитектура приложения
+
+### Структура `src/`
+
+Архитектура по паттерну Feature-Sliced Design, но с учетом ограничений и особенностей Next.js.
+
+| Путь | Назначение |
+| --- | --- |
+| `src/app/` | App Router, BFF [`/api/graphql`](src/app/api/graphql/route.ts), страницы. |
+| `src/routes/` | Слой страниц FSD (не путать с Next.js `pages/` — в проекте только App Router). |
+| `src/widgets/` | Виджеты по FSD. |
+| `src/features/` | Фичи по FSD. |
+| `src/shared/` | Переиспользуемый функционал для всего проекта |
+
+### GraphQL, BFF и токены (HttpOnly)
+
+Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** ходит туда напрямую: Apollo шлёт запросы на **`/api/graphql`** (тот же origin). [Route Handler](src/app/api/graphql/route.ts) подставляет к upstream **`Authorization: Bearer`** из HttpOnly cookie и, для ответов мутаций **`login`** / **`refreshToken`**, выставляет cookie через [`auth-cookies`](src/shared/lib/auth-cookies.ts), а тела ответов **очищает от токенов** (чтобы они не попадали в кеш Apollo).
+
+- **Вход / refresh:** мутации [`LOGIN` / `REFRESH_TOKEN`](src/shared/api/graphql/auth.ts) через Apollo; отдельных `app/api/auth/*` нет.
+- **Выход:** server action [`clearAuthSession`](src/shared/api/auth/clear-auth-session.ts) — сброс cookie на сервере без отдельного route.
+
+**SSR:** для абсолютного URL к `/api/graphql` используется [`getAppOrigin()`](src/shared/lib/app-origin.ts) (`NEXT_PUBLIC_APP_URL` или `VERCEL_URL` или `http://localhost:3000`). В проде задайте **`NEXT_PUBLIC_APP_URL`**.
+
+**Маршруты:** публичные **`/`**, **`/login`**; защищённый **`/profile`** (middleware + наличие cookie). См. [`middleware.ts`](middleware.ts).
+
+**Где что вызывать**
+
+- **Server Components:** импорт из `apollo-rsc` — публичные запросы без токена; для запросов с сессией cookie должны приходить в запросе (проброс в `fetch` уже в `httpLink`).
+- **Клиентские компоненты:** хуки из `@apollo/client/react` — cookie уходят автоматически на `/api/graphql`.
+
+### Тема оформления (light / dark)
+
+Цель — совместить **shadcn** (класс **`dark`** на `<html>` и CSS-переменные) и атрибут **`data-theme`**.
+
+1. **Сервер** — в [`src/app/layout.tsx`](src/app/layout.tsx) читается cookie **`theme`** (`dark` / иначе считается светлой темой для первого HTML). На `<html>` выставляются `data-theme` и класс `dark` при `theme=dark`.
+2. **Скрипт до отрисовки** — [`src/app/theme-bootstrap.tsx`](src/app/theme-bootstrap.tsx) в `<head>` синхронно переопределяет тему по приоритету: cookie `theme` → `localStorage.getItem('theme')` → системная `prefers-color-scheme: dark`. Так уменьшается мигание при рассинхроне cookie и локального выбора. На `<html>` используется **`suppressHydrationWarning`**, потому что скрипт может слегка отличаться от серверной разметки.
+
+При переключении темы в UI имеет смысл обновлять и cookie (например через server action или route handler), и `localStorage`, чтобы поведение совпадало при следующих заходах и при SSR.
 
 ## Scripts
 
