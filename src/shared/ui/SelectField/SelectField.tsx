@@ -20,9 +20,12 @@ import { SelectContent } from './components/SelectContent';
 import { SelectTrigger } from './components/SelectTrigger';
 import { SelectValue } from './components/SelectValue';
 
-export type SelectFieldProps = Omit<
+/**
+ * `TValue` — union допустимых значений (строки Radix Select); по умолчанию `string`.
+ */
+export type SelectFieldProps<TValue extends string = string> = Omit<
   ComponentProps<typeof Select>,
-  'children'
+  'children' | 'value' | 'defaultValue' | 'onValueChange'
 > & {
   id?: string;
   label: React.ReactNode;
@@ -37,13 +40,18 @@ export type SelectFieldProps = Omit<
   contentClassName?: string;
   contentProps?: Omit<ComponentProps<typeof SelectContent>, 'children'>;
   children: React.ReactNode;
+  /** Атрибут для тестирования. Пробрасывается на триггер выбора (кнопка Radix). */
+  'data-testid'?: string;
+  value?: TValue;
+  defaultValue?: TValue;
+  onValueChange?: (value: TValue) => void;
 } & Pick<ComponentProps<typeof Field>, 'orientation'> &
   Pick<
     ComponentProps<typeof SelectTrigger>,
     'aria-describedby' | 'aria-invalid'
   >;
 
-export function SelectField({
+export function SelectField<TValue extends string = string>({
   id: idProp,
   label,
   description,
@@ -59,8 +67,9 @@ export function SelectField({
   children,
   'aria-describedby': ariaDescribedByProp,
   'aria-invalid': ariaInvalidProp,
+  'data-testid': dataTestId,
   ...selectProps
-}: SelectFieldProps) {
+}: SelectFieldProps<TValue>) {
   const generatedId = useId();
   const triggerId = idProp ?? generatedId;
   const descriptionId = description ? `${triggerId}-description` : undefined;
@@ -90,6 +99,7 @@ export function SelectField({
             aria-invalid={ariaInvalidProp ?? invalid}
             aria-describedby={ariaDescribedBy || undefined}
             className={cn('w-full min-w-0', triggerClassName)}
+            data-testid={dataTestId}
           >
             <SelectValue placeholder={placeholder} />
           </SelectTrigger>

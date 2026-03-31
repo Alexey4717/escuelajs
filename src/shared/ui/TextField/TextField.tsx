@@ -29,6 +29,8 @@ export type TextFieldProps = Omit<
   errorText?: string;
   /** Несколько ошибок (например, из GraphQL / zod). */
   errors?: Array<{ message?: string } | undefined>;
+  /** Атрибут для тестирования. Пробрасывается на нативный `<input />`. */
+  'data-testid'?: string;
 } & Pick<ComponentProps<typeof Field>, 'orientation'>;
 
 export function TextField({

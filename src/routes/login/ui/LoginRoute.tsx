@@ -1,25 +1,43 @@
 'use client';
 
-import { type SubmitEvent, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { LOGIN } from '@/shared/api/graphql/auth';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
-import { TextField } from '@/shared/ui/TextField/TextField';
+import { Form } from '@/shared/ui/Form/Form';
 
-import { AuthFormShell } from '@/routes/auth/ui/AuthFormShell';
+import { AuthFormShell } from '@/features/auth';
+
+import { LoginEmailField, LoginPasswordField } from '../lib/form/fields';
+import {
+  loginFormSchema,
+  LoginFormStateInput,
+  LoginFormStateOutput,
+} from '../lib/form/scheme';
 
 export const LoginRoute = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const methods = useForm<LoginFormStateInput, unknown, LoginFormStateOutput>({
+    resolver: standardSchemaResolver(loginFormSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const { formState } = methods;
 
   const redirectTo = useMemo(
     () => sanitizeLoginFromParam(searchParams.get('from')),
@@ -35,17 +53,17 @@ export const LoginRoute = () => {
 
   const [login, { loading }] = useMutation(LOGIN);
 
-  async function onSubmit(e: SubmitEvent) {
-    e.preventDefault();
+  async function onValidSubmit({ email, password }: LoginFormStateOutput) {
     setError(null);
     try {
       const result = await login({
-        variables: { email, password },
+        variables: { email: email.trim(), password },
       });
       if (result.error) {
         setError(result.error.message ?? 'Ошибка входа');
         return;
       }
+      toast.success('Вход выполнен успешно');
       router.push(redirectTo);
       router.refresh();
     } catch (err) {
@@ -73,26 +91,20 @@ export const LoginRoute = () => {
         </p>
       }
     >
-      <form className="space-y-3" onSubmit={onSubmit} noValidate>
-        <TextField
-          id="login-email"
-          label="Email"
+      <Form<LoginFormStateOutput>
+        methods={methods}
+        onSubmit={onValidSubmit}
+        className="space-y-3"
+      >
+        <LoginEmailField
           type="email"
           autoComplete="email"
-          required
           placeholder="you@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          id="login-password"
-          label="Пароль"
+        <LoginPasswordField
           type="password"
           autoComplete="current-password"
-          required
           placeholder="••••••••"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
         />
 
         {error ? (
@@ -106,12 +118,12 @@ export const LoginRoute = () => {
 
         <Button
           type="submit"
-          disabled={loading}
+          disabled={loading || formState.isSubmitting}
           className="mt-1.5 w-full py-2.5 text-[13px] hover:opacity-90 disabled:opacity-60"
         >
-          {loading ? 'Вход…' : 'Войти'}
+          {loading || formState.isSubmitting ? 'Вход…' : 'Войти'}
         </Button>
-      </form>
+      </Form>
     </AuthFormShell>
   );
 };

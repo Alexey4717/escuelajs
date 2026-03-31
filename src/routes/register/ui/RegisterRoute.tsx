@@ -11,10 +11,12 @@ import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redire
 import { Button } from '@/shared/ui/Button/Button';
 import { TextField } from '@/shared/ui/TextField/TextField';
 
-import { AuthFormShell } from '@/routes/auth/ui/AuthFormShell';
+import { AuthFormShell } from '@/features/auth';
 
 const DEFAULT_AVATAR = 'https://placehold.co/200x200/e8e5df/1a1916?text=User';
 
+// TODO добавить поле confirmPassword
+// https://www.youtube.com/watch?v=vI28woiCpCQ
 export const RegisterRoute = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
