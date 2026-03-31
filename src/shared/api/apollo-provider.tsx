@@ -18,5 +18,9 @@ export function ApolloProvider({ children }: PropsWithChildren) {
     return () => setBrowserApolloClient(null);
   }, [client]);
 
-  return <ApolloNextAppProvider makeClient={() => client}>{children}</ApolloNextAppProvider>;
+  return (
+    <ApolloNextAppProvider makeClient={() => client}>
+      {children}
+    </ApolloNextAppProvider>
+  );
 }

@@ -2,12 +2,13 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { cookies } from 'next/headers';
 
-import { ThemeBootstrapScript } from '@/app/theme-bootstrap';
+import { Toaster } from 'sonner';
 
 import { ApolloProvider } from '@/shared/api/apollo-provider';
 import { cn } from '@/shared/lib/styles/cn';
 
 import './globals.css';
+import { ThemeBootstrapScript } from './theme-bootstrap';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -21,7 +22,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Escuela.io',
-  description: 'Витрина на Next.js и GraphQL API Escuela (JWT, BFF /api/graphql).',
+  description:
+    'Витрина на Next.js и GraphQL API Escuela (JWT, BFF /api/graphql).',
 };
 
 export default async function RootLayout({
@@ -48,7 +50,10 @@ export default async function RootLayout({
         <ThemeBootstrapScript />
       </head>
       <body className="flex min-h-full flex-col bg-background font-sans text-[14px] text-foreground antialiased">
-        <ApolloProvider>{children}</ApolloProvider>
+        <ApolloProvider>
+          {children}
+          <Toaster theme={serverDark ? 'dark' : 'light'} />
+        </ApolloProvider>
       </body>
     </html>
   );

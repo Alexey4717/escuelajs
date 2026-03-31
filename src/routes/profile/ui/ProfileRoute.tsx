@@ -11,6 +11,7 @@ import { isUnauthorized } from '@/shared/api/apollo-client/is-unauthorized';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { MY_PROFILE } from '@/shared/api/graphql/profile';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
+import { Button } from '@/shared/ui/Button/Button';
 
 type MyProfileData = {
   myProfile: {
@@ -64,9 +65,9 @@ export const ProfileRoute = () => {
         <p>Не удалось загрузить профиль</p>
         <p>{error.message}</p>
         <Link href="/">На главную</Link>
-        <button type="button" onClick={logout}>
+        <Button type="button" variant="outline" onClick={logout}>
           Выйти
-        </button>
+        </Button>
       </div>
     );
   }
@@ -81,10 +82,12 @@ export const ProfileRoute = () => {
     <div>
       <h2>Профиль</h2>
 
-      <button type="button">Редактировать</button>
-      <button type="button" onClick={logout}>
+      <Button type="button" variant="secondary">
+        Редактировать
+      </Button>
+      <Button type="button" variant="outline" onClick={logout}>
         Выйти
-      </button>
+      </Button>
 
       <div>
         <h3>Данные аккаунта</h3>

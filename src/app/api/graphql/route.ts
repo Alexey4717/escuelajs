@@ -17,7 +17,11 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ACCESS_TOKEN_KEY, GRAPHQL_URI, REFRESH_TOKEN_KEY } from '@/shared/config/consts';
+import {
+  ACCESS_TOKEN_KEY,
+  GRAPHQL_URI,
+  REFRESH_TOKEN_KEY,
+} from '@/shared/config/consts';
 import {
   applyAuthCookiesToResponse,
   clearAuthCookiesOnResponse,
@@ -28,7 +32,9 @@ import {
 function parseJson(text: string): Record<string, unknown> | null {
   try {
     const v = JSON.parse(text) as unknown;
-    return v !== null && typeof v === 'object' ? (v as Record<string, unknown>) : null;
+    return v !== null && typeof v === 'object'
+      ? (v as Record<string, unknown>)
+      : null;
   } catch {
     return null;
   }
@@ -39,7 +45,8 @@ function parseJson(text: string): Record<string, unknown> | null {
  * (Apollo шлёт `RefreshToken`).
  */
 function isRefreshOperation(parsed: Record<string, unknown>): boolean {
-  const op = typeof parsed.operationName === 'string' ? parsed.operationName : '';
+  const op =
+    typeof parsed.operationName === 'string' ? parsed.operationName : '';
   if (op === 'RefreshToken') {
     return true;
   }
@@ -122,16 +129,22 @@ export async function POST(request: NextRequest) {
     return new NextResponse(resBody, {
       status: upstream.status,
       headers: {
-        'Content-Type': upstream.headers.get('content-type') ?? 'application/json',
+        'Content-Type':
+          upstream.headers.get('content-type') ?? 'application/json',
       },
     });
   }
 
-  if (Array.isArray(json.errors) && json.errors.length > 0 && isRefreshRequest) {
+  if (
+    Array.isArray(json.errors) &&
+    json.errors.length > 0 &&
+    isRefreshRequest
+  ) {
     const res = new NextResponse(resBody, {
       status: upstream.status,
       headers: {
-        'Content-Type': upstream.headers.get('content-type') ?? 'application/json',
+        'Content-Type':
+          upstream.headers.get('content-type') ?? 'application/json',
       },
     });
     clearAuthCookiesOnResponse(res);
@@ -141,19 +154,29 @@ export async function POST(request: NextRequest) {
   const data = json.data as Record<string, unknown> | undefined;
 
   if (data?.login && typeof data.login === 'object') {
-    const login = data.login as { access_token?: string; refresh_token?: string };
+    const login = data.login as {
+      access_token?: string;
+      refresh_token?: string;
+    };
     if (login.access_token && login.refresh_token) {
       const response = new NextResponse(stripTokensFromJson(json), {
         status: upstream.status,
         headers: { 'Content-Type': 'application/json' },
       });
-      applyAuthCookiesToResponse(response, login.access_token, login.refresh_token);
+      applyAuthCookiesToResponse(
+        response,
+        login.access_token,
+        login.refresh_token,
+      );
       return response;
     }
   }
 
   if (data?.refreshToken && typeof data.refreshToken === 'object') {
-    const rt = data.refreshToken as { access_token?: string; refresh_token?: string };
+    const rt = data.refreshToken as {
+      access_token?: string;
+      refresh_token?: string;
+    };
     if (rt.access_token && rt.refresh_token) {
       const response = new NextResponse(stripTokensFromJson(json), {
         status: upstream.status,
@@ -167,7 +190,8 @@ export async function POST(request: NextRequest) {
   return new NextResponse(resBody, {
     status: upstream.status,
     headers: {
-      'Content-Type': upstream.headers.get('content-type') ?? 'application/json',
+      'Content-Type':
+        upstream.headers.get('content-type') ?? 'application/json',
     },
   });
 }

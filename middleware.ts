@@ -1,7 +1,10 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
-import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from './src/shared/config/consts';
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_TOKEN_KEY,
+} from './src/shared/config/consts';
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

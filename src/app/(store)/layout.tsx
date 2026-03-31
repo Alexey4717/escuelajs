@@ -8,7 +8,9 @@ interface StoreLayoutProps {
   children: ReactNode;
 }
 
-export default async function StoreLayout({ children }: Readonly<StoreLayoutProps>) {
+export default async function StoreLayout({
+  children,
+}: Readonly<StoreLayoutProps>) {
   const isLoggedIn = await defineIsLoggedIn();
 
   return (
@@ -16,7 +18,9 @@ export default async function StoreLayout({ children }: Readonly<StoreLayoutProp
       <StoreTopbar isLoggedIn={isLoggedIn} />
       <div className="flex min-h-0 flex-1 overflow-hidden">
         <StoreSidebar isLoggedIn={isLoggedIn} />
-        <main className="min-h-0 flex-1 overflow-y-auto p-layout">{children}</main>
+        <main className="min-h-0 flex-1 overflow-y-auto p-layout">
+          {children}
+        </main>
       </div>
     </div>
   );

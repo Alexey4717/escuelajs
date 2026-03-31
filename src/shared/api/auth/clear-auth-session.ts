@@ -2,7 +2,11 @@
 
 import { cookies } from 'next/headers';
 
-import { ACCESS_TOKEN_KEY, REFRESH_HINT_COOKIE, REFRESH_TOKEN_KEY } from '../../config/consts/auth';
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_HINT_COOKIE,
+  REFRESH_TOKEN_KEY,
+} from '../../config/consts/auth';
 
 /** Сброс HttpOnly и флага сессии (без отдельного HTTP route). */
 export async function clearAuthSession(): Promise<void> {

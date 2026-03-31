@@ -11,7 +11,9 @@ export async function defineIsLoggedIn(): Promise<boolean> {
   if (typeof window === 'undefined') {
     const { cookies } = await import('next/headers');
     const c = await cookies();
-    return Boolean(c.get(ACCESS_TOKEN_KEY)?.value || c.get(REFRESH_TOKEN_KEY)?.value);
+    return Boolean(
+      c.get(ACCESS_TOKEN_KEY)?.value || c.get(REFRESH_TOKEN_KEY)?.value,
+    );
   }
 
   return hasRefreshTokenHint();

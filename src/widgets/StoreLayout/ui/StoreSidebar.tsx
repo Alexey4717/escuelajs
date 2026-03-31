@@ -46,12 +46,16 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
       item.disabled
         ? 'cursor-not-allowed text-muted-foreground opacity-60'
         : 'cursor-pointer text-muted-foreground hover:bg-muted hover:text-foreground',
-      active && 'bg-[var(--nav-item-active-bg)] font-medium text-accent hover:text-accent',
+      active &&
+        'bg-accent font-medium text-accent-foreground hover:bg-accent hover:text-accent-foreground',
     );
 
     const inner = (
       <>
-        <span className="flex size-4 shrink-0 items-center justify-center text-[14px]" aria-hidden>
+        <span
+          className="flex size-4 shrink-0 items-center justify-center text-[14px]"
+          aria-hidden
+        >
           {item.icon}
         </span>
         {item.label}
@@ -95,7 +99,9 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
         <div className="mb-1.5 px-2 text-[10px] font-normal uppercase tracking-[0.8px] text-muted-foreground">
           Аккаунт
         </div>
-        <nav className="flex flex-col gap-0.5">{accountNav.map(renderItem)}</nav>
+        <nav className="flex flex-col gap-0.5">
+          {accountNav.map(renderItem)}
+        </nav>
       </div>
       <div className="mt-auto border-t border-border pt-3">
         <div
@@ -111,8 +117,12 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
             E
           </span>
           <div className="min-w-0">
-            <div className="text-[13px] font-medium text-foreground">Escuela Store</div>
-            <div className="text-[11px] text-muted-foreground">GraphQL · JWT</div>
+            <div className="text-[13px] font-medium text-foreground">
+              Escuela Store
+            </div>
+            <div className="text-[11px] text-muted-foreground">
+              GraphQL · JWT
+            </div>
           </div>
         </div>
       </div>

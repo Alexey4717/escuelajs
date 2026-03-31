@@ -5,7 +5,7 @@ const config = {
   semi: true,
   singleQuote: true,
   trailingComma: 'all',
-  printWidth: 100,
+  printWidth: 80,
   endOfLine: 'auto',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   importOrderParserPlugins: ['typescript', 'jsx'],
@@ -21,6 +21,7 @@ const config = {
     '^(@/)?features/(.*)$',
     '^(@/)?widgets/(.*)$',
     '^(@/)?routes/(.*)$',
+    '^(@/)?app/(.*)$',
     '^[./]',
   ],
 };

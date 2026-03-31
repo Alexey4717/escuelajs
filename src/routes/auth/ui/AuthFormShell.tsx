@@ -17,7 +17,8 @@ interface AuthFormShellProps {
 
 const tabBase =
   'flex flex-1 cursor-pointer py-2 text-center text-[13px] transition-colors duration-150';
-const tabInactive = 'text-muted-foreground hover:bg-muted/80 hover:text-foreground';
+const tabInactive =
+  'text-muted-foreground hover:bg-muted/80 hover:text-foreground';
 
 export function AuthFormShell({
   mode,
@@ -39,25 +40,39 @@ export function AuthFormShell({
         </Link>
 
         <div className="rounded-[14px] border border-border bg-card p-7 shadow-sm">
-          <h1 className="text-lg font-bold tracking-tight text-foreground">{title}</h1>
+          <h1 className="text-lg font-bold tracking-tight text-foreground">
+            {title}
+          </h1>
           <p className="mb-5 text-[12px] text-muted-foreground">{subtitle}</p>
 
           <div className="mb-5 flex overflow-hidden rounded-md border border-border">
             {mode === 'login' ? (
               <>
-                <span className={`${tabBase} bg-primary font-medium text-primary-foreground`}>
+                <span
+                  className={`${tabBase} bg-primary font-medium text-primary-foreground`}
+                >
                   Вход
                 </span>
-                <Link href={registerHref} className={`${tabBase} ${tabInactive}`} prefetch>
+                <Link
+                  href={registerHref}
+                  className={`${tabBase} ${tabInactive}`}
+                  prefetch
+                >
                   Регистрация
                 </Link>
               </>
             ) : (
               <>
-                <Link href={loginHref} className={`${tabBase} ${tabInactive}`} prefetch>
+                <Link
+                  href={loginHref}
+                  className={`${tabBase} ${tabInactive}`}
+                  prefetch
+                >
                   Вход
                 </Link>
-                <span className={`${tabBase} bg-primary font-medium text-primary-foreground`}>
+                <span
+                  className={`${tabBase} bg-primary font-medium text-primary-foreground`}
+                >
                   Регистрация
                 </span>
               </>

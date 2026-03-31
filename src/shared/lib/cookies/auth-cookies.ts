@@ -11,7 +11,11 @@
  */
 import type { NextResponse } from 'next/server';
 
-import { ACCESS_TOKEN_KEY, REFRESH_HINT_COOKIE, REFRESH_TOKEN_KEY } from '../../config/consts/auth';
+import {
+  ACCESS_TOKEN_KEY,
+  REFRESH_HINT_COOKIE,
+  REFRESH_TOKEN_KEY,
+} from '../../config/consts/auth';
 import {
   AUTH_ACCESS_MAX_AGE_SECONDS,
   AUTH_REFRESH_MAX_AGE_SECONDS,

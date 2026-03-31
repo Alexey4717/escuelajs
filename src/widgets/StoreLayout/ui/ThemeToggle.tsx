@@ -4,6 +4,7 @@ import { useCallback, useSyncExternalStore } from 'react';
 
 import { THEME_COOKIE_MAX_AGE_SECONDS } from '@/shared/config/consts';
 import { cn } from '@/shared/lib/styles/cn';
+import { Button } from '@/shared/ui/Button/Button';
 
 function subscribe(onStoreChange: () => void) {
   if (typeof document === 'undefined') {
@@ -27,7 +28,11 @@ function getServerSnapshot() {
 }
 
 export const ThemeToggle = () => {
-  const isDark = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const isDark = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot,
+  );
 
   const toggleTheme = useCallback(() => {
     const nextDark = !document.documentElement.classList.contains('dark');
@@ -43,18 +48,19 @@ export const ThemeToggle = () => {
   }, []);
 
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
+      size="icon"
       onClick={toggleTheme}
       aria-label={isDark ? 'Включить светлую тему' : 'Включить тёмную тему'}
       className={cn(
-        'flex size-8 cursor-pointer items-center justify-center rounded-md border border-white/12',
-        'bg-transparent text-[14px] text-topbar-foreground transition-colors',
-        'hover:bg-white/10',
+        'rounded-md border border-white/12 text-[14px] text-inherit',
+        'hover:bg-white/10 dark:hover:bg-white/10',
       )}
       suppressHydrationWarning
     >
       {isDark ? '☀️' : '🌙'}
-    </button>
+    </Button>
   );
 };

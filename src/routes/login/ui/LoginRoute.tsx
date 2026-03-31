@@ -9,12 +9,10 @@ import { useMutation } from '@apollo/client/react';
 
 import { LOGIN } from '@/shared/api/graphql/auth';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
+import { Button } from '@/shared/ui/Button/Button';
+import { TextField } from '@/shared/ui/TextField/TextField';
 
 import { AuthFormShell } from '@/routes/auth/ui/AuthFormShell';
-
-const fieldLabel = 'mb-1.5 block text-[11px] uppercase tracking-[0.4px] text-muted-foreground';
-const fieldInput =
-  'h-[38px] w-full rounded-md border border-border bg-muted px-3 text-[13px] text-foreground outline-none transition-[border-color] duration-150 placeholder:text-muted-foreground/70 focus:border-primary';
 
 export const LoginRoute = () => {
   const router = useRouter();
@@ -76,53 +74,43 @@ export const LoginRoute = () => {
       }
     >
       <form className="space-y-3" onSubmit={onSubmit} noValidate>
-        <div>
-          <label className={fieldLabel} htmlFor="login-email">
-            Email
-          </label>
-          <input
-            id="login-email"
-            className={fieldInput}
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div>
-          <label className={fieldLabel} htmlFor="login-password">
-            Пароль
-          </label>
-          <input
-            id="login-password"
-            className={fieldInput}
-            type="password"
-            autoComplete="current-password"
-            required
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <TextField
+          id="login-email"
+          label="Email"
+          type="email"
+          autoComplete="email"
+          required
+          placeholder="you@example.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <TextField
+          id="login-password"
+          label="Пароль"
+          type="password"
+          autoComplete="current-password"
+          required
+          placeholder="••••••••"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         {error ? (
           <p
-            className="rounded-md border border-error/30 bg-error/10 px-3 py-2 text-[13px] text-error"
+            className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-[13px] text-destructive"
             role="alert"
           >
             {error}
           </p>
         ) : null}
 
-        <button
+        <Button
           type="submit"
           disabled={loading}
-          className="mt-1.5 w-full cursor-pointer rounded-md bg-primary py-2.5 text-[13px] font-medium text-primary-foreground transition-opacity duration-150 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-1.5 w-full py-2.5 text-[13px] hover:opacity-90 disabled:opacity-60"
         >
           {loading ? 'Вход…' : 'Войти'}
-        </button>
+        </Button>
       </form>
     </AuthFormShell>
   );
