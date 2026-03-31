@@ -1,0 +1,6 @@
+// Общие миксины для *.module.scss. Токены темы — CSS-переменные из app/globals.css.
+
+@mixin focus-ring {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

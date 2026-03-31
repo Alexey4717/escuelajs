@@ -2,23 +2,25 @@
 
 import { type SubmitEvent, useMemo, useState } from 'react';
 
-import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
 
-import { LOGIN } from '@/shared/api/graphql/auth';
+import { ADD_USER, LOGIN } from '@/shared/api/graphql/auth';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 
 import { AuthFormShell } from '@/routes/auth/ui/AuthFormShell';
+
+const DEFAULT_AVATAR = 'https://placehold.co/200x200/e8e5df/1a1916?text=User';
 
 const fieldLabel = 'mb-1.5 block text-[11px] uppercase tracking-[0.4px] text-muted-foreground';
 const fieldInput =
   'h-[38px] w-full rounded-md border border-border bg-muted px-3 text-[13px] text-foreground outline-none transition-[border-color] duration-150 placeholder:text-muted-foreground/70 focus:border-primary';
 
-export const LoginRoute = () => {
+export const RegisterRoute = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -33,55 +35,84 @@ export const LoginRoute = () => {
     return from ? `?${new URLSearchParams({ from }).toString()}` : '';
   }, [searchParams]);
 
+  const loginHref = `/login${authQuery}`;
   const registerHref = `/register${authQuery}`;
 
-  const [login, { loading }] = useMutation(LOGIN);
+  const [addUser, { loading: adding }] = useMutation(ADD_USER);
+  const [login, { loading: loggingIn }] = useMutation(LOGIN);
+
+  const loading = adding || loggingIn;
 
   async function onSubmit(e: SubmitEvent) {
     e.preventDefault();
     setError(null);
     try {
-      const result = await login({
-        variables: { email, password },
+      const addRes = await addUser({
+        variables: {
+          data: {
+            name: name.trim(),
+            email: email.trim(),
+            password,
+            avatar: DEFAULT_AVATAR,
+          },
+        },
       });
-      if (result.error) {
-        setError(result.error.message ?? 'Ошибка входа');
+
+      if (addRes.error) {
+        setError(addRes.error.message ?? 'Не удалось зарегистрироваться');
         return;
       }
+
+      const loginRes = await login({
+        variables: { email: email.trim(), password },
+      });
+
+      if (loginRes.error) {
+        setError(
+          loginRes.error.message ?? 'Аккаунт создан, но вход не удался. Попробуйте войти вручную.',
+        );
+        return;
+      }
+
       router.push(redirectTo);
       router.refresh();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Ошибка входа';
+      const message = err instanceof Error ? err.message : 'Не удалось зарегистрироваться';
       setError(message);
     }
   }
 
   return (
     <AuthFormShell
-      mode="login"
-      title="Добро пожаловать"
-      subtitle="Войдите, чтобы открыть профиль и оформлять заказы"
+      mode="register"
+      title="Создать аккаунт"
+      subtitle="Заполните поля, чтобы зарегистрироваться в магазине"
+      loginHref={loginHref}
       registerHref={registerHref}
-      footer={
-        <p className="text-center text-[11px] text-muted-foreground">
-          Нет аккаунта?{' '}
-          <Link
-            href={registerHref}
-            className="font-medium text-primary underline-offset-2 transition-colors hover:underline"
-            prefetch
-          >
-            Зарегистрироваться →
-          </Link>
-        </p>
-      }
     >
       <form className="space-y-3" onSubmit={onSubmit} noValidate>
         <div>
-          <label className={fieldLabel} htmlFor="login-email">
+          <label className={fieldLabel} htmlFor="register-name">
+            Имя
+          </label>
+          <input
+            id="register-name"
+            className={fieldInput}
+            type="text"
+            autoComplete="name"
+            required
+            minLength={2}
+            placeholder="Иван Иванов"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <div>
+          <label className={fieldLabel} htmlFor="register-email">
             Email
           </label>
           <input
-            id="login-email"
+            id="register-email"
             className={fieldInput}
             type="email"
             autoComplete="email"
@@ -92,16 +123,17 @@ export const LoginRoute = () => {
           />
         </div>
         <div>
-          <label className={fieldLabel} htmlFor="login-password">
+          <label className={fieldLabel} htmlFor="register-password">
             Пароль
           </label>
           <input
-            id="login-password"
+            id="register-password"
             className={fieldInput}
             type="password"
-            autoComplete="current-password"
+            autoComplete="new-password"
             required
-            placeholder="••••••••"
+            minLength={4}
+            placeholder="Не менее 4 символов"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -121,7 +153,7 @@ export const LoginRoute = () => {
           disabled={loading}
           className="mt-1.5 w-full cursor-pointer rounded-md bg-primary py-2.5 text-[13px] font-medium text-primary-foreground transition-opacity duration-150 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {loading ? 'Вход…' : 'Войти'}
+          {loading ? 'Регистрация…' : 'Зарегистрироваться'}
         </button>
       </form>
     </AuthFormShell>

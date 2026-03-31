@@ -47,7 +47,7 @@ export default async function RootLayout({
       <head>
         <ThemeBootstrapScript />
       </head>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-background font-sans text-[14px] text-foreground antialiased">
         <ApolloProvider>{children}</ApolloProvider>
       </body>
     </html>

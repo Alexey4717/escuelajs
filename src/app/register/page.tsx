@@ -1,8 +1,8 @@
 import { Suspense } from 'react';
 
-import { LoginRoute } from '@/routes/login';
+import { RegisterRoute } from '@/routes/register';
 
-function LoginFallback() {
+function RegisterFallback() {
   return (
     <div className="flex min-h-[min(100dvh,100vh)] items-center justify-center bg-background text-muted-foreground">
       Загрузка…
@@ -10,10 +10,10 @@ function LoginFallback() {
   );
 }
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
-    <Suspense fallback={<LoginFallback />}>
-      <LoginRoute />
+    <Suspense fallback={<RegisterFallback />}>
+      <RegisterRoute />
     </Suspense>
   );
 }

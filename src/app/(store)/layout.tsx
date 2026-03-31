@@ -12,11 +12,11 @@ export default async function StoreLayout({ children }: Readonly<StoreLayoutProp
   const isLoggedIn = await defineIsLoggedIn();
 
   return (
-    <div>
+    <div className="flex min-h-screen flex-col overflow-hidden">
       <StoreTopbar isLoggedIn={isLoggedIn} />
-      <div>
-        <StoreSidebar />
-        <main>{children}</main>
+      <div className="flex min-h-0 flex-1 overflow-hidden">
+        <StoreSidebar isLoggedIn={isLoggedIn} />
+        <main className="min-h-0 flex-1 overflow-y-auto p-layout">{children}</main>
       </div>
     </div>
   );

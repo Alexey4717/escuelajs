@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 
+import { cn } from '@/shared/lib/styles/cn';
+
 import { ThemeToggle } from '@/widgets/StoreLayout/ui/ThemeToggle';
 
 interface StoreTopbarProps {
@@ -10,16 +12,64 @@ interface StoreTopbarProps {
 
 export function StoreTopbar({ isLoggedIn }: StoreTopbarProps) {
   return (
-    <header>
-      <Link href="/">
-        Escuela<em>.</em>io
+    <header
+      className={cn(
+        'flex h-[52px] shrink-0 items-center gap-4 bg-topbar px-5 text-topbar-foreground',
+        'z-10',
+      )}
+    >
+      <Link
+        href="/"
+        className="cursor-pointer text-[17px] font-bold tracking-[-0.5px] text-topbar-foreground"
+      >
+        Escuela<em className="not-italic text-accent">.</em>io
       </Link>
-      <div>
-        <button type="button" title="Корзина" aria-label="Корзина">
+      <div className="ml-auto flex items-center gap-2">
+        <button
+          type="button"
+          title="Корзина"
+          aria-label="Корзина"
+          className={cn(
+            'relative flex size-8 cursor-pointer items-center justify-center rounded-md border border-white/12',
+            'bg-transparent text-[15px] text-topbar-foreground transition-colors',
+            'hover:bg-white/10',
+          )}
+        >
           🛒
+          <span
+            className="absolute top-1 right-1 size-[7px] rounded-full border-[1.5px] border-topbar bg-accent"
+            aria-hidden
+          />
         </button>
         <ThemeToggle />
-        {isLoggedIn ? <Link href="/profile">Профиль</Link> : <Link href="/login">Войти</Link>}
+        {isLoggedIn ? (
+          <Link
+            href="/profile"
+            className={cn(
+              'flex cursor-pointer items-center gap-2 rounded-full border border-white/12 py-1 pr-2.5 pl-1',
+              'text-topbar-foreground transition-colors',
+              'hover:bg-white/10',
+            )}
+          >
+            <span
+              className="flex size-[26px] shrink-0 items-center justify-center rounded-full bg-accent text-[11px] font-semibold text-accent-foreground"
+              aria-hidden
+            >
+              П
+            </span>
+            <span className="text-[12px] text-topbar-foreground/80">Профиль</span>
+          </Link>
+        ) : (
+          <Link
+            href="/login"
+            className={cn(
+              'rounded-md border border-white/20 bg-transparent px-3.5 py-1.5 text-[13px] text-topbar-foreground',
+              'whitespace-nowrap transition-colors hover:bg-white/10',
+            )}
+          >
+            Войти
+          </Link>
+        )}
       </div>
     </header>
   );

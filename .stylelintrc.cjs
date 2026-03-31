@@ -7,6 +7,31 @@ module.exports = {
   ],
   plugins: ['stylelint-use-logical'],
   rules: {
+    'at-rule-no-unknown': [
+      true,
+      {
+        ignoreAtRules: [
+          'mixin',
+          'include',
+          'use',
+          'forward',
+          'theme',
+          'source',
+          'utility',
+          'variant',
+          'custom-variant',
+          'plugin',
+          'reference',
+          'tailwind',
+          'apply',
+          'layer',
+          'config',
+          'variants',
+          'responsive',
+          'screen',
+        ],
+      },
+    ],
     'csstools/use-logical': 'always',
     // Tailwind / утилитарные классы и произвольные имена анимаций
     'selector-class-pattern': null,
