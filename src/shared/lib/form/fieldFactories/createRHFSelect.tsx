@@ -8,14 +8,21 @@ import {
   type Path,
   useFormContext,
 } from 'react-hook-form';
+import type { input, ZodObject } from 'zod/v4';
 
 import {
   SelectField,
   SelectFieldProps,
   SelectItem,
 } from '../../../ui/SelectField/SelectField';
-import { BaseFactoryArg, SelectOption } from '../types';
+import type { SelectOption } from '../types';
 import { formatRequiredLabel } from '../utils/formatRequiredLabel';
+import { isZodObjectFieldRequired } from '../utils/isZodObjectFieldRequired';
+import { requiredFromSchemaShape } from '../utils/requiredFromSchemaShape';
+import {
+  getZodFormFieldUiMeta,
+  type ZodFormFieldUiMeta,
+} from '../zod-form-field-meta';
 
 export type RHFSelectFieldProps<TValue extends string = string> = Omit<
   SelectFieldProps<TValue>,
@@ -26,6 +33,29 @@ export type RHFSelectFieldProps<TValue extends string = string> = Omit<
   options?: SelectOption<TValue>[];
   children?: React.ReactNode;
 };
+
+function mergeRHFSelectPropsWithMeta<TOptionValue extends string>(
+  props: Partial<RHFSelectFieldProps<TOptionValue>>,
+  fromMeta: ZodFormFieldUiMeta | undefined,
+): Partial<RHFSelectFieldProps<TOptionValue>> {
+  if (!fromMeta) {
+    return props;
+  }
+
+  return {
+    ...props,
+    options:
+      props.options ??
+      (fromMeta.options as SelectOption<TOptionValue>[] | undefined),
+    placeholder: props.placeholder ?? fromMeta.placeholder,
+    description: props.description ?? fromMeta.description,
+    size: props.size ?? fromMeta.size,
+    disabled: props.disabled ?? fromMeta.disabled,
+    orientation: props.orientation ?? fromMeta.orientation,
+    triggerClassName: props.triggerClassName ?? fromMeta.triggerClassName,
+    contentClassName: props.contentClassName ?? fromMeta.contentClassName,
+  };
+}
 
 const BaseRHFSelectField = <
   TForm extends FieldValues,
@@ -90,175 +120,100 @@ const BaseRHFSelectField = <
 };
 
 /**
- * Создаёт `SelectField` для React Hook Form с **фиксированными** `name` и `options`;
- * подпись, обязательность и `data-testid` можно задать в конфиге и при необходимости
- * переопределить при рендере.
+ * Фабрика `SelectField` для React Hook Form: тип формы — `input<typeof schema>`.
+ * Подпись, `options`, `placeholder` и др. — из Zod meta (`formField`) или пропсов (пропсы важнее).
+ * `required` для подписи по умолчанию — из схемы.
  *
- * @example
+ * @example Фиксированное поле (всё в meta у ключа схемы, в т.ч. `options`):
  * ```tsx
- * const RoleSelect = createRHFSelect<TUserForm, 'admin' | 'moderator'>({
- *   name: 'role',
- *   label: 'Роль',
- *   required: true,
- *   options: [
- *     { label: 'Админ', value: 'admin' },
- *     { label: 'Модератор', value: 'moderator' },
- *   ],
- * });
- *
+ * const RoleSelect = createRHFSelect(userSchema, 'role');
  * <RoleSelect />
  * ```
  *
- * @remarks
- * - `name` и `options` задаются только в фабрике и **не передаются** в пропсах (в т.ч. нельзя переопределить `options`).
- * - `label`, `required` и `data-testid` из конфига можно **переопределить** при рендере.
- * - Остальные пропсы — как у {@link SelectField}, кроме `value` / `errorText` / `errors` / `children` (список из `options`). Дополнительный `onValueChange` вызывается после обновления значения в RHF.
- *
- * @typeParam TForm — тип значений формы.
- * @typeParam TValue — строковый литерал/union значений пунктов (совпадает с `value` в `options`).
+ * @example Полностью в пропсах:
+ * ```tsx
+ * const SelectInput = createRHFSelect(userSchema);
+ * <SelectInput name="role" />
+ * ```
  */
 export function createRHFSelect<
-  TForm extends FieldValues,
-  TValue extends string,
+  TSchema extends ZodObject,
+  TName extends keyof TSchema['shape'] & string,
 >(
-  config: BaseFactoryArg<TForm> & { options: SelectOption<TValue>[] },
+  schema: TSchema,
+  name: TName,
 ): (
-  props?: Omit<RHFSelectFieldProps<TValue>, 'name' | 'options' | 'children'>,
+  props?: Omit<RHFSelectFieldProps, 'name' | 'options' | 'children'>,
 ) => JSX.Element;
 
-/**
- * Создаёт `SelectField` с фиксированным `name`; список `options` передаётся **при использовании**.
- *
- * @example
- * ```tsx
- * const RoleSelect = createRHFSelect<TUserForm>({
- *   name: 'role',
- *   label: 'Роль',
- *   required: true,
- * });
- *
- * <RoleSelect
- *   options={[
- *     { label: 'Админ', value: 'admin' },
- *     { label: 'Модератор', value: 'moderator' },
- *   ]}
- * />
- * ```
- *
- * @remarks
- * - `name` задаётся только в фабрике.
- * - `options` **обязательны** в пропсах компонента (тип исключает `name`).
- * - `label`, `required` и `data-testid` можно переопределить при рендере.
- *
- * @typeParam TForm — тип значений формы.
- */
-export function createRHFSelect<TForm extends FieldValues>(
-  config: BaseFactoryArg<TForm>,
+export function createRHFSelect<TSchema extends ZodObject>(
+  schema: TSchema,
 ): <TValue extends string>(
-  props: Omit<RHFSelectFieldProps<TValue>, 'name' | 'options'> & {
-    name?: never;
-    options: SelectOption<TValue>[];
+  props: RHFSelectFieldProps<TValue> & {
+    name: keyof TSchema['shape'] & string;
   },
 ) => JSX.Element;
 
-/**
- * Универсальный `SelectField`: без предзаданного `name` и `options` — всё задаётся в пропсах.
- *
- * @example
- * ```tsx
- * const SelectInput = createRHFSelect<TUserForm>();
- *
- * <SelectInput
- *   name="role"
- *   label="Роль"
- *   required
- *   options={[
- *     { label: 'Админ', value: 'admin' },
- *     { label: 'Модератор', value: 'moderator' },
- *   ]}
- * />
- * ```
- *
- * @remarks
- * - `name` должен совпадать с типом `Path` полей `TForm`.
- * - Либо `options`, либо `children` (кастомная разметка пунктов) — как у {@link SelectField}.
- *
- * @typeParam TForm — тип значений формы.
- */
-export function createRHFSelect<TForm extends FieldValues>(): <
-  TValue extends string,
->(
-  props: RHFSelectFieldProps<TValue> & { name: Path<TForm> },
-) => JSX.Element;
-
-/**
- * Фабрика полей выбора для React Hook Form: три режима — с фиксированными `options`, с
- * `options` при использовании, или полностью дженерик.
- */
-export function createRHFSelect<
-  TForm extends FieldValues,
-  TValue extends string = string,
->(config?: BaseFactoryArg<TForm> & { options?: SelectOption<TValue>[] }) {
-  if (config) {
-    const {
-      name,
-      required,
-      label = '',
-      'data-testid': dataTestId,
-      options,
-    } = config;
-
-    if (options) {
-      return function RHFSelectWithOptions(
-        props?: Omit<
-          RHFSelectFieldProps<TValue>,
-          'name' | 'options' | 'children'
-        >,
-      ) {
-        const p = props ?? {};
-        return (
-          <BaseRHFSelectField<TForm, TValue>
-            {...p}
-            name={name}
-            label={p.label ?? label}
-            required={p.required ?? required}
-            data-testid={p['data-testid'] ?? dataTestId}
-            options={options}
-          />
-        );
-      };
-    }
-
-    return function RHFSelect<TOptionValue extends string>(
-      props: Omit<RHFSelectFieldProps<TOptionValue>, 'name' | 'options'> & {
-        name?: never;
-        options: SelectOption<TOptionValue>[];
+export function createRHFSelect<TSchema extends ZodObject>(
+  schema: TSchema,
+  name?: keyof TSchema['shape'] & string,
+):
+  | ((
+      props?: Omit<RHFSelectFieldProps, 'name' | 'options' | 'children'>,
+    ) => JSX.Element)
+  | (<TValue extends string>(
+      props: RHFSelectFieldProps<TValue> & {
+        name: keyof TSchema['shape'] & string;
       },
+    ) => JSX.Element) {
+  if (name !== undefined) {
+    const fieldName = name;
+    const requiredDefault = isZodObjectFieldRequired(schema, fieldName);
+    const fromMeta = getZodFormFieldUiMeta(schema, fieldName);
+
+    return function RHFSelectWithName<TOptionValue extends string>(
+      props?: Omit<
+        RHFSelectFieldProps<TOptionValue>,
+        'name' | 'options' | 'children'
+      >,
     ) {
-      const {
-        label: innerLabel = label,
-        required: reqProp,
-        'data-testid': tid,
-        options: optionsProp,
-        ...rest
-      } = props;
+      const p = props ?? {};
+      const merged = mergeRHFSelectPropsWithMeta<TOptionValue>(p, fromMeta);
+      const label = p.label ?? fromMeta?.label ?? '';
+      const dataTestId = p['data-testid'] ?? fromMeta?.['data-testid'];
 
       return (
-        <BaseRHFSelectField<TForm, TOptionValue>
-          {...rest}
-          name={name}
-          label={innerLabel}
-          required={reqProp ?? required}
-          data-testid={tid ?? dataTestId}
-          options={optionsProp}
+        <BaseRHFSelectField<input<TSchema>, TOptionValue>
+          {...merged}
+          name={fieldName as unknown as Path<input<TSchema>>}
+          label={label}
+          required={p.required ?? requiredDefault}
+          data-testid={dataTestId}
         />
       );
     };
   }
 
-  return function RHFSelect<TOptionValue extends string>(
-    props: RHFSelectFieldProps<TOptionValue> & { name: Path<TForm> },
+  return function RHFSelectDynamic<TOptionValue extends string>(
+    props: RHFSelectFieldProps<TOptionValue> & {
+      name: keyof TSchema['shape'] & string;
+    },
   ) {
-    return <BaseRHFSelectField<TForm, TOptionValue> {...props} />;
+    const { name: fieldName, ...rest } = props;
+    const fromMeta = getZodFormFieldUiMeta(schema, fieldName);
+    const required = requiredFromSchemaShape(schema, fieldName);
+    const merged = mergeRHFSelectPropsWithMeta(rest, fromMeta);
+    const label = rest.label ?? fromMeta?.label ?? '';
+    const dataTestId = rest['data-testid'] ?? fromMeta?.['data-testid'];
+
+    return (
+      <BaseRHFSelectField<input<TSchema>, TOptionValue>
+        {...merged}
+        name={fieldName as Path<input<TSchema>>}
+        label={label}
+        required={rest.required ?? required}
+        data-testid={dataTestId}
+      />
+    );
   };
 }

@@ -8,10 +8,13 @@ import {
   type Path,
   useFormContext,
 } from 'react-hook-form';
+import type { input, ZodObject } from 'zod/v4';
 
 import { TextField, TextFieldProps } from '../../../ui/TextField/TextField';
-import { BaseFactoryArg } from '../types';
 import { formatRequiredLabel } from '../utils/formatRequiredLabel';
+import { isZodObjectFieldRequired } from '../utils/isZodObjectFieldRequired';
+import { requiredFromSchemaShape } from '../utils/requiredFromSchemaShape';
+import { getZodFormFieldUiMeta } from '../zod-form-field-meta';
 
 export type BaseTextFieldComponentProps = Omit<
   TextFieldProps,
@@ -56,94 +59,89 @@ const BaseRHFTextField = <TForm extends FieldValues>({
 };
 
 /**
- * Создаёт компонент `TextField`, связанный с React Hook Form, с **предопределённым** `name`
- * и опциональными значениями по умолчанию для подписи, обязательности и `data-testid`.
+ * Фабрика `TextField` для React Hook Form: тип формы — `input<typeof schema>`,
+ * обязательность подписи по умолчанию — из `schema.shape` (для ключей верхнего уровня).
  *
- * @example
+ * @example С фиксированным полем: второй аргумент — ключ из `schema.shape`; подпись и test id — в Zod meta (`formField`) или в пропсах:
  * ```tsx
- * const FullNameField = createRHFTextField<TUserForm>({
- *   name: 'fullName',
- *   label: 'ФИО',
- *   required: true,
- *   'data-testid': 'userForm__input__fullName',
- * });
- *
- * // Внутри <FormProvider>:
- * <FullNameField />
+ * const EmailField = createRHFTextField(loginSchema, 'email');
+ * <EmailField />
  * ```
  *
- * @remarks
- * - `name` задаётся только в фабрике и **не передаётся** в пропсах компонента (тип исключает `name`).
- * - `label`, `required` и `data-testid` из конфига можно **переопределить** при рендере, если передать их в пропсах.
- * - Остальные пропсы — как у {@link TextField}, кроме `errorText` / `errors` (их выставляет RHF).
- *
- * @typeParam TForm — тип значений формы (`react-hook-form` / схема полей).
+ * @example Без второго аргумента — `name` (и при необходимости `label`) при рендере; для ключей
+ * `shape` подставляются значения из meta:
+ * ```tsx
+ * const TextInput = createRHFTextField(loginSchema);
+ * <TextInput name="email" />
+ * ```
  */
-export function createRHFTextField<TForm extends FieldValues>(
-  config: BaseFactoryArg<TForm>,
+export function createRHFTextField<
+  TSchema extends ZodObject,
+  TName extends keyof TSchema['shape'] & string,
+>(
+  schema: TSchema,
+  name: TName,
 ): (props: Omit<BaseTextFieldComponentProps, 'name'>) => JSX.Element;
 
-/**
- * Создаёт **универсальный** компонент `TextField` для формы: без предзаданного `name`;
- * имя поля и остальное задаются **только при использовании**.
- *
- * @example
- * ```tsx
- * const TextInput = createRHFTextField<TUserForm>();
- *
- * <TextInput
- *   name="fullName"
- *   label="ФИО"
- *   required
- *   data-testid="userForm__input__fullName"
- * />
- * ```
- *
- * @remarks
- * - Подходит для редких полей, динамических имён или когда не хочется заводить отдельную фабрику на каждое поле.
- * - `name` обязателен в пропсах и должен совпадать с {@link Path} полей `TForm`.
- *
- * @typeParam TForm — тип значений формы (`react-hook-form` / схема полей).
- */
-export function createRHFTextField<TForm extends FieldValues>(): (
-  props: BaseTextFieldComponentProps & { name: Path<TForm> },
-) => JSX.Element;
-
-export function createRHFTextField<TForm extends FieldValues>(
-  config?: BaseFactoryArg<TForm>,
+export function createRHFTextField<TSchema extends ZodObject>(
+  schema: TSchema,
 ): (
-  props: BaseFactoryArg<TForm> extends typeof config
-    ? Omit<BaseTextFieldComponentProps, 'name'>
-    : BaseTextFieldComponentProps & { name: Path<TForm> },
+  props: BaseTextFieldComponentProps & {
+    name: keyof TSchema['shape'] & string;
+  },
 ) => JSX.Element;
 
-/**
- * Фабрика полей ввода для React Hook Form: режим с конфигом (фиксированный `name`) или без конфига (все пропсы снаружи).
- */
-export function createRHFTextField<TForm extends FieldValues>(
-  config?: BaseFactoryArg<TForm>,
-) {
-  if (config) {
-    const { name, required, label = '', 'data-testid': dataTestId } = config;
+export function createRHFTextField<TSchema extends ZodObject>(
+  schema: TSchema,
+  name?: keyof TSchema['shape'] & string,
+):
+  | ((props: Omit<BaseTextFieldComponentProps, 'name'>) => JSX.Element)
+  | ((
+      props: BaseTextFieldComponentProps & {
+        name: keyof TSchema['shape'] & string;
+      },
+    ) => JSX.Element) {
+  if (name !== undefined) {
+    const required = isZodObjectFieldRequired(schema, name);
+    const fromMeta = getZodFormFieldUiMeta(schema, name);
 
-    return function RHFTextField(
+    return function RHFTextFieldWithName(
       props: Omit<BaseTextFieldComponentProps, 'name'>,
     ) {
+      const label = props.label ?? fromMeta?.label ?? '';
+      const dataTestId = props['data-testid'] ?? fromMeta?.['data-testid'];
+
       return (
-        <BaseRHFTextField<TForm>
+        <BaseRHFTextField<input<TSchema>>
           {...props}
-          name={name}
-          label={props.label ?? label}
+          name={name as unknown as Path<input<TSchema>>}
+          label={label}
           required={props.required ?? required}
-          data-testid={props['data-testid'] ?? dataTestId}
+          data-testid={dataTestId}
         />
       );
     };
   }
 
-  return function RHFTextField(
-    props: BaseTextFieldComponentProps & { name: Path<TForm> },
+  return function RHFTextFieldDynamic(
+    props: BaseTextFieldComponentProps & {
+      name: keyof TSchema['shape'] & string;
+    },
   ) {
-    return <BaseRHFTextField<TForm> {...props} />;
+    const { name: fieldName, ...rest } = props;
+    const fromMeta = getZodFormFieldUiMeta(schema, fieldName);
+    const required = requiredFromSchemaShape(schema, fieldName);
+    const label = rest.label ?? fromMeta?.label ?? '';
+    const dataTestId = rest['data-testid'] ?? fromMeta?.['data-testid'];
+
+    return (
+      <BaseRHFTextField<input<TSchema>>
+        {...rest}
+        name={fieldName as Path<input<TSchema>>}
+        label={label}
+        required={rest.required ?? required}
+        data-testid={dataTestId}
+      />
+    );
   };
 }
