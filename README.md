@@ -29,8 +29,55 @@ Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** х
 
 **Где что вызывать**
 
-- **Server Components:** импорт из `apollo-rsc` — публичные запросы без токена; для запросов с сессией cookie должны приходить в запросе (проброс в `fetch` уже в `httpLink`).
+- **Server Components:** только из [`@/shared/api/apollo-client/rsc`](src/shared/api/apollo-client/rsc/index.ts) — `getClient`, `query`, `PreloadQuery` (см. [Apollo RSC](#apollo-rsc); модуль помечен `server-only`, **не** реэкспортируется из корня `apollo-client`). Для операций, доступных без входа, токен не обязателен; если нужна сессия, cookie входящего запроса к Next должны попасть в `fetch` — это уже делает [`http-link`](src/shared/api/apollo-client/links/http-link.ts) через `next/headers`.
 - **Клиентские компоненты:** хуки из `@apollo/client/react` — cookie уходят автоматически на `/api/graphql`.
+
+#### Apollo RSC
+
+Интеграция [`@apollo/client-integration-nextjs`](https://www.npmjs.com/package/@apollo/client-integration-nextjs) связывает Apollo с App Router и **React Server Components**: в [`rsc/apollo-rsc.ts`](src/shared/api/apollo-client/rsc/apollo-rsc.ts) вызывается [`registerApolloClient`](https://www.apollographql.com/docs/react/integrations/nextjs/), из [`@/shared/api/apollo-client/rsc`](src/shared/api/apollo-client/rsc/index.ts) экспортируются **`getClient`**, **`query`**, **`PreloadQuery`**.
+
+- **Зачем:** выполнять GraphQL на **сервере** при рендере RSC (данные можно получить до отдачи HTML), держать один контракт с клиентским Apollo и при необходимости предзагружать данные для гидрации (`PreloadQuery`).
+- **Связь с BFF:** тот же **`HttpLink`** на **`/api/graphql`**; [BFF `route.ts`](src/app/api/graphql/route.ts) по-прежнему проксирует на upstream. Серверный `query` ходит **в** этот маршрут, а не «в обход» Apollo.
+
+```ts
+import { getClient, query, PreloadQuery } from '@/shared/api/apollo-client/rsc';
+```
+
+**Структура [`shared/api/apollo-client/`](src/shared/api/apollo-client/)**
+
+| Папка | Назначение |
+| --- | --- |
+| [`client/`](src/shared/api/apollo-client/client/) | Фабрика [`makeApolloClient`](src/shared/api/apollo-client/client/make-apollo-client.ts). |
+| [`links/`](src/shared/api/apollo-client/links/) | Цепочка Apollo Link: [`http-link`](src/shared/api/apollo-client/links/http-link.ts), [`error-link`](src/shared/api/apollo-client/links/error-link.ts). |
+| [`auth/`](src/shared/api/apollo-client/auth/) | Сессия в браузере: singleton клиента, [`refresh-token`](src/shared/api/apollo-client/auth/refresh-token.ts), [`isUnauthorized`](src/shared/api/apollo-client/auth/is-unauthorized.ts). |
+| [`context/`](src/shared/api/apollo-client/context/) | Ключи контекста операций, например [`SKIP_ERROR_TOAST_KEY`](src/shared/api/apollo-client/context/context-keys.ts). |
+| [`errors/`](src/shared/api/apollo-client/errors/) | Тексты для глобального toast — [`getErrorToastMessage`](src/shared/api/apollo-client/errors/get-error-toast-message.ts). |
+| [`provider/`](src/shared/api/apollo-client/provider/) | Клиентский [`ApolloProvider`](src/shared/api/apollo-client/provider/apollo-provider.tsx) (обёртка `ApolloNextAppProvider` + регистрация браузерного клиента). Импорт: `@/shared/api/apollo-client/provider`. |
+| [`rsc/`](src/shared/api/apollo-client/rsc/) | Регистрация Apollo для RSC — [`registerApolloClient`](https://www.apollographql.com/docs/react/integrations/nextjs/) (`getClient`, `query`, `PreloadQuery`). Импорт: `@/shared/api/apollo-client/rsc`. |
+| [`index.ts`](src/shared/api/apollo-client/index.ts) | Публичный реэкспорт (`makeApolloClient`, контекст, `isUnauthorized`) для импорта из `@/shared/api/apollo-client`. Клиентский провайдер и RSC — отдельными путями (`provider/`, `rsc/`). |
+
+**Тосты при ошибках (Apollo `ErrorLink`)**
+
+В браузере глобальный [`ErrorLink`](src/shared/api/apollo-client/links/error-link.ts) показывает [Sonner](https://sonner.emilkowal.ski/) `toast.error` при сбоях запросов:
+
+- HTTP **4xx** — «Что-то пошло не так».
+- HTTP **5xx** — «Внутренняя ошибка сервера».
+- Ошибки в теле GraphQL-ответа (`errors`) — «Что-то пошло не так».
+- **401** и сценарии «нужен refresh» (см. [`isUnauthorized`](src/shared/api/apollo-client/auth/is-unauthorized.ts)) — тост **не** показывается, чтобы не дублировать обработку сессии.
+
+Точечно отключить тост для одной операции можно через **контекст** Apollo: ключ [`SKIP_ERROR_TOAST_KEY`](src/shared/api/apollo-client/context/context-keys.ts) (`'skipErrorToast'`), реэкспортируется из [`@/shared/api/apollo-client`](src/shared/api/apollo-client/index.ts).
+
+```ts
+import { SKIP_ERROR_TOAST_KEY } from '@/shared/api/apollo-client';
+
+// Опции хука (useQuery / useMutation / useLazyQuery)
+useMutation(MY_MUTATION, {
+  context: { [SKIP_ERROR_TOAST_KEY]: true },
+});
+
+// Или при вызове mutate / execute
+mutate({ variables: { … } }, { context: { [SKIP_ERROR_TOAST_KEY]: true } });
+```
 
 ### Тема оформления (light / dark)
 

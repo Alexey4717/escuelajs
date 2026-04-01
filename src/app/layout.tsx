@@ -4,7 +4,7 @@ import { cookies } from 'next/headers';
 
 import { Toaster } from 'sonner';
 
-import { ApolloProvider } from '@/shared/api/apollo-provider';
+import { ApolloProvider } from '@/shared/api/apollo-client/provider';
 import { cn } from '@/shared/lib/styles/cn';
 
 import './globals.css';

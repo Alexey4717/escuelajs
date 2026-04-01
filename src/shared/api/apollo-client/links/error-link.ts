@@ -1,15 +1,27 @@
 import { ErrorLink } from '@apollo/client/link/error';
 import { from, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { toast } from 'sonner';
 
 import { RETRY_UNAUTHORIZED_KEY } from '../../../config/consts/auth';
-import { isUnauthorized } from '../is-unauthorized';
-import { refreshTokensOnce } from '../refresh-token';
+import { isUnauthorized } from '../auth/is-unauthorized';
+import { refreshTokensOnce } from '../auth/refresh-token';
+import { SKIP_ERROR_TOAST_KEY } from '../context/context-keys';
+import { getErrorToastMessage } from '../errors/get-error-toast-message';
 
 export function createErrorLink(): ErrorLink {
   return new ErrorLink(({ error, operation, forward }) => {
-    if (operation.getContext()[RETRY_UNAUTHORIZED_KEY]) {
+    const context = operation.getContext();
+
+    if (context[RETRY_UNAUTHORIZED_KEY]) {
       return;
+    }
+
+    if (typeof window !== 'undefined' && !context[SKIP_ERROR_TOAST_KEY]) {
+      const toastMessage = getErrorToastMessage(error);
+      if (toastMessage) {
+        toast.error(toastMessage);
+      }
     }
 
     if (!isUnauthorized(error)) {

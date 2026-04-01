@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { useQuery } from '@apollo/client/react';
 
-import { isUnauthorized } from '@/shared/api/apollo-client/is-unauthorized';
+import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { MY_PROFILE } from '@/shared/api/graphql/profile';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
