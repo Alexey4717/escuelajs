@@ -17,7 +17,7 @@ export default async function StoreLayout({
     <div className="flex min-h-screen flex-col overflow-hidden">
       <StoreTopbar isLoggedIn={isLoggedIn} />
       <div className="flex min-h-0 flex-1 overflow-hidden">
-        <StoreSidebar isLoggedIn={isLoggedIn} />
+        <StoreSidebar />
         <main className="min-h-0 flex-1 overflow-y-auto p-layout">
           {children}
         </main>

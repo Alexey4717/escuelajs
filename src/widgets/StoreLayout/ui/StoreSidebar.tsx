@@ -10,27 +10,17 @@ type NavItem = {
   label: string;
   icon: string;
   disabled?: boolean;
-  badge?: string;
 };
 
 const catalog: NavItem[] = [
   { href: '/', label: 'Главная', icon: '⊞' },
-  { href: '#', label: 'Продукты', icon: '◫', disabled: true, badge: '200' },
+  { href: '/products', label: 'Продукты', icon: '◫', disabled: false },
   { href: '#', label: 'Категории', icon: '◈', disabled: true },
-];
-
-const account = (isLoggedIn: boolean): NavItem[] => [
-  { href: isLoggedIn ? '/profile' : '/login', label: 'Профиль', icon: '◎' },
   { href: '#', label: 'Пользователи', icon: '⊟', disabled: true },
 ];
 
-interface StoreSidebarProps {
-  isLoggedIn: boolean;
-}
-
-export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
+export function StoreSidebar() {
   const pathname = usePathname();
-  const accountNav = account(isLoggedIn);
 
   const isActive = (item: NavItem) => {
     if (item.disabled || item.href === '#') {
@@ -59,11 +49,6 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
           {item.icon}
         </span>
         {item.label}
-        {item.badge ? (
-          <span className="ml-auto rounded-[10px] bg-accent px-1.5 py-px text-[10px] font-semibold text-accent-foreground">
-            {item.badge}
-          </span>
-        ) : null}
       </>
     );
 
@@ -94,14 +79,6 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
           Каталог
         </div>
         <nav className="flex flex-col gap-0.5">{catalog.map(renderItem)}</nav>
-      </div>
-      <div className="mb-5">
-        <div className="mb-1.5 px-2 text-[10px] font-normal uppercase tracking-[0.8px] text-muted-foreground">
-          Аккаунт
-        </div>
-        <nav className="flex flex-col gap-0.5">
-          {accountNav.map(renderItem)}
-        </nav>
       </div>
       <div className="mt-auto border-t border-border pt-3">
         <div
