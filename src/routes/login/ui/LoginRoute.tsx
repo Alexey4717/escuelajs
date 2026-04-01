@@ -91,11 +91,7 @@ export const LoginRoute = () => {
         </p>
       }
     >
-      <Form<LoginFormStateOutput>
-        methods={methods}
-        onSubmit={onValidSubmit}
-        className="space-y-3"
-      >
+      <Form methods={methods} onSubmit={onValidSubmit} className="space-y-3">
         <LoginEmailField
           type="email"
           autoComplete="email"

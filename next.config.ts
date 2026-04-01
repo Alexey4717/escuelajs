@@ -14,6 +14,17 @@ const nextConfig: NextConfig = {
   sassOptions: {
     includePaths: [path.join(process.cwd(), 'src')],
   },
+  // Apollo Client: production — подстановка globalThis.__DEV__ = false
+  // https://www.apollographql.com/docs/react/development-testing/reducing-bundle-size
+  ...(process.env.NODE_ENV === 'production'
+    ? {
+        compiler: {
+          define: {
+            'globalThis.__DEV__': 'false',
+          },
+        },
+      }
+    : {}),
 };
 
 export default withBundleAnalyzer(nextConfig);
