@@ -1,29 +1,66 @@
 'use client';
 
-import { type SubmitEvent, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
 import { ADD_USER, LOGIN } from '@/shared/api/graphql/auth';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
-import { TextField } from '@/shared/ui/TextField/TextField';
+import { Form } from '@/shared/ui/Form/Form';
 
 import { AuthFormShell } from '@/features/auth';
 
+import {
+  RegisterConfirmPasswordField,
+  RegisterEmailField,
+  RegisterNameField,
+  RegisterPasswordField,
+} from '../lib/form/fields';
+import {
+  registerFormSchema,
+  RegisterFormStateInput,
+  RegisterFormStateOutput,
+} from '../lib/form/scheme';
+
 const DEFAULT_AVATAR = 'https://placehold.co/200x200/e8e5df/1a1916?text=User';
 
-// TODO добавить поле confirmPassword
-// https://www.youtube.com/watch?v=vI28woiCpCQ
 export const RegisterRoute = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
+
+  const methods = useForm<
+    RegisterFormStateInput,
+    unknown,
+    RegisterFormStateOutput
+  >({
+    resolver: standardSchemaResolver(registerFormSchema),
+    defaultValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const {
+    formState: { errors, isSubmitting },
+    setValue,
+  } = methods;
+
+  useEffect(() => {
+    if (errors.password) {
+      setValue('confirmPassword', '');
+    }
+  }, [errors.password, setValue]);
+
+  const showConfirmPassword = !errors.password;
 
   const redirectTo = useMemo(
     () => sanitizeLoginFromParam(searchParams.get('from')),
@@ -43,8 +80,11 @@ export const RegisterRoute = () => {
 
   const loading = adding || loggingIn;
 
-  async function onSubmit(e: SubmitEvent) {
-    e.preventDefault();
+  async function onValidSubmit({
+    name,
+    email,
+    password,
+  }: RegisterFormStateOutput) {
     setError(null);
     try {
       const addRes = await addUser({
@@ -75,6 +115,7 @@ export const RegisterRoute = () => {
         return;
       }
 
+      toast.success('Регистрация выполнена успешно');
       router.push(redirectTo);
       router.refresh();
     } catch (err) {
@@ -92,39 +133,30 @@ export const RegisterRoute = () => {
       loginHref={loginHref}
       registerHref={registerHref}
     >
-      <form className="space-y-3" onSubmit={onSubmit} noValidate>
-        <TextField
-          id="register-name"
-          label="Имя"
+      <Form methods={methods} onSubmit={onValidSubmit} className="space-y-3">
+        <RegisterNameField
           type="text"
           autoComplete="name"
-          required
-          minLength={2}
           placeholder="Иван Иванов"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
         />
-        <TextField
-          id="register-email"
-          label="Email"
+        <RegisterEmailField
           type="email"
           autoComplete="email"
-          required
           placeholder="you@example.com"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
         />
-        <TextField
-          id="register-password"
-          label="Пароль"
+        <RegisterPasswordField
           type="password"
           autoComplete="new-password"
-          required
-          minLength={4}
-          placeholder="Не менее 4 символов"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Не менее 6 символов, заглавная буква и цифра"
         />
+
+        {showConfirmPassword ? (
+          <RegisterConfirmPasswordField
+            type="password"
+            autoComplete="new-password"
+            placeholder="Повторите пароль"
+          />
+        ) : null}
 
         {error ? (
           <p
@@ -137,12 +169,13 @@ export const RegisterRoute = () => {
 
         <Button
           type="submit"
-          disabled={loading}
+          disabled={loading || isSubmitting}
           className="mt-1.5 w-full py-2.5 text-[13px] hover:opacity-90 disabled:opacity-60"
+          data-testid="register__button__submit"
         >
-          {loading ? 'Регистрация…' : 'Зарегистрироваться'}
+          {loading || isSubmitting ? 'Регистрация…' : 'Зарегистрироваться'}
         </Button>
-      </form>
+      </Form>
     </AuthFormShell>
   );
 };
