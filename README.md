@@ -20,7 +20,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** ходит туда напрямую: Apollo шлёт запросы на **`/api/graphql`** (тот же origin). [Route Handler](src/app/api/graphql/route.ts) подставляет к upstream **`Authorization: Bearer`** из HttpOnly cookie и, для ответов мутаций **`login`** / **`refreshToken`**, выставляет cookie через [`auth-cookies`](src/shared/lib/auth-cookies.ts), а тела ответов **очищает от токенов** (чтобы они не попадали в кеш Apollo).
 
-- **Вход / refresh:** мутации [`LOGIN` / `REFRESH_TOKEN`](src/shared/api/graphql/auth.ts) через Apollo; отдельных `app/api/auth/*` нет.
+- **Вход / refresh:** мутации `Auth_Login` ([`routes/login/api`](src/routes/login/api/auth-login.graphql)), `Register_AddUser` ([`routes/register/api`](src/routes/register/api/register-add-user.graphql)), `Auth_RefreshToken` ([`shared/api/graphql/api`](src/shared/api/graphql/api/auth-refresh-token.graphql)) через Apollo; отдельных `app/api/auth/*` нет.
 - **Выход:** server action [`clearAuthSession`](src/shared/api/auth/clear-auth-session.ts) — сброс cookie на сервере без отдельного route.
 
 **SSR:** для абсолютного URL к `/api/graphql` используется [`getAppOrigin()`](src/shared/lib/app-origin.ts) (`NEXT_PUBLIC_APP_URL` или `VERCEL_URL` или `http://localhost:3000`). В проде задайте **`NEXT_PUBLIC_APP_URL`**.
@@ -121,3 +121,9 @@ pnpm analyze
 ```
 
 Reports are written to `.next/analyze/` as HTML files (for example `client.html`). Next.js 16 uses Turbopack for production builds by default; the analyzer requires Webpack, so the script passes `--webpack` to `next build`.
+
+## Image
+На проекте не используются Image from next/image, потому что по умолчанию не подгружает картинки с произвольных URL.
+Для внешних адресов в next.config нужно явно разрешить хосты через images.remotePatterns (или domains в старых версиях). Это сделано специально: оптимизация и прокси изображений только с доверенных источников.
+У Escuela в images приходят разные домены (imgur, unsplash, placehold.co и т.д.) и со временем могут появиться новые.
+Пока лучше не тащить в конфиг бесконечный зоопарк доменов ради витрины с динамическими ссылками. Если позже захотите именно next/image (оптимизация, размеры, blur), можно сузить список доменов у API или проксировать картинки через свой роут и тогда настроить один origin.

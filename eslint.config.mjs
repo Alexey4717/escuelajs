@@ -30,7 +30,14 @@ const eslintConfig = defineConfig([
       'import/order': 'off',
     },
   },
-  globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
+  globalIgnores([
+    '.next/**',
+    'out/**',
+    'build/**',
+    'next-env.d.ts',
+    '**/*.generated.ts',
+    'src/shared/api/graphql/generated/**',
+  ]),
 ]);
 
 export default eslintConfig;

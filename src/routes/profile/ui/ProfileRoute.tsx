@@ -9,21 +9,13 @@ import { useQuery } from '@apollo/client/react';
 
 import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
-import { MY_PROFILE } from '@/shared/api/graphql/profile';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 
-type MyProfileData = {
-  myProfile: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-    avatar: string;
-    creationAt: string;
-    updatedAt: string;
-  };
-};
+import {
+  Profile_MyProfileDocument,
+  type Profile_MyProfileQuery,
+} from '@/routes/profile/api/profile-my-profile.generated';
 
 function initials(name: string) {
   return name
@@ -37,7 +29,9 @@ function initials(name: string) {
 export const ProfileRoute = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const { data, error, loading } = useQuery<MyProfileData>(MY_PROFILE);
+  const { data, error, loading } = useQuery<Profile_MyProfileQuery>(
+    Profile_MyProfileDocument,
+  );
 
   useEffect(() => {
     if (!error) return;

@@ -1,4 +1,4 @@
-import { REFRESH_TOKEN } from '@/shared/api/graphql/auth';
+import { Auth_RefreshTokenDocument } from '@/shared/api/graphql/auth';
 import { hasRefreshTokenHint } from '@/shared/lib/auth/auth-refresh-hint.client';
 
 import { getBrowserApolloClient } from './browser-apollo-client';
@@ -22,7 +22,7 @@ async function refreshSession(): Promise<boolean> {
   // Схема требует `refreshToken`, но HttpOnly cookie недоступны из JS — реальное значение
   // подставляет BFF (`POST /api/graphql`) из cookie `refresh_token` перед запросом к API.
   const result = await client.mutate({
-    mutation: REFRESH_TOKEN,
+    mutation: Auth_RefreshTokenDocument,
     variables: { refreshToken: '' },
   });
 

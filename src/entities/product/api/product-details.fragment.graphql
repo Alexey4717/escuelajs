@@ -1,0 +1,13 @@
+fragment ProductDetailsFields on Product {
+  id
+  title
+  slug
+  price
+  description
+  images
+  category {
+    ...Category_ListItem
+  }
+  creationAt
+  updatedAt
+}

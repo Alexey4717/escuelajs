@@ -9,13 +9,16 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { ADD_USER, LOGIN } from '@/shared/api/graphql/auth';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 import { Form } from '@/shared/ui/Form/Form';
 
 import { AuthFormShell } from '@/features/auth';
 
+// TODO возможно перенести в фичу auth
+import { Auth_LoginDocument } from '@/routes/login/api/auth-login.generated';
+
+import { Register_AddUserDocument } from '../api/register-add-user.generated';
 import {
   RegisterConfirmPasswordField,
   RegisterEmailField,
@@ -75,8 +78,8 @@ export const RegisterRoute = () => {
   const loginHref = `/login${authQuery}`;
   const registerHref = `/register${authQuery}`;
 
-  const [addUser, { loading: adding }] = useMutation(ADD_USER);
-  const [login, { loading: loggingIn }] = useMutation(LOGIN);
+  const [addUser, { loading: adding }] = useMutation(Register_AddUserDocument);
+  const [login, { loading: loggingIn }] = useMutation(Auth_LoginDocument);
 
   const loading = adding || loggingIn;
 

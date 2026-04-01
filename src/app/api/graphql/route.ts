@@ -42,16 +42,16 @@ function parseJson(text: string): Record<string, unknown> | null {
 
 /**
  * Определяет мутацию refresh по `operationName` или тексту документа
- * (Apollo шлёт `RefreshToken`).
+ * (имя операции: `Auth_RefreshToken`, ранее встречалось `RefreshToken`).
  */
 function isRefreshOperation(parsed: Record<string, unknown>): boolean {
   const op =
     typeof parsed.operationName === 'string' ? parsed.operationName : '';
-  if (op === 'RefreshToken') {
+  if (op === 'Auth_RefreshToken' || op === 'RefreshToken') {
     return true;
   }
   const q = typeof parsed.query === 'string' ? parsed.query : '';
-  return /^\s*mutation\s+RefreshToken\b/im.test(q);
+  return /^\s*mutation\s+(Auth_RefreshToken|RefreshToken)\b/im.test(q);
 }
 
 /**

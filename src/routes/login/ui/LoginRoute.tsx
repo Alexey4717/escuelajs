@@ -10,13 +10,13 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
-import { LOGIN } from '@/shared/api/graphql/auth';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 import { Form } from '@/shared/ui/Form/Form';
 
 import { AuthFormShell } from '@/features/auth';
 
+import { Auth_LoginDocument } from '../api/auth-login.generated';
 import { LoginEmailField, LoginPasswordField } from '../lib/form/fields';
 import {
   loginFormSchema,
@@ -51,7 +51,7 @@ export const LoginRoute = () => {
 
   const registerHref = `/register${authQuery}`;
 
-  const [login, { loading }] = useMutation(LOGIN);
+  const [login, { loading }] = useMutation(Auth_LoginDocument);
 
   async function onValidSubmit({ email, password }: LoginFormStateOutput) {
     setError(null);

@@ -7,8 +7,8 @@
     "build": "next build",
     "build:ci-test": "cross-env KEEP_TEST_IDS=1 next build",
     "start": "next start",
-    "lint:ts": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" \"./babel.config.js\" --max-warnings 0",
-    "lint:ts:fix": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" \"./babel.config.js\" --fix",
+    "lint:ts": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" \"./babel.config.js\" --max-warnings 0 --no-warn-ignored",
+    "lint:ts:fix": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" \"./babel.config.js\" --fix --no-warn-ignored",
     "lint:style": "stylelint \"**/*.{css,scss}\" --config .stylelintrc.cjs",
     "lint:style:fix": "stylelint \"**/*.{css,scss}\" --config .stylelintrc.cjs --fix",
     "lint": "pnpm lint:ts && pnpm lint:style",
@@ -16,6 +16,7 @@
     "prettier": "prettier --write \"**/*.{ts,tsx,json,css,scss}\"",
     "prettier:check": "prettier --check \"**/*.{ts,tsx,json,css,scss}\"",
     "analyze": "cross-env ANALYZE=true next build --webpack",
+    "codegen": "graphql-codegen --config codegen.ts",
     "clean": "rimraf .next out build coverage .turbo",
     "clean:full": "pnpm clean && rimraf node_modules",
     "prepare": "husky"
@@ -43,6 +44,11 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
+    "@graphql-codegen/cli": "^6.2.1",
+    "@graphql-codegen/near-operation-file-preset": "^5.0.0",
+    "@graphql-codegen/typescript": "^5.0.9",
+    "@graphql-codegen/typescript-operations": "^5.0.9",
+    "@graphql-codegen/typescript-react-apollo": "^4.4.1",
     "@next/bundle-analyzer": "^16.2.1",
     "@tailwindcss/postcss": "^4",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
@@ -74,7 +80,7 @@
   "lint-staged": {
     "**/*.{ts,tsx}": [
       "prettier --write",
-      "eslint --fix --max-warnings 0"
+      "eslint --fix --max-warnings 0 --no-warn-ignored"
     ],
     "**/*.{css,scss}": [
       "prettier --write",

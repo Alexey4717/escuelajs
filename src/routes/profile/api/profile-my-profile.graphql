@@ -1,0 +1,11 @@
+query Profile_MyProfile {
+  myProfile {
+    id
+    name
+    email
+    role
+    avatar
+    creationAt
+    updatedAt
+  }
+}

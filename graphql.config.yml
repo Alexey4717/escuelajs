@@ -1,0 +1,6 @@
+# Подсказки по полям в gql/GraphQL для расширения GraphQL (VS Code / Cursor).
+# Типы для сборки — из pnpm codegen (near-operation-file → *.generated.ts).
+schema: src/shared/api/graphql/schema.graphql
+documents:
+  - src/**/*.graphql
+  - src/**/*.{ts,tsx}
