@@ -13,6 +13,13 @@ const eslintConfig = defineConfig([
   ...nextTs,
   eslintPluginPrettierRecommended,
   {
+    files: ['babel.config.js'],
+    rules: {
+      // Next.js принимает только babel.config.js (CommonJS); .mjs не поддерживается лоадером.
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
     files: ['**/*.{js,ts,jsx,tsx}'],
     rules: {
       // recommended задаёт prettier/prettier: error — смягчаем до warning

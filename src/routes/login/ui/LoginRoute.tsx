@@ -120,6 +120,7 @@ export const LoginRoute = () => {
           type="submit"
           disabled={loading || formState.isSubmitting}
           className="mt-1.5 w-full py-2.5 text-[13px] hover:opacity-90 disabled:opacity-60"
+          data-testid="login__button__submit"
         >
           {loading || formState.isSubmitting ? 'Вход…' : 'Войти'}
         </Button>

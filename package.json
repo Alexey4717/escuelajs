@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:ci-test": "cross-env KEEP_TEST_IDS=1 next build",
     "start": "next start",
-    "lint:ts": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" --max-warnings 0",
-    "lint:ts:fix": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" --fix",
+    "lint:ts": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" \"./babel.config.js\" --max-warnings 0",
+    "lint:ts:fix": "eslint \"./src/**/*.{ts,tsx}\" \"./next.config.ts\" \"./babel.config.js\" --fix",
     "lint:style": "stylelint \"**/*.{css,scss}\" --config .stylelintrc.cjs",
     "lint:style:fix": "stylelint \"**/*.{css,scss}\" --config .stylelintrc.cjs --fix",
     "lint": "pnpm lint:ts && pnpm lint:style",
@@ -41,6 +42,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.0",
     "@next/bundle-analyzer": "^16.2.1",
     "@tailwindcss/postcss": "^4",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
