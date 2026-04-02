@@ -19,3 +19,8 @@ export const loginFormSchema = object({
 
 export type LoginFormStateInput = input<typeof loginFormSchema>;
 export type LoginFormStateOutput = output<typeof loginFormSchema>;
+
+export const loginFormDefaultValues: LoginFormStateInput = {
+  email: '',
+  password: '',
+};
