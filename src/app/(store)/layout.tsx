@@ -14,7 +14,7 @@ export default async function StoreLayout({
   const isLoggedIn = await defineIsLoggedIn();
 
   return (
-    <div className="flex min-h-screen flex-col overflow-hidden">
+    <div className="flex h-dvh min-h-0 flex-col overflow-hidden">
       <StoreTopbar isLoggedIn={isLoggedIn} />
       <div className="flex min-h-0 flex-1 overflow-hidden">
         <StoreSidebar />

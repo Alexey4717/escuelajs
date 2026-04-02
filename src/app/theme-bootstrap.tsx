@@ -5,6 +5,7 @@
 export function ThemeBootstrapScript() {
   return (
     <script
+      suppressHydrationWarning
       dangerouslySetInnerHTML={{
         __html: `
           (function(){

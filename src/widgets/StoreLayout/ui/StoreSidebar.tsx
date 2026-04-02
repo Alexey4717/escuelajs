@@ -94,29 +94,6 @@ export function StoreSidebar() {
         </div>
         <nav className="flex flex-col gap-0.5">{catalog.map(renderItem)}</nav>
       </div>
-      <div className="mt-auto border-t border-border pt-3">
-        <div
-          className={cn(
-            'flex cursor-default items-center gap-2.5 rounded-lg px-2.5 py-2',
-            'text-muted-foreground',
-          )}
-        >
-          <span
-            className="flex size-[30px] shrink-0 items-center justify-center rounded-full bg-accent text-[12px] font-semibold text-accent-foreground"
-            aria-hidden
-          >
-            E
-          </span>
-          <div className="min-w-0">
-            <div className="text-[13px] font-medium text-foreground">
-              Escuela Store
-            </div>
-            <div className="text-[11px] text-muted-foreground">
-              GraphQL · JWT
-            </div>
-          </div>
-        </div>
-      </div>
     </aside>
   );
 }

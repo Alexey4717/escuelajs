@@ -44,6 +44,11 @@
   --sidebar-accent-foreground: oklch(20.5% 0 0deg);
   --sidebar-border: oklch(92.2% 0 0deg);
   --sidebar-ring: oklch(70.8% 0 0deg);
+
+  /* Скроллбар: Firefox (scrollbar-*) + WebKit (ниже) */
+  --scrollbar-track: oklch(96.5% 0 0deg);
+  --scrollbar-thumb: oklch(78% 0 0deg);
+  --scrollbar-thumb-hover: oklch(64% 0 0deg);
 }
 
 @media (width >= 48rem) {
@@ -90,6 +95,9 @@
   --sidebar-accent-foreground: oklch(98.5% 0 0deg);
   --sidebar-border: oklch(100% 0 0deg / 10%);
   --sidebar-ring: oklch(55.6% 0 0deg);
+  --scrollbar-track: oklch(22% 0 0deg);
+  --scrollbar-thumb: oklch(46% 0 0deg);
+  --scrollbar-thumb-hover: oklch(58% 0 0deg);
 }
 
 @theme inline {
@@ -175,11 +183,50 @@
     font: inherit;
   }
 
+  /*
+    Глобальный скроллбар: Firefox — scrollbar-width / scrollbar-color;
+    Chrome, Safari, Edge — ::-webkit-scrollbar*
+  */
   * {
     @apply border-border outline-ring/50;
+
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
 
   html {
     @apply font-sans;
+  }
+
+  /* stylelint-disable csstools/use-logical -- WebKit ::-webkit-scrollbar */
+  *::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  *::-webkit-scrollbar-button {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  /* stylelint-enable csstools/use-logical */
+
+  *::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+    border-radius: 999px;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 999px;
+    border: 1px solid var(--scrollbar-track);
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: var(--scrollbar-track);
   }
 }
