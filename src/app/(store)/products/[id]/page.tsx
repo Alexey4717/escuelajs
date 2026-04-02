@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ProductDetailsView } from '@/routes/product-detail';
 
@@ -72,7 +73,7 @@ export default async function ProductDetailsPage({
   return (
     <PreloadQuery query={ProductDetailsDocument} variables={{ id }}>
       <Suspense
-        fallback={<p className="text-muted-foreground">Загрузка товара…</p>}
+        fallback={<Typography variant="muted">Загрузка товара…</Typography>}
       >
         <ProductDetailsView productId={id} />
       </Suspense>

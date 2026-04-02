@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import type { ProductsQuery } from '@/shared/api/generated/graphql';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { CategoryListLabel } from '@/entities/Category';
 
@@ -32,17 +33,17 @@ export function ProductsListItem({ product }: ProductsListItemProps) {
           ) : null}
         </div>
         <div className="space-y-1 p-4">
-          <p className="line-clamp-2 font-medium leading-snug">
+          <Typography variant="subtitle2" className="line-clamp-2">
             {product.title}
-          </p>
+          </Typography>
           <CategoryListLabel categoryId={product.category.id} />
-          <p className="text-lg font-semibold tabular-nums">
+          <Typography variant="large" className="tabular-nums">
             {product.price.toLocaleString('ru-RU', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,
             })}
-          </p>
+          </Typography>
         </div>
       </Link>
     </li>

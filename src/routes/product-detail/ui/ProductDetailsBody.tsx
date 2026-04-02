@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import type { ProductDetailsQuery } from '@/shared/api/generated/graphql';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { CategoryListLabel } from '@/entities/Category';
 
@@ -15,7 +16,7 @@ export function ProductDetailsBody({ product }: ProductDetailsBodyProps) {
 
   return (
     <article className="mx-auto max-w-3xl space-y-6">
-      <nav className="text-sm text-muted-foreground">
+      <Typography component="nav" variant="muted" className="text-sm">
         <Link
           href="/products"
           className="underline-offset-4 hover:text-foreground hover:underline"
@@ -23,8 +24,14 @@ export function ProductDetailsBody({ product }: ProductDetailsBodyProps) {
           Каталог
         </Link>
         <span className="mx-2 text-border">/</span>
-        <span className="text-foreground">{product.title}</span>
-      </nav>
+        <Typography
+          component="span"
+          variant="inherit"
+          className="text-foreground"
+        >
+          {product.title}
+        </Typography>
+      </Typography>
 
       <div className="grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] md:items-start">
         <div className="relative aspect-square w-full overflow-hidden rounded-lg border border-border bg-muted">
@@ -40,19 +47,23 @@ export function ProductDetailsBody({ product }: ProductDetailsBodyProps) {
 
         <div className="space-y-4">
           <CategoryListLabel categoryId={product.category.id} />
-          <h1 className="text-3xl font-semibold tracking-tight">
+          <Typography variant="h2" component="h1" className="border-0 pb-0">
             {product.title}
-          </h1>
-          <p className="text-2xl font-semibold tabular-nums">
+          </Typography>
+          <Typography variant="h3" className="tabular-nums">
             {product.price.toLocaleString('ru-RU', {
               style: 'currency',
               currency: 'USD',
               maximumFractionDigits: 0,
             })}
-          </p>
-          <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed">
+          </Typography>
+          <Typography
+            variant="inherit"
+            component="p"
+            className="whitespace-pre-wrap text-muted-foreground leading-relaxed"
+          >
             {product.description}
-          </p>
+          </Typography>
         </div>
       </div>
     </article>

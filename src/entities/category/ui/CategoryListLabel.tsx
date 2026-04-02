@@ -3,6 +3,7 @@
 import { useQuery } from '@apollo/client/react';
 
 import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 type CategoryListLabelProps = {
   categoryId: string;
@@ -18,5 +19,5 @@ export function CategoryListLabel({ categoryId }: CategoryListLabelProps) {
     return null;
   }
 
-  return <p className="text-sm text-muted-foreground">{data.category.name}</p>;
+  return <Typography variant="muted">{data.category.name}</Typography>;
 }

@@ -46,10 +46,8 @@ export default async function RootLayout({
         serverDark && 'dark',
       )}
     >
-      <head>
-        <ThemeBootstrapScript />
-      </head>
       <body className="flex min-h-full flex-col bg-background font-sans text-[14px] text-foreground antialiased">
+        <ThemeBootstrapScript />
         <ApolloProvider>
           {children}
           <Toaster theme={serverDark ? 'dark' : 'light'} />

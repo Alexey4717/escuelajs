@@ -12,6 +12,7 @@ import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { UserDetailsDocument } from '@/shared/api/generated/graphql';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 function initials(name: string) {
   return name
@@ -55,17 +56,29 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
   }
 
   if (loading) {
-    return <div>Загрузка профиля…</div>;
+    return (
+      <Typography variant="body1" component="div">
+        Загрузка профиля…
+      </Typography>
+    );
   }
 
   if (error) {
     if (isUnauthorized(error)) {
-      return <p>Перенаправление на вход…</p>;
+      return (
+        <Typography variant="body1" component="p">
+          Перенаправление на вход…
+        </Typography>
+      );
     }
     return (
       <div>
-        <p>Не удалось загрузить профиль</p>
-        <p>{error.message}</p>
+        <Typography variant="body1" component="p">
+          Не удалось загрузить профиль
+        </Typography>
+        <Typography variant="body2" component="p">
+          {error.message}
+        </Typography>
         <Link href="/">На главную</Link>
         <Button type="button" variant="outline" onClick={logout}>
           Выйти
@@ -82,7 +95,9 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
 
   return (
     <div>
-      <h2>Профиль</h2>
+      <Typography variant="h2" gutterBottom>
+        Профиль
+      </Typography>
 
       <Button type="button" variant="secondary">
         Редактировать
@@ -92,7 +107,9 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
       </Button>
 
       <div>
-        <h3>Данные аккаунта</h3>
+        <Typography variant="h3" gutterBottom>
+          Данные аккаунта
+        </Typography>
         <span>{u.id}</span>
         <span>{initials(u.name)}</span>
         <span>{u.name}</span>

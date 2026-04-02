@@ -13,6 +13,7 @@ import {
 
 import { cn } from '@/shared/lib/styles/cn';
 import { pagesPath } from '@/shared/routes/$path';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 type NavItem = {
   href: string;
@@ -89,9 +90,13 @@ export function StoreSidebar() {
       )}
     >
       <div className="mb-5">
-        <div className="mb-1.5 px-2 text-[10px] font-normal uppercase tracking-[0.8px] text-muted-foreground">
+        <Typography
+          variant="overline"
+          component="div"
+          className="mb-1.5 px-2 text-[10px] font-normal tracking-[0.8px]"
+        >
           Каталог
-        </div>
+        </Typography>
         <nav className="flex flex-col gap-0.5">{catalog.map(renderItem)}</nav>
       </div>
     </aside>

@@ -4,6 +4,7 @@ import { FileQuestion } from 'lucide-react';
 
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
 import { Button } from '@/shared/ui/Button/Button';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 export default async function GlobalNotFound() {
   const isLoggedIn = await defineIsLoggedIn();
@@ -18,16 +19,14 @@ export default async function GlobalNotFound() {
           <FileQuestion className="h-7 w-7" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
-          <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-            Ошибка 404
-          </p>
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+          <Typography variant="overline">Ошибка 404</Typography>
+          <Typography component="h1" className="text-foreground">
             Такой страницы нет
-          </h1>
-          <p className="text-pretty text-sm leading-relaxed text-muted-foreground">
+          </Typography>
+          <Typography variant="muted" className="text-pretty leading-relaxed">
             Ссылка устарела, адрес набран с опечаткой или страница перенесена.
             Проверьте URL или вернитесь на главную.
-          </p>
+          </Typography>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button asChild>

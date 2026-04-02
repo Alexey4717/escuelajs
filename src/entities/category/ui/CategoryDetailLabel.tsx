@@ -3,6 +3,7 @@
 import { useQuery } from '@apollo/client/react';
 
 import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 type CategoryDetailLabelProps = {
   categoryId: string;
@@ -22,7 +23,7 @@ export function CategoryDetailLabel({ categoryId }: CategoryDetailLabelProps) {
 
   return (
     <div className="space-y-2">
-      <p className="text-sm text-muted-foreground">{category.name}</p>
+      <Typography variant="muted">{category.name}</Typography>
       {category.image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img

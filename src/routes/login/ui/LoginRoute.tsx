@@ -14,6 +14,7 @@ import { LoginDocument } from '@/shared/api/generated/graphql';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 import { Form } from '@/shared/ui/Form/Form';
+import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { AuthFormShell } from '@/features/auth';
 
@@ -79,7 +80,7 @@ export const LoginRoute = () => {
       subtitle="Войдите, чтобы открыть профиль и оформлять заказы"
       registerHref={registerHref}
       footer={
-        <p className="text-center text-[11px] text-muted-foreground">
+        <Typography variant="muted" align="center" className="text-[11px]">
           Нет аккаунта?{' '}
           <Link
             href={registerHref}
@@ -88,7 +89,7 @@ export const LoginRoute = () => {
           >
             Зарегистрироваться →
           </Link>
-        </p>
+        </Typography>
       }
     >
       <Form methods={methods} onSubmit={onValidSubmit} className="space-y-3">

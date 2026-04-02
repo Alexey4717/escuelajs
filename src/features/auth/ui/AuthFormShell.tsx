@@ -2,6 +2,8 @@ import { type ReactNode } from 'react';
 
 import Link from 'next/link';
 
+import { Typography } from '@/shared/ui/Typography/Typography';
+
 type AuthMode = 'login' | 'register';
 
 interface AuthFormShellProps {
@@ -40,10 +42,16 @@ export function AuthFormShell({
         </Link>
 
         <div className="rounded-[14px] border border-border bg-card p-7 shadow-sm">
-          <h1 className="text-lg font-bold tracking-tight text-foreground">
+          <Typography
+            variant="h5"
+            component="h1"
+            className="font-bold text-foreground"
+          >
             {title}
-          </h1>
-          <p className="mb-5 text-[12px] text-muted-foreground">{subtitle}</p>
+          </Typography>
+          <Typography variant="muted" className="mb-5 text-[12px]">
+            {subtitle}
+          </Typography>
 
           <div className="mb-5 flex overflow-hidden rounded-md border border-border">
             {mode === 'login' ? (

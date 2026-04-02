@@ -116,11 +116,28 @@ export async function POST(request: NextRequest) {
     headers.Authorization = `Bearer ${accessToken}`;
   }
 
-  const upstream = await fetch(GRAPHQL_URI, {
-    method: 'POST',
-    headers,
-    body: bodyToSend,
-  });
+  let upstream: Response;
+  try {
+    upstream = await fetch(GRAPHQL_URI, {
+      method: 'POST',
+      headers,
+      body: bodyToSend,
+    });
+  } catch (cause) {
+    const message =
+      cause instanceof Error ? cause.message : 'Upstream fetch failed';
+    return NextResponse.json(
+      {
+        errors: [
+          {
+            message: `GraphQL upstream unreachable: ${message}`,
+            extensions: { code: 'UPSTREAM_UNAVAILABLE' },
+          },
+        ],
+      },
+      { status: 502, headers: { 'Content-Type': 'application/json' } },
+    );
+  }
 
   const resBody = await upstream.text();
   const json = parseJson(resBody);

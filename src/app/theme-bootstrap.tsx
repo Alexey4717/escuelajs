@@ -1,28 +1,33 @@
+import Script from 'next/script';
+
 /**
  * Синхронный скрипт до первой отрисовки: читает `theme` из cookie и localStorage,
  * выставляет `class="dark"` (shadcn) и `data-theme` на `<html>`, чтобы уменьшить flash.
+ * Через `next/script` + `beforeInteractive`, т.к. нативный `<script>` в дереве React 19 не выполняется на клиенте.
  */
+const THEME_BOOTSTRAP = `
+(function(){
+  try {
+    var c = document.cookie.match(/(?:^|; )theme=([^;]*)/);
+    var t = c ? decodeURIComponent(c[1]) : null;
+    if (t == null && typeof localStorage !== 'undefined') {
+      t = localStorage.getItem('theme');
+    }
+    var prefersDark = typeof window !== 'undefined' && window.matchMedia &&
+      window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var dark = t === 'dark' || (t !== 'light' && prefersDark);
+    document.documentElement.classList.toggle('dark', dark);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+  } catch (e) {}
+})();
+`;
+
 export function ThemeBootstrapScript() {
   return (
-    <script
-      suppressHydrationWarning
-      dangerouslySetInnerHTML={{
-        __html: `
-          (function(){
-            try {
-              var c = document.cookie.match(/(?:^|; )theme=([^;]*)/);
-              var t = c ? decodeURIComponent(c[1]) : null;
-              if (t == null && typeof localStorage !== 'undefined') {
-                t = localStorage.getItem('theme');
-              }
-              var prefersDark = typeof window !== 'undefined' && window.matchMedia &&
-                window.matchMedia('(prefers-color-scheme: dark)').matches;
-              var dark = t === 'dark' || (t !== 'light' && prefersDark);
-              document.documentElement.classList.toggle('dark', dark);
-              document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
-            } catch (e) {}
-          })();`,
-      }}
+    <Script
+      id="theme-bootstrap"
+      strategy="beforeInteractive"
+      dangerouslySetInnerHTML={{ __html: THEME_BOOTSTRAP }}
     />
   );
 }

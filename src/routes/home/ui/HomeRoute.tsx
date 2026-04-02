@@ -1,3 +1,9 @@
+import { Typography } from '@/shared/ui/Typography/Typography';
+
 export const HomeRoute = () => {
-  return <div>Домашняя страница</div>;
+  return (
+    <Typography variant="body1" component="div">
+      Домашняя страница
+    </Typography>
+  );
 };
