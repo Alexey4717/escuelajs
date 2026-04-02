@@ -5,14 +5,13 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { useQuery } from '@apollo/client/react';
+import { skipToken, useQuery } from '@apollo/client/react';
 
 import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
+import { UserDetailsDocument } from '@/shared/api/generated/graphql';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
-
-import { Profile_UserDocument } from '../api/profile-user.generated';
 
 function initials(name: string) {
   return name
@@ -32,10 +31,15 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
   const pathname = usePathname();
 
   // резолвер запроса myProfile возвращает всегда 404
-  // Из-за баги на сервере временно используем запрос Profile_UserDocument
-  const { data, error, loading } = useQuery(Profile_UserDocument, {
-    variables: { id: userId },
-  });
+  // Из-за баги на сервере временно используем запрос UserDetails вместо myProfile
+  const { data, error, loading } = useQuery(
+    UserDetailsDocument,
+    userId
+      ? {
+          variables: { id: userId },
+        }
+      : skipToken,
+  );
 
   useEffect(() => {
     if (!error) return;

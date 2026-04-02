@@ -1,9 +1,0 @@
-mutation Register_AddUser($data: CreateUserDto!) {
-  addUser(data: $data) {
-    id
-    email
-    name
-    role
-    avatar
-  }
-}

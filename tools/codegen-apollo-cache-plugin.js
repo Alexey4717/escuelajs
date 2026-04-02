@@ -707,7 +707,7 @@ function generateFullOutput(schema, documents) {
     typePoliciesBlock.includes('cursorLimitPagination(');
   if (needsCursorImport) {
     lines.push(
-      `import { cursorLimitPagination } from '../../../lib/apollo/cache/cursorLimitPagination';`,
+      `import { cursorLimitPagination } from '../../lib/apollo/cache/cursorLimitPagination';`,
     );
   }
   lines.push('');

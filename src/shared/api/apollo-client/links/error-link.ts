@@ -20,7 +20,8 @@ export function createErrorLink(): ErrorLink {
     if (typeof window !== 'undefined' && !context[SKIP_ERROR_TOAST_KEY]) {
       const toastMessage = getErrorToastMessage(error);
       if (toastMessage) {
-        toast.error(toastMessage);
+        const opName = operation.operationName ?? 'unknown';
+        toast.error(toastMessage, { id: `apollo-error:${opName}` });
       }
     }
 

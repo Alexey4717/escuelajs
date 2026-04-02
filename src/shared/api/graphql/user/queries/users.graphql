@@ -1,0 +1,8 @@
+query Users($limit: Float) {
+  users(limit: $limit) {
+    id
+    name
+    avatar
+    role
+  }
+}

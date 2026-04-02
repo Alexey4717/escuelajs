@@ -8,7 +8,7 @@ import {
   nonNormalizedQueryFields,
   queryListFieldsWithKeyArgs,
   typePoliciesByType,
-} from '../../graphql/generated/apolloCachePolicies';
+} from '../../generated/apolloCachePolicies';
 import { createErrorLink } from '../links/error-link';
 import { createHttpLink } from '../links/http-link';
 

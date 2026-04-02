@@ -1,5 +1,0 @@
-fragment Category_ListItem on Category {
-  id
-  name
-  slug
-}

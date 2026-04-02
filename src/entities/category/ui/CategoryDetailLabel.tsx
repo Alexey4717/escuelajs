@@ -1,35 +1,32 @@
 'use client';
 
-import { useFragment } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 
-import {
-  type Category_DetailFieldsFragment,
-  Category_DetailFieldsFragmentDoc,
-} from '../api/category-detail-fields.fragment.generated';
-import { categoryCacheRef } from '../lib/category-cache-ref';
+import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
 
 type CategoryDetailLabelProps = {
   categoryId: string;
 };
 
 export function CategoryDetailLabel({ categoryId }: CategoryDetailLabelProps) {
-  const { data, complete } = useFragment<Category_DetailFieldsFragment>({
-    fragment: Category_DetailFieldsFragmentDoc,
-    fragmentName: 'Category_DetailFields',
-    from: categoryCacheRef(categoryId),
+  // TODO заменить на кеш
+  const { data } = useQuery(CategoryDetailsDocument, {
+    variables: { id: categoryId },
   });
 
-  if (!complete) {
+  if (!data) {
     return null;
   }
 
+  const category = data?.category;
+
   return (
     <div className="space-y-2">
-      <p className="text-sm text-muted-foreground">{data.name}</p>
-      {data.image ? (
+      <p className="text-sm text-muted-foreground">{category.name}</p>
+      {category.image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={data.image}
+          src={category.image}
           alt=""
           className="size-10 rounded-md border border-border object-cover"
         />

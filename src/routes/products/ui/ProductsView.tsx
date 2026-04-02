@@ -2,7 +2,8 @@
 
 import { useSuspenseQuery } from '@apollo/client/react';
 
-import { ProductsDocument } from '../api/products.generated';
+import { ProductsDocument } from '@/shared/api/generated/graphql';
+
 import { PRODUCTS_PAGE_SIZE } from '../constants';
 import { ProductsListItem } from './ProductsListItem';
 

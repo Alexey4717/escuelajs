@@ -1,23 +1,26 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 /**
- * Операции — в сегментах api/*.graphql (FSD).
+ * Операции — в `src/shared/api/graphql/<домен>/*.graphql` (user, category, product, auth).
  *
- * Имена операций/мутаций: **`Домен_Действие`** (например `Auth_Login`, `Profile_MyProfile`,
- * `Register_AddUser`, `Auth_RefreshToken`) — так они не пересекаются с типами GraphQL и
- * однозначны в поиске по репозиторию. Фрагменты: **`Тип_Назначение`** (`Category_ListItem`).
+ * Имена операций/мутаций: **`Домен_Действие`** или короткое имя в общем слое (например `Login`,
+ * `User_ById`, `MyProfile`, `AddUser`) — так они не пересекаются с типами GraphQL и
+ * однозначны в поиске по репозиторию. Фрагменты: **`Тип_Назначение`** (`Category_Preview`, `Product_Full`).
  *
- * Подсказки полей в `gql` внутри `.ts` даёт `graphql.config.yml` + расширение GraphQL в IDE.
- * Типы и `TypedDocumentNode` — из `pnpm codegen` по этим `.graphql` файлам.
- * (Альтернатива: graphql-tag-pluck по `*.ts` — см. документацию The Guild Codegen.)
+ * Типы схемы, типы операций и `TypedDocumentNode` — из `pnpm codegen` в одном файле
+ * `shared/api/generated/graphql.ts`.
+ *
+ * Общие фрагменты (например `Category_Preview`) встраиваются в каждую зависимую операцию
+ * и дублируются в отдельных `*FragmentDoc` — это нормально; в dev `graphql-tag` может
+ * ругаться на имя, пока не вызван `disableFragmentWarnings` (см. `makeApolloClient`).
  */
 const config: CodegenConfig = {
   schema: 'src/shared/api/graphql/schema.graphql',
-  documents: ['src/**/*.graphql'],
+  documents: ['src/shared/api/graphql/*/**/*.graphql'],
   ignoreNoDocuments: true,
   generates: {
-    'src/shared/api/graphql/generated/types.ts': {
-      plugins: ['typescript'],
+    'src/shared/api/generated/graphql.ts': {
+      plugins: ['typescript', 'typescript-operations', 'typed-document-node'],
       config: {
         avoidOptionals: {
           field: true,
@@ -26,31 +29,11 @@ const config: CodegenConfig = {
           defaultValue: false,
         },
         enumsAsTypes: true,
-      },
-    },
-    'src/': {
-      preset: 'near-operation-file',
-      presetConfig: {
-        extension: '.generated.ts',
-        baseTypesPath: '~src/shared/api/graphql/generated/types',
-      },
-      /**
-       * `typescript-operations` — типы запросов; `typed-document-node` — `TypedDocumentNode`
-       * для вывода `data`/`variables` в Apollo без ручных дженериков.
-       */
-      plugins: ['typescript-operations', 'typed-document-node'],
-      config: {
-        avoidOptionals: {
-          field: true,
-          inputValue: false,
-          object: true,
-          defaultValue: false,
-        },
         gqlImport: '@apollo/client#gql',
       },
     },
     /** Политики merge/keyArgs для InMemoryCache (см. `tools/codegen-apollo-cache-plugin.js`). */
-    'src/shared/api/graphql/generated/apolloCachePolicies.ts': {
+    'src/shared/api/generated/apolloCachePolicies.ts': {
       plugins: ['./tools/codegen-apollo-cache-plugin.js'],
     },
   },

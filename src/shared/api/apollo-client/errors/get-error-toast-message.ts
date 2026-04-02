@@ -16,6 +16,12 @@ function getHttpStatusCode(error: unknown): number | undefined {
   return undefined;
 }
 
+function hasGraphQlInternalServerError(error: CombinedGraphQLErrors): boolean {
+  return error.errors.some(
+    (e) => e.extensions?.code === 'INTERNAL_SERVER_ERROR',
+  );
+}
+
 /** Сообщение для toast или `null`, если тост показывать не нужно. */
 export function getErrorToastMessage(error: unknown): string | null {
   if (isUnauthorized(error)) {
@@ -34,6 +40,9 @@ export function getErrorToastMessage(error: unknown): string | null {
   }
 
   if (CombinedGraphQLErrors.is(error)) {
+    if (hasGraphQlInternalServerError(error)) {
+      return MSG_SERVER_ERROR;
+    }
     return MSG_CLIENT_ERROR;
   }
 

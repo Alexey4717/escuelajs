@@ -2,15 +2,14 @@
 
 import Link from 'next/link';
 
-import { CategoryListLabel } from '@/entities/category';
+import type { ProductsQuery } from '@/shared/api/generated/graphql';
 
-import type { ProductsQuery } from '../api/products.generated';
+import { CategoryListLabel } from '@/entities/Category';
 
 type ProductsListItemProps = {
   product: ProductsQuery['products'][number];
 };
 
-/** Карточка товара: поля продукта из `ProductListItem`, категория — через `CategoryListLabel` + `Category_ListItem`. */
 export function ProductsListItem({ product }: ProductsListItemProps) {
   const imageUrl = product.images[0];
   const href = `/products/${product.id}`;

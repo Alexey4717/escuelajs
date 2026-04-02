@@ -16,7 +16,7 @@ yarn.lock
 
 # GraphQL codegen
 **/*.generated.ts
-src/shared/api/graphql/generated/types.ts
+src/shared/api/generated/graphql.ts
 
 # минифицированное
 *.min.js

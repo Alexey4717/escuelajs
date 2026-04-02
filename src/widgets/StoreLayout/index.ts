@@ -1,2 +1,2 @@
 export { StoreSidebar } from './ui/StoreSidebar';
-export { StoreTopbar } from './ui/StoreTopbar';
+export { StoreTopbar } from './ui/StoreTopbar/StoreTopbar';

@@ -2,15 +2,14 @@
 
 import Link from 'next/link';
 
-import { CategoryListLabel } from '@/entities/category';
+import type { ProductDetailsQuery } from '@/shared/api/generated/graphql';
 
-import type { ProductDetailsQuery } from '../api/product-details.generated';
+import { CategoryListLabel } from '@/entities/Category';
 
 type ProductDetailsBodyProps = {
   product: NonNullable<ProductDetailsQuery['product']>;
 };
 
-/** Поля продукта — из пропсов; блок категории — `CategoryDetailLabel` + фрагмент `Category_DetailFields`. */
 export function ProductDetailsBody({ product }: ProductDetailsBodyProps) {
   const imageUrl = product.images[0];
 

@@ -37,7 +37,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** ходит туда напрямую: Apollo шлёт запросы на **`/api/graphql`** (тот же origin). [Route Handler](src/app/api/graphql/route.ts) подставляет к upstream **`Authorization: Bearer`** из HttpOnly cookie и, для ответов мутаций **`login`** / **`refreshToken`**, выставляет cookie через [`auth-cookies`](src/shared/lib/auth-cookies.ts), а тела ответов **очищает от токенов** (чтобы они не попадали в кеш Apollo).
 
-- **Вход / refresh:** мутации `Auth_Login` ([`routes/login/api`](src/routes/login/api/auth-login.graphql)), `Register_AddUser` ([`routes/register/api`](src/routes/register/api/register-add-user.graphql)), `Auth_RefreshToken` ([`shared/api/graphql/api`](src/shared/api/graphql/api/auth-refresh-token.graphql)) через Apollo; отдельных `app/api/auth/*` нет.
+- **Вход / refresh:** мутации `Login` ([`routes/login/api`](src/routes/login/api/auth-login.graphql)), `AddUser` ([`routes/register/api`](src/routes/register/api/register-add-user.graphql)), `Auth_RefreshToken` ([`shared/api/graphql/api`](src/shared/api/graphql/api/auth-refresh-token.graphql)) через Apollo; отдельных `app/api/auth/*` нет.
 - **Выход:** server action [`clearAuthSession`](src/shared/api/auth/clear-auth-session.ts) — сброс cookie на сервере без отдельного route.
 
 **SSR:** для абсолютного URL к `/api/graphql` используется [`getAppOrigin()`](src/shared/lib/app-origin.ts) (`NEXT_PUBLIC_APP_URL` или `VERCEL_URL` или `http://localhost:3000`). В проде задайте **`NEXT_PUBLIC_APP_URL`**.
@@ -53,17 +53,16 @@ Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** х
 
 Схема: [`src/shared/api/graphql/schema.graphql`](src/shared/api/graphql/schema.graphql).
 Импортирована вручную из https://api.escuelajs.co/graphql (т.к. отдельный сервер и не монорепа).
-Операции — в файлах `*.graphql` по FSD. Конфиг: [`codegen.ts`](codegen.ts).
+Операции — в [`src/shared/api/graphql/`](src/shared/api/graphql/) (папки по доменам: `auth`, `user`, …). Конфиг: [`codegen.ts`](codegen.ts).
 
-Генерация TypeScript-типов, `TypedDocumentNode` рядом с операциями (`*.generated.ts`) и файла политик кеша [`apolloCachePolicies.ts`](src/shared/api/graphql/generated/apolloCachePolicies.ts).
+Генерация TypeScript-типов и `TypedDocumentNode` в одном файле [`graphql.ts`](src/shared/api/generated/graphql.ts), политики кеша — [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts).
 
 **Когда запускать:** после изменения схемы, добавления/правки `.graphql` (новые запросы, переменные, фрагменты). Сгенерированные файлы **коммитятся** в репозиторий.
 
 **Что генерируется**
 
-- [`src/shared/api/graphql/generated/types.ts`](src/shared/api/graphql/generated/types.ts) — базовые типы по схеме.
-- Рядом с каждой операцией — `*.generated.ts` (типы полей запроса и `TypedDocumentNode`).
-- [`apolloCachePolicies.ts`](src/shared/api/graphql/generated/apolloCachePolicies.ts) — политики `InMemoryCache`: пагинация `offset`/`limit` и при необходимости cursor (`after`/`first`); **корневые списки с аргументами без offset/cursor** (например `users(limit)`) — `queryListFieldsWithKeyArgs`; вложенные поля с аргументами и не-нормализованные типы. Логика в плагине [`tools/codegen-apollo-cache-plugin.js`](tools/codegen-apollo-cache-plugin.js) (те же `schema` и `documents`, что и у codegen). Политика для поля появляется, если это поле **есть в клиентских операциях** (см. `.graphql`).
+- [`graphql.ts`](src/shared/api/generated/graphql.ts) — типы схемы, типы операций и `TypedDocumentNode`.
+- [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts) — политики `InMemoryCache`: пагинация `offset`/`limit` и при необходимости cursor (`after`/`first`); **корневые списки с аргументами без offset/cursor** (например `users(limit)`) — `queryListFieldsWithKeyArgs`; вложенные поля с аргументами и не-нормализованные типы. Логика в плагине [`tools/codegen-apollo-cache-plugin.js`](tools/codegen-apollo-cache-plugin.js) (те же `schema` и `documents`, что и у codegen). Политика для поля появляется, если это поле **есть в клиентских операциях** (см. `.graphql`).
 
 Политики подключаются в [`make-apollo-client.ts`](src/shared/api/apollo-client/client/make-apollo-client.ts). Редактировать `apolloCachePolicies.ts` вручную не нужно — только перегенерация. Для cursor-пагинации на плоских списках используется [`cursorLimitPagination`](src/shared/lib/apollo/cache/cursorLimitPagination.ts) (импорт в сгенерированном файле появится, если такие поля есть в схеме и в документах).
 
@@ -146,7 +145,7 @@ mutate({ variables: { … } }, { context: { [SKIP_ERROR_TOAST_KEY]: true } });
 | `pnpm prepare` | Installs [Husky](https://typicode.github.io/husky/) git hooks after `pnpm install`. |
 | `pnpm pathpida` | Генерация [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
 | `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
-| `pnpm codegen` | GraphQL Codegen: типы, `*.generated.ts` у операций, [`apolloCachePolicies.ts`](src/shared/api/graphql/generated/apolloCachePolicies.ts). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
+| `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
 
 TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
 

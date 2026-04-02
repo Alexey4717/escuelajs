@@ -1,0 +1,10 @@
+query CategoryDetails($id: ID!) {
+  category(id: $id) {
+    id
+    name
+    slug
+    image
+    creationAt
+    updatedAt
+  }
+}

@@ -1,8 +1,0 @@
-fragment Category_DetailFields on Category {
-  id
-  name
-  slug
-  image
-  creationAt
-  updatedAt
-}

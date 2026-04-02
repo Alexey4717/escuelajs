@@ -36,7 +36,7 @@ const eslintConfig = defineConfig([
     'build/**',
     'next-env.d.ts',
     '**/*.generated.ts',
-    'src/shared/api/graphql/generated/**',
+    'src/shared/api/generated/**',
   ]),
 ]);
 

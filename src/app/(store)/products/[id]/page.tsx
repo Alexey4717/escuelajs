@@ -3,12 +3,10 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
+import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 
-import {
-  ProductDetailsDocument,
-  ProductDetailsView,
-} from '@/routes/product-detail';
+import { ProductDetailsView } from '@/routes/product-detail';
 
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';

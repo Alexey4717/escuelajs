@@ -1,5 +1,0 @@
-query Products($limit: Int, $offset: Int) {
-  products(limit: $limit, offset: $offset) {
-    ...ProductListItem
-  }
-}

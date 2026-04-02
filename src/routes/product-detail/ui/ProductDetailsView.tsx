@@ -2,7 +2,8 @@
 
 import { useSuspenseQuery } from '@apollo/client/react';
 
-import { ProductDetailsDocument } from '../api/product-details.generated';
+import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
+
 import { ProductDetailsBody } from './ProductDetailsBody';
 
 type ProductDetailsViewProps = {
