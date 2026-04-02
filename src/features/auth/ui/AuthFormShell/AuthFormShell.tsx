@@ -4,7 +4,8 @@ import Link from 'next/link';
 
 import { Typography } from '@/shared/ui/Typography/Typography';
 
-type AuthMode = 'login' | 'register';
+import { ChangeModeButtonGroup } from './components/ChangeModeButtonGroup';
+import { AuthMode } from './types';
 
 interface AuthFormShellProps {
   mode: AuthMode;
@@ -17,19 +18,14 @@ interface AuthFormShellProps {
   registerHref?: string;
 }
 
-const tabBase =
-  'flex flex-1 cursor-pointer py-2 text-center text-[13px] transition-colors duration-150';
-const tabInactive =
-  'text-muted-foreground hover:bg-muted/80 hover:text-foreground';
-
 export function AuthFormShell({
   mode,
   title,
   subtitle,
   children,
   footer,
-  loginHref = '/login',
-  registerHref = '/register',
+  loginHref,
+  registerHref,
 }: AuthFormShellProps) {
   return (
     <div className="flex min-h-[min(100dvh,100vh)] flex-col bg-background px-4 py-10 sm:py-14">
@@ -53,39 +49,11 @@ export function AuthFormShell({
             {subtitle}
           </Typography>
 
-          <div className="mb-5 flex overflow-hidden rounded-md border border-border">
-            {mode === 'login' ? (
-              <>
-                <span
-                  className={`${tabBase} bg-primary font-medium text-primary-foreground`}
-                >
-                  Вход
-                </span>
-                <Link
-                  href={registerHref}
-                  className={`${tabBase} ${tabInactive}`}
-                  prefetch
-                >
-                  Регистрация
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  href={loginHref}
-                  className={`${tabBase} ${tabInactive}`}
-                  prefetch
-                >
-                  Вход
-                </Link>
-                <span
-                  className={`${tabBase} bg-primary font-medium text-primary-foreground`}
-                >
-                  Регистрация
-                </span>
-              </>
-            )}
-          </div>
+          <ChangeModeButtonGroup
+            mode={mode}
+            registerHref={registerHref}
+            loginHref={loginHref}
+          />
 
           {children}
 

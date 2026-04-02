@@ -4,7 +4,7 @@ import { type ComponentProps } from 'react';
 
 import { Separator as SeparatorPrimitive } from 'radix-ui';
 
-import { cn } from '../../../lib/styles/cn';
+import { cn } from '../../lib/styles/cn';
 
 export const Separator = ({
   className,
