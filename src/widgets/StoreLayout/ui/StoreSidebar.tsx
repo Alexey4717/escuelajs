@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -11,9 +13,23 @@ import {
   Users,
 } from 'lucide-react';
 
-import { cn } from '@/shared/lib/styles/cn';
 import { pagesPath } from '@/shared/routes/$path';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  useSidebar,
+} from '@/shared/ui/Sidebar/Sidebar';
 import { Typography } from '@/shared/ui/Typography/Typography';
+
+import { ProfileLink } from '@/features/profileLink';
 
 type NavItem = {
   href: string;
@@ -34,8 +50,41 @@ const catalog: NavItem[] = [
   { href: '#', label: 'Пользователи', icon: Users, disabled: true },
 ];
 
-export function StoreSidebar() {
+function StoreSidebarBrand({ onNavigate }: { onNavigate: () => void }) {
+  return (
+    <Link
+      href={pagesPath.$url().path}
+      className="flex h-full min-h-0 items-center gap-2 rounded-md px-2 text-sidebar-foreground transition-colors hover:bg-sidebar-accent/50"
+      onClick={onNavigate}
+    >
+      <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-[12px] font-bold text-sidebar-primary-foreground">
+        E
+      </span>
+      <Typography
+        variant="large"
+        className="text-[15px] font-semibold leading-tight"
+      >
+        Escuela<span className="text-sidebar-primary">.</span>io
+      </Typography>
+    </Link>
+  );
+}
+
+type StoreSidebarProps = {
+  isLoggedIn: boolean;
+};
+
+export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
+
+  useEffect(() => {
+    setOpenMobile(false);
+  }, [pathname, setOpenMobile]);
+
+  const closeMobileSheet = () => {
+    setOpenMobile(false);
+  };
 
   const isActive = (item: NavItem) => {
     if (item.disabled || item.href === '#') {
@@ -44,61 +93,71 @@ export function StoreSidebar() {
     return pathname === item.href;
   };
 
-  const renderItem = (item: NavItem) => {
-    const active = isActive(item);
-    const className = cn(
-      'flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-[13px] font-normal transition-colors',
-      item.disabled
-        ? 'cursor-not-allowed text-muted-foreground opacity-60'
-        : 'cursor-pointer text-muted-foreground hover:bg-muted hover:text-foreground',
-      active &&
-        'bg-accent font-medium text-accent-foreground hover:bg-accent hover:text-accent-foreground',
-    );
-
-    const ItemIcon = item.icon;
-    const inner = (
-      <>
-        <ItemIcon
-          className="size-4 shrink-0 text-current"
-          aria-hidden
-          strokeWidth={1.75}
-        />
-        {item.label}
-      </>
-    );
-
-    if (item.disabled) {
-      return (
-        <div key={item.label} className={className} aria-disabled="true">
-          {inner}
-        </div>
-      );
-    }
-
-    return (
-      <Link key={item.href + item.label} href={item.href} className={className}>
-        {inner}
-      </Link>
-    );
-  };
-
   return (
-    <aside
-      className={cn(
-        'flex w-[var(--sidebar-width)] shrink-0 flex-col overflow-y-auto border-r border-border bg-card',
-        'px-2.5 py-4',
-      )}
-    >
-      <div className="mb-5">
-        <Typography
-          variant="overline"
-          component="div"
-          className="mb-1.5 px-2 text-[10px] font-normal tracking-[0.8px]"
-        >
-          Каталог
-        </Typography>
-        <nav className="flex flex-col gap-0.5">{catalog.map(renderItem)}</nav>
-      </div>
-    </aside>
+    <Sidebar collapsible="offcanvas" variant="sidebar">
+      <SidebarHeader className="h-[52px] shrink-0 flex-row items-center gap-0 border-b border-border px-2 py-0">
+        <StoreSidebarBrand onNavigate={closeMobileSheet} />
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel className="px-2 text-[10px] font-normal tracking-[0.8px]">
+            Каталог
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {catalog.map((item) => {
+                const ItemIcon = item.icon;
+                const active = isActive(item);
+
+                if (item.disabled) {
+                  return (
+                    <SidebarMenuItem key={item.label}>
+                      <SidebarMenuButton
+                        disabled
+                        className="cursor-not-allowed opacity-60"
+                        aria-disabled
+                      >
+                        <ItemIcon
+                          className="size-4 shrink-0"
+                          strokeWidth={1.75}
+                          aria-hidden
+                        />
+                        <span>{item.label}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                }
+
+                return (
+                  <SidebarMenuItem key={item.href + item.label}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={active}
+                      tooltip={item.label}
+                    >
+                      <Link href={item.href} onClick={closeMobileSheet}>
+                        <ItemIcon
+                          className="size-4 shrink-0"
+                          strokeWidth={1.75}
+                          aria-hidden
+                        />
+                        <span>{item.label}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      {isLoggedIn ? (
+        <SidebarFooter className="border-t border-sidebar-border p-2">
+          <div onClick={closeMobileSheet}>
+            <ProfileLink />
+          </div>
+        </SidebarFooter>
+      ) : null}
+    </Sidebar>
   );
 }

@@ -2,11 +2,9 @@
 
 import { cn } from '@/shared/lib/styles/cn';
 
-import { LoginLink } from '@/features/auth';
-import { ProfileLink } from '@/features/profileLink';
+import { LoginLink, LogoutButton } from '@/features/auth';
 import { ShoppingCartButton } from '@/features/shoppingCart';
 
-import { MainLogoLink } from './components/MainLogoLink';
 import { ThemeToggleButton } from './components/ThemeToggle';
 import { topbarAuthSlotClassName } from './topbarAuthSlot';
 
@@ -17,21 +15,20 @@ interface StoreTopbarProps {
 
 export function StoreTopbar({ isLoggedIn, className }: StoreTopbarProps) {
   return (
-    <header
+    <div
       className={cn(
-        'flex h-[52px] shrink-0 items-center gap-4 bg-primary px-5 text-primary-foreground',
-        'z-10 dark:bg-card dark:text-card-foreground',
+        'flex h-full min-w-0 items-center justify-end gap-4 text-primary-foreground',
+        'dark:text-card-foreground',
         className,
       )}
     >
-      <MainLogoLink />
       <div className="ml-auto flex items-center gap-2">
         <ShoppingCartButton />
         <ThemeToggleButton />
         <div className={topbarAuthSlotClassName}>
-          {isLoggedIn ? <ProfileLink /> : <LoginLink />}
+          {isLoggedIn ? <LogoutButton /> : <LoginLink />}
         </div>
       </div>
-    </header>
+    </div>
   );
 }

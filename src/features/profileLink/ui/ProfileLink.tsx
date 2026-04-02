@@ -13,14 +13,18 @@ import { useCurrentUserId } from '@/entities/Session';
 import { getRoleText } from '@/entities/User';
 
 const profileLinkClassName = cn(
-  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg border border-white/12 py-1.5 pr-2.5 pl-1',
-  'text-inherit transition-colors',
-  'hover:bg-white/10',
+  'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg border border-sidebar-border bg-sidebar-accent/20 py-1.5 pr-2.5 pl-1',
+  'text-sidebar-foreground transition-colors',
+  'hover:bg-sidebar-accent/40',
 );
 
-function ProfileLinkFallback() {
+function ProfileLinkFallback({ className }: { className?: string }) {
   return (
-    <Link href="/profile" className={profileLinkClassName} aria-label="Профиль">
+    <Link
+      href="/profile"
+      className={cn(profileLinkClassName, className)}
+      aria-label="Профиль"
+    >
       <span
         className="flex size-[26px] shrink-0 items-center justify-center rounded-lg bg-accent text-[11px] font-semibold text-accent-foreground"
         aria-hidden
@@ -34,7 +38,11 @@ function ProfileLinkFallback() {
   );
 }
 
-export function ProfileLink() {
+type ProfileLinkProps = {
+  className?: string;
+};
+
+export function ProfileLink({ className }: ProfileLinkProps) {
   const userId = useCurrentUserId();
 
   const { data, loading } = useQuery(
@@ -47,7 +55,7 @@ export function ProfileLink() {
   );
 
   if (!userId) {
-    return <ProfileLinkFallback />;
+    return <ProfileLinkFallback className={className} />;
   }
 
   const user = data?.user;
@@ -58,7 +66,7 @@ export function ProfileLink() {
   return (
     <Link
       href="/profile"
-      className={cn(profileLinkClassName, 'group')}
+      className={cn(profileLinkClassName, 'group', className)}
       aria-label={user ? `Профиль: ${user.name}` : 'Профиль'}
     >
       <Avatar
@@ -68,7 +76,7 @@ export function ProfileLink() {
         fallback={
           loading ? (
             <Skeleton
-              className="size-full rounded-full bg-white/20"
+              className="size-full rounded-full bg-sidebar-foreground/20"
               aria-hidden
             />
           ) : (
@@ -81,8 +89,14 @@ export function ProfileLink() {
       <div className="min-w-0 flex-1">
         {loading ? (
           <div className="flex flex-col gap-1.5 py-0.5">
-            <Skeleton className="h-3 w-full bg-white/20" aria-hidden />
-            <Skeleton className="h-2.5 w-2/3 bg-white/20" aria-hidden />
+            <Skeleton
+              className="h-3 w-full bg-sidebar-foreground/20"
+              aria-hidden
+            />
+            <Skeleton
+              className="h-2.5 w-2/3 bg-sidebar-foreground/20"
+              aria-hidden
+            />
           </div>
         ) : (
           <div className="flex min-w-0 flex-col gap-0.5">
