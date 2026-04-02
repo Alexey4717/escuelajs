@@ -2,6 +2,8 @@
 
 import { useCallback, useSyncExternalStore } from 'react';
 
+import { Moon, Sun } from 'lucide-react';
+
 import { THEME_COOKIE_MAX_AGE_SECONDS } from '@/shared/config/consts';
 import { cn } from '@/shared/lib/styles/cn';
 import { Button } from '@/shared/ui/Button/Button';
@@ -55,12 +57,16 @@ export const ThemeToggle = () => {
       onClick={toggleTheme}
       aria-label={isDark ? 'Включить светлую тему' : 'Включить тёмную тему'}
       className={cn(
-        'rounded-md border border-white/12 text-[14px] text-inherit',
+        'rounded-md border border-white/12 text-inherit',
         'hover:bg-white/10 dark:hover:bg-white/10',
       )}
       suppressHydrationWarning
     >
-      {isDark ? '☀️' : '🌙'}
+      {isDark ? (
+        <Sun className="size-[18px]" aria-hidden strokeWidth={1.75} />
+      ) : (
+        <Moon className="size-[18px]" aria-hidden strokeWidth={1.75} />
+      )}
     </Button>
   );
 };

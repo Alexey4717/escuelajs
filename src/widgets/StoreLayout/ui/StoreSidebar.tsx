@@ -3,26 +3,34 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import {
+  FolderTree,
+  Home,
+  type LucideIcon,
+  Package,
+  Users,
+} from 'lucide-react';
+
 import { cn } from '@/shared/lib/styles/cn';
 import { pagesPath } from '@/shared/routes/$path';
 
 type NavItem = {
   href: string;
   label: string;
-  icon: string;
+  icon: LucideIcon;
   disabled?: boolean;
 };
 
 const catalog: NavItem[] = [
-  { href: pagesPath.$url().path, label: 'Главная', icon: '⊞' },
+  { href: pagesPath.$url().path, label: 'Главная', icon: Home },
   {
     href: pagesPath.products.$url().path,
     label: 'Продукты',
-    icon: '◫',
+    icon: Package,
     disabled: false,
   },
-  { href: '#', label: 'Категории', icon: '◈', disabled: true },
-  { href: '#', label: 'Пользователи', icon: '⊟', disabled: true },
+  { href: '#', label: 'Категории', icon: FolderTree, disabled: true },
+  { href: '#', label: 'Пользователи', icon: Users, disabled: true },
 ];
 
 export function StoreSidebar() {
@@ -46,14 +54,14 @@ export function StoreSidebar() {
         'bg-accent font-medium text-accent-foreground hover:bg-accent hover:text-accent-foreground',
     );
 
+    const ItemIcon = item.icon;
     const inner = (
       <>
-        <span
-          className="flex size-4 shrink-0 items-center justify-center text-[14px]"
+        <ItemIcon
+          className="size-4 shrink-0 text-current"
           aria-hidden
-        >
-          {item.icon}
-        </span>
+          strokeWidth={1.75}
+        />
         {item.label}
       </>
     );
