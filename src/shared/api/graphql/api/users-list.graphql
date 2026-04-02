@@ -1,0 +1,8 @@
+# TODO перенести потом в отдельный слой
+query Users_List($limit: Float) {
+  users(limit: $limit) {
+    id
+    email
+    name
+  }
+}

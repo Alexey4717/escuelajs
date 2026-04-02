@@ -49,6 +49,10 @@ const config: CodegenConfig = {
         gqlImport: '@apollo/client#gql',
       },
     },
+    /** Политики merge/keyArgs для InMemoryCache (см. `tools/codegen-apollo-cache-plugin.js`). */
+    'src/shared/api/graphql/generated/apolloCachePolicies.ts': {
+      plugins: ['./tools/codegen-apollo-cache-plugin.js'],
+    },
   },
 };
 
