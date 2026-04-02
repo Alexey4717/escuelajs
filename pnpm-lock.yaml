@@ -135,6 +135,9 @@ importers:
       lint-staged:
         specifier: ^16.4.0
         version: 16.4.0
+      pathpida:
+        specifier: ^0.26.1
+        version: 0.26.1
       postcss-scss:
         specifier: ^4.0.9
         version: 4.0.9(postcss@8.5.8)
@@ -4274,6 +4277,10 @@ packages:
   path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
     engines: {node: '>=8'}
+
+  pathpida@0.26.1:
+    resolution: {integrity: sha512-X2BL+Ir7SaGT/O68G1am07EqMwGJBdh4Y7dD2XvMonMuU4OjbNXhfYWIpD0HXfa5Nccrb9QbnGGJScHxGny2Uw==}
+    hasBin: true
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -9649,6 +9656,12 @@ snapshots:
   path-to-regexp@8.4.1: {}
 
   path-type@4.0.0: {}
+
+  pathpida@0.26.1:
+    dependencies:
+      chokidar: 4.0.3
+      ignore: 7.0.5
+      minimist: 1.2.8
 
   picocolors@1.1.1: {}
 

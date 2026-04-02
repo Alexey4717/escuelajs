@@ -3,7 +3,9 @@
   "version": "0.1.1",
   "private": true,
   "scripts": {
+    "pathpida": "pathpida --ignorePath .gitignore -o src/shared/routes && prettier --write \"src/shared/routes/$path.ts\"",
     "dev": "next dev",
+    "dev:path": "pathpida --ignorePath .gitignore -o src/shared/routes --watch",
     "build": "next build",
     "build:ci-test": "cross-env KEEP_TEST_IDS=1 next build",
     "start": "next start",
@@ -24,8 +26,8 @@
   "dependencies": {
     "@apollo/client": "^4.1.6",
     "@apollo/client-integration-nextjs": "^0.14.4",
-    "@hookform/resolvers": "^5.2.2",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@hookform/resolvers": "^5.2.2",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "graphql": "^16.13.2",
@@ -66,6 +68,7 @@
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
+    "pathpida": "^0.26.1",
     "postcss-scss": "^4.0.9",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.3",

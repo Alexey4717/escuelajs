@@ -16,6 +16,23 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 | `src/features/` | Фичи по FSD. |
 | `src/shared/` | Переиспользуемый функционал для всего проекта |
 
+### Типизированные URL (pathpida)
+
+По структуре `src/app/` генерируется файл [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) (экспорт из [`@/shared/routes`](src/shared/routes/index.ts): объект **`pagesPath`**). Это нужно, чтобы ссылки и `router.push` не расходились с реальными роутами App Router и ловились типами TypeScript.
+
+**Когда запускать:** после добавления, переименования или удаления страниц/сегментов в `src/app/` (аналогично тому, как после смены GraphQL-схемы запускают `pnpm codegen`). Сгенерированный `$path.ts` **коммитится** в репозиторий.
+
+| Команда | Назначение |
+| --- | --- |
+| `pnpm pathpida` | Один раз пересобрать `$path.ts` и отформатировать его Prettier. |
+| `pnpm dev:path` | Режим `--watch`: перегенерация при изменениях в `app` (удобно держать в отдельном терминале во время правок роутов). |
+
+**Что возвращает `pagesPath....$url(...)`:** объект с полями **`pathname`**, **`path`**, при необходимости **`query`** / **`hash`**.
+
+- **`pathname`** — маршрут в формате Next.js: для статических страниц это тот же путь, что в браузере (`/register`); для динамических — шаблон с сегментами в квадратных скобках (`/products/[id]`). Используется в сценариях с объектным `href` и отдельным `query` (как в API `next/router`).
+- **`path`** — уже **готовая строка** URL: подставлены значения динамических сегментов, при вызове `$url({ query, hash })` добавлены query-string и фрагмент. Для `<Link href={...}>` и большинства переходов в App Router обычно берут **`path`**.
+- **`hash`** — отдельно переданный фрагмент `#...` из аргумента `$url({ hash: '...' })` (в **`path`** он тоже попадает через суффикс).
+
 ### GraphQL, BFF и токены (HttpOnly)
 
 Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** ходит туда напрямую: Apollo шлёт запросы на **`/api/graphql`** (тот же origin). [Route Handler](src/app/api/graphql/route.ts) подставляет к upstream **`Authorization: Bearer`** из HttpOnly cookie и, для ответов мутаций **`login`** / **`refreshToken`**, выставляет cookie через [`auth-cookies`](src/shared/lib/auth-cookies.ts), а тела ответов **очищает от токенов** (чтобы они не попадали в кеш Apollo).
@@ -107,6 +124,8 @@ mutate({ variables: { … } }, { context: { [SKIP_ERROR_TOAST_KEY]: true } });
 | `pnpm prettier:check` | Prettier check only (no writes); useful in CI. |
 | `pnpm analyze` | Bundle analyzer (see below). |
 | `pnpm prepare` | Installs [Husky](https://typicode.github.io/husky/) git hooks after `pnpm install`. |
+| `pnpm pathpida` | Генерация [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
+| `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
 
 TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
 

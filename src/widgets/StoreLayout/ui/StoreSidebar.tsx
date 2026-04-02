@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/shared/lib/styles/cn';
+import { pagesPath } from '@/shared/routes/$path';
 
 type NavItem = {
   href: string;
@@ -13,8 +14,13 @@ type NavItem = {
 };
 
 const catalog: NavItem[] = [
-  { href: '/', label: 'Главная', icon: '⊞' },
-  { href: '/products', label: 'Продукты', icon: '◫', disabled: false },
+  { href: pagesPath.$url().path, label: 'Главная', icon: '⊞' },
+  {
+    href: pagesPath.products.$url().path,
+    label: 'Продукты',
+    icon: '◫',
+    disabled: false,
+  },
   { href: '#', label: 'Категории', icon: '◈', disabled: true },
   { href: '#', label: 'Пользователи', icon: '⊟', disabled: true },
 ];
