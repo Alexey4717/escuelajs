@@ -12,10 +12,9 @@ import { topbarAuthSlotClassName } from './topbarAuthSlot';
 
 interface StoreTopbarProps {
   isLoggedIn: boolean;
-  userId: string | null;
 }
 
-export function StoreTopbar({ isLoggedIn, userId }: StoreTopbarProps) {
+export function StoreTopbar({ isLoggedIn }: StoreTopbarProps) {
   return (
     <header
       className={cn(
@@ -28,7 +27,7 @@ export function StoreTopbar({ isLoggedIn, userId }: StoreTopbarProps) {
         <ShoppingCartButton />
         <ThemeToggleButton />
         <div className={topbarAuthSlotClassName}>
-          {isLoggedIn ? <ProfileLink userId={userId} /> : <LoginLink />}
+          {isLoggedIn ? <ProfileLink /> : <LoginLink />}
         </div>
       </div>
     </header>

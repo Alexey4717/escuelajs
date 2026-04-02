@@ -2,6 +2,33 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 Шрифты подключаются через [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) ([Geist](https://vercel.com/font)).
 
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Dev server (Turbopack). |
+| `pnpm build` | Production build. |
+| `pnpm start` | Serve the last production build. |
+| `pnpm clean` | Deletes build and cache folders: `.next`, `out`, `build`, `coverage`, `.turbo` (via [`rimraf`](https://www.npmjs.com/package/rimraf), cross-platform). |
+| `pnpm clean:full` | Runs `clean`, then removes `node_modules`. Run `pnpm install` afterward. |
+| `pnpm lint` | ESLint (`src` + `next.config.ts`) and Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
+| `pnpm lint:fix` | Same linters with auto-fix. |
+| `pnpm lint:ts` | ESLint only for `./src/**/*.{ts,tsx}` and `./next.config.ts`. |
+| `pnpm lint:ts:fix` | ESLint with `--fix` for the same paths. |
+| `pnpm lint:style` | Stylelint for `**/*.{css,scss}` (see `.stylelintrc.cjs`). |
+| `pnpm lint:style:fix` | Stylelint with `--fix`. |
+| `pnpm prettier` | Prettier write for `ts`, `tsx`, `json`, `css`, `scss`. |
+| `pnpm prettier:check` | Prettier check only (no writes); useful in CI. |
+| `pnpm analyze` | Bundle analyzer (see below). |
+| `pnpm prepare` | Installs [Husky](https://typicode.github.io/husky/) git hooks after `pnpm install`. |
+| `pnpm pathpida` | Генерация [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
+| `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
+| `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
+
+TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
+
+**Pre-commit:** `.husky/pre-commit` runs `lint-staged`: Prettier and ESLint/Stylelint with fix on staged `*.{ts,tsx}` and `*.{css,scss}`. Ensure the repo is initialized with `git` so hooks apply.
+
 ## Архитектура приложения
 
 ### Структура `src/`
@@ -124,33 +151,6 @@ mutate({ variables: { … } }, { context: { [SKIP_ERROR_TOAST_KEY]: true } });
 
 При переключении темы в UI имеет смысл обновлять и cookie (например через server action или route handler), и `localStorage`, чтобы поведение совпадало при следующих заходах и при SSR.
 
-## Scripts
-
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Dev server (Turbopack). |
-| `pnpm build` | Production build. |
-| `pnpm start` | Serve the last production build. |
-| `pnpm clean` | Deletes build and cache folders: `.next`, `out`, `build`, `coverage`, `.turbo` (via [`rimraf`](https://www.npmjs.com/package/rimraf), cross-platform). |
-| `pnpm clean:full` | Runs `clean`, then removes `node_modules`. Run `pnpm install` afterward. |
-| `pnpm lint` | ESLint (`src` + `next.config.ts`) and Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
-| `pnpm lint:fix` | Same linters with auto-fix. |
-| `pnpm lint:ts` | ESLint only for `./src/**/*.{ts,tsx}` and `./next.config.ts`. |
-| `pnpm lint:ts:fix` | ESLint with `--fix` for the same paths. |
-| `pnpm lint:style` | Stylelint for `**/*.{css,scss}` (see `.stylelintrc.cjs`). |
-| `pnpm lint:style:fix` | Stylelint with `--fix`. |
-| `pnpm prettier` | Prettier write for `ts`, `tsx`, `json`, `css`, `scss`. |
-| `pnpm prettier:check` | Prettier check only (no writes); useful in CI. |
-| `pnpm analyze` | Bundle analyzer (see below). |
-| `pnpm prepare` | Installs [Husky](https://typicode.github.io/husky/) git hooks after `pnpm install`. |
-| `pnpm pathpida` | Генерация [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
-| `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
-| `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
-
-TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
-
-**Pre-commit:** `.husky/pre-commit` runs `lint-staged`: Prettier and ESLint/Stylelint with fix on staged `*.{ts,tsx}` and `*.{css,scss}`. Ensure the repo is initialized with `git` so hooks apply.
-
 ## Bundle analysis
 
 This project includes [`@next/bundle-analyzer`](https://www.npmjs.com/package/@next/bundle-analyzer). To build with Webpack and open interactive bundle reports (client, Node.js, and edge), run:
@@ -166,3 +166,49 @@ Reports are written to `.next/analyze/` as HTML files (for example `client.html`
 Для внешних адресов в next.config нужно явно разрешить хосты через images.remotePatterns (или domains в старых версиях). Это сделано специально: оптимизация и прокси изображений только с доверенных источников.
 У Escuela в images приходят разные домены (imgur, unsplash, placehold.co и т.д.) и со временем могут появиться новые.
 Пока лучше не тащить в конфиг бесконечный зоопарк доменов ради витрины с динамическими ссылками. Если позже захотите именно next/image (оптимизация, размеры, blur), можно сузить список доменов у API или проксировать картинки через свой роут и тогда настроить один origin.
+
+## Zustand
+
+Слайсы лучше описывать на уровне слоёв выше shared.
+В самой shared описана конфигурация Zustand.
+
+### Ленивое подключение слайсов (code splitting)
+
+Идея: тяжёлый кусок состояния и логики подгружается **динамическим `import()`** только когда пользователь попал на нужный раздел (как `injectReducer` в Redux).
+
+#### Как это устроено
+
+Функция **`ensureLazySlice(name, loader)`**:
+
+- принимает уникальный `name` (кэш: повторный вызов вернёт тот же `Promise`);
+- `loader` должен вернуть Promise с объектом `{ applySlice }`;
+- **`applySlice(api)`** получает `api` того же вида, что у Zustand (`setState`, `getState`, `subscribe`, …) и **дописывает** состояние и методы в корневой стор через `api.setState`.
+
+#### Что сделать при добавлении ленивого слайса
+
+1. Описать тип слайса (например `CartSlice`) и **расширить** `AppStore` в `app-store.ts`:  
+   `export type AppStore = SessionSlice & CartSlice`  
+   (либо поэтапно через пересечения.)
+2. Реализовать `applyCartSlice(api: StoreApi<AppStore>)` в отдельном модуле, который попадёт только в чанк страницы корзины.
+3. В клиентском компоненте (страница, layout сегмента) **один раз** вызвать:
+
+```ts
+import { ensureLazySlice } from '@/shared/lib/store';
+
+await ensureLazySlice('cart', () =>
+  import('@/entities/cart/model/apply-cart-slice').then((m) => ({
+    applySlice: m.applyCartSlice,
+  })),
+);
+```
+
+Удобно обернуть вызов в `useEffect` или вызывать при `transition` на маршрут — главное, не полагаться на стор до `await`, если UI зависит от данных слайса.
+
+4. Пока чанк не загружен, в сторе нет полей корзины — учитывайте **загрузку и ошибки** в UI.
+
+### Полезные ссылки
+
+- [Документация Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
+- [Предотвращение лишних ререндеров](https://docs.pmnd.rs/zustand/guides/prevent-rerenders-with-use-shallow)
+- [TypeScript](https://docs.pmnd.rs/zustand/guides/typescript)
+- [Slices / combine](https://docs.pmnd.rs/zustand/guides/slices-pattern)

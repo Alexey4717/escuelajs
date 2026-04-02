@@ -9,6 +9,7 @@ import { cn } from '@/shared/lib/styles/cn';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
+import { useCurrentUserId } from '@/entities/Session';
 import { getRoleText } from '@/entities/User';
 
 const profileLinkClassName = cn(
@@ -16,10 +17,6 @@ const profileLinkClassName = cn(
   'text-inherit transition-colors',
   'hover:bg-white/10',
 );
-
-interface ProfileLinkProps {
-  userId: string | null;
-}
 
 function ProfileLinkFallback() {
   return (
@@ -37,7 +34,9 @@ function ProfileLinkFallback() {
   );
 }
 
-export function ProfileLink({ userId }: ProfileLinkProps) {
+export function ProfileLink() {
+  const userId = useCurrentUserId();
+
   const { data, loading } = useQuery(
     UserPreviewDocument,
     userId
