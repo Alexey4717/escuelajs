@@ -13,7 +13,6 @@ function isGraphQlUnauthorizedMessage(error: {
 }
 
 export function isUnauthorized(error: unknown): boolean {
-  console.log('Error: ', JSON.stringify(error));
   if (ServerError.is(error) && error.statusCode === 401) {
     return true;
   }

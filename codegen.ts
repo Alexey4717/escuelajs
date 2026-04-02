@@ -8,7 +8,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
  * однозначны в поиске по репозиторию. Фрагменты: **`Тип_Назначение`** (`Category_ListItem`).
  *
  * Подсказки полей в `gql` внутри `.ts` даёт `graphql.config.yml` + расширение GraphQL в IDE.
- * Типы и `DocumentNode` для сборки — из `pnpm codegen` по этим `.graphql` файлам.
+ * Типы и `TypedDocumentNode` — из `pnpm codegen` по этим `.graphql` файлам.
  * (Альтернатива: graphql-tag-pluck по `*.ts` — см. документацию The Guild Codegen.)
  */
 const config: CodegenConfig = {
@@ -34,7 +34,11 @@ const config: CodegenConfig = {
         extension: '.generated.ts',
         baseTypesPath: '~src/shared/api/graphql/generated/types',
       },
-      plugins: ['typescript-operations', 'typescript-react-apollo'],
+      /**
+       * `typescript-operations` — типы запросов; `typed-document-node` — `TypedDocumentNode`
+       * для вывода `data`/`variables` в Apollo без ручных дженериков.
+       */
+      plugins: ['typescript-operations', 'typed-document-node'],
       config: {
         avoidOptionals: {
           field: true,
@@ -42,18 +46,7 @@ const config: CodegenConfig = {
           object: true,
           defaultValue: false,
         },
-        /** DocumentNode для Apollo (`useSuspenseQuery`, `PreloadQuery`, `useFragment`). */
-        documentMode: 'documentNode',
         gqlImport: '@apollo/client#gql',
-        withHooks: false,
-        withComponent: false,
-        withHOC: false,
-        withMutationFn: false,
-        /** Apollo Client 4: `QueryResult` из пакета убран — не генерируем обёртку. */
-        withResultType: false,
-        /** Apollo Client 4: `BaseMutationOptions` отсутствует — не генерируем типы опций мутаций. */
-        withMutationOptionsType: false,
-        reactApolloVersion: 3,
       },
     },
   },

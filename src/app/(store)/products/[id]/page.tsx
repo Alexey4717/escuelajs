@@ -7,7 +7,6 @@ import { getAppOrigin } from '@/shared/lib/app-origin';
 
 import {
   ProductDetailsDocument,
-  type ProductDetailsQuery,
   ProductDetailsView,
 } from '@/routes/product-detail';
 
@@ -29,7 +28,7 @@ export async function generateMetadata({
       variables: { id },
     });
 
-    const product = (data as ProductDetailsQuery | undefined)?.product;
+    const product = data?.product;
     if (!product) {
       return { title: 'Товар' };
     }

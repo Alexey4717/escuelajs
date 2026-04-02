@@ -1,15 +1,20 @@
-'use client';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
 
-import dynamic from 'next/dynamic';
+import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
+import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub';
+import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 
-const ProfileDynamicRoute = dynamic(
-  () => import('@/routes/profile').then((m) => ({ default: m.ProfileRoute })),
-  {
-    ssr: false,
-    loading: () => <div>Загрузка профиля…</div>,
-  },
-);
+import { ProfilePageClient } from '@/routes/profile';
 
-export default function ProfilePage() {
-  return <ProfileDynamicRoute />;
+export default async function ProfilePage() {
+  const cookieStore = await cookies();
+  const accessToken = cookieStore.get(ACCESS_TOKEN_KEY)?.value;
+  const userId = getSubFromAccessToken(accessToken);
+
+  if (!userId) {
+    redirect(loginPageUrlWithFrom('/profile'));
+  }
+
+  return <ProfilePageClient userId={userId} />;
 }

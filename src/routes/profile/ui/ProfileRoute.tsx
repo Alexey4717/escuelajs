@@ -12,10 +12,7 @@ import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 
-import {
-  Profile_MyProfileDocument,
-  type Profile_MyProfileQuery,
-} from '@/routes/profile/api/profile-my-profile.generated';
+import { Profile_UserDocument } from '../api/profile-user.generated';
 
 function initials(name: string) {
   return name
@@ -26,12 +23,19 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-export const ProfileRoute = () => {
+type ProfileRouteProps = {
+  userId: string;
+};
+
+export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
   const router = useRouter();
   const pathname = usePathname();
-  const { data, error, loading } = useQuery<Profile_MyProfileQuery>(
-    Profile_MyProfileDocument,
-  );
+
+  // резолвер запроса myProfile возвращает всегда 404
+  // Из-за баги на сервере временно используем запрос Profile_UserDocument
+  const { data, error, loading } = useQuery(Profile_UserDocument, {
+    variables: { id: userId },
+  });
 
   useEffect(() => {
     if (!error) return;
@@ -70,7 +74,7 @@ export const ProfileRoute = () => {
     return null;
   }
 
-  const u = data.myProfile;
+  const u = data.user;
 
   return (
     <div>

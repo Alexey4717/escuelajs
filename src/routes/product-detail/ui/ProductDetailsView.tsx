@@ -2,11 +2,7 @@
 
 import { useSuspenseQuery } from '@apollo/client/react';
 
-import {
-  ProductDetailsDocument,
-  type ProductDetailsQuery,
-  type ProductDetailsQueryVariables,
-} from '../api/product-details.generated';
+import { ProductDetailsDocument } from '../api/product-details.generated';
 import { ProductDetailsBody } from './ProductDetailsBody';
 
 type ProductDetailsViewProps = {
@@ -14,10 +10,7 @@ type ProductDetailsViewProps = {
 };
 
 export function ProductDetailsView({ productId }: ProductDetailsViewProps) {
-  const { data } = useSuspenseQuery<
-    ProductDetailsQuery,
-    ProductDetailsQueryVariables
-  >(ProductDetailsDocument, {
+  const { data } = useSuspenseQuery(ProductDetailsDocument, {
     variables: { id: productId },
   });
 

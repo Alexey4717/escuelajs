@@ -2,21 +2,14 @@
 
 import { useSuspenseQuery } from '@apollo/client/react';
 
-import {
-  ProductsDocument,
-  type ProductsQuery,
-  type ProductsQueryVariables,
-} from '../api/products.generated';
+import { ProductsDocument } from '../api/products.generated';
 import { PRODUCTS_PAGE_SIZE } from '../constants';
 import { ProductsListItem } from './ProductsListItem';
 
 export function ProductsView() {
-  const { data } = useSuspenseQuery<ProductsQuery, ProductsQueryVariables>(
-    ProductsDocument,
-    {
-      variables: { limit: PRODUCTS_PAGE_SIZE, offset: 0 },
-    },
-  );
+  const { data } = useSuspenseQuery(ProductsDocument, {
+    variables: { limit: PRODUCTS_PAGE_SIZE, offset: 0 },
+  });
 
   return (
     <div className="space-y-6">
