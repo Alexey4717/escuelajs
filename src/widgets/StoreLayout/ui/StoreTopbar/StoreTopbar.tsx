@@ -12,14 +12,16 @@ import { topbarAuthSlotClassName } from './topbarAuthSlot';
 
 interface StoreTopbarProps {
   isLoggedIn: boolean;
+  className?: string;
 }
 
-export function StoreTopbar({ isLoggedIn }: StoreTopbarProps) {
+export function StoreTopbar({ isLoggedIn, className }: StoreTopbarProps) {
   return (
     <header
       className={cn(
         'flex h-[52px] shrink-0 items-center gap-4 bg-primary px-5 text-primary-foreground',
         'z-10 dark:bg-card dark:text-card-foreground',
+        className,
       )}
     >
       <MainLogoLink />

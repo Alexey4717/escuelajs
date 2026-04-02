@@ -183,50 +183,30 @@
     font: inherit;
   }
 
-  /*
-    Глобальный скроллбар: Firefox — scrollbar-width / scrollbar-color;
-    Chrome, Safari, Edge — ::-webkit-scrollbar*
-  */
   * {
     @apply border-border outline-ring/50;
-
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
 
+  /*
+    Документ на корне: нативная полоса скрыта (login и др.).
+    Прокрутка колесом/тачом сохраняется. В витрине — ScrollArea.
+  */
   html {
     @apply font-sans;
+
+    scrollbar-width: none;
+  }
+
+  body {
+    scrollbar-width: none;
   }
 
   /* stylelint-disable csstools/use-logical -- WebKit ::-webkit-scrollbar */
-  *::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-
-  *::-webkit-scrollbar-button {
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
     display: none;
     width: 0;
     height: 0;
   }
   /* stylelint-enable csstools/use-logical */
-
-  *::-webkit-scrollbar-track {
-    background: var(--scrollbar-track);
-    border-radius: 999px;
-  }
-
-  *::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb);
-    border-radius: 999px;
-    border: 1px solid var(--scrollbar-track);
-  }
-
-  *::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbar-thumb-hover);
-  }
-
-  *::-webkit-scrollbar-corner {
-    background: var(--scrollbar-track);
-  }
 }

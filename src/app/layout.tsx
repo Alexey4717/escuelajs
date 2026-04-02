@@ -46,7 +46,7 @@ export default async function RootLayout({
         serverDark && 'dark',
       )}
     >
-      <body className="flex min-h-full flex-col bg-background font-sans text-[14px] text-foreground antialiased">
+      <body className="flex min-h-dvh flex-col overflow-y-auto bg-background font-sans text-[14px] text-foreground antialiased">
         <ThemeBootstrapScript />
         <ApolloProvider>
           {children}

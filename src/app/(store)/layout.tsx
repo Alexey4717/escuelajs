@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub';
+import { ScrollArea } from '@/shared/ui/ScrollArea/ScrollArea';
 
 import { SessionHydration } from '@/entities/Session';
 
@@ -24,14 +25,14 @@ export default async function StoreLayout({
 
   return (
     <SessionHydration userId={userId}>
-      <div className="flex h-dvh min-h-0 flex-col overflow-hidden">
-        <StoreTopbar isLoggedIn={isLoggedIn} />
-        <div className="flex min-h-0 flex-1 overflow-hidden">
-          <StoreSidebar />
-          <main className="min-h-0 flex-1 overflow-y-auto p-layout">
-            {children}
-          </main>
-        </div>
+      <div className="grid h-dvh min-h-0 grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] overflow-hidden">
+        <StoreTopbar isLoggedIn={isLoggedIn} className="col-span-2" />
+        <StoreSidebar />
+        <main className="flex min-h-0 flex-col overflow-hidden">
+          <ScrollArea className="min-h-0 flex-1">
+            <div className="p-layout">{children}</div>
+          </ScrollArea>
+        </main>
       </div>
     </SessionHydration>
   );
