@@ -29,10 +29,10 @@ export function AuthFormShell({
 }: AuthFormShellProps) {
   return (
     <div className="flex min-h-[min(100dvh,100vh)] flex-col bg-background px-4 py-10 sm:py-14">
-      <div className="mx-auto w-full max-w-[380px]">
+      <div className="relative mx-auto my-auto w-full max-w-[380px]">
         <Link
           href="/"
-          className="mb-8 inline-flex text-[13px] text-muted-foreground transition-colors hover:text-foreground"
+          className="absolute left-0 -top-10 z-10 inline-flex text-[13px] text-muted-foreground transition-colors hover:text-foreground"
         >
           ← На главную
         </Link>

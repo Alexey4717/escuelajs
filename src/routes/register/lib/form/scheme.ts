@@ -53,3 +53,10 @@ export const registerFormSchema = object({
 
 export type RegisterFormStateInput = input<typeof registerFormSchema>;
 export type RegisterFormStateOutput = output<typeof registerFormSchema>;
+
+export const registerFormDefaultValues: RegisterFormStateOutput = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+};
