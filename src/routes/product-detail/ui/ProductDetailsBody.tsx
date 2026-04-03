@@ -46,7 +46,7 @@ export function ProductDetailsBody({ product }: ProductDetailsBodyProps) {
         </div>
 
         <div className="space-y-4">
-          <CategoryListLabel categoryId={product.category.id} />
+          <CategoryListLabel categoryName={product.category.name} />
           <Typography variant="h2" component="h1" className="border-0 pb-0">
             {product.title}
           </Typography>
