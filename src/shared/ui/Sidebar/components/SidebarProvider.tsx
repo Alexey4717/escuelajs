@@ -8,7 +8,7 @@ import {
   useState,
 } from 'react';
 
-import { useIsMobile } from '@/hooks/use-mobile';
+import { useIsMobile } from '@/shared/lib/hooks/use-mobile';
 
 import { cn } from '../../../lib/styles/cn';
 import {
