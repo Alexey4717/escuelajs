@@ -1,2 +1,2 @@
 export { PRODUCTS_PAGE_SIZE } from './constants';
-export { ProductsView } from './ui/ProductsView';
+export { ProductsRoute } from './ui/ProductsRoute';

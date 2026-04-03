@@ -6,7 +6,7 @@ import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { ProductsDocument } from '@/shared/api/generated/graphql';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { PRODUCTS_PAGE_SIZE, ProductsView } from '@/routes/products';
+import { PRODUCTS_PAGE_SIZE, ProductsRoute } from '@/routes/products';
 
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';
@@ -25,7 +25,7 @@ export default function ProductsPage() {
       <Suspense
         fallback={<Typography variant="muted">Загрузка каталога…</Typography>}
       >
-        <ProductsView />
+        <ProductsRoute />
       </Suspense>
     </PreloadQuery>
   );

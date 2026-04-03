@@ -1,7 +1,10 @@
 import type { ComponentProps, ReactNode } from 'react';
 
+import { cn } from '@/shared/lib/styles/cn';
+
 import { CardAction } from './components/CardAction';
 import { CardContent } from './components/CardContent';
+import { CardCover } from './components/CardCover';
 import { CardDescription } from './components/CardDescription';
 import { CardFooter } from './components/CardFooter';
 import { CardHeader } from './components/CardHeader';
@@ -11,6 +14,8 @@ import type { CardSize } from './types';
 
 export type CardProps = Omit<ComponentProps<'div'>, 'title'> & {
   size?: CardSize;
+  /** Блок над шапкой: обложка, медиа (картинка на всю ширину) */
+  cover?: ReactNode;
   /** Заголовок; вместе с `description` и `action` формирует шапку карточки */
   title?: ReactNode;
   description?: ReactNode;
@@ -21,6 +26,7 @@ export type CardProps = Omit<ComponentProps<'div'>, 'title'> & {
 export const Card = ({
   className,
   size = 'default',
+  cover,
   title,
   description,
   action,
@@ -34,8 +40,13 @@ export const Card = ({
 
   return (
     <CardRoot className={className} size={size} {...props}>
+      {cover !== undefined ? <CardCover>{cover}</CardCover> : null}
       {hasHeader ? (
-        <CardHeader>
+        <CardHeader
+          className={cn(
+            cover !== undefined && 'rounded-t-none border-t border-border',
+          )}
+        >
           {title !== undefined ? <CardTitle>{title}</CardTitle> : null}
           {description !== undefined ? (
             <CardDescription>{description}</CardDescription>
