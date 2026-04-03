@@ -2,6 +2,10 @@
   "name": "escuelajs",
   "version": "0.1.1",
   "private": true,
+  "engines": {
+    "node": ">=20.9.0"
+  },
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "pathpida": "pathpida --ignorePath .gitignore -o src/shared/routes && prettier --write \"src/shared/routes/$path.ts\"",
     "dev": "next dev",
@@ -21,7 +25,7 @@
     "codegen": "graphql-codegen --config codegen.ts",
     "clean": "rimraf .next out build coverage .turbo",
     "clean:full": "pnpm clean && rimraf node_modules",
-    "prepare": "husky"
+    "prepare": "node -e \"if (process.env.CI || process.env.VERCEL) process.exit(0); require('child_process').execSync('husky', {stdio: 'inherit'})\""
   },
   "dependencies": {
     "@apollo/client": "^4.1.6",
