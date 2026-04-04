@@ -4,7 +4,7 @@ import { ScrollPositionSetter } from './components/ScrollPositionSetter';
 import { ScrollPositionSetterProps } from './components/types';
 
 export interface PageProps extends ScrollPositionSetterProps {
-  heading: string;
+  heading?: string;
 }
 
 export const Page = ({
@@ -22,9 +22,11 @@ export const Page = ({
       mainRef={mainRef}
       onScrollEnd={onScrollEnd}
     >
-      <Typography variant="h1" className="text-left">
-        {heading}
-      </Typography>
+      {heading && (
+        <Typography variant="h1" className="text-left">
+          {heading}
+        </Typography>
+      )}
       {children}
     </ScrollPositionSetter>
   );
