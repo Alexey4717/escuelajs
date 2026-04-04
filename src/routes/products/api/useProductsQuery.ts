@@ -1,6 +1,12 @@
 'use client';
 
-import { startTransition, useCallback, useRef, useState } from 'react';
+import {
+  startTransition,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import { useSuspenseQuery } from '@apollo/client/react';
 
@@ -9,10 +15,12 @@ import { ProductsDocument } from '@/shared/api/generated/graphql';
 import { PRODUCTS_PAGE_SIZE } from '../constants';
 import { ProductsGridContext } from '../ui/ProductsRoute/productsGridComponents';
 
-export const useProductsQuery = () => {
+export const useProductsQuery = (pathname: string) => {
+  const mainRef = useRef<HTMLElement | null>(null);
+
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);
 
-  const setProductsRootRef = useCallback((node: HTMLDivElement | null) => {
+  const setProductsRootRef = useCallback((node: HTMLElement | null) => {
     if (!node) {
       setScrollParent(null);
       return;
@@ -67,11 +75,17 @@ export const useProductsQuery = () => {
 
   const gridContext: ProductsGridContext = { loadingMore };
 
+  useLayoutEffect(() => {
+    const el = mainRef.current;
+    setProductsRootRef(el);
+    return () => setProductsRootRef(null);
+  }, [pathname, setProductsRootRef]);
+
   return {
+    mainRef,
     data,
     gridContext,
     loadMore,
     scrollParent,
-    setProductsRootRef,
   };
 };

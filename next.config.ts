@@ -8,7 +8,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
-  reactStrictMode: true, // Может конфликтовать со старыми библиотеками
+  reactStrictMode: true,
   poweredByHeader: false, // чтоб человек не смог обнаружить, на каком фреймворке написано приложение
   reactCompiler: true,
   sassOptions: {

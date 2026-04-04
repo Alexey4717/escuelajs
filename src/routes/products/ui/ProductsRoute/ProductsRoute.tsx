@@ -1,20 +1,28 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
+
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { useVirtuosoScrollPersistence } from '@/shared/lib/hooks/use-virtuoso-scroll-persistence';
+
+import { Page } from '@/widgets/Page';
 
 import { useProductsQuery } from '../../api/useProductsQuery';
 import { ProductsListItem } from '../ProductsListItem/ProductsListItem';
 import { productsGridComponents } from './productsGridComponents';
 
 export const ProductsRoute = () => {
-  const { data, gridContext, loadMore, scrollParent, setProductsRootRef } =
-    useProductsQuery();
+  const pathname = usePathname();
+
+  const { mainRef, data, gridContext, loadMore, scrollParent } =
+    useProductsQuery(pathname);
+
+  const { restoreStateFrom, onGridStateChanged } =
+    useVirtuosoScrollPersistence(pathname);
 
   return (
-    <div ref={setProductsRootRef} className="space-y-6">
-      <Typography variant="h1">Товары</Typography>
+    <Page className="space-y-6" mainRef={mainRef} heading="Продукты">
       {scrollParent ? (
         <VirtuosoGrid
           customScrollParent={scrollParent}
@@ -26,16 +34,12 @@ export const ProductsRoute = () => {
           endReached={loadMore}
           increaseViewportBy={{ bottom: 400, top: 200 }}
           itemContent={(_, product) => <ProductsListItem product={product} />}
+          restoreStateFrom={restoreStateFrom}
+          stateChanged={onGridStateChanged}
         />
       ) : (
-        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
-          {data.products.map((product) => (
-            <li key={product.id} className="h-full min-w-0">
-              <ProductsListItem product={product} />
-            </li>
-          ))}
-        </ul>
+        <div className="min-h-96" aria-hidden />
       )}
-    </div>
+    </Page>
   );
 };
