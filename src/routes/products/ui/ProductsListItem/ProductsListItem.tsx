@@ -4,6 +4,8 @@ import type { ProductsQuery } from '@/shared/api/generated/graphql';
 import { cn } from '@/shared/lib/styles/cn';
 import { Card } from '@/shared/ui/Card/Card';
 
+import { parsePrice } from '@/entities/Price';
+
 import { ProductCardCoverLink } from './components/ProductCardCoverLink';
 import { ProductCardFooter } from './components/ProductCardFooter';
 
@@ -14,11 +16,7 @@ interface ProductsListItemProps {
 export function ProductsListItem({ product }: ProductsListItemProps) {
   const imageUrl = product.images[0];
   const href = `/products/${product.id}`;
-  const priceLabel = product.price.toLocaleString('ru-RU', {
-    style: 'currency',
-    currency: 'USD',
-    maximumFractionDigits: 0,
-  });
+  const priceLabel = parsePrice(product.price, 'USD');
 
   return (
     <Card

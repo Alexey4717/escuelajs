@@ -22,7 +22,12 @@ export const ProductsRoute = () => {
     useVirtuosoScrollPersistence(pathname);
 
   return (
-    <Page className="space-y-6" mainRef={mainRef} heading="Продукты">
+    <Page
+      className="space-y-6"
+      mainRef={mainRef}
+      heading="Продукты"
+      withSavingScrollPosition
+    >
       {scrollParent ? (
         <VirtuosoGrid
           customScrollParent={scrollParent}

@@ -10,6 +10,7 @@ query ProductDetails($id: ID!) {
       id
       name
       slug
+      image
     }
     creationAt
     updatedAt
