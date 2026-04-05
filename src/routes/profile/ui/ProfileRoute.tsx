@@ -14,7 +14,13 @@ import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { getUserInitials } from '@/entities/User';
+import { getRoleText, getUserInitials, parseUserRole } from '@/entities/User';
+
+import { Page } from '@/widgets/Page';
+
+import { ProfileAccountDataCard } from './components/ProfileAccountDataCard';
+import { ProfileChangePasswordCard } from './components/ProfileChangePasswordCard';
+import { ProfileSummaryCard } from './components/ProfileSummaryCard';
 
 type ProfileRouteProps = {
   userId: string;
@@ -50,33 +56,39 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
 
   if (loading) {
     return (
-      <Typography variant="body1" component="div">
-        Загрузка профиля…
-      </Typography>
+      <Page narrow className="space-y-6" heading="Профиль">
+        <Typography variant="body1" component="div">
+          Загрузка профиля…
+        </Typography>
+      </Page>
     );
   }
 
   if (error) {
     if (isUnauthorized(error)) {
       return (
-        <Typography variant="body1" component="p">
-          Перенаправление на вход…
-        </Typography>
+        <Page narrow className="space-y-6" heading="Профиль">
+          <Typography variant="body1" component="p">
+            Перенаправление на вход…
+          </Typography>
+        </Page>
       );
     }
     return (
-      <div>
-        <Typography variant="body1" component="p">
-          Не удалось загрузить профиль
-        </Typography>
-        <Typography variant="body2" component="p">
-          {error.message}
-        </Typography>
-        <Link href="/">На главную</Link>
-        <Button type="button" variant="outline" onClick={logout}>
-          Выйти
-        </Button>
-      </div>
+      <Page narrow className="space-y-6" heading="Профиль">
+        <div className="space-y-4">
+          <Typography variant="body1" component="p">
+            Не удалось загрузить профиль
+          </Typography>
+          <Typography variant="body2" component="p">
+            {error.message}
+          </Typography>
+          <Link href="/">На главную</Link>
+          <Button type="button" variant="outline" onClick={logout}>
+            Выйти
+          </Button>
+        </div>
+      </Page>
     );
   }
 
@@ -85,31 +97,33 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
   }
 
   const u = data.user;
+  const initials = getUserInitials(u.name);
+  const role = parseUserRole(u.role);
+  const roleLabel = getRoleText(u.role) ?? u.role;
+  const roleBadgeVariant = role === 'admin' ? 'destructive' : 'secondary';
 
   return (
-    <div>
-      <Typography variant="h2" gutterBottom>
-        Профиль
-      </Typography>
+    <Page narrow className="space-y-6" heading="Профиль">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:items-start">
+        <ProfileSummaryCard
+          initials={initials}
+          name={u.name}
+          email={u.email}
+          roleLabel={roleLabel}
+          roleBadgeVariant={roleBadgeVariant}
+        />
 
-      <Button type="button" variant="secondary">
-        Редактировать
-      </Button>
-      <Button type="button" variant="outline" onClick={logout}>
-        Выйти
-      </Button>
-
-      <div>
-        <Typography variant="h3" gutterBottom>
-          Данные аккаунта
-        </Typography>
-        <span>{u.id}</span>
-        <span>{getUserInitials(u.name)}</span>
-        <span>{u.name}</span>
-        <span>{u.email}</span>
-        <span>{u.role}</span>
-        <span>{new Date(u.creationAt).toLocaleString()}</span>
+        <div className="flex min-w-0 flex-col gap-6">
+          <ProfileAccountDataCard
+            id={u.id}
+            name={u.name}
+            email={u.email}
+            roleLabel={roleLabel}
+            roleBadgeVariant={roleBadgeVariant}
+          />
+          <ProfileChangePasswordCard />
+        </div>
       </div>
-    </div>
+    </Page>
   );
 };
