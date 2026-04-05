@@ -24,10 +24,22 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 | `pnpm pathpida` | Генерация [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
 | `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
 | `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
+| `pnpm verify:generated` | Проверка сгенерированных артефактов: `codegen`, Prettier для `src/shared/api/generated/*.ts`, pathpida, Prettier для [`$path.ts`](src/shared/routes/$path.ts), затем `git diff` только по этим путям. См. [CI: сгенерированные файлы](#ci-сгенерированные-файлы). |
 
 TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
 
-**Pre-commit:** `.husky/pre-commit` runs `lint-staged`: Prettier and ESLint/Stylelint with fix on staged `*.{ts,tsx}` and `*.{css,scss}`. Ensure the repo is initialized with `git` so hooks apply.
+## Версии и релизы
+
+Релизы и [`CHANGELOG.md`](CHANGELOG.md) ведутся автоматически через **[semantic-release](https://github.com/semantic-release/semantic-release)** в GitHub Actions (job **Release** после успешного CI на push в `main`). Нужны **[Conventional Commits](https://www.conventionalcommits.org/)** в сообщениях коммитов (`feat:`, `fix:`, `BREAKING CHANGE:` и т.д.), иначе версия может не подняться до следующего подходящего коммита. Локально формат проверяет **[commitlint](https://commitlint.js.org/)** в хуке **`.husky/commit-msg`** (не в `pre-commit`: текст сообщения к этому моменту ещё не зафиксирован). Merge- и revert-коммиты из Git пропускаются.
+
+- **Версия в `package.json`** обновляется релизным процессом вместе с `CHANGELOG.md` и GitHub Release (публикация в npm отключена: `private: true`).
+- **Права в репозитории:** для job Release у GitHub Actions должны быть разрешены запись в содержимое и создание релизов (см. Settings → Actions → Workflow permissions).
+
+### CI: сгенерированные файлы
+
+В pipeline после линтеров выполняется **`pnpm verify:generated`**: перезапускаются GraphQL Codegen и pathpida, для сгенерированных `*.ts` применяется тот же Prettier, что и при разработке, затем **`git diff`** по `src/shared/api/generated/` и [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) (остальные незакоммиченные файлы на результат не влияют). Если забыли выполнить `pnpm codegen` и/или `pnpm pathpida` после изменений схемы, `.graphql` или структуры `app`, job упадёт — сгенерируйте файлы локально и закоммитьте.
+
+**Git hooks:** `.husky/pre-commit` — `lint-staged` (Prettier, ESLint/Stylelint для staged `*.{ts,tsx}` и `*.{css,scss}`). `.husky/commit-msg` — `commitlint` по [`commitlint.config.cjs`](commitlint.config.cjs) (Conventional Commits).
 
 ## Архитектура приложения
 

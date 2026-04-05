@@ -44,6 +44,9 @@ jobs:
       - name: ESLint & Stylelint
         run: pnpm run lint
 
+      - name: GraphQL codegen & pathpida (committed output)
+        run: pnpm run verify:generated
+
       - name: Production build (CI)
         run: pnpm run build:ci-test
 
