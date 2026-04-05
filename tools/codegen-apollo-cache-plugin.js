@@ -27,6 +27,16 @@ const ROOT_TYPES_TO_SKIP = new Set(['Query', 'Mutation', 'Subscription']);
 const LOG_PREFIX = '[codegen-apollo-cache-plugin]';
 
 /**
+ * Литерал `string[]` в стиле Prettier (`singleQuote: true`). `JSON.stringify` даёт `"a"`
+ * и после каждого `codegen` Prettier снова переписывает файл — лишние диффы в git.
+ * @param {string[]} strings
+ * @returns {string}
+ */
+function tsStringArrayLiteral(strings) {
+  return `[${strings.map((s) => `'${String(s).replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`).join(', ')}]`;
+}
+
+/**
  * @param {string[]} argNames
  * @returns {{ exclude: string[] } | null}
  */
@@ -419,7 +429,7 @@ function generateOffsetLimitPolicies(
       'offset',
     );
     entries.push(
-      `  ${name}: offsetLimitPagination(${JSON.stringify(keyArgs)}),`,
+      `  ${name}: offsetLimitPagination(${tsStringArrayLiteral(keyArgs)}),`,
     );
   }
   if (entries.length === 0) return '';
@@ -448,7 +458,7 @@ function generateCursorLimitPolicies(
       'cursor',
     );
     entries.push(
-      `  ${name}: cursorLimitPagination(${JSON.stringify(keyArgs)}),`,
+      `  ${name}: cursorLimitPagination(${tsStringArrayLiteral(keyArgs)}),`,
     );
   }
   if (entries.length === 0) return '';
@@ -517,7 +527,7 @@ function generateQueryListFieldsWithKeyArgs(
       argNames,
       documentArgNamesByField.get(name),
     );
-    entries.push(`  ${name}: { keyArgs: ${JSON.stringify(keyArgs)} },`);
+    entries.push(`  ${name}: { keyArgs: ${tsStringArrayLiteral(keyArgs)} },`);
   }
 
   if (entries.length === 0) {
@@ -563,11 +573,11 @@ function generateNonNormalizedPolicies(schema, usedRootFieldNames) {
 
   const queryFieldsEntries = rootFields.map(
     ({ fieldName, keyArgs }) =>
-      `  ${fieldName}: { keyArgs: ${JSON.stringify(keyArgs)}, merge: true },`,
+      `  ${fieldName}: { keyArgs: ${tsStringArrayLiteral(keyArgs)}, merge: true },`,
   );
   const arrayQueryFieldsEntries = rootArrayFields.map(
     ({ fieldName, keyArgs }) =>
-      `  ${fieldName}: { keyArgs: ${JSON.stringify(keyArgs)}, merge(_existing: unknown, incoming: unknown) { return incoming; } },`,
+      `  ${fieldName}: { keyArgs: ${tsStringArrayLiteral(keyArgs)}, merge(_existing: unknown, incoming: unknown) { return incoming; } },`,
   );
 
   const parts = [];
@@ -628,7 +638,7 @@ function generateTypePoliciesByType(schema, documents) {
 
     const fieldEntries = [];
     for (const { fieldName, kind, keyArgs } of nestedFields) {
-      const keyArgsStr = JSON.stringify(keyArgs);
+      const keyArgsStr = tsStringArrayLiteral(keyArgs);
       if (kind === NESTED_FIELD_KIND_OFFSET) {
         fieldEntries.push(
           `    ${fieldName}: offsetLimitPagination(${keyArgsStr}),`,

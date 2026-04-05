@@ -18,6 +18,10 @@ const config: CodegenConfig = {
   schema: 'src/shared/api/graphql/schema.graphql',
   documents: ['src/shared/api/graphql/*/**/*.graphql'],
   ignoreNoDocuments: true,
+  /** После записи файлов — Prettier (как в CI `verify:generated`), иначе сырой вывод плагина расходится с `prettier.config.mjs`. */
+  hooks: {
+    afterAllFileWrite: ['prettier --write'],
+  },
   generates: {
     'src/shared/api/generated/graphql.ts': {
       plugins: ['typescript', 'typescript-operations', 'typed-document-node'],

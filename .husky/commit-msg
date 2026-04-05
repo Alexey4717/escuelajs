@@ -1,1 +1,3 @@
-pnpm exec commitlint --edit "$1"
+#!/usr/bin/env sh
+# Прямой вызов CLI: в GUI Git часто нет pnpm/npx в PATH.
+node "$(dirname "$0")/../node_modules/@commitlint/cli/cli.js" --edit "$1"
