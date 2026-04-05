@@ -14,14 +14,7 @@ import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
-function initials(name: string) {
-  return name
-    .split(/\s+/)
-    .map((p) => p[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
-}
+import { getUserInitials } from '@/entities/User';
 
 type ProfileRouteProps = {
   userId: string;
@@ -111,7 +104,7 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
           Данные аккаунта
         </Typography>
         <span>{u.id}</span>
-        <span>{initials(u.name)}</span>
+        <span>{getUserInitials(u.name)}</span>
         <span>{u.name}</span>
         <span>{u.email}</span>
         <span>{u.role}</span>

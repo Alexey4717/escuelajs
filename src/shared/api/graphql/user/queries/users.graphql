@@ -2,6 +2,7 @@ query Users($limit: Float) {
   users(limit: $limit) {
     id
     name
+    email
     avatar
     role
   }

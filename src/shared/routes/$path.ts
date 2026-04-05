@@ -71,6 +71,13 @@ export const pagesPath = {
       path: `/profile${buildSuffix(url)}`,
     }),
   },
+  users: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/users' as const,
+      hash: url?.hash,
+      path: `/users${buildSuffix(url)}`,
+    }),
+  },
   login: {
     $url: (url?: { hash?: string }) => ({
       pathname: '/login' as const,

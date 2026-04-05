@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ProductDetailsRoute } from '@/routes/product-detail';
@@ -38,7 +39,7 @@ export async function generateMetadata({
         : product.description;
 
     const base = getAppOrigin();
-    const url = `${base}/products/${id}`;
+    const url = `${base}${pagesPath.products._id(id).$url().path}`;
     const ogImage = product.images[0];
 
     return {

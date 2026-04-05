@@ -35,7 +35,6 @@ type NavItem = {
   href: string;
   label: string;
   icon: LucideIcon;
-  disabled?: boolean;
 };
 
 const catalog: NavItem[] = [
@@ -50,7 +49,11 @@ const catalog: NavItem[] = [
     label: 'Категории',
     icon: FolderTree,
   },
-  { href: '#', label: 'Пользователи', icon: Users, disabled: true },
+  {
+    href: pagesPath.users.$url().path,
+    label: 'Пользователи',
+    icon: Users,
+  },
 ];
 
 function StoreSidebarBrand({ onNavigate }: { onNavigate: () => void }) {
@@ -90,9 +93,6 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
   };
 
   const isActive = (item: NavItem) => {
-    if (item.disabled || item.href === '#') {
-      return false;
-    }
     return pathname === item.href;
   };
 
@@ -111,25 +111,6 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
               {catalog.map((item) => {
                 const ItemIcon = item.icon;
                 const active = isActive(item);
-
-                if (item.disabled) {
-                  return (
-                    <SidebarMenuItem key={item.label}>
-                      <SidebarMenuButton
-                        disabled
-                        className="cursor-not-allowed opacity-60"
-                        aria-disabled
-                      >
-                        <ItemIcon
-                          className="size-4 shrink-0"
-                          strokeWidth={1.75}
-                          aria-hidden
-                        />
-                        <span>{item.label}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  );
-                }
 
                 return (
                   <SidebarMenuItem key={item.href + item.label}>

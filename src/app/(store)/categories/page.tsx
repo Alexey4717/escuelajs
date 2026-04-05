@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { CategoriesDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { CategoriesRoute } from '@/routes/categories';
@@ -23,7 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
     openGraph: {
       title: 'Категории',
       description,
-      url: `${base}/categories`,
+      url: `${base}${pagesPath.categories.$url().pathname}`,
       type: 'website',
     },
     twitter: {
