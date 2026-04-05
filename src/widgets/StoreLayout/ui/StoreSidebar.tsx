@@ -44,9 +44,12 @@ const catalog: NavItem[] = [
     href: pagesPath.products.$url().path,
     label: 'Продукты',
     icon: Package,
-    disabled: false,
   },
-  { href: '#', label: 'Категории', icon: FolderTree, disabled: true },
+  {
+    href: pagesPath.categories.$url().path,
+    label: 'Категории',
+    icon: FolderTree,
+  },
   { href: '#', label: 'Пользователи', icon: Users, disabled: true },
 ];
 
@@ -70,9 +73,9 @@ function StoreSidebarBrand({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-type StoreSidebarProps = {
+interface StoreSidebarProps {
   isLoggedIn: boolean;
-};
+}
 
 export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
   const pathname = usePathname();

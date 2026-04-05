@@ -27,6 +27,13 @@ const buildSuffix = (url?: {
 };
 
 export const pagesPath = {
+  categories: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/categories' as const,
+      hash: url?.hash,
+      path: `/categories${buildSuffix(url)}`,
+    }),
+  },
   products: {
     _id: (id: string | number) => ({
       edit: {
