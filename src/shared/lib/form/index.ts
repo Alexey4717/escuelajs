@@ -6,6 +6,10 @@ export {
   createRHFTextField,
   type BaseTextFieldComponentProps,
 } from './fieldFactories/createRHFTextField';
+export {
+  createRHFTextareaField,
+  type BaseTextareaFieldComponentProps,
+} from './fieldFactories/createRHFTextareaField';
 export type { SelectOption } from './types';
 
 export { passwordSchema } from './schemas/password';
