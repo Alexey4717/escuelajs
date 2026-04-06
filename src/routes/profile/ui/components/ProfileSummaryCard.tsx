@@ -1,3 +1,5 @@
+'use client';
+
 import { type ComponentProps } from 'react';
 
 import { cn } from '@/shared/lib/styles/cn';
@@ -6,6 +8,8 @@ import { Button } from '@/shared/ui/Button/Button';
 import { CardContent } from '@/shared/ui/Card/components/CardContent';
 import { CardRoot } from '@/shared/ui/Card/components/CardRoot';
 import { Typography } from '@/shared/ui/Typography/Typography';
+
+import { useProfileDeleteModal } from '@/routes/profile/model/use-profile-delete-modal';
 
 type ProfileSummaryCardProps = {
   initials: string;
@@ -22,6 +26,10 @@ export const ProfileSummaryCard = ({
   roleLabel,
   roleBadgeVariant,
 }: ProfileSummaryCardProps) => {
+  const { open } = useProfileDeleteModal({
+    hydrateProps: { email },
+  });
+
   return (
     <CardRoot className="gap-0 py-0 shadow-sm ring-border/60">
       <CardContent className="flex flex-col items-center gap-5 pb-6 pt-6">
@@ -51,7 +59,12 @@ export const ProfileSummaryCard = ({
           <Button type="button" variant="outline" className="w-full">
             Редактировать
           </Button>
-          <Button type="button" variant="destructive" className="w-full">
+          <Button
+            type="button"
+            variant="destructive"
+            className="w-full"
+            onClick={() => open({ email })}
+          >
             Удалить аккаунт
           </Button>
         </div>

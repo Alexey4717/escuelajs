@@ -1,11 +1,14 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
+import { userAgent } from 'next/server';
 
 import { Toaster } from 'sonner';
 
 import { ApolloProvider } from '@/shared/api/apollo-client/provider';
 import { cn } from '@/shared/lib/styles/cn';
+
+import { ModalProvider } from '@/app/modal/ui/ModalProvider';
 
 import './globals.css';
 import { ThemeBootstrapScript } from './theme-bootstrap';
@@ -46,6 +49,9 @@ export default async function RootLayout({
 }>) {
   const themeCookie = (await cookies()).get('theme')?.value;
   const serverDark = themeCookie === 'dark';
+  const requestHeaders = await headers();
+  const { device } = userAgent({ headers: requestHeaders });
+  const serverIsMobile = device.type === 'mobile';
 
   return (
     <html
@@ -62,8 +68,10 @@ export default async function RootLayout({
       <body className="flex min-h-dvh flex-col overflow-y-auto bg-background font-sans text-[14px] text-foreground antialiased">
         <ThemeBootstrapScript />
         <ApolloProvider>
-          {children}
-          <Toaster theme={serverDark ? 'dark' : 'light'} />
+          <ModalProvider initialIsMobile={serverIsMobile}>
+            {children}
+            <Toaster theme={serverDark ? 'dark' : 'light'} />
+          </ModalProvider>
         </ApolloProvider>
       </body>
     </html>

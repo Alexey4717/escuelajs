@@ -52,7 +52,7 @@ const DrawerBase = ({
             </DrawerHeader>
           )}
 
-          {content}
+          {content && <div className="px-4 pb-4">{content}</div>}
 
           {footer && <DrawerFooter {...footerProps}>{footer}</DrawerFooter>}
         </DrawerContent>

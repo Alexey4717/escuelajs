@@ -181,6 +181,64 @@ Reports are written to `.next/analyze/` as HTML files (for example `client.html`
 У Escuela в images приходят разные домены (imgur, unsplash, placehold.co и т.д.) и со временем могут появиться новые.
 Пока лучше не тащить в конфиг бесконечный зоопарк доменов ради витрины с динамическими ссылками. Если позже захотите именно next/image (оптимизация, размеры, blur), можно сузить список доменов у API или проксировать картинки через свой роут и тогда настроить один origin.
 
+## Модалки (Modal flow)
+
+В проекте используется единый modal-flow: UI-обертка [`Modal`](src/shared/ui/Modal/Modal.tsx), глобальный хост в `app`, состояние через Zustand и синхронизация с query-параметром `openedModal`.
+
+### Основные элементы
+
+- **UI-адаптер:** [`src/shared/ui/Modal/Modal.tsx`](src/shared/ui/Modal/Modal.tsx)
+  - mobile: рендерит `Drawer`
+  - desktop: рендерит `Dialog`
+- **Глобальный хост и провайдер:** [`src/app/modal/ui/ModalHost.tsx`](src/app/modal/ui/ModalHost.tsx), [`src/app/modal/ui/ModalProvider.tsx`](src/app/modal/ui/ModalProvider.tsx)
+- **URL sync (`openedModal`):** [`src/app/modal/model/use-modal-url-sync.ts`](src/app/modal/model/use-modal-url-sync.ts)
+- **Реестр модалок:** [`src/app/modal/model/modal-registry.ts`](src/app/modal/model/modal-registry.ts)
+- **Стор:** [`src/shared/lib/store/slices/modal/create-modal-slice.ts`](src/shared/lib/store/slices/modal/create-modal-slice.ts)
+- **Типы ключей/пропсов модалок:** [`src/shared/lib/modal/types.ts`](src/shared/lib/modal/types.ts)
+
+### Источник истины
+
+- Источник истины для открытости: Zustand (`openedModal`).
+- Query-параметр `openedModal` нужен для deep-link/back-forward/share-link и синхронизируется с store.
+- В текущей реализации одновременно открыта только **одна** модалка.
+
+### Как добавить новую модалку
+
+1. Добавьте ключ и props в [`ModalRegistryMap`](src/shared/lib/modal/types.ts):
+
+```ts
+export interface ModalRegistryMap {
+  profileDelete: { email: string };
+  productEdit: { productId: string };
+}
+```
+
+2. Создайте UI-компонент модалки в своей фиче/роуте (по FSD рядом с местом использования), например:
+   - `src/routes/products/ui/components/ProductEditModalContent.tsx`
+
+3. Зарегистрируйте модалку в [`modal-registry.ts`](src/app/modal/model/modal-registry.ts):
+   - `component`
+   - `title`, `description`
+   - опционально `renderFooter`
+   - опционально `dialogClassName` (только для desktop `Dialog`)
+
+4. Создайте локальный хук в слое фичи/роута (не в `app`), например:
+   - `src/routes/products/model/use-product-edit-modal.ts`
+   - внутри вызывайте `openModal('productEdit', props)`.
+
+### Типизация `openModal`
+
+`openModal` типизирован по `ModalKey` и `ModalRegistryMap`, поэтому:
+
+- неверный ключ (`openModal('productEdit1', ...)`) даст ошибку TypeScript;
+- props проверяются по ключу модалки;
+- при изменении `ModalRegistryMap` типы хука и стора синхронизируются автоматически.
+
+### Footer и формы
+
+- Для единообразного UI кнопки действий рекомендуется выносить в `footer` через `renderFooter` в registry.
+- Если контент модалки — форма, `submit` можно делать из footer-кнопки через `type="submit"` и `form="form-id"` (форма может находиться в `content`).
+
 ## Zustand
 
 Слайсы лучше описывать на уровне слоёв выше shared.
