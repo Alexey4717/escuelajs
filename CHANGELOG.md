@@ -1,3 +1,12 @@
+# [1.1.0](https://github.com/Alexey4717/escuelajs/compare/v1.0.0...v1.1.0) (2026-04-06)
+
+
+### Features
+
+* add accordion shared component ([b63a867](https://github.com/Alexey4717/escuelajs/commit/b63a867deb2ca6846421bf5c67b27ec5b1bdcd19))
+* add main page ([30381c3](https://github.com/Alexey4717/escuelajs/commit/30381c3e2c3884ed09de47febfa68ee0b647e4fa))
+* add Textarea shared field and factory for RHF ([bc3678f](https://github.com/Alexey4717/escuelajs/commit/bc3678fea0976993bea5196eb2cd1c52e4ecb96a))
+
 # 1.0.0 (2026-04-05)
 
 
