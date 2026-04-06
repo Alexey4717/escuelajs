@@ -70,6 +70,29 @@ function getArgNames(field) {
 }
 
 /**
+ * Имена GraphQL-переменных ($foo), использованных в значении аргумента.
+ * @param {import('graphql').ValueNode | undefined | null} node
+ * @param {Set<string>} out
+ */
+function collectVariableNamesFromValueNode(node, out) {
+  if (!node) return;
+  switch (node.kind) {
+    case Kind.VARIABLE:
+      out.add(node.name.value);
+      return;
+    case Kind.LIST:
+      for (const v of node.values) collectVariableNamesFromValueNode(v, out);
+      return;
+    case Kind.OBJECT:
+      for (const f of node.fields)
+        collectVariableNamesFromValueNode(f.value, out);
+      return;
+    default:
+      return;
+  }
+}
+
+/**
  * @param {string[]} argNames
  * @param {'offset' | 'cursor'} kind
  * @returns {boolean}
@@ -92,11 +115,6 @@ function collectRootFieldArgNamesFromDocuments(documents) {
       const op = def;
       if (op.operation !== 'query') continue;
       const rootSelections = op.selectionSet?.selections ?? [];
-      const operationVarNames = new Set(
-        (op.variableDefinitions ?? [])
-          .map((v) => v.variable.name.value)
-          .filter((n) => !OP_VAR_EXCLUDE.has(n)),
-      );
       for (const sel of rootSelections) {
         if (sel.kind !== Kind.FIELD) continue;
         const fieldName = sel.name.value;
@@ -108,8 +126,12 @@ function collectRootFieldArgNamesFromDocuments(documents) {
         for (const arg of sel.arguments ?? []) {
           set.add(arg.name.value);
         }
-        for (const v of operationVarNames) {
-          set.add(v);
+        const varsInField = new Set();
+        for (const arg of sel.arguments ?? []) {
+          collectVariableNamesFromValueNode(arg.value, varsInField);
+        }
+        for (const v of varsInField) {
+          if (!OP_VAR_EXCLUDE.has(v)) set.add(v);
         }
       }
     }
@@ -209,6 +231,13 @@ function collectNestedPaginatedFromDocuments(schema, documents) {
         const fieldName = sel.name.value;
         const field = fields[fieldName];
         if (!field) continue;
+        const varsInFieldArgs = new Set();
+        for (const arg of sel.arguments ?? []) {
+          collectVariableNamesFromValueNode(arg.value, varsInFieldArgs);
+        }
+        const varsForPagination = new Set(
+          [...varsInFieldArgs].filter((n) => !OP_VAR_EXCLUDE.has(n)),
+        );
         const argNames = (field.args ?? []).map((a) => a.name);
         const offsetPair = getOffsetPaginationPair(argNames);
         if (offsetPair) {
@@ -220,7 +249,7 @@ function collectNestedPaginatedFromDocuments(schema, documents) {
             fieldName,
             NESTED_FIELD_KIND_OFFSET,
             schemaKeyArgs,
-            operationVarNames,
+            varsForPagination,
             argNames,
           );
         }
@@ -233,7 +262,7 @@ function collectNestedPaginatedFromDocuments(schema, documents) {
             fieldName,
             NESTED_FIELD_KIND_CURSOR,
             schemaKeyArgs,
-            operationVarNames,
+            varsForPagination,
             argNames,
           );
         }

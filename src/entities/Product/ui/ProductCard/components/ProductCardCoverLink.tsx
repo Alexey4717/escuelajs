@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { cn } from '@/shared/lib/styles/cn';
 
-import { CategoryListLabel } from '@/entities/Category';
+import { CategoryListLabel } from '@/entities/Category/@x/product';
 
 interface ProductCardCoverLinkProps {
   href: string;

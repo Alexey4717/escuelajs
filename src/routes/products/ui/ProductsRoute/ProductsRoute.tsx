@@ -6,10 +6,11 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import { useVirtuosoScrollPersistence } from '@/shared/lib/hooks/use-virtuoso-scroll-persistence';
 
+import { ProductCard } from '@/entities/Product';
+
 import { Page } from '@/widgets/Page';
 
 import { useProductsQuery } from '../../api/useProductsQuery';
-import { ProductsListItem } from '../ProductsListItem/ProductsListItem';
 import { productsGridComponents } from './productsGridComponents';
 
 export const ProductsRoute = () => {
@@ -38,7 +39,7 @@ export const ProductsRoute = () => {
           computeItemKey={(_, product) => product.id}
           endReached={loadMore}
           increaseViewportBy={{ bottom: 400, top: 200 }}
-          itemContent={(_, product) => <ProductsListItem product={product} />}
+          itemContent={(_, product) => <ProductCard product={product} />}
           restoreStateFrom={restoreStateFrom}
           stateChanged={onGridStateChanged}
         />

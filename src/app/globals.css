@@ -210,3 +210,39 @@
   }
   /* stylelint-enable csstools/use-logical */
 }
+
+@keyframes home-hero-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes home-hero-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  33% {
+    transform: translate3d(6px, -8px, 0) rotate(1deg);
+  }
+
+  66% {
+    transform: translate3d(-4px, 4px, 0) rotate(-1deg);
+  }
+}
+
+@layer utilities {
+  .animate-home-hero-float {
+    animation: home-hero-float 8s ease-in-out infinite;
+  }
+
+  .animate-home-hero-drift {
+    animation: home-hero-drift 12s ease-in-out infinite;
+  }
+}

@@ -1,0 +1,21 @@
+query HomeLanding($productsLimit: Int, $productsOffset: Int, $usersLimit: Float) {
+  products(limit: $productsLimit, offset: $productsOffset) {
+    id
+    title
+    slug
+    price
+    images
+    category {
+      id
+      name
+      slug
+    }
+  }
+  users(limit: $usersLimit) {
+    id
+    name
+    email
+    avatar
+    role
+  }
+}

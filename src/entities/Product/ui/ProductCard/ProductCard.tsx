@@ -4,16 +4,16 @@ import type { ProductsQuery } from '@/shared/api/generated/graphql';
 import { cn } from '@/shared/lib/styles/cn';
 import { Card } from '@/shared/ui/Card/Card';
 
-import { parsePrice } from '@/entities/Price';
+import { parsePrice } from '@/entities/Price/@x/product';
 
 import { ProductCardCoverLink } from './components/ProductCardCoverLink';
 import { ProductCardFooter } from './components/ProductCardFooter';
 
-interface ProductsListItemProps {
+interface ProductCardProps {
   product: ProductsQuery['products'][number];
 }
 
-export function ProductsListItem({ product }: ProductsListItemProps) {
+export function ProductCard({ product }: ProductCardProps) {
   const imageUrl = product.images[0];
   const href = `/products/${product.id}`;
   const priceLabel = parsePrice(product.price, 'USD');
