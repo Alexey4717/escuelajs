@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/Alexey4717/escuelajs/compare/v1.1.0...v1.2.0) (2026-04-06)
+
+
+### Features
+
+* add Dialog shared component ([cba47da](https://github.com/Alexey4717/escuelajs/commit/cba47da9d0f8d5b4218f48ae495be438c199e8fe))
+* add Drawer shared component ([b1bff41](https://github.com/Alexey4717/escuelajs/commit/b1bff41e2233277e41bf9c11abbf1d785775558f))
+* add modal flow ([627f13d](https://github.com/Alexey4717/escuelajs/commit/627f13d1f68ae6285c3d01d0135277d47de55fa2))
+
 # [1.1.0](https://github.com/Alexey4717/escuelajs/compare/v1.0.0...v1.1.0) (2026-04-06)
 
 
