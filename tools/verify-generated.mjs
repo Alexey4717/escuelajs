@@ -10,7 +10,8 @@ const prettierCli = path.join(
 );
 
 /**
- * Проверяет, что артефакты `graphql-codegen` и pathpida совпадают с закоммиченными.
+ * Проверяет, что артефакты `graphql-codegen`, pathpida и SCSS module typings
+ * совпадают с закоммиченными.
  * После codegen — Prettier для сгенерированных `*.ts`; для `$path.ts` — как `pnpm pathpida`.
  *
  * Prettier запускается через `node …/prettier.cjs` (без shell): иначе в bash `$path` в аргументе
@@ -38,8 +39,16 @@ run('pnpm exec pathpida --ignorePath .gitignore -o src/shared/routes');
 prettierWrite(path.join('src', 'shared', 'routes', '$path.ts'));
 
 const pathRoute = path.join('src', 'shared', 'routes', '$path.ts');
+run('pnpm run scss:types:check');
 execFileSync(
   'git',
-  ['diff', '--exit-code', '--', 'src/shared/api/generated', pathRoute],
+  [
+    'diff',
+    '--exit-code',
+    '--',
+    'src/shared/api/generated',
+    pathRoute,
+    ':(glob)**/*.module.scss.d.ts',
+  ],
   { stdio: 'inherit' },
 );

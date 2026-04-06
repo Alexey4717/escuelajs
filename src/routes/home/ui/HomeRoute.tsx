@@ -15,7 +15,7 @@ import {
   HOME_FEATURED_PRODUCTS_LIMIT,
   HOME_TESTIMONIAL_USERS_LIMIT,
 } from '../constants';
-import { HomeHero } from './components/HomeHero';
+import { HomeHero } from './components/HomeHero/HomeHero';
 import { HomeHowItWorks } from './components/HomeHowItWorks';
 import { HomeProducts } from './components/HomeProducts';
 

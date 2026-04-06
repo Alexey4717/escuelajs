@@ -5,30 +5,33 @@ import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
+import styles from './HomeHero.module.scss';
+
 const FLOATING_CARDS = [
   {
-    className:
-      'left-[8%] top-[18%] h-28 w-20 sm:h-36 sm:w-24 animate-home-hero-drift',
+    className: 'left-[8%] top-[18%] h-28 w-20 sm:h-36 sm:w-24',
+    animationClassName: styles.animateDrift,
     style: { animationDelay: '-2s' } as const,
   },
   {
-    className:
-      'right-[10%] top-[22%] h-24 w-32 sm:h-32 sm:w-40 animate-home-hero-float',
+    className: 'right-[10%] top-[22%] h-24 w-32 sm:h-32 sm:w-40',
+    animationClassName: styles.animateFloat,
     style: { animationDelay: '-4s' } as const,
   },
   {
-    className:
-      'left-[18%] bottom-[26%] h-20 w-28 sm:h-28 sm:w-36 animate-home-hero-float',
+    className: 'left-[18%] bottom-[26%] h-20 w-28 sm:h-28 sm:w-36',
+    animationClassName: styles.animateFloat,
     style: { animationDelay: '-1s' } as const,
   },
   {
-    className:
-      'right-[20%] bottom-[20%] h-32 w-24 sm:h-40 sm:w-28 animate-home-hero-drift',
+    className: 'right-[20%] bottom-[20%] h-32 w-24 sm:h-40 sm:w-28',
+    animationClassName: styles.animateDrift,
     style: { animationDelay: '-5s' } as const,
   },
   {
     className:
-      'left-1/2 top-1/2 h-36 w-28 -translate-x-1/2 -translate-y-1/2 sm:h-44 sm:w-36 animate-home-hero-float',
+      'left-1/2 top-1/2 h-36 w-28 -translate-x-1/2 -translate-y-1/2 sm:h-44 sm:w-36',
+    animationClassName: styles.animateFloat,
     style: { animationDelay: '-3s' } as const,
   },
 ] as const;
@@ -206,6 +209,7 @@ export const HomeHero = () => {
             'border border-slate-300/45 bg-white/50 shadow-sm shadow-sky-900/5',
             'dark:border-white/15 dark:bg-white/[0.06] dark:shadow-[0_0_40px_oklch(60%_0.12_250deg/0.12)]',
             card.className,
+            card.animationClassName,
           )}
           style={card.style}
           aria-hidden
