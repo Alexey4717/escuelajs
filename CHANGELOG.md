@@ -1,3 +1,12 @@
+# [1.3.0](https://github.com/Alexey4717/escuelajs/compare/v1.2.0...v1.3.0) (2026-04-07)
+
+
+### Features
+
+* add change current password feature ([9f8387c](https://github.com/Alexey4717/escuelajs/commit/9f8387c16aa885a09ef192c5e968ec2423684f9a))
+* add delete current user feature ([7b2060a](https://github.com/Alexey4717/escuelajs/commit/7b2060a1138739d28db2d3f3a424209027b071fc))
+* add profile edit page, add alert shared component, fix paths by pagesPath ([e2224ee](https://github.com/Alexey4717/escuelajs/commit/e2224ee98c19162c507e15188c9a9d503161c25e))
+
 # [1.2.0](https://github.com/Alexey4717/escuelajs/compare/v1.1.0...v1.2.0) (2026-04-06)
 
 
