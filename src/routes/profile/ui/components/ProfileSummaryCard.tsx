@@ -1,6 +1,9 @@
 import { type ComponentProps } from 'react';
 
+import Link from 'next/link';
+
 import { cn } from '@/shared/lib/styles/cn';
+import { pagesPath } from '@/shared/routes/$path';
 import { Badge } from '@/shared/ui/Badge/Badge';
 import { Button } from '@/shared/ui/Button/Button';
 import { CardContent } from '@/shared/ui/Card/components/CardContent';
@@ -52,8 +55,8 @@ export const ProfileSummaryCard = ({
           <Badge variant={roleBadgeVariant}>{roleLabel}</Badge>
         </div>
         <div className="flex w-full flex-col gap-2">
-          <Button type="button" variant="outline" className="w-full">
-            Редактировать
+          <Button type="button" variant="outline" className="w-full" asChild>
+            <Link href={pagesPath.profile.edit.$url().path}>Редактировать</Link>
           </Button>
           <DeleteCurrentUserButton email={email} userId={userId} />
         </div>

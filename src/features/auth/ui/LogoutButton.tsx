@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { cn } from '@/shared/lib/styles/cn';
+import { pagesPath } from '@/shared/routes/$path';
 
 const logoutButtonClassName = cn(
   'inline-flex w-full min-w-0 shrink-0 items-center justify-center rounded-md border border-white/20 bg-transparent px-3.5 py-1.5 text-[13px] text-inherit',
@@ -19,7 +20,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
 
   async function logout() {
     await clearAuthSession();
-    router.push('/');
+    router.push(pagesPath.$url().path);
     router.refresh();
   }
 

@@ -1,5 +1,9 @@
 mutation UpdateUser($id: ID!, $changes: UpdateUserDto!) {
   updateUser(id: $id, changes: $changes) {
     id
+    name
+    email
+    role
+    avatar
   }
 }

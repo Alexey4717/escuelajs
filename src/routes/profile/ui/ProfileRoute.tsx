@@ -8,6 +8,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
+import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -35,7 +36,7 @@ export const ProfileRoute = () => {
 
   async function logout() {
     await clearAuthSession();
-    router.push('/');
+    router.push(pagesPath.$url().path);
     router.refresh();
   }
 
@@ -68,7 +69,7 @@ export const ProfileRoute = () => {
           <Typography variant="body2" component="p">
             {error.message}
           </Typography>
-          <Link href="/">На главную</Link>
+          <Link href={pagesPath.$url().path}>На главную</Link>
           <Button type="button" variant="outline" onClick={logout}>
             Выйти
           </Button>

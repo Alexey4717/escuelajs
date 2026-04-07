@@ -65,6 +65,13 @@ export const pagesPath = {
     }),
   },
   profile: {
+    edit: {
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/profile/edit' as const,
+        hash: url?.hash,
+        path: `/profile/edit${buildSuffix(url)}`,
+      }),
+    },
     $url: (url?: { hash?: string }) => ({
       pathname: '/profile' as const,
       hash: url?.hash,

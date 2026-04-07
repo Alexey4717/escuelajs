@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { ButtonGroup } from '@/shared/ui/ButtonGroup/ButtonGroup';
 
@@ -18,8 +19,8 @@ interface ChangeModeButtonGroupProps {
 
 export const ChangeModeButtonGroup = ({
   mode,
-  loginHref = '/login',
-  registerHref = '/register',
+  loginHref = pagesPath.login.$url().path,
+  registerHref = pagesPath.register.$url().path,
 }: ChangeModeButtonGroupProps) => {
   return (
     <ButtonGroup className="mb-5 w-full overflow-hidden rounded-md border border-border">

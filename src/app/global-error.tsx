@@ -6,6 +6,7 @@ import Link from 'next/link';
 
 import { AlertTriangle } from 'lucide-react';
 
+import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -58,7 +59,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
                 Попробовать снова
               </Button>
               <Button asChild variant="outline">
-                <Link href="/">На главную</Link>
+                <Link href={pagesPath.$url().path}>На главную</Link>
               </Button>
             </div>
           </div>

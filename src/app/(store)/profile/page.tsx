@@ -4,6 +4,7 @@ import { redirect } from 'next/navigation';
 import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
+import { pagesPath } from '@/shared/routes/$path';
 
 import { ProfilePageClient } from '@/routes/profile';
 
@@ -13,7 +14,7 @@ export default async function ProfilePage() {
   const userId = getSubFromAccessToken(accessToken);
 
   if (!userId) {
-    redirect(loginPageUrlWithFrom('/profile'));
+    redirect(loginPageUrlWithFrom(pagesPath.profile.$url().path));
   }
 
   return <ProfilePageClient />;

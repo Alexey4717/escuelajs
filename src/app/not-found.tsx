@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { FileQuestion } from 'lucide-react';
 
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
+import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -30,10 +31,16 @@ export default async function GlobalNotFound() {
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button asChild>
-            <Link href="/">На главную</Link>
+            <Link href={pagesPath.$url().path}>На главную</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href={isLoggedIn ? '/profile' : '/login'}>
+            <Link
+              href={
+                isLoggedIn
+                  ? pagesPath.profile.$url().path
+                  : pagesPath.login.$url().path
+              }
+            >
               {isLoggedIn ? 'Профиль' : 'Войти'}
             </Link>
           </Button>

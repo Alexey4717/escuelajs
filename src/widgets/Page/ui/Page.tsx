@@ -25,7 +25,10 @@ export const Page = ({
   return (
     <PageRoot
       withSavingScrollPosition={withSavingScrollPosition}
-      className={cn(narrow && 'w-full lg:mx-auto lg:max-w-6xl', className)}
+      className={cn(
+        narrow && 'w-full lg:mx-auto lg:max-w-6xl space-y-6',
+        className,
+      )}
       data-testid={dataTestId}
       mainRef={mainRef}
       onScrollEnd={onScrollEnd}

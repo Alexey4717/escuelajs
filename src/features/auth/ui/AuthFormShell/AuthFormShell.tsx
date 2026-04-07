@@ -2,6 +2,7 @@ import { type ReactNode } from 'react';
 
 import Link from 'next/link';
 
+import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ChangeModeButtonGroup } from './components/ChangeModeButtonGroup';
@@ -31,7 +32,7 @@ export function AuthFormShell({
     <div className="flex min-h-[min(100dvh,100vh)] flex-col bg-background px-4 py-10 sm:py-14">
       <div className="relative mx-auto my-auto w-full max-w-[380px]">
         <Link
-          href="/"
+          href={pagesPath.$url().path}
           className="absolute left-0 -top-10 z-10 inline-flex text-[13px] text-muted-foreground transition-colors hover:text-foreground"
         >
           ← На главную

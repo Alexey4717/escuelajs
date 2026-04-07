@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { DeleteUserDocument } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/routes/$path';
 
 type DeleteCurrentUserMutationArgs = {
   userId: string;
@@ -33,7 +34,7 @@ export function useDeleteCurrentUserSubmitHandler() {
       await clearAuthSession();
       closeModal();
       toast.success('Аккаунт удален');
-      router.push('/login');
+      router.push(pagesPath.login.$url().path);
       router.refresh();
     } catch (err) {
       console.error(err);

@@ -1,4 +1,6 @@
-const DEFAULT_AFTER_LOGIN = '/profile';
+import { pagesPath } from '@/shared/routes/$path';
+
+const DEFAULT_AFTER_LOGIN = pagesPath.profile.$url().path;
 
 /**
  * Безопасный путь после логина из query `from` (защита от open redirect).
@@ -30,5 +32,5 @@ export function sanitizeLoginFromParam(
 /** URL страницы логина с параметром `from` для возврата после успешного входа. */
 export function loginPageUrlWithFrom(currentPath: string): string {
   const from = sanitizeLoginFromParam(currentPath, DEFAULT_AFTER_LOGIN);
-  return `/login?${new URLSearchParams({ from }).toString()}`;
+  return `${pagesPath.login.$url().path}?${new URLSearchParams({ from }).toString()}`;
 }

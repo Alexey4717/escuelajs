@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import { cn } from '@/shared/lib/styles/cn';
+import { pagesPath } from '@/shared/routes/$path';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
@@ -18,7 +19,7 @@ const profileLinkClassName = cn(
 function ProfileLinkFallback({ className }: { className?: string }) {
   return (
     <Link
-      href="/profile"
+      href={pagesPath.profile.$url().path}
       className={cn(profileLinkClassName, className)}
       aria-label="Профиль"
     >
@@ -51,7 +52,7 @@ export function ProfileLink({ className }: ProfileLinkProps) {
 
   return (
     <Link
-      href="/profile"
+      href={pagesPath.profile.$url().path}
       className={cn(profileLinkClassName, 'group', className)}
       aria-label={user ? `Профиль: ${user.name}` : 'Профиль'}
     >

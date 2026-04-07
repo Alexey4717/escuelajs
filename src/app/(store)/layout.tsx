@@ -28,7 +28,17 @@ export default async function StoreLayout({
     <SessionHydration userId={userId}>
       <div className="flex h-dvh max-h-dvh min-h-0 w-full overflow-hidden">
         {userId ? (
-          <PreloadQuery query={UserDetailsDocument} variables={{ id: userId }}>
+          <PreloadQuery
+            query={UserDetailsDocument}
+            variables={{ id: userId }}
+            context={{
+              fetchOptions: {
+                next: {
+                  tags: [`user:${userId}`],
+                },
+              },
+            }}
+          >
             <StoreLayoutShell isLoggedIn={isLoggedIn}>
               {children}
             </StoreLayoutShell>
