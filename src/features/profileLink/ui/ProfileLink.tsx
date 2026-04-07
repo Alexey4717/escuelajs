@@ -2,14 +2,11 @@
 
 import Link from 'next/link';
 
-import { skipToken, useQuery } from '@apollo/client/react';
-
-import { UserPreviewDocument } from '@/shared/api/generated/graphql';
 import { cn } from '@/shared/lib/styles/cn';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
-import { useCurrentUserId } from '@/entities/Session';
+import { useCurrentUser } from '@/entities/Session';
 import { getRoleText } from '@/entities/User';
 
 const profileLinkClassName = cn(
@@ -43,22 +40,11 @@ type ProfileLinkProps = {
 };
 
 export function ProfileLink({ className }: ProfileLinkProps) {
-  const userId = useCurrentUserId();
+  const { user, loading } = useCurrentUser();
 
-  const { data, loading } = useQuery(
-    UserPreviewDocument,
-    userId
-      ? {
-          variables: { id: userId },
-        }
-      : skipToken,
-  );
-
-  if (!userId) {
+  if (!user) {
     return <ProfileLinkFallback className={className} />;
   }
-
-  const user = data?.user;
   const avatarSrc =
     user?.avatar != null && user.avatar.trim() !== '' ? user.avatar : undefined;
   const roleText = getRoleText(user?.role);

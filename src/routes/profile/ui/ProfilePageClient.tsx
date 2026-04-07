@@ -10,10 +10,6 @@ const ProfileDynamicRoute = dynamic(
   },
 );
 
-type ProfilePageClientProps = {
-  userId: string;
-};
-
-export function ProfilePageClient({ userId }: ProfilePageClientProps) {
-  return <ProfileDynamicRoute userId={userId} />;
+export function ProfilePageClient() {
+  return <ProfileDynamicRoute />;
 }

@@ -2,6 +2,8 @@ import { type ReactNode } from 'react';
 
 import { cookies } from 'next/headers';
 
+import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
+import { UserDetailsDocument } from '@/shared/api/generated/graphql';
 import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub';
@@ -25,7 +27,17 @@ export default async function StoreLayout({
   return (
     <SessionHydration userId={userId}>
       <div className="flex h-dvh max-h-dvh min-h-0 w-full overflow-hidden">
-        <StoreLayoutShell isLoggedIn={isLoggedIn}>{children}</StoreLayoutShell>
+        {userId ? (
+          <PreloadQuery query={UserDetailsDocument} variables={{ id: userId }}>
+            <StoreLayoutShell isLoggedIn={isLoggedIn}>
+              {children}
+            </StoreLayoutShell>
+          </PreloadQuery>
+        ) : (
+          <StoreLayoutShell isLoggedIn={isLoggedIn}>
+            {children}
+          </StoreLayoutShell>
+        )}
       </div>
     </SessionHydration>
   );

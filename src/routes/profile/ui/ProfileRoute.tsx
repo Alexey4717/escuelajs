@@ -5,15 +5,13 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 
-import { skipToken, useQuery } from '@apollo/client/react';
-
 import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
-import { UserDetailsDocument } from '@/shared/api/generated/graphql';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
+import { useCurrentUser } from '@/entities/Session';
 import { getRoleText, getUserInitials, parseUserRole } from '@/entities/User';
 
 import { Page } from '@/widgets/Page';
@@ -22,24 +20,10 @@ import { ProfileAccountDataCard } from './components/ProfileAccountDataCard';
 import { ProfileChangePasswordCard } from './components/ProfileChangePasswordCard';
 import { ProfileSummaryCard } from './components/ProfileSummaryCard';
 
-type ProfileRouteProps = {
-  userId: string;
-};
-
-export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
+export const ProfileRoute = () => {
   const router = useRouter();
   const pathname = usePathname();
-
-  // резолвер запроса myProfile возвращает всегда 404
-  // Из-за баги на сервере временно используем запрос UserDetails вместо myProfile
-  const { data, error, loading } = useQuery(
-    UserDetailsDocument,
-    userId
-      ? {
-          variables: { id: userId },
-        }
-      : skipToken,
-  );
+  const { user, error, loading } = useCurrentUser();
 
   useEffect(() => {
     if (!error) return;
@@ -92,11 +76,11 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
     );
   }
 
-  if (!data) {
+  if (!user) {
     return null;
   }
 
-  const u = data.user;
+  const u = user;
   const initials = getUserInitials(u.name);
   const role = parseUserRole(u.role);
   const roleLabel = getRoleText(u.role) ?? u.role;
