@@ -1,6 +1,7 @@
 export interface ModalRegistryMap {
   profileDelete: {
     email: string;
+    userId: string;
   };
 }
 

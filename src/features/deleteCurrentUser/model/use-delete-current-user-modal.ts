@@ -2,41 +2,46 @@
 
 import { useCallback, useEffect } from 'react';
 
+import type { ModalRegistryMap } from '@/shared/lib/modal/types';
 import { useAppStore } from '@/shared/lib/store';
 
-import type { ProfileDeleteModalProps } from '../ui/components/ProfileDeleteModalContent';
+type DeleteCurrentUserModalProps = ModalRegistryMap['profileDelete'];
 
-type UseProfileDeleteModalOptions = {
-  hydrateProps?: ProfileDeleteModalProps;
+type UseDeleteCurrentUserModalOptions = {
+  hydrateProps?: DeleteCurrentUserModalProps;
 };
 
-export function useProfileDeleteModal(options?: UseProfileDeleteModalOptions) {
+export function useDeleteCurrentUserModal(
+  options?: UseDeleteCurrentUserModalOptions,
+) {
   const openModal = useAppStore((state) => state.openModal);
   const closeModal = useAppStore((state) => state.closeModal);
   const isOpen = useAppStore((state) => state.openedModal === 'profileDelete');
   const rawProps = useAppStore((state) => state.modalPropsByKey.profileDelete);
+  const typedRawProps = rawProps as DeleteCurrentUserModalProps | undefined;
   const hasResolvedProps =
-    typeof (rawProps as { email?: unknown } | undefined)?.email === 'string';
+    typeof typedRawProps?.email === 'string' &&
+    typeof typedRawProps?.userId === 'string';
 
   const open = useCallback(
-    (props: ProfileDeleteModalProps) => {
+    (props: DeleteCurrentUserModalProps) => {
       openModal('profileDelete', props);
     },
     [openModal],
   );
 
   const hydrateIfMissing = useCallback(
-    (props: ProfileDeleteModalProps) => {
+    (props: DeleteCurrentUserModalProps) => {
       if (!isOpen || hasResolvedProps) return;
       openModal('profileDelete', props);
     },
-    [isOpen, hasResolvedProps, openModal],
+    [hasResolvedProps, isOpen, openModal],
   );
 
   useEffect(() => {
     if (!options?.hydrateProps) return;
     hydrateIfMissing(options.hydrateProps);
-  }, [options?.hydrateProps, hydrateIfMissing]);
+  }, [hydrateIfMissing, options?.hydrateProps]);
 
   return {
     open,

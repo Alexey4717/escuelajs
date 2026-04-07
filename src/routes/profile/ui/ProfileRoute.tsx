@@ -106,6 +106,7 @@ export const ProfileRoute = ({ userId }: ProfileRouteProps) => {
     <Page narrow className="space-y-6" heading="Профиль">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:items-start">
         <ProfileSummaryCard
+          userId={u.id}
           initials={initials}
           name={u.name}
           email={u.email}

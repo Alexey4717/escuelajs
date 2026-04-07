@@ -2,10 +2,7 @@ import type { ComponentType, ReactNode } from 'react';
 
 import type { ModalKey, ModalRegistryMap } from '@/shared/lib/modal/types';
 
-import {
-  ProfileDeleteModalContent,
-  ProfileDeleteModalFooter,
-} from '@/routes/profile/ui/components/ProfileDeleteModalContent';
+import { profileDeleteModalRegistryItem } from '@/features/deleteCurrentUser';
 
 export type ModalControls = {
   closeModal: () => void;
@@ -27,25 +24,7 @@ export type ModalRegistryItem<K extends ModalKey = ModalKey> = {
 };
 
 export const modalRegistry: { [K in ModalKey]: ModalRegistryItem<K> } = {
-  profileDelete: {
-    component: ProfileDeleteModalContent,
-    renderFooter: (props) => ProfileDeleteModalFooter(props),
-    resolveProps: (rawProps) => {
-      if (!rawProps || typeof rawProps !== 'object') return null;
-      const candidate = rawProps as { email?: unknown };
-      if (typeof candidate.email !== 'string' || !candidate.email.trim()) {
-        return null;
-      }
-      return { email: candidate.email };
-    },
-    fallbackContent:
-      'Эту модалку открыли по ссылке. Данные еще инициализируются.',
-    title: 'Удаление аккаунта',
-    description: 'Подтвердите удаление аккаунта.',
-    showContentCloseButton: true,
-    showFooterCloseButton: true,
-    dialogClassName: 'max-w-xl',
-  },
+  profileDelete: profileDeleteModalRegistryItem,
 };
 
 export function isModalKey(value: string | null): value is ModalKey {
