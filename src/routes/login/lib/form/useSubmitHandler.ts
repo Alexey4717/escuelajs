@@ -33,6 +33,7 @@ export const useSubmitHandler = () => {
       router.refresh();
     } catch (err) {
       console.error(err);
+      toast.error('Не удалось выполнить вход');
     }
   }
 

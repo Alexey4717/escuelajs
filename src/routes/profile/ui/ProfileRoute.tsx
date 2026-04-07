@@ -14,10 +14,11 @@ import { Typography } from '@/shared/ui/Typography/Typography';
 import { useCurrentUser } from '@/entities/Session';
 import { getRoleText, getUserInitials, parseUserRole } from '@/entities/User';
 
+import { ChangeCurrentPasswordCard } from '@/features/changeCurrentPassword';
+
 import { Page } from '@/widgets/Page';
 
 import { ProfileAccountDataCard } from './components/ProfileAccountDataCard';
-import { ProfileChangePasswordCard } from './components/ProfileChangePasswordCard';
 import { ProfileSummaryCard } from './components/ProfileSummaryCard';
 
 export const ProfileRoute = () => {
@@ -106,7 +107,7 @@ export const ProfileRoute = () => {
             roleLabel={roleLabel}
             roleBadgeVariant={roleBadgeVariant}
           />
-          <ProfileChangePasswordCard />
+          <ChangeCurrentPasswordCard />
         </div>
       </div>
     </Page>
