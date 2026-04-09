@@ -33,6 +33,33 @@ const eslintConfig = defineConfig([
     },
   },
   {
+    files: ['src/**/*.{js,ts,jsx,tsx}'],
+    ignores: [
+      'src/**/*.{test,spec}.{ts,tsx,js,jsx}',
+      'src/**/*.node.test.ts',
+      'src/test/**/*',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['@/test', '@/test/*', 'src/test', 'src/test/*'],
+              message:
+                'Запрещен импорт тестовых утилит в production-код. Используйте только в *.test/*.spec или src/test.',
+            },
+            {
+              regex: '^\\.{1,2}(?:/\\.\\.)*/test(?:/.*)?$',
+              message:
+                'Запрещен относительный импорт из test в production-код. Используйте только в *.test/*.spec или src/test.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     files: ['**/*.{js,ts,jsx,tsx}'],
     rules: {
       // recommended задаёт prettier/prettier: error — смягчаем до warning
