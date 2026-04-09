@@ -1,0 +1,10 @@
+mutation UpdateCategory($id: ID!, $changes: UpdateCategoryDto!) {
+  updateCategory(id: $id, changes: $changes) {
+    id
+    name
+    slug
+    image
+    creationAt
+    updatedAt
+  }
+}

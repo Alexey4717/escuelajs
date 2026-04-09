@@ -1,0 +1,10 @@
+mutation AddCategory($data: CreateCategoryDto!) {
+  addCategory(data: $data) {
+    id
+    name
+    slug
+    image
+    creationAt
+    updatedAt
+  }
+}

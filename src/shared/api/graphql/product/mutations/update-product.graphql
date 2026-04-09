@@ -1,0 +1,18 @@
+mutation UpdateProduct($id: ID!, $changes: UpdateProductDto!) {
+  updateProduct(id: $id, changes: $changes) {
+    id
+    title
+    slug
+    price
+    description
+    images
+    category {
+      id
+      name
+      slug
+      image
+    }
+    creationAt
+    updatedAt
+  }
+}

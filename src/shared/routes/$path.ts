@@ -35,6 +35,23 @@ export const pagesPath = {
     }),
   },
   categories: {
+    _id: (id: string | number) => ({
+      edit: {
+        $url: (url?: { hash?: string }) => ({
+          pathname: '/categories/[id]/edit' as const,
+          query: { id },
+          hash: url?.hash,
+          path: `/categories/${id}/edit${buildSuffix(url)}`,
+        }),
+      },
+    }),
+    create: {
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/categories/create' as const,
+        hash: url?.hash,
+        path: `/categories/create${buildSuffix(url)}`,
+      }),
+    },
     $url: (url?: { hash?: string }) => ({
       pathname: '/categories' as const,
       hash: url?.hash,

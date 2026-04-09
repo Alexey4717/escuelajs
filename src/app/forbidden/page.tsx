@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 // Страница без данных: всегда один и тот же UI.
 export default function ForbiddenPage() {
   return (
-    <Page narrow className="space-y-4" heading="Доступ запрещен">
+    <Page narrow heading="Доступ запрещен">
       <Typography variant="body1" component="p">
         Данный контент для вас недоступен.
       </Typography>
@@ -23,8 +23,7 @@ export default function ForbiddenPage() {
         component="p"
         className="text-muted-foreground"
       >
-        Чтобы получить доступ, обратитесь к администратору и запросите роль
-        admin.
+        Необходимо иметь роль admin.
       </Typography>
       <Link
         className="inline-block underline"

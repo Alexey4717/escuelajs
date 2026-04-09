@@ -1,45 +1,47 @@
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
-import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
+import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
 import {
-  productEditHeadingPage,
-  ProductEditPageParams,
-  ProductEditRoute,
-} from '@/routes/product-management';
+  categoryEditHeadingPage,
+  CategoryEditPageParams,
+  CategoryEditRoute,
+} from '@/routes/category-management';
 
 import {
   AdminRouteClientGuard,
   protectAdminRouteOnServer,
 } from '../../../_lib/admin-route-guard';
 
-interface ProductEditPageProps {
-  params: Promise<ProductEditPageParams>;
-}
+type CategoryEditPageProps = {
+  params: Promise<CategoryEditPageParams>;
+};
 
-export default async function ProductEditPage({
+export default async function CategoryEditPage({
   params,
-}: ProductEditPageProps) {
+}: CategoryEditPageProps) {
   const { id } = await params;
 
   // Важно: сначала проверяем доступ; при redirect PreloadQuery ниже не выполнится.
-  await protectAdminRouteOnServer(pagesPath.products._id(id).edit.$url().path);
+  await protectAdminRouteOnServer(
+    pagesPath.categories._id(id).edit.$url().path,
+  );
 
   return (
     <PreloadQuery
-      query={ProductDetailsDocument}
+      query={CategoryDetailsDocument}
       variables={{ id }}
       context={{
         fetchOptions: {
           next: {
-            tags: [nextCacheTags.product(id)],
+            tags: [nextCacheTags.category(id)],
           },
         },
       }}
     >
-      <AdminRouteClientGuard heading={productEditHeadingPage}>
-        <ProductEditRoute />
+      <AdminRouteClientGuard heading={categoryEditHeadingPage}>
+        <CategoryEditRoute />
       </AdminRouteClientGuard>
     </PreloadQuery>
   );

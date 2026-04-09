@@ -7,14 +7,15 @@ import { toast } from 'sonner';
 
 import { revalidateTagsAction } from '@/shared/api/cache/revalidate-tags.action';
 import { UpdateUserDocument } from '@/shared/api/generated/graphql';
+import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
 import type { ProfileEditFormStateOutput } from './schema';
 
-type SubmitArgs = {
+interface SubmitArgs {
   userId: string;
   values: ProfileEditFormStateOutput;
-};
+}
 
 export function useSubmitHandler() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export function useSubmitHandler() {
       }
 
       await revalidateTagsAction({
-        tags: ['users', `user:${userId}`],
+        tags: [nextCacheTags.users, nextCacheTags.user(userId)],
         paths: [pagesPath.profile.$url().path, pagesPath.users.$url().path],
       });
       toast.success('Профиль успешно обновлен');

@@ -34,7 +34,7 @@ export function ProfileEditRoute() {
   }
 
   return (
-    <Page narrow heading={headingPage} className="space-y-4">
+    <Page narrow heading={headingPage}>
       <ProfileEditFormCard user={user} />
     </Page>
   );

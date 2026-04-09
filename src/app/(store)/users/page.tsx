@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { UsersDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -25,7 +26,7 @@ const usersFetchContext = {
   fetchOptions: {
     next: {
       revalidate: USERS_REVALIDATE_SEC,
-      tags: ['users'],
+      tags: [nextCacheTags.users],
     },
   },
 } as const;

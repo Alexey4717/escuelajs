@@ -1,9 +1,12 @@
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Page } from '@/widgets/Page';
 
-export const ProductCreateRoute = () => {
+import { productCreateHeadingPage } from '../lib/constants';
+import { ProductCreateFormCard } from './components/ProductCreateFormCard';
+
+export function ProductCreateRoute() {
   return (
-    <Typography variant="body1" component="div">
-      Создание товара
-    </Typography>
+    <Page narrow heading={productCreateHeadingPage}>
+      <ProductCreateFormCard />
+    </Page>
   );
-};
+}

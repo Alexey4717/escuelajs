@@ -39,7 +39,7 @@ export function ChangeCurrentPasswordCard() {
 
   return (
     <Card title="Сменить пароль" className="shadow-sm ring-border/60">
-      <Form methods={methods} onSubmit={handleSubmit} className="space-y-4">
+      <Form methods={methods} onSubmit={handleSubmit}>
         <ChangeCurrentPasswordField
           type="password"
           autoComplete="new-password"

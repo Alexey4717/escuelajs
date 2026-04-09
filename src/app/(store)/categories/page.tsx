@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { CategoriesDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -40,7 +41,7 @@ const categoriesFetchContext = {
   fetchOptions: {
     next: {
       revalidate: CATEGORIES_REVALIDATE_SEC,
-      tags: ['categories'],
+      tags: [nextCacheTags.categories],
     },
   },
 } as const;
