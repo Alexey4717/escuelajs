@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/Alexey4717/escuelajs/compare/v1.3.0...v1.4.0) (2026-04-09)
+
+
+### Features
+
+* add route guard, add admin panel ([14dfd98](https://github.com/Alexey4717/escuelajs/commit/14dfd985cf01d6ebe12993960e7a4db199cce611))
+
 # [1.3.0](https://github.com/Alexey4717/escuelajs/compare/v1.2.0...v1.3.0) (2026-04-07)
 
 
