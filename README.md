@@ -13,10 +13,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 | `pnpm start` | Serve the last production build. |
 | `pnpm clean` | Deletes build and cache folders: `.next`, `out`, `build`, `coverage`, `.turbo` (via [`rimraf`](https://www.npmjs.com/package/rimraf), cross-platform). |
 | `pnpm clean:full` | Runs `clean`, then removes `node_modules`. Run `pnpm install` afterward. |
-| `pnpm lint` | ESLint (`src` + `next.config.ts`) and Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
+| `pnpm lint` | ESLint (`src`, `e2e`, корневые `next.config.ts`, `vitest.config.ts`, `playwright.config.ts`, `babel.config.js`) и Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
 | `pnpm lint:fix` | Same linters with auto-fix. |
-| `pnpm lint:ts` | ESLint only for `./src/**/*.{ts,tsx}` and `./next.config.ts`. |
-| `pnpm lint:ts:fix` | ESLint with `--fix` for the same paths. |
+| `pnpm lint:ts` | ESLint только по перечисленным путям (см. [`package.json`](package.json)): `./src/**/*.{ts,tsx}`, `./e2e/**/*.ts`, корневые конфиги. Явный список вместо глобального `**/*.{ts,tsx}` — меньше риска затронуть посторонние каталоги без донастройки ignore; при необходимости можно сузить до `./src` и отдельно добавить нужные файлы. |
+| `pnpm lint:ts:fix` | ESLint с `--fix` для тех же путей (`--no-warn-ignored`). |
 | `pnpm lint:style` | Stylelint for `**/*.{css,scss}` (see `.stylelintrc.cjs`). |
 | `pnpm lint:style:fix` | Stylelint with `--fix`. |
 | `pnpm prettier` | Prettier write for `ts`, `tsx`, `json`, `css`, `scss`. |
@@ -27,8 +27,20 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 | `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
 | `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). После записи файлов в [`codegen.ts`](codegen.ts) через `hooks.afterAllFileWrite` запускается **`prettier --write`**, чтобы вывод совпадал с `prettier.config.mjs` (сырой текст плагина и Prettier расходятся по кавычкам и переносам). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
 | `pnpm verify:generated` | Проверка сгенерированных артефактов: `codegen`, Prettier для `src/shared/api/generated/*.ts`, pathpida, Prettier для [`$path.ts`](src/shared/routes/$path.ts), `scss:types:check`, затем `git diff` по generated-путям (включая `*.module.scss.d.ts`). См. [CI: сгенерированные файлы](#ci-сгенерированные-файлы). |
+| `pnpm test:unit` | Один прогон unit/integration: [Vitest](https://vitest.dev/) + Testing Library + [MSW](https://mswjs.io/) (сеть к GraphQL не уходит — только моки). Конфиг: [`vitest.config.ts`](vitest.config.ts). |
+| `pnpm test:unit:watch` | Vitest в режиме watch (локальная разработка тестов). |
+| `pnpm test:unit:coverage` | Vitest с отчётом покрытия (V8). |
+| `pnpm test:e2e` | E2E: [Playwright](https://playwright.dev/), каталог [`e2e/`](e2e). Поднимает dev-сервер через `webServer` в [`playwright.config.ts`](playwright.config.ts) (или использует уже запущенный `pnpm dev`). |
+| `pnpm test:e2e:ui` | Playwright с UI-режимом отладки. |
 
 TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
+
+### Тестирование
+
+- **Unit и integration** — colocated: `*.test.ts` / `*.test.tsx` рядом с кодом; общие хелперы (рендер с Apollo, MSW, сброс Zustand) экспортируются только из [`src/test/testing.ts`](src/test/testing.ts), не из продовых `index.ts`.
+- **Имена файлов** — базовый шаблон `*.test.ts(x)`; для отдельного окружения Vitest (например, `node` без jsdom) вместо общего `src/**/*.test.ts` можно использовать суффиксы вроде **`*.node.test.ts`** и директиву `/** @vitest-environment node */` в начале файла (см. пример в репозитории).
+- **E2E** — сценарии в [`e2e/`](e2e); для первого клонирования репозитория установите браузеры Playwright: `pnpm exec playwright install` (в CI обычно кэшируют эту установку).
+- Типы и IDE: при необходимости подключайте [`tsconfig.vitest.json`](tsconfig.vitest.json) в настройках TypeScript проекта (или используйте «Solution» с несколькими `tsconfig`).
 
 ## Версии и релизы
 
@@ -40,6 +52,8 @@ TypeScript is checked during `pnpm build` (and via your editor). This stack uses
 ### CI: сгенерированные файлы
 
 В pipeline после линтеров выполняется **`pnpm verify:generated`**: перезапускаются GraphQL Codegen и pathpida, для сгенерированных `*.ts` применяется тот же Prettier, дополнительно проверяется актуальность `*.module.scss.d.ts` через `scss:types:check`, затем **`git diff`** по `src/shared/api/generated/`, [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) и `*.module.scss.d.ts` (остальные незакоммиченные файлы на результат не влияют). Если забыли выполнить `pnpm codegen`, `pnpm pathpida` или обновить SCSS typings после правок модулей стилей, job упадёт — сгенерируйте файлы локально и закоммитьте.
+
+До production build в job **quality** также выполняются **`pnpm test:unit`**, установка Chromium для Playwright (**`pnpm exec playwright install --with-deps chromium`**) и **`pnpm test:e2e`**; затем **`pnpm build`** (та же команда, что и на проде). См. [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
 **Git hooks:** `.husky/pre-commit` — `lint-staged` (Prettier, ESLint/Stylelint для staged `*.{ts,tsx}` и `*.{css,scss}`). `.husky/commit-msg` — `commitlint` по [`commitlint.config.cjs`](commitlint.config.cjs) (Conventional Commits), вызов через **`node`** к локальному CLI, чтобы коммит из GUI (GitHub Desktop, Cursor и т.д.) не ломался из‑за отсутствия `pnpm` в `PATH`. Сообщение должно быть вроде **`feat: …`**, **`fix: …`**, **`chore: …`** (scope необязателен: `feat(api): …`).
 

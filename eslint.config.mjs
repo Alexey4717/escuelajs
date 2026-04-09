@@ -1,6 +1,7 @@
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import vitest from 'eslint-plugin-vitest';
 import { defineConfig, globalIgnores } from 'eslint/config';
 
 /**
@@ -20,6 +21,18 @@ const eslintConfig = defineConfig([
     },
   },
   {
+    files: [
+      '**/*.{test,spec}.{ts,tsx}',
+      'src/test/**/*.{ts,tsx}',
+      'e2e/**/*.ts',
+    ],
+    plugins: { vitest },
+    rules: {
+      ...vitest.configs.recommended.rules,
+      'prettier/prettier': 'warn',
+    },
+  },
+  {
     files: ['**/*.{js,ts,jsx,tsx}'],
     rules: {
       // recommended задаёт prettier/prettier: error — смягчаем до warning
@@ -28,6 +41,17 @@ const eslintConfig = defineConfig([
       // (см. eslint-plugin-import no-cycle: return для importKind === 'type').
       'import/no-cycle': ['warn', { maxDepth: 50 }],
       'import/order': 'off',
+    },
+  },
+  /**
+   * eslint-plugin-prettier в IDE может отдавать ложные расхождения с Prettier CLI для
+   * файлов, где работает @trivago/prettier-plugin-sort-imports (группы + пустые строки).
+   * Формат тестов проверяйте `pnpm prettier:check` / pre-commit; здесь правило отключено.
+   */
+  {
+    files: ['**/*.{test,spec}.{ts,tsx}', 'src/test/**/*.{ts,tsx}'],
+    rules: {
+      'prettier/prettier': 'off',
     },
   },
   globalIgnores([

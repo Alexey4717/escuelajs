@@ -1,7 +1,6 @@
 /**
  * Удаляет указанные JSX-атрибуты и одноимённые ключи в object literals (например `'data-testid'`).
  * Подключать только в production — см. `babel.config.js` (`env.production`).
- * В CI запускать скрипт build:ci-test, который делает сборку с атрибутами для тестирования.
  *
  * @param {import('@babel/core').ConfigAPI} _api
  * @param {{ props?: string[] }} [opts]

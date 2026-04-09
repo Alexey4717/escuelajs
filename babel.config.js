@@ -7,26 +7,16 @@ const removeTestProps = path.join(
 );
 
 /**
- * При `next build` всегда `NODE_ENV=production`, поэтому отдельно от Vercel/CI
- * смотрим на KEEP_TEST_IDS: в CI для тестов выставляется `KEEP_TEST_IDS=1`, на Vercel
- * production эту переменную не задавайте — плагин вырежет `data-testid`.
+ * При `next build` всегда `NODE_ENV=production` — как на Vercel: плагин вырезает
+ * `data-testid` из продакшен-бандла. Локально и в E2E против `pnpm dev` атрибуты остаются.
  */
-function productionPlugins() {
-  const keep =
-    process.env.KEEP_TEST_IDS === '1' ||
-    /^true$/i.test(String(process.env.KEEP_TEST_IDS ?? ''));
-  if (keep) {
-    return [];
-  }
-  return [[removeTestProps, { props: ['data-testid'] }]];
-}
 
 /** @type {import('@babel/core').TransformOptions} */
 module.exports = {
   presets: ['next/babel'],
   env: {
     production: {
-      plugins: productionPlugins(),
+      plugins: [[removeTestProps, { props: ['data-testid'] }]],
     },
   },
 };

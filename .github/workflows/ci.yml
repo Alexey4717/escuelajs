@@ -49,8 +49,17 @@ jobs:
       - name: GraphQL codegen & pathpida (committed output)
         run: pnpm run verify:generated
 
+      - name: Unit tests (Vitest)
+        run: pnpm run test:unit
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: E2E tests (Playwright)
+        run: pnpm run test:e2e
+
       - name: Production build (CI)
-        run: pnpm run build:ci-test
+        run: pnpm run build
 
   release:
     name: Release

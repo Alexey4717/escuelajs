@@ -6,7 +6,7 @@ import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { UserDetailsDocument } from '@/shared/api/generated/graphql';
 import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
-import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub';
+import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
 
 import { SessionHydration } from '@/entities/Session';
 
