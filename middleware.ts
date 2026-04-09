@@ -5,10 +5,20 @@ import {
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
 } from './src/shared/config/consts';
+import { pagesPath } from './src/shared/routes/$path';
+
+// Не забывать обновлять config.matcher
+const protectedPaths = [
+  pagesPath.profile.$url().path,
+  pagesPath.admin_panel.$url().path,
+] as const;
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  if (!pathname.startsWith('/profile')) {
+  const protectedPath = protectedPaths.some((path) =>
+    pathname.startsWith(path),
+  );
+  if (!protectedPath) {
     return NextResponse.next();
   }
 
@@ -24,5 +34,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/profile', '/profile/:path*'],
+  // В Next.js matcher должен быть статически парсимым литералом.
+  // Тут должны быть такие же пути как в protectedPaths
+  matcher: [
+    '/profile',
+    '/profile/:path*',
+    '/admin-panel',
+    '/admin-panel/:path*',
+  ],
 };

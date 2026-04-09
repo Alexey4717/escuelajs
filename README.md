@@ -99,6 +99,15 @@ Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** х
 
 **Маршруты:** публичные **`/`**, **`/login`**; защищённый **`/profile`** (middleware + наличие cookie). См. [`middleware.ts`](middleware.ts).
 
+### RouteGuard для `/admin-panel` (server + client)
+
+Доступ к **`/admin-panel`** реализован в два слоя:
+
+- **Server guard (основной)** — в [`src/app/(store)/admin-panel/page.tsx`](src/app/(store)/admin-panel/page.tsx): на сервере читается `access_token`, извлекается `sub`, запрашивается `UserDetails` и для роли не `admin` выполняется `redirect('/forbidden')` до рендера контента.
+- **Client guard (дополнительный)** — [`RouteGuard`](src/shared/ui/RouteGuard/RouteGuard.tsx): использует [`useCurrentUserRole`](src/entities/Session/model/use-current-user.ts) и делает `router.replace('/forbidden')`, если клиентское состояние роли не соответствует требуемой.
+
+Страница [`/forbidden`](src/app/(store)/forbidden/page.tsx) показывает сообщение, что контент недоступен, и короткую подсказку как получить доступ (запросить роль `admin` у администратора).
+
 **Где что вызывать**
 
 - **Server Components:** только из [`@/shared/api/apollo-client/rsc`](src/shared/api/apollo-client/rsc/index.ts) — `getClient`, `query`, `PreloadQuery` (см. [Apollo RSC](#apollo-rsc); модуль помечен `server-only`, **не** реэкспортируется из корня `apollo-client`). Для операций, доступных без входа, токен не обязателен; если нужна сессия, cookie входящего запроса к Next должны попасть в `fetch` — это уже делает [`http-link`](src/shared/api/apollo-client/links/http-link.ts) через `next/headers`.

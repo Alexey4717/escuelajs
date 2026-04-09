@@ -27,6 +27,13 @@ const buildSuffix = (url?: {
 };
 
 export const pagesPath = {
+  admin_panel: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/admin-panel' as const,
+      hash: url?.hash,
+      path: `/admin-panel${buildSuffix(url)}`,
+    }),
+  },
   categories: {
     $url: (url?: { hash?: string }) => ({
       pathname: '/categories' as const,
@@ -83,6 +90,13 @@ export const pagesPath = {
       pathname: '/users' as const,
       hash: url?.hash,
       path: `/users${buildSuffix(url)}`,
+    }),
+  },
+  forbidden: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/forbidden' as const,
+      hash: url?.hash,
+      path: `/forbidden${buildSuffix(url)}`,
     }),
   },
   login: {

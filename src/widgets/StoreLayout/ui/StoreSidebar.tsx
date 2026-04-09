@@ -5,14 +5,6 @@ import { useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-import {
-  FolderTree,
-  Home,
-  type LucideIcon,
-  Package,
-  Users,
-} from 'lucide-react';
-
 import { pagesPath } from '@/shared/routes/$path';
 import {
   Sidebar,
@@ -29,32 +21,11 @@ import {
 } from '@/shared/ui/Sidebar/Sidebar';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
+import { useCurrentUserRole } from '@/entities/Session';
+
 import { ProfileLink } from '@/features/profileLink';
 
-type NavItem = {
-  href: string;
-  label: string;
-  icon: LucideIcon;
-};
-
-const catalog: NavItem[] = [
-  { href: pagesPath.$url().path, label: 'Главная', icon: Home },
-  {
-    href: pagesPath.products.$url().path,
-    label: 'Продукты',
-    icon: Package,
-  },
-  {
-    href: pagesPath.categories.$url().path,
-    label: 'Категории',
-    icon: FolderTree,
-  },
-  {
-    href: pagesPath.users.$url().path,
-    label: 'Пользователи',
-    icon: Users,
-  },
-];
+import { getCatalogNav, type NavItem } from '../model/catalog-nav';
 
 function StoreSidebarBrand({ onNavigate }: { onNavigate: () => void }) {
   return (
@@ -82,6 +53,7 @@ interface StoreSidebarProps {
 
 export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
   const pathname = usePathname();
+  const { role } = useCurrentUserRole();
   const { setOpenMobile } = useSidebar();
 
   useEffect(() => {
@@ -95,6 +67,7 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
   const isActive = (item: NavItem) => {
     return pathname === item.href;
   };
+  const catalog = getCatalogNav(role);
 
   return (
     <Sidebar collapsible="offcanvas" variant="sidebar">

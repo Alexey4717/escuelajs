@@ -26,6 +26,18 @@ export function getSubFromAccessToken(
   }
 }
 
+/**
+ * Тестовый helper: генерирует «JWT-подобный» токен без подписи.
+ * Подходит для e2e/интеграционных тестов, где важен только payload.sub.
+ */
+export function createUnsignedJwtWithSub(sub: string): string {
+  const header = Buffer.from(
+    JSON.stringify({ alg: 'none', typ: 'JWT' }),
+  ).toString('base64url');
+  const payload = Buffer.from(JSON.stringify({ sub })).toString('base64url');
+  return `${header}.${payload}.signature`;
+}
+
 function base64UrlToUtf8(segment: string): string {
   const padding = '='.repeat((4 - (segment.length % 4)) % 4);
   const base64 = segment.replace(/-/g, '+').replace(/_/g, '/') + padding;

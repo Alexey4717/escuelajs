@@ -22,11 +22,14 @@ import {
   GRAPHQL_URI,
   REFRESH_TOKEN_KEY,
 } from '@/shared/config/consts';
+import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
 import {
   applyAuthCookiesToResponse,
   clearAuthCookiesOnResponse,
   clearRefreshHintOnResponse,
 } from '@/shared/lib/cookies/auth-cookies';
+
+const E2E_MOCK_GRAPHQL = process.env.E2E_MOCK_GRAPHQL === '1';
 
 /** Парсинг тела POST как JSON для разбора операции и ответа. */
 function parseJson(text: string): Record<string, unknown> | null {
@@ -72,14 +75,61 @@ function stripTokensFromJson(json: Record<string, unknown>): string {
   return JSON.stringify(clone);
 }
 
+function makeUserDetailsMockResponse(request: NextRequest): NextResponse {
+  const accessToken = request.cookies.get(ACCESS_TOKEN_KEY)?.value;
+  const sub = getSubFromAccessToken(accessToken);
+  const roleFromHeader = request.headers.get('x-e2e-user-role');
+  const role =
+    roleFromHeader === 'admin' || roleFromHeader === 'customer'
+      ? roleFromHeader
+      : sub === 'e2e-admin'
+        ? 'admin'
+        : 'customer';
+  const userId = sub ?? 'e2e-customer';
+
+  return NextResponse.json({
+    data: {
+      user: {
+        id: userId,
+        name: role === 'admin' ? 'E2E Admin' : 'E2E Customer',
+        email:
+          role === 'admin'
+            ? 'e2e-admin@example.com'
+            : 'e2e-customer@example.com',
+        role,
+        avatar: null,
+        creationAt: '2024-01-01T00:00:00.000Z',
+        updatedAt: '2024-01-01T00:00:00.000Z',
+      },
+    },
+  });
+}
+
+function isUserDetailsOperation(parsed: Record<string, unknown>): boolean {
+  const op =
+    typeof parsed.operationName === 'string' ? parsed.operationName : '';
+  if (op === 'UserDetails') {
+    return true;
+  }
+
+  const q = typeof parsed.query === 'string' ? parsed.query : '';
+  return /^\s*query\s+UserDetails\b/im.test(q);
+}
+
 /** Проксирует POST GraphQL к upstream и применяет логику cookie / очистки токенов в теле. */
 export async function POST(request: NextRequest) {
   const accessToken = request.cookies.get(ACCESS_TOKEN_KEY)?.value;
   const bodyText = await request.text();
   const parsed = parseJson(bodyText);
+  const isE2eMockRequest =
+    E2E_MOCK_GRAPHQL || request.headers.get('x-e2e-mock-graphql') === '1';
 
   let bodyToSend = bodyText;
   let isRefreshRequest = false;
+
+  if (isE2eMockRequest && parsed && isUserDetailsOperation(parsed)) {
+    return makeUserDetailsMockResponse(request);
+  }
 
   if (parsed) {
     isRefreshRequest = isRefreshOperation(parsed);
