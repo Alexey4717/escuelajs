@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/Alexey4717/escuelajs/compare/v1.4.0...v1.5.0) (2026-04-09)
+
+
+### Features
+
+* add product and category management pages ([0b409c7](https://github.com/Alexey4717/escuelajs/commit/0b409c71309a9a483ab1ed2a1264ecd785eafacb))
+
 # [1.4.0](https://github.com/Alexey4717/escuelajs/compare/v1.3.0...v1.4.0) (2026-04-09)
 
 
