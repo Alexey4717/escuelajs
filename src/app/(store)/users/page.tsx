@@ -56,6 +56,7 @@ export default function UsersPage() {
     <PreloadQuery
       query={UsersDocument}
       variables={{ limit: USERS_LIST_LIMIT }}
+      errorPolicy="all"
       context={usersFetchContext}
     >
       <Suspense

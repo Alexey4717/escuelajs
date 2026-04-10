@@ -10,7 +10,6 @@ type DeleteCategoryModalProps = ModalRegistryMap['categoryDelete'];
 export function useDeleteCategoryModal() {
   const openModal = useAppStore((state) => state.openModal);
   const closeModal = useAppStore((state) => state.closeModal);
-  const isOpen = useAppStore((state) => state.openedModal === 'categoryDelete');
 
   const open = useCallback(
     (props: DeleteCategoryModalProps) => {
@@ -22,6 +21,5 @@ export function useDeleteCategoryModal() {
   return {
     open,
     close: closeModal,
-    isOpen,
   };
 }

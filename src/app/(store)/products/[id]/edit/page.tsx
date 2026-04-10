@@ -30,6 +30,7 @@ export default async function ProductEditPage({
     <PreloadQuery
       query={ProductDetailsDocument}
       variables={{ id }}
+      errorPolicy="all"
       context={{
         fetchOptions: {
           next: {

@@ -59,6 +59,7 @@ export default function HomePage() {
         productsOffset: 0,
         usersLimit: HOME_TESTIMONIAL_USERS_LIMIT,
       }}
+      errorPolicy="all"
       context={homeLandingFetchContext}
     >
       <Suspense

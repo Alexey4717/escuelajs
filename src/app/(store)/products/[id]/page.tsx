@@ -87,6 +87,7 @@ export default async function ProductDetailsPage({
     <PreloadQuery
       query={ProductDetailsDocument}
       variables={{ id }}
+      errorPolicy="all"
       context={productDetailsQueryContext(id)}
     >
       <Suspense

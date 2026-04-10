@@ -32,6 +32,7 @@ export default async function CategoryEditPage({
     <PreloadQuery
       query={CategoryDetailsDocument}
       variables={{ id }}
+      errorPolicy="all"
       context={{
         fetchOptions: {
           next: {

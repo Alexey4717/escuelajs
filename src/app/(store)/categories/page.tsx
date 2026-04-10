@@ -48,7 +48,11 @@ const categoriesFetchContext = {
 
 export default function CategoriesPage() {
   return (
-    <PreloadQuery query={CategoriesDocument} context={categoriesFetchContext}>
+    <PreloadQuery
+      query={CategoriesDocument}
+      errorPolicy="all"
+      context={categoriesFetchContext}
+    >
       <Suspense
         fallback={<Typography variant="muted">Загрузка категорий…</Typography>}
       >

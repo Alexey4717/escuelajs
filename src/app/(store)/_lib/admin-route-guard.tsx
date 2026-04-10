@@ -28,6 +28,7 @@ async function getCurrentUserRole() {
   const { data } = await query({
     query: UserDetailsDocument,
     variables: { id: userId },
+    errorPolicy: 'all',
     context: {
       fetchOptions: {
         next: {

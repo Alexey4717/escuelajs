@@ -51,12 +51,14 @@ export function useSubmitHandler() {
           previewUrl: next[i].previewUrl ?? uploaded.location,
           error: undefined,
         };
-      } catch {
+      } catch (error) {
         hasUploadError = true;
+        const errorMessage =
+          error instanceof Error ? error.message : 'Не удалось загрузить файл';
         next[i] = {
           ...next[i],
           status: 'error',
-          error: 'Не удалось загрузить файл',
+          error: errorMessage,
         };
       }
     }

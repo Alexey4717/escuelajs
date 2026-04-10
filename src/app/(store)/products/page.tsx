@@ -30,6 +30,7 @@ export default function ProductsPage() {
     <PreloadQuery
       query={ProductsDocument}
       variables={{ limit: PRODUCTS_PAGE_SIZE, offset: 0 }}
+      errorPolicy="all"
       context={productsListFetchContext}
     >
       <Suspense

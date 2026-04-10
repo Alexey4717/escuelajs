@@ -22,6 +22,8 @@ export const CategoryCardBody = ({ category }: CategoryCardBodyProps) => (
           <img
             src={category.image}
             alt=""
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 size-full object-cover"
           />
         ) : (

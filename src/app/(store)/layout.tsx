@@ -32,6 +32,7 @@ export default async function StoreLayout({
           <PreloadQuery
             query={UserDetailsDocument}
             variables={{ id: userId }}
+            errorPolicy="all"
             context={{
               fetchOptions: {
                 next: {
