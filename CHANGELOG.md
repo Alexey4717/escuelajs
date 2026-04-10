@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/Alexey4717/escuelajs/compare/v1.6.0...v1.7.0) (2026-04-10)
+
+
+### Features
+
+* add files workflow, add file uploading in profile edit ([027a915](https://github.com/Alexey4717/escuelajs/commit/027a915d471d228ab8088655b177b42271a4b708))
+
 # [1.6.0](https://github.com/Alexey4717/escuelajs/compare/v1.5.0...v1.6.0) (2026-04-10)
 
 
