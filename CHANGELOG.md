@@ -1,3 +1,10 @@
+## [1.7.2](https://github.com/Alexey4717/escuelajs/compare/v1.7.1...v1.7.2) (2026-04-10)
+
+
+### Bug Fixes
+
+* potential problems in prod environment ([b6d5ea0](https://github.com/Alexey4717/escuelajs/commit/b6d5ea0acab8c519a2c96af6382082cceb900635))
+
 ## [1.7.1](https://github.com/Alexey4717/escuelajs/compare/v1.7.0...v1.7.1) (2026-04-10)
 
 
