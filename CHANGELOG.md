@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/Alexey4717/escuelajs/compare/v1.7.0...v1.7.1) (2026-04-10)
+
+
+### Bug Fixes
+
+* babel plugin remove data-testid attribute for prod build ([07f4d13](https://github.com/Alexey4717/escuelajs/commit/07f4d139cf73506bb0e793fa5401942ec82aee90))
+
 # [1.7.0](https://github.com/Alexey4717/escuelajs/compare/v1.6.0...v1.7.0) (2026-04-10)
 
 
