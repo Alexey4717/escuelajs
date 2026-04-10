@@ -35,7 +35,10 @@ export async function fetchEscuelaRest<T>(
   }
 
   const hasBody = rest.body !== undefined && rest.body !== null;
-  if (hasBody && !headers.has('Content-Type')) {
+  const isFormDataBody =
+    typeof FormData !== 'undefined' && rest.body instanceof FormData;
+
+  if (hasBody && !isFormDataBody && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json');
   }
 

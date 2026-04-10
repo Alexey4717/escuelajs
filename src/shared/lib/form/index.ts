@@ -14,6 +14,13 @@ export type { SelectOption } from './types';
 
 export { passwordSchema } from './schemas/password';
 export { emailSchema } from './schemas/email';
+export {
+  createImageFilesSchema,
+  validateImageFile,
+  DEFAULT_MAX_IMAGE_FILES,
+  DEFAULT_MAX_IMAGE_FILE_SIZE_MB,
+  IMAGE_FILE_EXTENSIONS,
+} from './schemas/files';
 
 export { isZodObjectFieldRequired } from './utils/isZodObjectFieldRequired';
 export { requiredFromSchemaShape } from './utils/requiredFromSchemaShape';

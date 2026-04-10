@@ -6,6 +6,7 @@ import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
 import { UpdateUserDocument } from '@/shared/api/generated/graphql';
+import { uploadFile } from '@/shared/api/rest/files/upload-file';
 import {
   evictRootQueryField,
   updateEntityInCache,
@@ -13,20 +14,80 @@ import {
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
+import type { FilesBoxItem } from '@/shared/ui/FilesBox';
 
 import type { ProfileEditFormStateOutput } from './schema';
 
 interface SubmitArgs {
   userId: string;
   values: ProfileEditFormStateOutput;
+  avatarFiles: FilesBoxItem[];
 }
 
 export function useSubmitHandler() {
   const router = useRouter();
   const [updateUser, { loading }] = useMutation(UpdateUserDocument);
 
-  async function handleSubmit({ userId, values }: SubmitArgs) {
+  async function uploadQueuedAvatarFiles(files: FilesBoxItem[]) {
+    const next = [...files];
+    let hasUploadError = false;
+
+    for (let i = 0; i < next.length; i += 1) {
+      const item = next[i];
+      if (item.status !== 'queued' || !item.file) continue;
+
+      next[i] = {
+        ...item,
+        status: 'uploading',
+        error: undefined,
+      };
+
+      try {
+        const uploaded = await uploadFile(item.file);
+        next[i] = {
+          ...next[i],
+          status: 'uploaded',
+          uploadedUrl: uploaded.location,
+          previewUrl: next[i].previewUrl ?? uploaded.location,
+          error: undefined,
+        };
+      } catch {
+        hasUploadError = true;
+        next[i] = {
+          ...next[i],
+          status: 'error',
+          error: 'Не удалось загрузить файл',
+        };
+      }
+    }
+
+    return { files: next, hasUploadError };
+  }
+
+  function getActualAvatarUrl(files: FilesBoxItem[]): string | undefined {
+    const candidates = files.filter(
+      (file) =>
+        file.status !== 'marked_for_removal' &&
+        typeof file.uploadedUrl === 'string' &&
+        file.uploadedUrl.length > 0,
+    );
+    return candidates.at(-1)?.uploadedUrl;
+  }
+
+  async function handleSubmit({
+    userId,
+    values,
+    avatarFiles,
+  }: SubmitArgs): Promise<FilesBoxItem[]> {
+    let filesState = avatarFiles;
     try {
+      const uploadResult = await uploadQueuedAvatarFiles(avatarFiles);
+      filesState = uploadResult.files;
+      if (uploadResult.hasUploadError) {
+        toast.error('Не удалось загрузить один или несколько файлов');
+        return filesState;
+      }
+
       const { data } = await updateUser({
         variables: {
           id: userId,
@@ -34,7 +95,7 @@ export function useSubmitHandler() {
             email: values.email,
             name: values.name,
             role: values.role,
-            avatar: values.avatar,
+            avatar: getActualAvatarUrl(filesState),
           },
         },
         update(cache, { data: mutationData }) {
@@ -68,9 +129,12 @@ export function useSubmitHandler() {
       toast.success('Профиль успешно обновлен');
       router.replace(pagesPath.profile.$url().path);
       router.refresh();
+
+      return filesState.filter((file) => file.status !== 'marked_for_removal');
     } catch (err) {
       console.error(err);
       toast.error('Не удалось обновить профиль');
+      return filesState;
     }
   }
 

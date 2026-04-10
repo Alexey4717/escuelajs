@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import Link from 'next/link';
 
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
@@ -9,12 +11,13 @@ import type { UserDetailsQuery } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Card } from '@/shared/ui/Card/Card';
+import type { FilesBoxItem } from '@/shared/ui/FilesBox';
+import { createRemoteFileItem, FilesBox } from '@/shared/ui/FilesBox';
 import { Form } from '@/shared/ui/Form/Form';
 
 import { parseUserRole } from '@/entities/User';
 
 import {
-  ProfileEditAvatarField,
   ProfileEditEmailField,
   ProfileEditNameField,
 } from '../../lib/form/fields';
@@ -33,6 +36,9 @@ interface ProfileEditFormCardProps {
 export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
   const { handleSubmit: submitProfileEdit, loading: submitLoading } =
     useSubmitHandler();
+  const [avatarFiles, setAvatarFiles] = useState<FilesBoxItem[]>(
+    user.avatar ? [createRemoteFileItem(user.avatar)] : [],
+  );
 
   const methods = useForm<
     ProfileEditFormStateInput,
@@ -44,15 +50,16 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
       email: user.email,
       name: user.name,
       role: parseUserRole(user.role) as ProfileEditFormStateOutput['role'],
-      avatar: user.avatar,
     },
   });
 
   const onSubmit = async (values: ProfileEditFormStateOutput) => {
-    await submitProfileEdit({
+    const nextFiles = await submitProfileEdit({
       userId: user.id,
       values,
+      avatarFiles,
     });
+    setAvatarFiles(nextFiles);
   };
 
   return (
@@ -65,10 +72,15 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
         />
         <ProfileEditNameField autoComplete="name" placeholder="Ваше имя" />
         <ProfileEditRoleSection />
-        <ProfileEditAvatarField
-          type="url"
-          autoComplete="url"
-          placeholder="https://example.com/avatar.jpg"
+        <FilesBox
+          label="Аватар"
+          maxFiles={1}
+          accept="image/*"
+          maxFileSizeMb={5}
+          uploadMode="onSubmit"
+          value={avatarFiles}
+          onChange={setAvatarFiles}
+          data-testid="profileEdit__input__avatar"
         />
         <div className="flex align-center justify-between gap-2 pt-2">
           <Button

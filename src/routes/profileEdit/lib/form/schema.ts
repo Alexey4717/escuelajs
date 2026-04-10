@@ -42,14 +42,6 @@ export const profileEditFormSchema = object({
       options: profileEditRoleOptions,
     },
   }),
-  avatar: string()
-    .min(1, 'Введите URL аватара')
-    .meta({
-      formField: {
-        label: 'URL аватара',
-        'data-testid': 'profileEdit__input__avatar',
-      },
-    }),
 });
 
 export type ProfileEditFormStateInput = input<typeof profileEditFormSchema>;
