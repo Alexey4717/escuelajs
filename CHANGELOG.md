@@ -1,3 +1,12 @@
+# [1.6.0](https://github.com/Alexey4717/escuelajs/compare/v1.5.0...v1.6.0) (2026-04-10)
+
+
+### Features
+
+* add collapsible shared component ([06f272e](https://github.com/Alexey4717/escuelajs/commit/06f272e2049c62dd92349922c0797bb3c9450a6b))
+* add edit and delete buttons in product detail for admin ([f9c9576](https://github.com/Alexey4717/escuelajs/commit/f9c957667ecf4cc28522b2ceb0257a21c301fdcd))
+* add management buttons in category card for admin ([162aab5](https://github.com/Alexey4717/escuelajs/commit/162aab5d66d6842e73ac7f1487ddf875d629b4fd))
+
 # [1.5.0](https://github.com/Alexey4717/escuelajs/compare/v1.4.0...v1.5.0) (2026-04-09)
 
 
