@@ -1,11 +1,13 @@
 import type { ModalKey, ModalRegistryItem } from '@/shared/lib/modal/types';
 
+import { categoryDeleteModalRegistryItem } from '@/features/deleteCategory';
 import { profileDeleteModalRegistryItem } from '@/features/deleteCurrentUser';
 import { productDeleteModalRegistryItem } from '@/features/deleteProduct';
 
 export const modalRegistry: { [K in ModalKey]: ModalRegistryItem<K> } = {
   profileDelete: profileDeleteModalRegistryItem,
   productDelete: productDeleteModalRegistryItem,
+  categoryDelete: categoryDeleteModalRegistryItem,
 };
 
 export function isModalKey(value: string | null): value is ModalKey {

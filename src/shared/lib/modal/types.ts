@@ -9,6 +9,10 @@ export interface ModalRegistryMap {
     productId: string;
     productTitle: string;
   };
+  categoryDelete: {
+    categoryId: string;
+    categoryName: string;
+  };
 }
 
 export type ModalKey = Extract<keyof ModalRegistryMap, string>;
