@@ -19,6 +19,12 @@ module.exports = function removeReactTestProperties(_api, opts) {
         }
       },
       ObjectProperty(path) {
+        // Не трогаем object destructuring (например, props: {'data-testid': dataTestId})
+        // Иначе можно удалить объявление переменной и получить ReferenceError в рантайме.
+        if (path.parentPath?.isObjectPattern()) {
+          return;
+        }
+
         const key = path.node.key;
         if (key.type === 'StringLiteral' && forbidden.includes(key.value)) {
           path.remove();
