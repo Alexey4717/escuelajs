@@ -36,9 +36,9 @@ function ProfileLinkFallback({ className }: { className?: string }) {
   );
 }
 
-type ProfileLinkProps = {
+interface ProfileLinkProps {
   className?: string;
-};
+}
 
 export function ProfileLink({ className }: ProfileLinkProps) {
   const { user, loading } = useCurrentUser();

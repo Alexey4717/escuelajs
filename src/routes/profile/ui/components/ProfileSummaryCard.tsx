@@ -12,14 +12,14 @@ import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { DeleteCurrentUserButton } from '@/features/deleteCurrentUser';
 
-type ProfileSummaryCardProps = {
+interface ProfileSummaryCardProps {
   userId: string;
   initials: string;
   name: string;
   email: string;
   roleLabel: string;
   roleBadgeVariant: NonNullable<ComponentProps<typeof Badge>['variant']>;
-};
+}
 
 export const ProfileSummaryCard = ({
   userId,

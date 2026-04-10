@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { type ProductDetailsQuery } from '@/shared/api/generated/graphql';
 import { cn } from '@/shared/lib/styles/cn';
 import { Button } from '@/shared/ui/Button/Button';
@@ -14,9 +16,14 @@ const accentBg =
 
 interface ProductContentProps {
   product: ProductDetailsQuery['product'];
+  /** Блок под заголовком (например, действия администратора). */
+  titleAddon?: ReactNode;
 }
 
-export const ProductContent = ({ product }: ProductContentProps) => {
+export const ProductContent = ({
+  product,
+  titleAddon,
+}: ProductContentProps) => {
   const priceFormatted = parsePrice(product.price, 'USD');
 
   return (
@@ -34,6 +41,9 @@ export const ProductContent = ({ product }: ProductContentProps) => {
       >
         {product.title}
       </Typography>
+      {titleAddon ? (
+        <div className="flex flex-wrap gap-2">{titleAddon}</div>
+      ) : null}
       <Typography
         variant="inherit"
         component="p"

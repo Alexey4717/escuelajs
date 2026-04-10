@@ -17,6 +17,7 @@ export const ProductCardCoverLink = ({
 }: ProductCardCoverLinkProps) => {
   return (
     <Link
+      prefetch={false}
       href={href}
       className={cn(
         'group/cover relative block w-full',

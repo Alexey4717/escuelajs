@@ -2,11 +2,11 @@
 
 import { Badge } from '@/shared/ui/Badge/Badge';
 
-type CategoryListLabelProps = {
+interface CategoryListLabelProps {
   className?: string;
   categoryName: string;
   categoryImg?: string;
-};
+}
 
 export function CategoryListLabel({
   className,

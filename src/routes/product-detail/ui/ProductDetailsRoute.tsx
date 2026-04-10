@@ -9,6 +9,7 @@ import { Page } from '@/widgets/Page';
 import { NoProductImagesFallback } from './components/NoProductImagesFallback';
 import { ProductCarousel } from './components/ProductCarousel';
 import { ProductContent } from './components/ProductContent';
+import { ProductDetailAdminActions } from './components/ProductDetailAdminActions/ProductDetailAdminActions';
 import { ProductPageHeading } from './components/ProductPageHeading';
 
 interface ProductDetailsRouteProps {
@@ -39,7 +40,15 @@ export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
           )}
         </div>
 
-        <ProductContent product={product} />
+        <ProductContent
+          product={product}
+          titleAddon={
+            <ProductDetailAdminActions
+              productId={product.id}
+              productTitle={product.title}
+            />
+          }
+        />
       </article>
     </Page>
   );

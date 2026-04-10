@@ -2,9 +2,9 @@ import { Button } from '@/shared/ui/Button/Button';
 
 import { DELETE_CURRENT_USER_FORM_ID } from '../../lib/constants';
 
-type DeleteCurrentUserModalFooterProps = {
+interface DeleteCurrentUserModalFooterProps {
   closeModal: () => void;
-};
+}
 
 export function DeleteCurrentUserModalFooter({
   closeModal,

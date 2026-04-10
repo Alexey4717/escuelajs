@@ -1,16 +1,19 @@
 'use client';
 
-import { useMemo } from 'react';
+import { type ComponentType, type ReactNode, useMemo } from 'react';
 
-import type { ModalKey } from '@/shared/lib/modal/types';
+import type { ModalControls, ModalKey } from '@/shared/lib/modal/types';
 import { useAppStore } from '@/shared/lib/store';
 import { Modal } from '@/shared/ui/Modal/Modal';
 
 import { modalRegistry } from '../model/modal-registry';
 
-type ModalHostProps = {
+/** Пропсы конкретной модалки + closeModal; union по ключам реестра. */
+type OpenModalInstanceProps = ModalControls & Record<string, unknown>;
+
+interface ModalHostProps {
   isMobile: boolean;
-};
+}
 
 function getModalRawProps<K extends ModalKey>(
   key: K,
@@ -52,11 +55,15 @@ export function ModalHost({ isMobile }: ModalHostProps) {
           'Не удалось открыть модалку: отсутствуют обязательные данные.'}
       </p>
       <p className="text-muted-foreground">
-        Проверьте ссылку или откройте это действие из интерфейса приложения.
+        Повторите действие из интерфейса приложения.
       </p>
     </div>
   );
-  const ContentComponent = entry.component;
+  const ContentComponent =
+    entry.component as ComponentType<OpenModalInstanceProps>;
+  const renderFooter = entry.renderFooter as
+    | ((props: OpenModalInstanceProps) => ReactNode)
+    | undefined;
 
   return (
     <Modal
@@ -73,9 +80,7 @@ export function ModalHost({ isMobile }: ModalHostProps) {
       showFooterCloseButton={modalProps ? entry.showFooterCloseButton : true}
       dialogClassName={entry.dialogClassName}
       footer={
-        modalProps
-          ? entry.renderFooter?.({ ...modalProps, closeModal })
-          : undefined
+        modalProps ? renderFooter?.({ ...modalProps, closeModal }) : undefined
       }
       content={
         modalProps ? (

@@ -12,7 +12,7 @@ export type TypographyAlign = NonNullable<
   VariantProps<typeof typographyVariants>['align']
 >;
 
-type TypographyOwnProps = {
+interface TypographyOwnProps {
   /** Визуальный стиль: заголовки, абзац и утилиты из shadcn Typography + аналоги MUI. */
   variant?: TypographyVariant;
   /** Выравнивание текста (как `align` в MUI). */
@@ -25,7 +25,7 @@ type TypographyOwnProps = {
   component?: ElementType;
   /** Слить props и классы с дочерним элементом (Radix Slot). */
   asChild?: boolean;
-};
+}
 
 export type TypographyProps = TypographyOwnProps &
   Omit<HTMLAttributes<HTMLElement>, keyof TypographyOwnProps>;

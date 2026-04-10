@@ -206,7 +206,7 @@ Reports are written to `.next/analyze/` as HTML files (for example `client.html`
 
 ## Модалки (Modal flow)
 
-В проекте используется единый modal-flow: UI-обертка [`Modal`](src/shared/ui/Modal/Modal.tsx), глобальный хост в `app`, состояние через Zustand и синхронизация с query-параметром `openedModal`.
+В проекте используется единый modal-flow: UI-обертка [`Modal`](src/shared/ui/Modal/Modal.tsx), глобальный хост в `app`, состояние открытости в Zustand (`openedModal`).
 
 ### Основные элементы
 
@@ -214,16 +214,14 @@ Reports are written to `.next/analyze/` as HTML files (for example `client.html`
   - mobile: рендерит `Drawer`
   - desktop: рендерит `Dialog`
 - **Глобальный хост и провайдер:** [`src/app/modal/ui/ModalHost.tsx`](src/app/modal/ui/ModalHost.tsx), [`src/app/modal/ui/ModalProvider.tsx`](src/app/modal/ui/ModalProvider.tsx)
-- **URL sync (`openedModal`):** [`src/app/modal/model/use-modal-url-sync.ts`](src/app/modal/model/use-modal-url-sync.ts)
 - **Реестр модалок:** [`src/app/modal/model/modal-registry.ts`](src/app/modal/model/modal-registry.ts)
 - **Стор:** [`src/shared/lib/store/slices/modal/create-modal-slice.ts`](src/shared/lib/store/slices/modal/create-modal-slice.ts)
 - **Типы ключей/пропсов модалок:** [`src/shared/lib/modal/types.ts`](src/shared/lib/modal/types.ts)
 
 ### Источник истины
 
-- Источник истины для открытости: Zustand (`openedModal`).
-- Query-параметр `openedModal` нужен для deep-link/back-forward/share-link и синхронизируется с store.
-- В текущей реализации одновременно открыта только **одна** модалка.
+- Источник истины для открытости: Zustand.
+- Одновременно открыта только **одна** модалка.
 
 ### Как добавить новую модалку
 

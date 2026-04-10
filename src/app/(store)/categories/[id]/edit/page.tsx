@@ -14,9 +14,9 @@ import {
   protectAdminRouteOnServer,
 } from '../../../_lib/admin-route-guard';
 
-type CategoryEditPageProps = {
+interface CategoryEditPageProps {
   params: Promise<CategoryEditPageParams>;
-};
+}
 
 export default async function CategoryEditPage({
   params,

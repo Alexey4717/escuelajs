@@ -13,10 +13,10 @@ import { TooltipProvider } from '@/shared/ui/Tooltip/components/TooltipProvider'
 import { StoreSidebar } from './StoreSidebar';
 import { StoreTopbar } from './StoreTopbar/StoreTopbar';
 
-type StoreLayoutShellProps = {
+interface StoreLayoutShellProps {
   isLoggedIn: boolean;
   children: ReactNode;
-};
+}
 
 export function StoreLayoutShell({
   isLoggedIn,

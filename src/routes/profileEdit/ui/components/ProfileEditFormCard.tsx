@@ -26,9 +26,9 @@ import {
 import { useSubmitHandler } from '../../lib/form/useSubmitHandler';
 import { ProfileEditRoleSection } from './ProfileEditRoleSection';
 
-type ProfileEditFormCardProps = {
+interface ProfileEditFormCardProps {
   user: UserDetailsQuery['user'];
-};
+}
 
 export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
   const { handleSubmit: submitProfileEdit, loading: submitLoading } =

@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -13,9 +14,19 @@ import { ProductDetailsRoute } from '@/routes/product-detail';
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';
 
-type ProductDetailsPageProps = {
+interface ProductDetailsPageProps {
   params: Promise<{ id: string }>;
-};
+}
+
+function productDetailsQueryContext(id: string) {
+  return {
+    fetchOptions: {
+      next: {
+        tags: [nextCacheTags.product(id)],
+      },
+    },
+  };
+}
 
 export async function generateMetadata({
   params,
@@ -26,6 +37,7 @@ export async function generateMetadata({
     const { data } = await query({
       query: ProductDetailsDocument,
       variables: { id },
+      context: productDetailsQueryContext(id),
     });
 
     const product = data?.product;
@@ -72,7 +84,11 @@ export default async function ProductDetailsPage({
   const { id } = await params;
 
   return (
-    <PreloadQuery query={ProductDetailsDocument} variables={{ id }}>
+    <PreloadQuery
+      query={ProductDetailsDocument}
+      variables={{ id }}
+      context={productDetailsQueryContext(id)}
+    >
       <Suspense
         fallback={<Typography variant="muted">Загрузка товара…</Typography>}
       >

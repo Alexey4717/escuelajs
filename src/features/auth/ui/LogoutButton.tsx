@@ -11,9 +11,9 @@ const logoutButtonClassName = cn(
   'transition-colors hover:bg-white/10',
 );
 
-type LogoutButtonProps = {
+interface LogoutButtonProps {
   className?: string;
-};
+}
 
 export function LogoutButton({ className }: LogoutButtonProps) {
   const router = useRouter();

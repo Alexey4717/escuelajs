@@ -33,6 +33,7 @@ export function ProductCard({ product }: ProductCardProps) {
       }
       title={
         <Link
+          prefetch={false}
           href={href}
           className="block min-w-0 w-full truncate text-base sm:text-lg py-2"
           title={product.title}

@@ -8,12 +8,12 @@ type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 export type CarouselOptions = UseCarouselParameters[0];
 export type CarouselPlugin = UseCarouselParameters[1];
 
-export type CarouselRootProps = {
+export interface CarouselRootProps {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: 'horizontal' | 'vertical';
   setApi?: (api: CarouselApi) => void;
-};
+}
 
 export type CarouselContextValue = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];

@@ -3,13 +3,13 @@ import { type ComponentProps } from 'react';
 import { Badge } from '@/shared/ui/Badge/Badge';
 import { Card } from '@/shared/ui/Card/Card';
 
-type ProfileAccountDataCardProps = {
+interface ProfileAccountDataCardProps {
   id: string;
   name: string;
   email: string;
   roleLabel: string;
   roleBadgeVariant: NonNullable<ComponentProps<typeof Badge>['variant']>;
-};
+}
 
 export const ProfileAccountDataCard = ({
   id,

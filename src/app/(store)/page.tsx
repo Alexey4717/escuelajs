@@ -5,6 +5,7 @@ import type { Metadata } from 'next';
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { HomeLandingDocument } from '@/shared/api/generated/graphql';
 import { getAppOrigin } from '@/shared/lib/app-origin';
+import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -13,6 +14,15 @@ import {
   HOME_TESTIMONIAL_USERS_LIMIT,
   HomeRoute,
 } from '@/routes/home';
+
+/** Теги `products` / `users` — для `revalidateTag` после мутаций (подборка и отзывы на главной). */
+const homeLandingFetchContext = {
+  fetchOptions: {
+    next: {
+      tags: [nextCacheTags.products, nextCacheTags.users],
+    },
+  },
+} as const;
 
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';
@@ -49,6 +59,7 @@ export default function HomePage() {
         productsOffset: 0,
         usersLimit: HOME_TESTIMONIAL_USERS_LIMIT,
       }}
+      context={homeLandingFetchContext}
     >
       <Suspense
         fallback={<Typography variant="muted">Загрузка главной…</Typography>}
