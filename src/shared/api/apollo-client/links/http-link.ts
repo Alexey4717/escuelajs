@@ -1,6 +1,6 @@
 import { HttpLink } from '@apollo/client/link/http';
 
-import { INTERNAL_GRAPHQL_PATH } from '../../../config/consts/graphql';
+import { INTERNAL_GRAPHQL_PATH } from '../../../config/consts/escuela-graphql';
 import { getAppOrigin } from '../../../lib/app-origin';
 
 function graphqlEndpoint(): string {

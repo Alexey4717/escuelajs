@@ -7,6 +7,7 @@ import { toast } from 'sonner';
 
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { DeleteUserDocument } from '@/shared/api/generated/graphql';
+import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils';
 import { pagesPath } from '@/shared/routes/$path';
 
 type DeleteCurrentUserMutationArgs = {
@@ -26,8 +27,7 @@ export function useDeleteCurrentUserSubmitHandler() {
       await deleteUser({
         variables: { id: userId },
         update(cache) {
-          cache.evict({ id: 'ROOT_QUERY', fieldName: 'users' });
-          cache.gc();
+          evictRootQueryField(cache, 'users');
         },
       });
 

@@ -99,6 +99,16 @@ Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** х
 
 **Маршруты:** публичные **`/`**, **`/login`**; защищённый **`/profile`** (middleware + наличие cookie). См. [`middleware.ts`](middleware.ts).
 
+### TanStack Query (REST)
+
+В проекте TanStack Query используется для REST-запросов к Escuela API (например, `files` и `locations`), а Apollo остаётся для GraphQL.
+
+- **Провайдер:** [`QueryProvider`](src/shared/api/query-client/query-provider.tsx) подключён в корневом [`layout.tsx`](src/app/layout.tsx), в dev включает React Query Devtools.
+- **QueryClient-конфиг:** [`makeQueryClient`](src/shared/api/query-client/make-query-client.ts) задаёт базовые defaults (`staleTime`, `gcTime`, retry-поведение, `refetchOnWindowFocus`).
+- **SSR/CSR инстанс:** [`getQueryClient`](src/shared/api/query-client/get-query-client.ts) — на сервере новый клиент на запрос, в браузере singleton на вкладку.
+- **REST query keys:** [`escuelaRestQueryKeys`](src/shared/api/rest/query-keys.ts) — единая фабрика ключей (`['escuela-rest', ...]`) для стабильной инвалидaции.
+- **Инвалидация кеша:** утилиты TanStack-кеша в [`src/shared/lib/cache/tanstack/cache-utils.ts`](src/shared/lib/cache/tanstack/cache-utils.ts): `invalidateEscuelaRest`, `invalidateEscuelaRestFiles`, `invalidateEscuelaRestLocations`, `clearQueryCache`.
+
 ### RouteGuard для `/admin-panel` (server + client)
 
 Доступ к **`/admin-panel`** реализован в два слоя:
@@ -128,7 +138,7 @@ Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** х
 - [`graphql.ts`](src/shared/api/generated/graphql.ts) — типы схемы, типы операций и `TypedDocumentNode`.
 - [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts) — политики `InMemoryCache`: пагинация `offset`/`limit` и при необходимости cursor (`after`/`first`); **корневые списки с аргументами без offset/cursor** (например `users(limit)`) — `queryListFieldsWithKeyArgs`; вложенные поля с аргументами и не-нормализованные типы. Логика в плагине [`tools/codegen-apollo-cache-plugin.js`](tools/codegen-apollo-cache-plugin.js) (те же `schema` и `documents`, что и у codegen). Политика для поля появляется, если это поле **есть в клиентских операциях** (см. `.graphql`).
 
-Политики подключаются в [`make-apollo-client.ts`](src/shared/api/apollo-client/client/make-apollo-client.ts). Редактировать `apolloCachePolicies.ts` вручную не нужно — только перегенерация. Для cursor-пагинации на плоских списках используется [`cursorLimitPagination`](src/shared/lib/apollo/cache/cursorLimitPagination.ts) (импорт в сгенерированном файле появится, если такие поля есть в схеме и в документах).
+Политики подключаются в [`make-apollo-client.ts`](src/shared/api/apollo-client/client/make-apollo-client.ts). Редактировать `apolloCachePolicies.ts` вручную не нужно — только перегенерация. Для cursor-пагинации на плоских списках используется [`cursorLimitPagination`](src/shared/lib/cache/apollo/mergePolicies/cursorLimitPagination.ts) (импорт в сгенерированном файле появится, если такие поля есть в схеме и в документах).
 
 См. также: [keyArgs и пагинация в Apollo](https://www.apollographql.com/docs/react/pagination/key-args), [offset-based](https://www.apollographql.com/docs/react/pagination/offset-based).
 

@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { revalidateTagsAction } from '@/shared/api/cache/revalidate-tags.action';
 import { AddProductDocument } from '@/shared/api/generated/graphql';
+import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils';
+import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
@@ -33,8 +34,7 @@ export function useCreateSubmitHandler() {
           },
         },
         update(cache) {
-          cache.evict({ id: 'ROOT_QUERY', fieldName: 'products' });
-          cache.gc();
+          evictRootQueryField(cache, 'products');
         },
       });
 

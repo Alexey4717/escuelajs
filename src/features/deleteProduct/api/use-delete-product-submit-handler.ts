@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { revalidateTagsAction } from '@/shared/api/cache/revalidate-tags.action';
 import { DeleteProductDocument } from '@/shared/api/generated/graphql';
+import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 

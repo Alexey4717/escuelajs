@@ -17,11 +17,8 @@
  */
 import { NextRequest, NextResponse } from 'next/server';
 
-import {
-  ACCESS_TOKEN_KEY,
-  GRAPHQL_URI,
-  REFRESH_TOKEN_KEY,
-} from '@/shared/config/consts';
+import { ACCESS_TOKEN_KEY, REFRESH_TOKEN_KEY } from '@/shared/config/consts';
+import { GRAPHQL_URI } from '@/shared/config/consts/escuela-graphql';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
 import {
   applyAuthCookiesToResponse,

@@ -4,20 +4,23 @@ import { render } from '@testing-library/react';
 import { Toaster } from 'sonner';
 
 import { ApolloProvider } from '@/shared/api/apollo-client/provider';
+import { QueryProvider } from '@/shared/api/query-client/query-provider';
 
 import { ModalProvider } from '@/app/modal/ui/ModalProvider';
 
 /**
- * Оболочка близка к корневому `app/layout.tsx`: Apollo, модалки и toasts.
+ * Оболочка близка к корневому `app/layout.tsx`: TanStack Query, Apollo, модалки и toasts.
  * Для тестов без тёмной темы — `light`, десктоп (`initialIsMobile: false`).
  */
 export function renderWithProviders(ui: ReactElement) {
   return render(
-    <ApolloProvider>
-      <ModalProvider initialIsMobile={false}>
-        {ui}
-        <Toaster theme="light" />
-      </ModalProvider>
-    </ApolloProvider>,
+    <QueryProvider>
+      <ApolloProvider>
+        <ModalProvider initialIsMobile={false}>
+          {ui}
+          <Toaster theme="light" />
+        </ModalProvider>
+      </ApolloProvider>
+    </QueryProvider>,
   );
 }

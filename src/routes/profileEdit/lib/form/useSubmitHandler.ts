@@ -5,8 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { revalidateTagsAction } from '@/shared/api/cache/revalidate-tags.action';
 import { UpdateUserDocument } from '@/shared/api/generated/graphql';
+import {
+  evictRootQueryField,
+  updateEntityInCache,
+} from '@/shared/lib/cache/apollo/utils/cache-utils';
+import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
@@ -37,25 +41,19 @@ export function useSubmitHandler() {
           const updatedUser = mutationData?.updateUser;
           if (!updatedUser) return;
 
-          const userCacheId = cache.identify({
-            __typename: 'User',
+          updateEntityInCache({
+            cache,
+            typename: 'User',
             id: updatedUser.id,
+            fields: {
+              name: updatedUser.name,
+              email: updatedUser.email,
+              role: updatedUser.role,
+              avatar: updatedUser.avatar,
+            },
           });
 
-          if (userCacheId) {
-            cache.modify({
-              id: userCacheId,
-              fields: {
-                name: () => updatedUser.name,
-                email: () => updatedUser.email,
-                role: () => updatedUser.role,
-                avatar: () => updatedUser.avatar,
-              },
-            });
-          }
-
-          cache.evict({ id: 'ROOT_QUERY', fieldName: 'users' });
-          cache.gc();
+          evictRootQueryField(cache, 'users');
         },
       });
 

@@ -6,6 +6,7 @@ import { userAgent } from 'next/server';
 import { Toaster } from 'sonner';
 
 import { ApolloProvider } from '@/shared/api/apollo-client/provider';
+import { QueryProvider } from '@/shared/api/query-client/query-provider';
 import { cn } from '@/shared/lib/styles/cn';
 
 import { ModalProvider } from '@/app/modal/ui/ModalProvider';
@@ -67,12 +68,14 @@ export default async function RootLayout({
     >
       <body className="flex min-h-dvh flex-col overflow-y-auto bg-background font-sans text-[14px] text-foreground antialiased">
         <ThemeBootstrapScript />
-        <ApolloProvider>
-          <ModalProvider initialIsMobile={serverIsMobile}>
-            {children}
-            <Toaster theme={serverDark ? 'dark' : 'light'} />
-          </ModalProvider>
-        </ApolloProvider>
+        <QueryProvider>
+          <ApolloProvider>
+            <ModalProvider initialIsMobile={serverIsMobile}>
+              {children}
+              <Toaster theme={serverDark ? 'dark' : 'light'} />
+            </ModalProvider>
+          </ApolloProvider>
+        </QueryProvider>
       </body>
     </html>
   );

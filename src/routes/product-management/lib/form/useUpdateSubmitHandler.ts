@@ -5,8 +5,12 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { revalidateTagsAction } from '@/shared/api/cache/revalidate-tags.action';
 import { UpdateProductDocument } from '@/shared/api/generated/graphql';
+import {
+  evictRootQueryField,
+  updateEntityInCache,
+} from '@/shared/lib/cache/apollo/utils/cache-utils';
+import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
@@ -38,32 +42,21 @@ export function useUpdateSubmitHandler() {
           const updatedProduct = mutationData?.updateProduct;
           if (!updatedProduct) return;
 
-          const productCacheId = cache.identify({
-            __typename: 'Product',
+          updateEntityInCache({
+            cache,
+            typename: 'Product',
             id: updatedProduct.id,
+            fields: {
+              title: updatedProduct.title,
+              price: updatedProduct.price,
+              description: updatedProduct.description,
+              images: updatedProduct.images,
+              category: updatedProduct.category,
+            },
+            fallbackRootFieldName: 'product',
           });
 
-          if (productCacheId) {
-            cache.modify({
-              id: productCacheId,
-              fields: {
-                title: () => updatedProduct.title,
-                price: () => updatedProduct.price,
-                description: () => updatedProduct.description,
-                images: () => updatedProduct.images,
-                category: () => updatedProduct.category,
-              },
-            });
-          } else {
-            cache.evict({
-              id: 'ROOT_QUERY',
-              fieldName: 'product',
-              args: { id: productId },
-            });
-          }
-
-          cache.evict({ id: 'ROOT_QUERY', fieldName: 'products' });
-          cache.gc();
+          evictRootQueryField(cache, 'products');
         },
       });
 
