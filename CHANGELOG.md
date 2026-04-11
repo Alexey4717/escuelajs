@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/Alexey4717/escuelajs/compare/v1.8.0...v1.9.0) (2026-04-11)
+
+
+### Features
+
+* add combobox shared component and RHF factory ([ef05811](https://github.com/Alexey4717/escuelajs/commit/ef05811f667da61bcd006cd2ad5b3b864a7466b2))
+
 # [1.8.0](https://github.com/Alexey4717/escuelajs/compare/v1.7.3...v1.8.0) (2026-04-11)
 
 
