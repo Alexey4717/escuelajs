@@ -1,3 +1,10 @@
+## [1.7.3](https://github.com/Alexey4717/escuelajs/compare/v1.7.2...v1.7.3) (2026-04-10)
+
+
+### Bug Fixes
+
+* wrong redirects in protectAdminRouteOnServer ([ad45b60](https://github.com/Alexey4717/escuelajs/commit/ad45b605ec314bc979c6839ca542f7cf5e7718be))
+
 ## [1.7.2](https://github.com/Alexey4717/escuelajs/compare/v1.7.1...v1.7.2) (2026-04-10)
 
 
