@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/Alexey4717/escuelajs/compare/v1.7.3...v1.8.0) (2026-04-11)
+
+
+### Features
+
+* add bff proxy route for fetching Escuela images, add app img shared component ([3344152](https://github.com/Alexey4717/escuelajs/commit/334415231fb42ab7ba5b361feffbe93ab8756e70))
+
 ## [1.7.3](https://github.com/Alexey4717/escuelajs/compare/v1.7.2...v1.7.3) (2026-04-10)
 
 
