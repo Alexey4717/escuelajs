@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 
 import { cn } from '@/shared/lib/styles/cn';
+import { AppImage } from '@/shared/ui/AppImage/AppImage';
 import {
   Carousel,
   CarouselApi,
@@ -52,8 +53,7 @@ export const ProductCarousel = ({
             {images.map((src, index) => (
               <CarouselItem key={`${src}-${index}`} className="basis-full pl-0">
                 <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-border/60 bg-muted">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <AppImage
                     src={src}
                     alt={`${productTitle} — фото ${index + 1}`}
                     className="absolute inset-0 size-full object-cover"
@@ -98,8 +98,7 @@ export const ProductCarousel = ({
               )}
               onClick={() => api?.scrollTo(index)}
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <AppImage
                 src={src}
                 alt=""
                 className="size-full object-cover"

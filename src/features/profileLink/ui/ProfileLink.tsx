@@ -60,18 +60,6 @@ export function ProfileLink({ className }: ProfileLinkProps) {
         className="size-[26px] shrink-0 self-center after:border-0"
         src={avatarSrc}
         alt={user?.name ?? ''}
-        fallback={
-          loading ? (
-            <Skeleton
-              className="size-full rounded-full bg-sidebar-foreground/20"
-              aria-hidden
-            />
-          ) : (
-            <span className="text-[11px] font-semibold">
-              {user ? user.name?.[0] : '?'}
-            </span>
-          )
-        }
       />
       <div className="min-w-0 flex-1">
         {loading ? (

@@ -3,6 +3,7 @@
 import { useEffect, useId, useMemo, useState } from 'react';
 
 import { cn } from '../../lib/styles/cn';
+import { AppImage } from '../AppImage/AppImage';
 import { Button } from '../Button/Button';
 import { textFieldInputClassName } from '../TextField/classNames';
 import {
@@ -143,8 +144,7 @@ export function FilesBox({
               >
                 <div className="flex min-w-0 items-center gap-2">
                   {item.previewUrl ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
+                    <AppImage
                       src={item.previewUrl}
                       alt={item.name}
                       className="h-8 w-8 rounded object-cover"

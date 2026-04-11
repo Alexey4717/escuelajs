@@ -2,8 +2,6 @@ import { cn } from '@/shared/lib/styles/cn';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { getUserInitials } from '@/entities/User';
-
 import { HomeTestimonial } from '../../lib/types';
 
 interface TestimonialCardProps {
@@ -22,12 +20,7 @@ export function TestimonialCard({ item }: TestimonialCardProps) {
       <Avatar
         className="size-11 shrink-0 rounded-full border border-border"
         src={item.avatarUrl ?? undefined}
-        alt=""
-        fallback={
-          <span className="text-xs font-medium text-muted-foreground">
-            {getUserInitials(item.name)}
-          </span>
-        }
+        alt={item?.name ?? ''}
       />
       <div className="min-w-0 flex-1">
         <Typography

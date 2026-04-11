@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { cn } from '@/shared/lib/styles/cn';
+import { AppImage } from '@/shared/ui/AppImage/AppImage';
 
 import { CategoryListLabel } from '@/entities/Category/@x/product';
 
@@ -25,9 +26,7 @@ export const ProductCardCoverLink = ({
       )}
     >
       {imageUrl ? (
-        // URL из API с разных доменов — без next/image remotePatterns
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <AppImage
           src={imageUrl}
           alt="product image"
           className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover/cover:scale-[1.02]"

@@ -5,7 +5,7 @@ import { Badge } from '@/shared/ui/Badge/Badge';
 import { TableBody, TableCell, TableRow } from '@/shared/ui/Table/Table';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { getUserInitials, parseUserRole, UserRoleText } from '@/entities/User';
+import { parseUserRole, UserRoleText } from '@/entities/User';
 
 interface UsersTableBodyProps {
   users: UsersQuery['users'];
@@ -29,8 +29,7 @@ export const UsersTableBody = ({ users }: UsersTableBodyProps) => (
             <TableCell className="w-16 min-w-16 max-w-16 py-3 pl-4 pr-2 align-middle">
               <Avatar
                 src={avatarSrc}
-                alt=""
-                fallback={getUserInitials(user.name)}
+                alt={user?.name ?? ''}
                 className="size-9 shrink-0"
               />
             </TableCell>

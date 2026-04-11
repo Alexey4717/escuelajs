@@ -1,5 +1,6 @@
 import type { CategoriesQuery } from '@/shared/api/generated/graphql';
 import { cn } from '@/shared/lib/styles/cn';
+import { AppImage } from '@/shared/ui/AppImage/AppImage';
 import { Card } from '@/shared/ui/Card/Card';
 
 export interface CategoryCardBodyProps {
@@ -17,9 +18,7 @@ export const CategoryCardBody = ({ category }: CategoryCardBodyProps) => (
     cover={
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
         {category.image ? (
-          // URL из API с разных доменов — без next/image remotePatterns
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <AppImage
             src={category.image}
             alt=""
             loading="lazy"

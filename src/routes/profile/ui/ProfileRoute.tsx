@@ -13,7 +13,7 @@ import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { useCurrentUser } from '@/entities/Session';
-import { getRoleText, getUserInitials, parseUserRole } from '@/entities/User';
+import { getRoleText, parseUserRole } from '@/entities/User';
 
 import { ChangeCurrentPasswordCard } from '@/features/changeCurrentPassword';
 
@@ -83,7 +83,6 @@ export const ProfileRoute = () => {
   }
 
   const u = user;
-  const initials = getUserInitials(u.name);
   const role = parseUserRole(u.role);
   const roleLabel = getRoleText(u.role) ?? u.role;
   const roleBadgeVariant = role === 'admin' ? 'destructive' : 'secondary';
@@ -93,11 +92,11 @@ export const ProfileRoute = () => {
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:items-start">
         <ProfileSummaryCard
           userId={u.id}
-          initials={initials}
           name={u.name}
           email={u.email}
           roleLabel={roleLabel}
           roleBadgeVariant={roleBadgeVariant}
+          avatarSrc={u.avatar}
         />
 
         <div className="flex min-w-0 flex-col gap-6">
