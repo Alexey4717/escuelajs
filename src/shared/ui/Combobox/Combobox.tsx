@@ -1,0 +1,180 @@
+'use client';
+
+import { type ComponentProps, useId } from 'react';
+
+import { cn } from '../../lib/styles/cn';
+import {
+  textFieldDescriptionClassName,
+  textFieldErrorClassName,
+  textFieldLabelClassName,
+} from '../TextField/classNames';
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from '../TextField/components/Field';
+import { ComboboxContent } from './components/ComboboxContent';
+import { ComboboxEmpty } from './components/ComboboxEmpty';
+import { ComboboxInput } from './components/ComboboxInput';
+import { ComboboxItem } from './components/ComboboxItem';
+import { ComboboxList } from './components/ComboboxList';
+import { ComboboxRoot } from './components/ComboboxRoot';
+import type { ComboboxOption, ComboboxRootProps } from './types';
+
+export type { ComboboxOption };
+
+export type ComboboxProps<TValue extends string = string> = Omit<
+  ComboboxRootProps,
+  'items' | 'children' | 'multiple'
+> & {
+  id?: string;
+  label: React.ReactNode;
+  description?: React.ReactNode;
+  /** Одна строка ошибки; если задано, показывается вместо `errors`. */
+  errorText?: string;
+  /** Несколько ошибок (например, из GraphQL / zod). */
+  errors?: Array<{ message?: string } | undefined>;
+  options: ComboboxOption<TValue>[];
+  placeholder?: string;
+  emptyText?: string;
+  showClear?: boolean;
+  showTrigger?: boolean;
+  triggerClassName?: string;
+  contentClassName?: string;
+  contentProps?: Omit<ComponentProps<typeof ComboboxContent>, 'children'>;
+  listClassName?: string;
+  /** Атрибут для тестирования. Пробрасывается на поле ввода. */
+  'data-testid'?: string;
+} & Pick<ComponentProps<typeof Field>, 'orientation'> &
+  Pick<
+    ComponentProps<typeof ComboboxInput>,
+    'aria-describedby' | 'aria-invalid'
+  >;
+
+/**
+ * Поле с выпадающим списком и фильтрацией по вводу (Base UI Combobox).
+ * Подпись, описание и ошибки оформлены через общий `Field`, как у `SelectField`.
+ *
+ * @example
+ * ```tsx
+ * import { useState } from 'react';
+ *
+ * import { Combobox } from '@/shared/ui/Combobox/Combobox';
+ *
+ * const cities = [
+ *   { value: 'msk', label: 'Москва' },
+ *   { value: 'spb', label: 'Санкт-Петербург' },
+ * ] as const;
+ *
+ * export function CityField() {
+ *   const [city, setCity] = useState<string | undefined>();
+ *
+ *   return (
+ *     <Combobox
+ *       label="Город"
+ *       placeholder="Начните вводить название…"
+ *       options={cities}
+ *       value={city}
+ *       onValueChange={setCity}
+ *       emptyText="Город не найден"
+ *       showClear
+ *     />
+ *   );
+ * }
+ * ```
+ */
+export function Combobox<TValue extends string = string>({
+  id: idProp,
+  label,
+  description,
+  errorText,
+  errors,
+  orientation = 'vertical',
+  options,
+  placeholder,
+  emptyText = 'Ничего не найдено',
+  showClear = false,
+  showTrigger = true,
+  triggerClassName,
+  contentClassName,
+  contentProps,
+  listClassName,
+  'aria-describedby': ariaDescribedByProp,
+  'aria-invalid': ariaInvalidProp,
+  'data-testid': dataTestId,
+  disabled,
+  ...rootProps
+}: ComboboxProps<TValue>) {
+  const generatedId = useId();
+  const triggerId = idProp ?? generatedId;
+  const descriptionId = description ? `${triggerId}-description` : undefined;
+  const hasVisibleError =
+    Boolean(errorText) || Boolean(errors?.some((e) => e?.message));
+  const invalid = hasVisibleError || ariaInvalidProp === true;
+  const errorId = hasVisibleError ? `${triggerId}-error` : undefined;
+
+  const ariaDescribedBy = [ariaDescribedByProp, descriptionId, errorId]
+    .filter(Boolean)
+    .join(' ');
+
+  return (
+    <ComboboxRoot disabled={disabled} items={options} {...rootProps}>
+      <Field
+        data-invalid={invalid || undefined}
+        data-disabled={disabled || undefined}
+        orientation={orientation}
+      >
+        <FieldLabel htmlFor={triggerId} className={textFieldLabelClassName}>
+          {label}
+        </FieldLabel>
+        <FieldContent>
+          <ComboboxInput
+            id={triggerId}
+            placeholder={placeholder}
+            disabled={disabled}
+            showClear={showClear}
+            showTrigger={showTrigger}
+            className={cn('w-full min-w-0', triggerClassName)}
+            aria-invalid={ariaInvalidProp ?? invalid}
+            aria-describedby={ariaDescribedBy || undefined}
+            data-testid={dataTestId}
+          />
+          <ComboboxContent
+            {...contentProps}
+            className={cn(contentClassName, contentProps?.className)}
+          >
+            <ComboboxList className={listClassName}>
+              {(item: ComboboxOption<TValue>) => (
+                <ComboboxItem
+                  key={item.value}
+                  value={item}
+                  disabled={item.disabled}
+                >
+                  {item.label}
+                </ComboboxItem>
+              )}
+            </ComboboxList>
+            <ComboboxEmpty>{emptyText}</ComboboxEmpty>
+          </ComboboxContent>
+          {description ? (
+            <FieldDescription
+              id={descriptionId}
+              className={textFieldDescriptionClassName}
+            >
+              {description}
+            </FieldDescription>
+          ) : null}
+          <FieldError
+            id={errorId}
+            className={textFieldErrorClassName}
+            errors={errorText ? undefined : errors}
+          >
+            {errorText ?? undefined}
+          </FieldError>
+        </FieldContent>
+      </Field>
+    </ComboboxRoot>
+  );
+}

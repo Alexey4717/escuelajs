@@ -3,6 +3,11 @@ export {
   type RHFSelectFieldProps,
 } from './fieldFactories/createRHFSelect';
 export {
+  createRHFCombobox,
+  type ComboboxReturnType,
+  type RHFComboboxFieldProps,
+} from './fieldFactories/createRHFCombobox';
+export {
   createRHFTextField,
   type BaseTextFieldComponentProps,
 } from './fieldFactories/createRHFTextField';

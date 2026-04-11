@@ -11,7 +11,7 @@ import type { SelectOption } from './types';
 export type ZodFormFieldUiMeta = {
   label?: string;
   'data-testid'?: string;
-  /** {@link createRHFSelect}: пункты списка (как у `SelectField` / `options` в RHF). */
+  /** {@link createRHFSelect} / {@link createRHFCombobox}: пункты списка (как у `SelectField` / `options` в RHF). */
   options?: SelectOption[];
   placeholder?: string;
   description?: string;
@@ -24,7 +24,7 @@ export type ZodFormFieldUiMeta = {
 
 declare module 'zod/v4/core' {
   export interface GlobalMeta {
-    /** Подпись, test id, опции селекта и др. для {@link createRHFTextField} / {@link createRHFSelect} */
+    /** Подпись, test id, опции селекта/комбобокса и др. для {@link createRHFTextField} / {@link createRHFSelect} / {@link createRHFCombobox} */
     formField?: ZodFormFieldUiMeta;
   }
 }
