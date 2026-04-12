@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { normalizeMaxFiles, validateSelectedFiles } from './files-box-utils';
+import type { FilesBoxItem } from '../types';
+import {
+  formatFileSize,
+  isFilesBoxOverLimit,
+  normalizeMaxFiles,
+  validateSelectedFiles,
+} from './files-box-utils';
 
 describe('files-box-utils', () => {
   it('normalizes max files to not exceed 3', () => {
@@ -23,5 +29,33 @@ describe('files-box-utils', () => {
     expect(result.errors).toEqual([
       'document.pdf: PDF-файлы не поддерживаются',
     ]);
+  });
+
+  it('formats file size for display', () => {
+    expect(formatFileSize(0)).toBe('—');
+    expect(formatFileSize(512)).toMatch(/КБ$/);
+    expect(formatFileSize(2 * 1024 * 1024)).toBe('2 МБ');
+  });
+
+  it('detects when active files exceed configured max', () => {
+    const active: FilesBoxItem = {
+      localId: '1',
+      name: 'a.png',
+      size: 1,
+      mimeType: 'image/png',
+      status: 'queued',
+    };
+    const removed: FilesBoxItem = {
+      localId: '2',
+      name: 'b.png',
+      size: 1,
+      mimeType: 'image/png',
+      status: 'marked_for_removal',
+      previousStatus: 'queued',
+    };
+
+    expect(isFilesBoxOverLimit([active], 1)).toBe(false);
+    expect(isFilesBoxOverLimit([active, active], 1)).toBe(true);
+    expect(isFilesBoxOverLimit([active, removed], 1)).toBe(false);
   });
 });

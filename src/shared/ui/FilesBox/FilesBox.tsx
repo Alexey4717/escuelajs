@@ -1,180 +1,100 @@
 'use client';
 
-import { useEffect, useId, useMemo, useState } from 'react';
-
-import { cn } from '../../lib/styles/cn';
-import { AppImage } from '../AppImage/AppImage';
-import { Button } from '../Button/Button';
-import { textFieldInputClassName } from '../TextField/classNames';
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldError,
-  FieldLabel,
+  FieldTitle,
 } from '../TextField/components/Field';
-import { Input } from '../TextField/components/Input';
-import type { FilesBoxItem } from './types';
-import {
-  getActiveFiles,
-  mergeWithLimit,
-  normalizeMaxFiles,
-  revokeItemPreview,
-  setItemStatus,
-  validateSelectedFiles,
-} from './utils/files-box-utils';
+import { FilesBoxAttachSection } from './components/FilesBoxAttachSection';
+import { FilesBoxItemRow } from './components/FilesBoxItemRow';
+import { FilesBoxLimitHint } from './components/FilesBoxLimitHint';
+import { useFilesBox } from './hooks/useFilesBox';
+import type { FilesBoxProps } from './types';
 
-export interface FilesBoxProps {
-  id?: string;
-  label: React.ReactNode;
-  description?: React.ReactNode;
-  errorText?: string;
-  value?: FilesBoxItem[];
-  defaultValue?: FilesBoxItem[];
-  onChange?: (value: FilesBoxItem[]) => void;
-  onValidationErrors?: (errors: string[]) => void;
-  disabled?: boolean;
-  maxFiles?: number;
-  maxFileSizeMb?: number;
-  multiple?: boolean;
-  accept?: string;
-  uploadMode?: 'onSelect' | 'onSubmit';
-  'data-testid'?: string;
-}
+export function FilesBox(props: FilesBoxProps) {
+  const {
+    label,
+    description,
+    errorText,
+    disabled,
+    'data-testid': dataTestId,
+  } = props;
 
-export function FilesBox({
-  id: idProp,
-  label,
-  description,
-  errorText,
-  value,
-  defaultValue = [],
-  onChange,
-  onValidationErrors,
-  disabled,
-  maxFiles = 1,
-  maxFileSizeMb,
-  multiple,
-  accept = 'image/*',
-  uploadMode,
-  'data-testid': dataTestId,
-}: FilesBoxProps) {
-  const generatedId = useId();
-  const inputId = idProp ?? generatedId;
-  const max = normalizeMaxFiles(maxFiles);
-  const resolvedMultiple = multiple ?? max > 1;
-  const [localValue, setLocalValue] = useState<FilesBoxItem[]>(defaultValue);
-  const [localErrors, setLocalErrors] = useState<string[]>([]);
-  const items = value ?? localValue;
-  const isControlled = value !== undefined;
-  const uploadModeDescription =
-    uploadMode === 'onSelect'
-      ? 'Файлы загружаются сразу после выбора'
-      : 'Файлы будут загружены при сохранении формы';
-
-  const activeCount = useMemo(() => getActiveFiles(items).length, [items]);
-
-  const updateItems = (next: FilesBoxItem[]) => {
-    if (!isControlled) {
-      setLocalValue(next);
-    }
-    onChange?.(next);
-  };
-
-  useEffect(() => {
-    return () => {
-      items.forEach((item) => revokeItemPreview(item));
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleFileSelect = (fileList: FileList | null) => {
-    if (!fileList) return;
-    const selectedFiles = Array.from(fileList);
-    const { validFiles, errors } = validateSelectedFiles(selectedFiles, {
-      maxFiles: max,
-      maxFileSizeMb,
-    });
-
-    let next = mergeWithLimit(items, validFiles, max);
-    if (max > 1) {
-      const overflow = getActiveFiles(next).length - max;
-      if (overflow > 0) {
-        next = next.slice(0, next.length - overflow);
-      }
-    }
-
-    setLocalErrors(errors);
-    onValidationErrors?.(errors);
-    updateItems(next);
-  };
+  const {
+    inputId,
+    fieldTitleId,
+    uploadHintId,
+    uploadModeHintId,
+    describedBy,
+    fileInputRef,
+    resolvedMultiple,
+    items,
+    localErrors,
+    uploadMode,
+    uploadModeDescription,
+    requirementText,
+    overLimit,
+    atLimit,
+    canAddFiles,
+    handleFileSelect,
+    toggleItemRemoval,
+    limitHintText,
+    accept,
+  } = useFilesBox(props);
 
   return (
     <Field
-      data-invalid={Boolean(errorText) || localErrors.length > 0 || undefined}
+      data-invalid={
+        Boolean(errorText) || localErrors.length > 0 || overLimit || undefined
+      }
     >
-      <FieldLabel htmlFor={inputId}>{label}</FieldLabel>
-      <FieldContent>
-        <Input
-          id={inputId}
-          data-testid={dataTestId}
-          type="file"
-          className={cn(textFieldInputClassName)}
-          disabled={disabled}
-          accept={accept}
-          multiple={resolvedMultiple}
-          onChange={(e) => {
-            handleFileSelect(e.target.files);
-            e.target.value = '';
-          }}
-        />
-        <FieldDescription>
-          {description ??
-            `Выбрано ${activeCount}/${max} файла(ов). ${uploadModeDescription}`}
-        </FieldDescription>
+      <FieldTitle id={fieldTitleId}>{label}</FieldTitle>
+      <FieldContent className="gap-3">
         {items.length > 0 ? (
-          <div className="flex flex-col gap-2 rounded-md border border-border p-2">
+          <ul className="flex flex-col gap-2">
             {items.map((item) => (
-              <div
+              <FilesBoxItemRow
                 key={item.localId}
-                className={cn(
-                  'flex items-center justify-between gap-2 rounded-md border border-border px-2 py-1.5 text-sm',
-                  item.status === 'marked_for_removal' && 'opacity-50',
-                )}
-              >
-                <div className="flex min-w-0 items-center gap-2">
-                  {item.previewUrl ? (
-                    <AppImage
-                      src={item.previewUrl}
-                      alt={item.name}
-                      className="h-8 w-8 rounded object-cover"
-                    />
-                  ) : null}
-                  <div className="min-w-0">
-                    <p className="truncate">{item.name}</p>
-                    <p className="text-xs text-muted-foreground">
-                      {item.status}
-                      {item.error ? `: ${item.error}` : ''}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  disabled={disabled}
-                  onClick={() =>
-                    updateItems(setItemStatus(items, item.localId))
-                  }
-                >
-                  {item.status === 'marked_for_removal'
-                    ? 'Отменить удаление'
-                    : 'Удалить'}
-                </Button>
-              </div>
+                item={item}
+                disabled={disabled}
+                onToggleRemoval={toggleItemRemoval}
+              />
             ))}
-          </div>
+          </ul>
         ) : null}
+
+        {canAddFiles ? (
+          <FilesBoxAttachSection
+            fileInputRef={fileInputRef}
+            inputId={inputId}
+            fieldTitleId={fieldTitleId}
+            describedBy={describedBy}
+            dataTestId={dataTestId}
+            disabled={disabled}
+            accept={accept}
+            resolvedMultiple={resolvedMultiple}
+            uploadHintId={uploadHintId}
+            uploadModeHintId={uploadModeHintId}
+            description={description}
+            requirementText={requirementText}
+            uploadMode={uploadMode}
+            uploadModeDescription={uploadModeDescription}
+            onFileSelect={handleFileSelect}
+          />
+        ) : null}
+
+        {!canAddFiles && description ? (
+          <FieldDescription>{description}</FieldDescription>
+        ) : null}
+
+        <FilesBoxLimitHint
+          overLimit={overLimit}
+          atLimit={atLimit}
+          text={limitHintText}
+        />
+
         <FieldError>{errorText}</FieldError>
         <FieldError
           errors={localErrors.map((message) => ({

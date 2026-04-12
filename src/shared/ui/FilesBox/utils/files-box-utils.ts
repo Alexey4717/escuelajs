@@ -29,6 +29,49 @@ export function getActiveFiles(items: FilesBoxItem[]) {
   return items.filter((item) => item.status !== 'marked_for_removal');
 }
 
+/** Человекочитаемый размер для UI карточки файла (`0` — без известного размера, например удалённый blob). */
+export function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '—';
+  const mb = bytes / (1024 * 1024);
+  if (mb >= 1) {
+    const rounded = mb >= 10 ? Math.round(mb) : Math.round(mb * 10) / 10;
+    return `${rounded} МБ`;
+  }
+  const kb = bytes / 1024;
+  const roundedKb = kb >= 10 ? Math.round(kb) : Math.round(kb * 10) / 10;
+  return `${roundedKb} КБ`;
+}
+
+export function isFilesBoxOverLimit(
+  items: FilesBoxItem[],
+  maxFiles?: number,
+): boolean {
+  return getActiveFiles(items).length > normalizeMaxFiles(maxFiles);
+}
+
+export function formatFilesBoxMaxFilesHint(maxFiles: number): string {
+  const max = normalizeMaxFiles(maxFiles);
+  if (max === 1) return 'Максимум 1 файл';
+  if (max >= 2 && max <= 4) return `Максимум ${max} файла`;
+  return `Максимум ${max} файлов`;
+}
+
+export function formatFilesBoxOverLimitHint(maxFiles: number): string {
+  const max = normalizeMaxFiles(maxFiles);
+  return `Превышен лимит файлов (${max}). Удалите лишние вложения.`;
+}
+
+export function getFilesBoxRequirementDescription(
+  accept: string,
+  maxFileSizeMb: number,
+): string {
+  const typePart =
+    accept.trim() === 'image/*' || accept.startsWith('image/')
+      ? 'Разрешены изображения (JPEG, PNG, WebP и др.)'
+      : `Допустимые типы: ${accept}`;
+  return `${typePart}. Максимальный размер одного файла: ${maxFileSizeMb} МБ.`;
+}
+
 export function validateSelectedFiles(
   files: File[],
   opts: {

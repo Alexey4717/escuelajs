@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it } from 'vitest';
 
 import { FilesBox } from './FilesBox';
+import type { FilesBoxItem } from './types';
 
 describe('FilesBox', () => {
   it('renders file input and label', () => {
@@ -13,6 +14,31 @@ describe('FilesBox', () => {
       'type',
       'file',
     );
+  });
+
+  it('hides attach control when active file count reaches maxFiles', () => {
+    const queued: FilesBoxItem = {
+      localId: 'a',
+      name: 'pic.png',
+      size: 2048,
+      mimeType: 'image/png',
+      status: 'queued',
+    };
+
+    render(
+      <FilesBox
+        label="Файлы"
+        maxFiles={1}
+        value={[queued]}
+        onChange={() => {}}
+        data-testid="files-input"
+      />,
+    );
+
+    expect(
+      screen.queryByRole('button', { name: /прикрепить файл/i }),
+    ).toBeNull();
+    expect(screen.getByText('Максимум 1 файл')).toBeInTheDocument();
   });
 
   it('shows validation error for pdf file', async () => {

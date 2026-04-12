@@ -12,11 +12,16 @@ import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Card } from '@/shared/ui/Card/Card';
 import type { FilesBoxItem } from '@/shared/ui/FilesBox';
-import { createRemoteFileItem, FilesBox } from '@/shared/ui/FilesBox';
+import {
+  createRemoteFileItem,
+  FilesBox,
+  isFilesBoxOverLimit,
+} from '@/shared/ui/FilesBox';
 import { Form } from '@/shared/ui/Form/Form';
 
 import { parseUserRole } from '@/entities/User';
 
+import { AVATAR_MAX_FILES } from '../../lib/constants';
 import {
   ProfileEditEmailField,
   ProfileEditNameField,
@@ -74,7 +79,7 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
         <ProfileEditRoleSection />
         <FilesBox
           label="Аватар"
-          maxFiles={1}
+          maxFiles={AVATAR_MAX_FILES}
           accept="image/*"
           maxFileSizeMb={5}
           uploadMode="onSubmit"
@@ -94,7 +99,10 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
           <Button
             type="submit"
             className="w-full sm:w-auto"
-            disabled={submitLoading}
+            disabled={
+              submitLoading ||
+              isFilesBoxOverLimit(avatarFiles, AVATAR_MAX_FILES)
+            }
             data-testid="profileEdit__button__submit"
           >
             Сохранить изменения
