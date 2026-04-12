@@ -1,12 +1,31 @@
-import { CategoryImageField, CategoryNameField } from '../../lib/form/fields';
+import type { FilesBoxItem } from '@/shared/ui/FilesBox';
+import { FilesBox } from '@/shared/ui/FilesBox';
 
-export const CategoryManagementFormFields = () => (
-  <>
-    <CategoryNameField placeholder="Например, Clothes" />
-    <CategoryImageField
-      type="url"
-      autoComplete="url"
-      placeholder="https://api.lorem.space/image/fashion?w=640&h=480&r=42"
-    />
-  </>
-);
+import { CATEGORY_IMAGE_FILES_MAX } from '../../lib/constants';
+import { CategoryNameField } from '../../lib/form/fields';
+
+interface CategoryManagementFormFieldsProps {
+  imageFiles: FilesBoxItem[];
+  onImageFilesChange: (files: FilesBoxItem[]) => void;
+}
+
+export function CategoryManagementFormFields({
+  imageFiles,
+  onImageFilesChange,
+}: CategoryManagementFormFieldsProps) {
+  return (
+    <>
+      <CategoryNameField placeholder="Например, Clothes" />
+      <FilesBox
+        label="Изображение категории"
+        maxFiles={CATEGORY_IMAGE_FILES_MAX}
+        accept="image/*"
+        maxFileSizeMb={5}
+        uploadMode="onSubmit"
+        value={imageFiles}
+        onChange={onImageFilesChange}
+        data-testid="categoryForm__input__image"
+      />
+    </>
+  );
+}

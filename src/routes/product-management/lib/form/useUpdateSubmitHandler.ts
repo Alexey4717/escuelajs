@@ -15,13 +15,13 @@ import {
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
-import type { FilesBoxItem } from '@/shared/ui/FilesBox';
+import {
+  collectUploadedFileUrls,
+  type FilesBoxItem,
+  uploadQueuedFilesBoxItemsWithLoading,
+} from '@/shared/ui/FilesBox';
 
 import type { ProductFormStateOutput } from './schema';
-import {
-  collectProductImageUrls,
-  uploadQueuedFilesBoxItems,
-} from './upload-queued-files-box';
 
 interface UpdateSubmitArgs {
   productId: string;
@@ -40,26 +40,17 @@ export function useUpdateSubmitHandler() {
     imageFiles,
   }: UpdateSubmitArgs): Promise<FilesBoxItem[]> {
     let filesState = imageFiles;
-    const needsImageUpload = imageFiles.some(
-      (item) => item.status === 'queued' && item.file,
+    const uploadResult = await uploadQueuedFilesBoxItemsWithLoading(
+      imageFiles,
+      setImagesUploadLoading,
     );
-    if (needsImageUpload) {
-      setImagesUploadLoading(true);
-    }
-    try {
-      const uploadResult = await uploadQueuedFilesBoxItems(imageFiles);
-      filesState = uploadResult.files;
-      if (uploadResult.hasUploadError) {
-        toast.error('Не удалось загрузить одно или несколько изображений');
-        return filesState;
-      }
-    } finally {
-      if (needsImageUpload) {
-        setImagesUploadLoading(false);
-      }
+    filesState = uploadResult.files;
+    if (uploadResult.hasUploadError) {
+      toast.error('Не удалось загрузить одно или несколько изображений');
+      return filesState;
     }
 
-    const images = collectProductImageUrls(filesState);
+    const images = collectUploadedFileUrls(filesState);
     if (images.length === 0) {
       toast.error('Добавьте хотя бы одно изображение');
       return filesState;

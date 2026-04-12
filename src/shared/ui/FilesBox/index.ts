@@ -9,3 +9,9 @@ export {
   getFilesBoxRequirementDescription,
   isFilesBoxOverLimit,
 } from './utils/files-box-utils';
+export {
+  uploadQueuedFilesBoxItems,
+  collectUploadedFileUrls,
+  firstUploadedFileUrl,
+  uploadQueuedFilesBoxItemsWithLoading,
+} from './utils/upload-queued-files-box-items';

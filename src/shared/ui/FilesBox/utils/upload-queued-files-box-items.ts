@@ -1,6 +1,6 @@
-import { uploadFile } from '@/shared/api/rest/files/upload-file';
-import type { FilesBoxItem } from '@/shared/ui/FilesBox';
-import { getActiveFiles } from '@/shared/ui/FilesBox';
+import { uploadFile } from '../../../api/rest/files/upload-file';
+import type { FilesBoxItem } from '../types';
+import { getActiveFiles } from './files-box-utils';
 
 export async function uploadQueuedFilesBoxItems(files: FilesBoxItem[]) {
   const next = [...files];
@@ -40,8 +40,34 @@ export async function uploadQueuedFilesBoxItems(files: FilesBoxItem[]) {
   return { files: next, hasUploadError };
 }
 
-export function collectProductImageUrls(files: FilesBoxItem[]): string[] {
+export function collectUploadedFileUrls(files: FilesBoxItem[]): string[] {
   return getActiveFiles(files)
     .map((item) => item.uploadedUrl)
     .filter((url): url is string => typeof url === 'string' && url.length > 0);
+}
+
+/** Первый загруженный URL (например, для API с одним полем `image`). */
+export function firstUploadedFileUrl(
+  files: FilesBoxItem[],
+): string | undefined {
+  return collectUploadedFileUrls(files)[0];
+}
+
+export async function uploadQueuedFilesBoxItemsWithLoading(
+  files: FilesBoxItem[],
+  setUploadLoading: (loading: boolean) => void,
+): Promise<{ files: FilesBoxItem[]; hasUploadError: boolean }> {
+  const needsImageUpload = files.some(
+    (item) => item.status === 'queued' && item.file,
+  );
+  if (needsImageUpload) {
+    setUploadLoading(true);
+  }
+  try {
+    return await uploadQueuedFilesBoxItems(files);
+  } finally {
+    if (needsImageUpload) {
+      setUploadLoading(false);
+    }
+  }
 }

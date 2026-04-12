@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
@@ -13,26 +15,54 @@ import {
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
+import {
+  firstUploadedFileUrl,
+  uploadQueuedFilesBoxItemsWithLoading,
+} from '@/shared/ui/FilesBox';
+import type { FilesBoxItem } from '@/shared/ui/FilesBox';
 
 import type { CategoryFormStateOutput } from './schema';
 
 interface UpdateSubmitArgs {
   categoryId: string;
   values: CategoryFormStateOutput;
+  imageFiles: FilesBoxItem[];
 }
 
 export function useUpdateSubmitHandler() {
   const router = useRouter();
   const [updateCategory, { loading }] = useMutation(UpdateCategoryDocument);
+  const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
 
-  async function handleSubmit({ categoryId, values }: UpdateSubmitArgs) {
+  async function handleSubmit({
+    categoryId,
+    values,
+    imageFiles,
+  }: UpdateSubmitArgs): Promise<FilesBoxItem[]> {
+    let filesState = imageFiles;
+    const uploadResult = await uploadQueuedFilesBoxItemsWithLoading(
+      imageFiles,
+      setImagesUploadLoading,
+    );
+    filesState = uploadResult.files;
+    if (uploadResult.hasUploadError) {
+      toast.error('Не удалось загрузить  изображения');
+      return filesState;
+    }
+
+    const image = firstUploadedFileUrl(filesState);
+    if (!image) {
+      toast.error('Добавьте хотя бы одно изображение');
+      return filesState;
+    }
+
     try {
       const { data } = await updateCategory({
         variables: {
           id: categoryId,
           changes: {
             name: values.name,
-            image: values.image,
+            image,
           },
         },
         update(cache, { data: mutationData }) {
@@ -69,14 +99,17 @@ export function useUpdateSubmitHandler() {
       toast.success('Категория успешно обновлена');
       router.replace(pagesPath.categories.$url().path);
       router.refresh();
+      return filesState;
     } catch (err) {
       console.error(err);
       toast.error('Не удалось обновить категорию');
+      return filesState;
     }
   }
 
   return {
     loading,
+    imagesUploadLoading,
     handleSubmit,
   };
 }

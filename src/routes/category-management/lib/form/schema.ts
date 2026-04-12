@@ -9,19 +9,10 @@ export const categoryFormSchema = object({
         'data-testid': 'categoryForm__input__name',
       },
     }),
-  image: string()
-    .min(1, 'Введите URL изображения')
-    .meta({
-      formField: {
-        label: 'URL изображения',
-        'data-testid': 'categoryForm__input__image',
-      },
-    }),
 });
 
 export const categoryFormDefaultValues: CategoryFormStateInput = {
   name: '',
-  image: '',
 };
 
 export type CategoryFormStateInput = input<typeof categoryFormSchema>;

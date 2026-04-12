@@ -8,28 +8,41 @@ import { Button } from '@/shared/ui/Button/Button';
 interface CategoryManagementFormActionsProps {
   submitLabel: string;
   submitLoading: boolean;
+  imagesUploadLoading: boolean;
+  submitDisabled?: boolean;
 }
 
-export const CategoryManagementFormActions = ({
+export function CategoryManagementFormActions({
   submitLabel,
   submitLoading,
-}: CategoryManagementFormActionsProps) => (
-  <div className="flex align-center justify-between gap-2 pt-2">
-    <Button
-      type="button"
-      variant="outline"
-      asChild
-      className="w-full sm:w-auto"
-    >
-      <Link href={pagesPath.categories.$url().path}>К списку категорий</Link>
-    </Button>
-    <Button
-      type="submit"
-      className="w-full sm:w-auto"
-      loading={submitLoading}
-      data-testid="categoryForm__button__submit"
-    >
-      {submitLabel}
-    </Button>
-  </div>
-);
+  imagesUploadLoading,
+  submitDisabled = false,
+}: CategoryManagementFormActionsProps) {
+  const busy = imagesUploadLoading || submitLoading;
+
+  return (
+    <div className="flex align-center justify-between gap-2 pt-2">
+      <Button
+        type="button"
+        variant="outline"
+        asChild
+        className="w-full sm:w-auto"
+      >
+        <Link href={pagesPath.categories.$url().path}>К списку категорий</Link>
+      </Button>
+      <Button
+        type="submit"
+        className="w-full sm:w-auto"
+        loading={busy}
+        disabled={submitDisabled}
+        data-testid="categoryForm__button__submit"
+      >
+        {imagesUploadLoading
+          ? 'Загрузка изображений…'
+          : submitLoading
+            ? `${submitLabel}…`
+            : submitLabel}
+      </Button>
+    </div>
+  );
+}
