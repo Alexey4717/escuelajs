@@ -1,17 +1,17 @@
 import {
-  ProductCategoryIdField,
   ProductDescriptionField,
   ProductImageField,
   ProductPriceField,
   ProductTitleField,
 } from '../../lib/form/fields';
+import { ProductManagementCategoryField } from './ProductManagementCategoryField';
 
 export const ProductManagementFormFields = () => (
   <>
     <ProductTitleField placeholder="Например, Awesome Shirt" />
     <ProductPriceField type="number" min={1} step="0.01" placeholder="1999" />
     <ProductDescriptionField rows={4} placeholder="Краткое описание товара" />
-    <ProductCategoryIdField type="number" min={1} step="1" placeholder="1" />
+    <ProductManagementCategoryField />
     <ProductImageField
       type="url"
       autoComplete="url"

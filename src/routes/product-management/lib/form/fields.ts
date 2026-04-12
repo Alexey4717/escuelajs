@@ -1,4 +1,8 @@
-import { createRHFTextareaField, createRHFTextField } from '@/shared/lib/form';
+import {
+  createRHFCombobox,
+  createRHFTextareaField,
+  createRHFTextField,
+} from '@/shared/lib/form';
 
 import { productFormSchema } from './schema';
 
@@ -8,7 +12,7 @@ export const ProductDescriptionField = createRHFTextareaField(
   productFormSchema,
   'description',
 );
-export const ProductCategoryIdField = createRHFTextField(
+export const ProductCategoryIdField = createRHFCombobox(
   productFormSchema,
   'categoryId',
 );

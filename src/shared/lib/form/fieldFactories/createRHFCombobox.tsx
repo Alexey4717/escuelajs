@@ -87,7 +87,7 @@ function extractStoredValue<TValue extends string>(
   returnType: ComboboxReturnType,
 ): unknown {
   if (!option) {
-    return null;
+    return returnType === 'value' ? '' : null;
   }
   if (returnType === 'value') {
     return option.value;
@@ -171,13 +171,17 @@ const BaseRHFComboboxField = <
  * Подпись, `options`, `placeholder` и др. — из Zod meta (`formField`) или пропсов (пропсы важнее).
  * `required` для подписи по умолчанию — из схемы.
  *
+ * **Опции списка:** в `formField` схемы можно задать `options` как константу; если в JSX передать
+ * `options={…}` (в т.ч. из асинхронной загрузки), используется значение из пропсов. Чтобы брать
+ * только meta, не передавайте `options` в пропсах.
+ *
  * `returnType` задаёт, что попадает в поле формы: `value` (строка из опции), `label` (как в опции;
  * для стабильного сравнения удобны строковые подписи) или `object` (вся опция `{ value, label, … }`).
  *
- * @example Поле с фиксированным `name` и опциями в meta:
+ * @example Поле с фиксированным `name` и опциями в meta или в пропсах:
  * ```tsx
  * const CityCombobox = createRHFCombobox(userSchema, 'city');
- * <CityCombobox />
+ * <CityCombobox options={cities} />
  * ```
  *
  * @example `name` и опции в пропсах:
@@ -192,7 +196,7 @@ export function createRHFCombobox<
 >(
   schema: TSchema,
   name: TName,
-): (props?: Omit<RHFComboboxFieldProps, 'name' | 'options'>) => JSX.Element;
+): (props?: Omit<RHFComboboxFieldProps, 'name'>) => JSX.Element;
 
 export function createRHFCombobox<TSchema extends ZodObject>(
   schema: TSchema,
@@ -206,7 +210,7 @@ export function createRHFCombobox<TSchema extends ZodObject>(
   schema: TSchema,
   name?: keyof TSchema['shape'] & string,
 ):
-  | ((props?: Omit<RHFComboboxFieldProps, 'name' | 'options'>) => JSX.Element)
+  | ((props?: Omit<RHFComboboxFieldProps, 'name'>) => JSX.Element)
   | (<TValue extends string>(
       props: RHFComboboxFieldProps<TValue> & {
         name: keyof TSchema['shape'] & string;
@@ -218,7 +222,7 @@ export function createRHFCombobox<TSchema extends ZodObject>(
     const fromMeta = getZodFormFieldUiMeta(schema, fieldName);
 
     return function RHFComboboxWithName<TOptionValue extends string>(
-      props?: Omit<RHFComboboxFieldProps<TOptionValue>, 'name' | 'options'>,
+      props?: Omit<RHFComboboxFieldProps<TOptionValue>, 'name'>,
     ) {
       const p = props ?? {};
       const merged = mergeRHFComboboxPropsWithMeta<TOptionValue>(p, fromMeta);

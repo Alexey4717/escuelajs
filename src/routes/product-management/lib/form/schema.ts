@@ -27,14 +27,17 @@ export const productFormSchema = object({
       },
     }),
   categoryId: string()
-    .min(1, 'Введите id категории')
+    .min(1, 'Выберите категорию')
     .refine(
       (value) => Number.isInteger(Number(value)) && Number(value) > 0,
-      'Укажите корректный id категории',
+      'Укажите корректную категорию',
     )
     .meta({
+      // для категорий опции приходят из API
+      // в `ProductManagementCategoryField` и передаются в props
       formField: {
-        label: 'ID категории',
+        label: 'Категория',
+        placeholder: 'Выберите категорию…',
         'data-testid': 'productForm__input__categoryId',
       },
     }),
