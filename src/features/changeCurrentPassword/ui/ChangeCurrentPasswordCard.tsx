@@ -40,19 +40,24 @@ export function ChangeCurrentPasswordCard() {
   return (
     <Card title="Сменить пароль" className="shadow-sm ring-border/60">
       <Form methods={methods} onSubmit={handleSubmit}>
-        <ChangeCurrentPasswordField
-          type="password"
-          autoComplete="new-password"
-          placeholder="Новый пароль"
-        />
-        <Button
-          type="submit"
-          className="w-full sm:w-auto"
-          disabled={loading}
-          data-testid="changeCurrentPassword__button__submit"
-        >
-          Сохранить
-        </Button>
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
+          <div className="min-w-0 flex-1">
+            <ChangeCurrentPasswordField
+              type="password"
+              autoComplete="new-password"
+              placeholder="Новый пароль"
+            />
+          </div>
+          <Button
+            type="submit"
+            className="w-full shrink-0 sm:w-auto"
+            disabled={loading}
+            size="lg"
+            data-testid="changeCurrentPassword__button__submit"
+          >
+            Сохранить
+          </Button>
+        </div>
       </Form>
     </Card>
   );
