@@ -2,8 +2,8 @@
 
 import { useCallback } from 'react';
 
-import type { ModalRegistryMap } from '@/shared/lib/modal/types';
 import { useAppStore } from '@/shared/lib/store';
+import type { ModalRegistryMap } from '@/shared/lib/store/slices/modal/types';
 
 type DeleteProductModalProps = ModalRegistryMap['productDelete'];
 

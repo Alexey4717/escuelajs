@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
 
-import type { ModalKey, ModalRegistryMap } from '@/shared/lib/modal/types';
+import type { ModalKey, ModalRegistryMap } from './types';
 
 export interface ModalSlice {
   openedModal: ModalKey | null;

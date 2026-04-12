@@ -1,4 +1,5 @@
 import type { UsersQuery } from '@/shared/api/generated/graphql';
+import { formatDateTime } from '@/shared/lib/data-processing/date/format-date-time';
 import { cn } from '@/shared/lib/styles/cn';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Badge } from '@/shared/ui/Badge/Badge';
@@ -46,6 +47,9 @@ export const UsersTableBody = ({ users }: UsersTableBodyProps) => (
                 {user.email}
               </a>
             </TableCell>
+            <TableCell className="px-4 py-3 text-sm text-foreground tabular-nums whitespace-nowrap">
+              {formatDateTime(user.creationAt) || '—'}
+            </TableCell>
             <TableCell className="px-4 py-3">
               <Badge
                 variant="outline"
@@ -64,7 +68,7 @@ export const UsersTableBody = ({ users }: UsersTableBodyProps) => (
       })
     ) : (
       <TableRow className="hover:bg-transparent">
-        <TableCell colSpan={4} className="px-4 py-10 text-center">
+        <TableCell colSpan={5} className="px-4 py-10 text-center">
           <Typography variant="muted">Пользователи пока недоступны.</Typography>
         </TableCell>
       </TableRow>

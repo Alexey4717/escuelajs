@@ -1,6 +1,6 @@
 'use client';
 
-import type { ModalRegistryMap } from '@/shared/lib/modal/types';
+import type { ModalRegistryMap } from '@/shared/lib/store/slices/modal/types';
 import { Button } from '@/shared/ui/Button/Button';
 
 import { useDeleteCategorySubmitHandler } from '../../api/use-delete-category-submit-handler';

@@ -1,4 +1,7 @@
-import type { ModalKey, ModalRegistryItem } from '@/shared/lib/modal/types';
+import type {
+  ModalKey,
+  ModalRegistryItem,
+} from '@/shared/lib/store/slices/modal/types';
 
 import { categoryDeleteModalRegistryItem } from '@/features/deleteCategory';
 import { profileDeleteModalRegistryItem } from '@/features/deleteCurrentUser';

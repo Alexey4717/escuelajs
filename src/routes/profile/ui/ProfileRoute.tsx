@@ -104,6 +104,8 @@ export const ProfileRoute = () => {
             id={u.id}
             name={u.name}
             email={u.email}
+            creationAt={u.creationAt}
+            updatedAt={u.updatedAt}
             roleLabel={roleLabel}
             roleBadgeVariant={roleBadgeVariant}
           />

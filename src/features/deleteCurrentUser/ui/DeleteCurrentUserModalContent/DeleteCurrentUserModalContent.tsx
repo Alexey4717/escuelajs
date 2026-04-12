@@ -3,7 +3,7 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useForm } from 'react-hook-form';
 
-import type { ModalRegistryMap } from '@/shared/lib/modal/types';
+import type { ModalRegistryMap } from '@/shared/lib/store/slices/modal/types';
 import { Form } from '@/shared/ui/Form/Form';
 import { Typography } from '@/shared/ui/Typography/Typography';
 

@@ -1,6 +1,6 @@
 'use client';
 
-import type { ModalRegistryMap } from '@/shared/lib/modal/types';
+import type { ModalRegistryMap } from '@/shared/lib/store/slices/modal/types';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 type DeleteProductModalContentProps = ModalRegistryMap['productDelete'] & {

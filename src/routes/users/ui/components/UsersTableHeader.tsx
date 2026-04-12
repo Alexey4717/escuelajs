@@ -23,6 +23,12 @@ export const UsersTableHeader = () => (
       </TableHead>
       <TableHead
         scope="col"
+        className="px-4 py-3 text-[11px] font-semibold tracking-wide uppercase text-muted-foreground whitespace-nowrap"
+      >
+        Создан
+      </TableHead>
+      <TableHead
+        scope="col"
         className="px-4 py-3 text-[11px] font-semibold tracking-wide uppercase text-muted-foreground"
       >
         Роль

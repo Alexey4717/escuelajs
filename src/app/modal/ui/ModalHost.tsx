@@ -2,8 +2,11 @@
 
 import { type ComponentType, type ReactNode, useMemo } from 'react';
 
-import type { ModalControls, ModalKey } from '@/shared/lib/modal/types';
 import { useAppStore } from '@/shared/lib/store';
+import type {
+  ModalControls,
+  ModalKey,
+} from '@/shared/lib/store/slices/modal/types';
 import { Modal } from '@/shared/ui/Modal/Modal';
 
 import { modalRegistry } from '../model/modal-registry';

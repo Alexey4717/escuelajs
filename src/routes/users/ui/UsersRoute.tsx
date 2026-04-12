@@ -21,7 +21,7 @@ export const UsersRoute = () => {
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <Table
           containerClassName="rounded-xl"
-          className="min-w-[520px] sm:min-w-0"
+          className="min-w-[640px] sm:min-w-0"
         >
           <UsersTableHeader />
           <UsersTableBody users={data.users} />

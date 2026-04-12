@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 
-import { ModalRegistryItem } from '@/shared/lib/modal/types';
+import { ModalRegistryItem } from '@/shared/lib/store/slices/modal/types';
 
 import { DeleteProductModalContent } from './DeleteProductModalContent';
 import { DeleteProductModalFooter } from './DeleteProductModalFooter';
