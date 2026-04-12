@@ -1,0 +1,34 @@
+'use client';
+
+import { useRef } from 'react';
+
+import { usePathname } from 'next/navigation';
+
+import { useCurrentUserRole } from '@/entities/Session';
+
+import { Page } from '@/widgets/Page';
+
+import { ProductsCatalogGrid } from './components/ProductsCatalogGrid';
+
+export const ProductsRoute = () => {
+  const pathname = usePathname();
+  const mainRef = useRef<HTMLElement | null>(null);
+
+  const { role, loading: roleLoading } = useCurrentUserRole();
+  const isAdmin = !roleLoading && role === 'admin';
+
+  return (
+    <Page
+      className="space-y-6"
+      mainRef={mainRef}
+      heading="Продукты"
+      withSavingScrollPosition
+    >
+      <ProductsCatalogGrid
+        pathname={pathname}
+        mainRef={mainRef}
+        isAdmin={isAdmin}
+      />
+    </Page>
+  );
+};

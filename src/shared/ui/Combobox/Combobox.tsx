@@ -3,6 +3,7 @@
 import { type ComponentProps, useId } from 'react';
 
 import { cn } from '../../lib/styles/cn';
+import { Spinner } from '../Spinner/Spinner';
 import {
   textFieldDescriptionClassName,
   textFieldErrorClassName,
@@ -47,6 +48,8 @@ export type ComboboxProps<TValue extends string = string> = Omit<
   listClassName?: string;
   /** Атрибут для тестирования. Пробрасывается на поле ввода. */
   'data-testid'?: string;
+  /** Показать индикатор загрузки вместо списка опций (выпадающая панель). */
+  listLoading?: boolean;
 } & Pick<ComponentProps<typeof Field>, 'orientation'> &
   Pick<
     ComponentProps<typeof ComboboxInput>,
@@ -104,6 +107,7 @@ export function Combobox<TValue extends string = string>({
   'aria-describedby': ariaDescribedByProp,
   'aria-invalid': ariaInvalidProp,
   'data-testid': dataTestId,
+  listLoading = false,
   disabled,
   ...rootProps
 }: ComboboxProps<TValue>) {
@@ -145,18 +149,26 @@ export function Combobox<TValue extends string = string>({
             {...contentProps}
             className={cn(contentClassName, contentProps?.className)}
           >
-            <ComboboxList className={listClassName}>
-              {(item: ComboboxOption<TValue>) => (
-                <ComboboxItem
-                  key={item.value}
-                  value={item}
-                  disabled={item.disabled}
-                >
-                  {item.label}
-                </ComboboxItem>
-              )}
-            </ComboboxList>
-            <ComboboxEmpty>{emptyText}</ComboboxEmpty>
+            {listLoading ? (
+              <div className="flex justify-center py-6">
+                <Spinner className="size-5 text-muted-foreground" />
+              </div>
+            ) : (
+              <>
+                <ComboboxList className={listClassName}>
+                  {(item: ComboboxOption<TValue>) => (
+                    <ComboboxItem
+                      key={item.value}
+                      value={item}
+                      disabled={item.disabled}
+                    >
+                      {item.label}
+                    </ComboboxItem>
+                  )}
+                </ComboboxList>
+                <ComboboxEmpty>{emptyText}</ComboboxEmpty>
+              </>
+            )}
           </ComboboxContent>
           {description ? (
             <FieldDescription

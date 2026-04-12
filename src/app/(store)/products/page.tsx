@@ -1,11 +1,11 @@
-import { Suspense } from 'react';
-
 import type { Metadata } from 'next';
 
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
-import { ProductsDocument } from '@/shared/api/generated/graphql';
+import {
+  ProductsDocument,
+  type ProductsQueryVariables,
+} from '@/shared/api/generated/graphql';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { PRODUCTS_PAGE_SIZE, ProductsRoute } from '@/routes/products';
 
@@ -25,19 +25,23 @@ export const metadata: Metadata = {
   description: 'Каталог товаров',
 };
 
+const productsListQueryVariables = {
+  limit: PRODUCTS_PAGE_SIZE,
+  offset: 0,
+} as ProductsQueryVariables;
+
+// Suspence нет, т.к. клиентский компонент со сложной фильтрацией,
+// данные которой хранятся в глобальном сторе и могут инициализироваться с ними
+// при возврате на роут
 export default function ProductsPage() {
   return (
     <PreloadQuery
       query={ProductsDocument}
-      variables={{ limit: PRODUCTS_PAGE_SIZE, offset: 0 }}
+      variables={productsListQueryVariables}
       errorPolicy="all"
       context={productsListFetchContext}
     >
-      <Suspense
-        fallback={<Typography variant="muted">Загрузка каталога…</Typography>}
-      >
-        <ProductsRoute />
-      </Suspense>
+      <ProductsRoute />
     </PreloadQuery>
   );
 }

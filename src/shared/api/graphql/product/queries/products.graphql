@@ -1,5 +1,19 @@
-query Products($limit: Int, $offset: Int) {
-  products(limit: $limit, offset: $offset) {
+query Products(
+  $limit: Int
+  $offset: Int
+  $price_min: Int
+  $price_max: Int
+  $title: String
+  $categoryId: Float
+) {
+  products(
+    limit: $limit
+    offset: $offset
+    price_min: $price_min
+    price_max: $price_max
+    title: $title
+    categoryId: $categoryId
+  ) {
     id
     title
     slug

@@ -20,3 +20,20 @@ export function findScrollContainer(
   }
   return null;
 }
+
+/**
+ * Viewport для Virtuoso `customScrollParent`: сначала предки с `data-slot`,
+ * иначе тот же поиск, что у сохранения скролла страницы.
+ */
+export function resolveScrollAreaViewport(
+  from: HTMLElement | null,
+): HTMLElement | null {
+  if (!from) {
+    return null;
+  }
+  const byClosest = from.closest('[data-slot="scroll-area-viewport"]');
+  if (byClosest instanceof HTMLElement) {
+    return byClosest;
+  }
+  return findScrollContainer(from);
+}
