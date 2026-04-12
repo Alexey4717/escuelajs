@@ -1,8 +1,12 @@
 import { createRHFTextField } from '@/shared/lib/form';
 
-import { changeCurrentPasswordFormSchema } from './scheme';
+import type { ChangeCurrentPasswordFormSchema } from './scheme';
 
-export const ChangeCurrentPasswordField = createRHFTextField(
-  changeCurrentPasswordFormSchema,
-  'password',
-);
+export function createChangeCurrentPasswordRhfFields(
+  schema: ChangeCurrentPasswordFormSchema,
+) {
+  return {
+    CurrentPasswordField: createRHFTextField(schema, 'currentPassword'),
+    NewPasswordField: createRHFTextField(schema, 'password'),
+  };
+}

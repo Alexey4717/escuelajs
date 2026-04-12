@@ -7,11 +7,14 @@ import { useRouter } from 'next/navigation';
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { UpdateUserDocument } from '@/shared/api/generated/graphql';
+import {
+  UpdateUserDocument,
+  User_DetailsFragmentDoc,
+} from '@/shared/api/generated/graphql';
 import { uploadFile } from '@/shared/api/rest/files/upload-file';
 import {
   evictRootQueryField,
-  updateEntityInCache,
+  writeEntityFragmentToCache,
 } from '@/shared/lib/cache/apollo/utils/cache-utils';
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
@@ -119,16 +122,10 @@ export function useSubmitHandler() {
           const updatedUser = mutationData?.updateUser;
           if (!updatedUser) return;
 
-          updateEntityInCache({
+          writeEntityFragmentToCache({
             cache,
-            typename: 'User',
-            id: updatedUser.id,
-            fields: {
-              name: updatedUser.name,
-              email: updatedUser.email,
-              role: updatedUser.role,
-              avatar: updatedUser.avatar,
-            },
+            entity: updatedUser,
+            fragment: User_DetailsFragmentDoc,
           });
 
           evictRootQueryField(cache, 'users');

@@ -1,0 +1,10 @@
+fragment User_Details on User {
+  id
+  name
+  email
+  password
+  role
+  avatar
+  creationAt
+  updatedAt
+}

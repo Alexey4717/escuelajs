@@ -93,6 +93,7 @@ function makeUserDetailsMockResponse(request: NextRequest): NextResponse {
           role === 'admin'
             ? 'e2e-admin@example.com'
             : 'e2e-customer@example.com',
+        password: 'e2e-password',
         role,
         avatar: null,
         creationAt: '2024-01-01T00:00:00.000Z',

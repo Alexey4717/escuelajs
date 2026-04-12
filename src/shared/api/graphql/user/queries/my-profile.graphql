@@ -1,11 +1,5 @@
 query MyProfile {
   myProfile {
-    id
-    name
-    email
-    role
-    avatar
-    creationAt
-    updatedAt
+    ...User_Details
   }
 }

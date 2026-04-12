@@ -39,3 +39,13 @@ export function useCurrentUserRole() {
     loading,
   };
 }
+
+export function useCurrentUserPassword() {
+  const { user, userId, loading } = useCurrentUser();
+
+  return {
+    userId,
+    loading,
+    profilePassword: user?.password ?? null,
+  };
+}

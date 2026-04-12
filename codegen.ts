@@ -12,7 +12,7 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
  *
  * Общие фрагменты (например `Category_Preview`) встраиваются в каждую зависимую операцию
  * и дублируются в отдельных `*FragmentDoc` — это нормально; в dev `graphql-tag` может
- * ругаться на имя, пока не вызван `disableFragmentWarnings` (см. `makeApolloClient`).
+ * ругаться на имя, пока не вызван `disableFragmentWarnings` из `@apollo/client` (см. `makeApolloClient`).
  */
 const config: CodegenConfig = {
   schema: 'src/shared/api/graphql/schema.graphql',

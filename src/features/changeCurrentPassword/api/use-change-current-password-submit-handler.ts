@@ -3,14 +3,18 @@
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
-import { UpdateUserDocument } from '@/shared/api/generated/graphql';
+import {
+  UpdateUserDocument,
+  User_DetailsFragmentDoc,
+} from '@/shared/api/generated/graphql';
+import { writeEntityFragmentToCache } from '@/shared/lib/cache/apollo/utils/cache-utils';
 
 import { useCurrentUserId } from '@/entities/Session';
 
-type ChangeCurrentPasswordArgs = {
+interface ChangeCurrentPasswordArgs {
   password: string;
   onSuccess?: () => void;
-};
+}
 
 export function useChangeCurrentPasswordSubmitHandler() {
   const [updateUser, { loading }] = useMutation(UpdateUserDocument);
@@ -30,6 +34,16 @@ export function useChangeCurrentPasswordSubmitHandler() {
         variables: {
           id: userId,
           changes: { password },
+        },
+        update(cache, { data: mutationData }) {
+          const updatedUser = mutationData?.updateUser;
+          if (!updatedUser) return;
+
+          writeEntityFragmentToCache({
+            cache,
+            entity: updatedUser,
+            fragment: User_DetailsFragmentDoc,
+          });
         },
       });
 

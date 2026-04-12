@@ -4,6 +4,7 @@ import { ROOT_QUERY_ID } from './constants';
 import type {
   EvictRootQueryFieldByArgsArgs,
   UpdateEntityInCacheArgs,
+  WriteEntityFragmentToCacheArgs,
 } from './types';
 
 /** Удаляет поле из ROOT_QUERY и запускает сборку мусора кеша. */
@@ -59,6 +60,31 @@ export function updateEntityInCache({
   cache.modify({
     id: entityCacheId,
     fields: apolloFields,
+  });
+
+  return true;
+}
+
+/**
+ * Пишет в кеш данные фрагмента для нормализованной сущности (`identify` + `writeFragment`).
+ * @returns `false`, если `cache.identify` не смог построить id (сущность ещё не в кеше).
+ */
+export function writeEntityFragmentToCache<
+  TEntity extends WriteEntityFragmentToCacheArgs['entity'],
+>({
+  cache,
+  entity,
+  fragment,
+}: WriteEntityFragmentToCacheArgs<TEntity>): boolean {
+  const cacheId = cache.identify(entity);
+  if (!cacheId) {
+    return false;
+  }
+
+  cache.writeFragment({
+    id: cacheId,
+    fragment,
+    data: entity,
   });
 
   return true;
