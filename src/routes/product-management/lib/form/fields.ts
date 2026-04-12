@@ -16,4 +16,3 @@ export const ProductCategoryIdField = createRHFCombobox(
   productFormSchema,
   'categoryId',
 );
-export const ProductImageField = createRHFTextField(productFormSchema, 'image');

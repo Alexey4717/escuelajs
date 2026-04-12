@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
@@ -10,18 +12,54 @@ import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
 import { pagesPath } from '@/shared/routes/$path';
+import type { FilesBoxItem } from '@/shared/ui/FilesBox';
 
 import type { ProductFormStateOutput } from './schema';
+import {
+  collectProductImageUrls,
+  uploadQueuedFilesBoxItems,
+} from './upload-queued-files-box';
 
 interface CreateSubmitArgs {
   values: ProductFormStateOutput;
+  imageFiles: FilesBoxItem[];
 }
 
 export function useCreateSubmitHandler() {
   const router = useRouter();
   const [addProduct, { loading }] = useMutation(AddProductDocument);
+  const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
 
-  async function handleSubmit({ values }: CreateSubmitArgs) {
+  async function handleSubmit({
+    values,
+    imageFiles,
+  }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
+    let filesState = imageFiles;
+    const needsImageUpload = imageFiles.some(
+      (item) => item.status === 'queued' && item.file,
+    );
+    if (needsImageUpload) {
+      setImagesUploadLoading(true);
+    }
+    try {
+      const uploadResult = await uploadQueuedFilesBoxItems(imageFiles);
+      filesState = uploadResult.files;
+      if (uploadResult.hasUploadError) {
+        toast.error('Не удалось загрузить одно или несколько изображений');
+        return filesState;
+      }
+    } finally {
+      if (needsImageUpload) {
+        setImagesUploadLoading(false);
+      }
+    }
+
+    const images = collectProductImageUrls(filesState);
+    if (images.length === 0) {
+      toast.error('Добавьте хотя бы одно изображение');
+      return filesState;
+    }
+
     try {
       const { data } = await addProduct({
         variables: {
@@ -30,7 +68,7 @@ export function useCreateSubmitHandler() {
             price: Number(values.price),
             description: values.description,
             categoryId: Number(values.categoryId),
-            images: [values.image],
+            images,
           },
         },
         update(cache) {
@@ -55,14 +93,17 @@ export function useCreateSubmitHandler() {
       toast.success('Товар успешно создан');
       router.replace(pagesPath.products.$url().path);
       router.refresh();
+      return filesState;
     } catch (err) {
       console.error(err);
       toast.error('Не удалось создать товар');
+      return filesState;
     }
   }
 
   return {
     loading,
+    imagesUploadLoading,
     handleSubmit,
   };
 }

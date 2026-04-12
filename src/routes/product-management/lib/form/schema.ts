@@ -41,14 +41,6 @@ export const productFormSchema = object({
         'data-testid': 'productForm__input__categoryId',
       },
     }),
-  image: string()
-    .min(1, 'Введите URL изображения')
-    .meta({
-      formField: {
-        label: 'URL изображения',
-        'data-testid': 'productForm__input__image',
-      },
-    }),
 });
 
 export const productFormDefaultValues: ProductFormStateInput = {
@@ -56,7 +48,6 @@ export const productFormDefaultValues: ProductFormStateInput = {
   price: '',
   description: '',
   categoryId: '',
-  image: '',
 };
 
 export type ProductFormStateOutput = output<typeof productFormSchema>;
