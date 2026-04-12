@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
@@ -27,6 +29,7 @@ interface SubmitArgs {
 export function useSubmitHandler() {
   const router = useRouter();
   const [updateUser, { loading }] = useMutation(UpdateUserDocument);
+  const [avatarUploadLoading, setAvatarUploadLoading] = useState(false);
 
   async function uploadQueuedAvatarFiles(files: FilesBoxItem[]) {
     const next = [...files];
@@ -82,6 +85,12 @@ export function useSubmitHandler() {
     avatarFiles,
   }: SubmitArgs): Promise<FilesBoxItem[]> {
     let filesState = avatarFiles;
+    const needsAvatarUpload = avatarFiles.some(
+      (item) => item.status === 'queued' && item.file,
+    );
+    if (needsAvatarUpload) {
+      setAvatarUploadLoading(true);
+    }
     try {
       const uploadResult = await uploadQueuedAvatarFiles(avatarFiles);
       filesState = uploadResult.files;
@@ -89,7 +98,13 @@ export function useSubmitHandler() {
         toast.error('Не удалось загрузить один или несколько файлов');
         return filesState;
       }
+    } finally {
+      if (needsAvatarUpload) {
+        setAvatarUploadLoading(false);
+      }
+    }
 
+    try {
       const { data } = await updateUser({
         variables: {
           id: userId,
@@ -142,6 +157,7 @@ export function useSubmitHandler() {
 
   return {
     loading,
+    avatarUploadLoading,
     handleSubmit,
   };
 }

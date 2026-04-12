@@ -39,8 +39,11 @@ interface ProfileEditFormCardProps {
 }
 
 export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
-  const { handleSubmit: submitProfileEdit, loading: submitLoading } =
-    useSubmitHandler();
+  const {
+    handleSubmit: submitProfileEdit,
+    loading: submitLoading,
+    avatarUploadLoading,
+  } = useSubmitHandler();
   const [avatarFiles, setAvatarFiles] = useState<FilesBoxItem[]>(
     user.avatar ? [createRemoteFileItem(user.avatar)] : [],
   );
@@ -69,7 +72,12 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
 
   return (
     <Card title="Данные профиля" className="max-w-2xl shadow-sm ring-border/60">
-      <Form methods={methods} onSubmit={onSubmit} className="space-y-4">
+      <Form
+        methods={methods}
+        onSubmit={onSubmit}
+        className="space-y-4"
+        aria-busy={avatarUploadLoading || submitLoading}
+      >
         <ProfileEditEmailField
           type="email"
           autoComplete="email"
@@ -100,6 +108,7 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
             type="submit"
             className="w-full sm:w-auto"
             disabled={
+              avatarUploadLoading ||
               submitLoading ||
               isFilesBoxOverLimit(avatarFiles, AVATAR_MAX_FILES)
             }
@@ -108,6 +117,15 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
             Сохранить изменения
           </Button>
         </div>
+        {(avatarUploadLoading || submitLoading) && (
+          <p
+            className="text-muted-foreground text-sm"
+            aria-live="polite"
+            data-testid="profileEdit__submitStatus"
+          >
+            {avatarUploadLoading ? 'Загрузка файла…' : 'Изменение профиля…'}
+          </p>
+        )}
       </Form>
     </Card>
   );
