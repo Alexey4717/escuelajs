@@ -13,10 +13,10 @@ export const ContactUsSubmitButton = () => {
   return (
     <Button
       type="submit"
-      disabled={busy}
+      loading={busy}
       data-testid="contact-us__button__submit"
     >
-      {busy ? 'Отправка…' : 'Отправить'}
+      {busy ? 'Отправка' : 'Отправить'}
     </Button>
   );
 };

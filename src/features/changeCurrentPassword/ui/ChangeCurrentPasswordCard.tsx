@@ -51,11 +51,11 @@ export function ChangeCurrentPasswordCard() {
           <Button
             type="submit"
             className="w-full shrink-0 sm:w-auto"
-            disabled={loading}
+            loading={loading}
             size="lg"
             data-testid="changeCurrentPassword__button__submit"
           >
-            Сохранить
+            {loading ? 'Сохранение' : 'Сохранить'}
           </Button>
         </div>
       </Form>

@@ -26,7 +26,7 @@ export const ProductManagementFormActions = ({
     <Button
       type="submit"
       className="w-full sm:w-auto"
-      disabled={submitLoading}
+      loading={submitLoading}
       data-testid="productForm__button__submit"
     >
       {submitLabel}

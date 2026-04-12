@@ -107,25 +107,19 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
           <Button
             type="submit"
             className="w-full sm:w-auto"
-            disabled={
-              avatarUploadLoading ||
-              submitLoading ||
-              isFilesBoxOverLimit(avatarFiles, AVATAR_MAX_FILES)
-            }
+            loading={avatarUploadLoading || submitLoading}
+            disabled={isFilesBoxOverLimit(avatarFiles, AVATAR_MAX_FILES)}
             data-testid="profileEdit__button__submit"
           >
-            Сохранить изменения
+            {avatarUploadLoading || submitLoading ? (
+              <>
+                {avatarUploadLoading ? 'Загрузка файла…' : 'Изменение профиля…'}
+              </>
+            ) : (
+              'Сохранить изменения'
+            )}
           </Button>
         </div>
-        {(avatarUploadLoading || submitLoading) && (
-          <p
-            className="text-muted-foreground text-sm"
-            aria-live="polite"
-            data-testid="profileEdit__submitStatus"
-          >
-            {avatarUploadLoading ? 'Загрузка файла…' : 'Изменение профиля…'}
-          </p>
-        )}
       </Form>
     </Card>
   );

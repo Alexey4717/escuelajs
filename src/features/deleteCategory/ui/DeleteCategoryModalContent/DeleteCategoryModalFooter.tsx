@@ -34,12 +34,12 @@ export function DeleteCategoryModalFooter({
       <Button
         type="button"
         variant="destructive"
-        disabled={loading}
+        loading={loading}
         className="w-full sm:w-auto"
         onClick={handleDelete}
         data-testid="deleteCategory__button__deleteCategory"
       >
-        Удалить
+        {loading ? 'Удаление' : 'Удалить'}
       </Button>
     </div>
   );

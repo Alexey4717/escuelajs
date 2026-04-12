@@ -16,11 +16,11 @@ export const SubmitButton = ({ loading }: SubmitButtonProps) => {
   return (
     <Button
       type="submit"
-      disabled={inProcessing}
+      loading={inProcessing}
       className="mt-1.5 w-full py-2.5 text-[13px] hover:opacity-90 disabled:opacity-60"
       data-testid="register__button__submit"
     >
-      {inProcessing ? 'Регистрация…' : 'Зарегистрироваться'}
+      {inProcessing ? 'Регистрация' : 'Зарегистрироваться'}
     </Button>
   );
 };
