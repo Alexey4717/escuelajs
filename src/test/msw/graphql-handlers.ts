@@ -1,75 +1,10 @@
-import { graphql, HttpResponse } from 'msw';
+import { loginGraphqlHandlers } from './graphql-mocks/login';
+import { TEST_USER_ID, userGraphqlHandlers } from './graphql-mocks/user';
 
-import { TEST_GRAPHQL_HTTP_URL } from '@/test/test-origin';
-
-const gql = graphql.link(TEST_GRAPHQL_HTTP_URL);
-
-export const TEST_USER_ID = 'test-user-1';
+export { TEST_USER_ID };
 
 /** Базовые GraphQL handlers для Vitest (MSW). Переопределяйте через `server.use` в отдельных тестах. */
 export const graphqlHandlers = [
-  gql.mutation('Login', () => {
-    return HttpResponse.json({
-      data: {
-        login: {
-          __typename: 'Login',
-          access_token: 'access-test-token',
-          refresh_token: 'refresh-test-token',
-        },
-      },
-    });
-  }),
-  gql.mutation('AddUser', () => {
-    return HttpResponse.json({
-      data: {
-        addUser: {
-          __typename: 'User',
-          id: 'new-user-id',
-          email: 'new@example.com',
-          name: 'New User',
-          role: 'customer',
-          avatar: 'https://example.com/avatar.png',
-          password: 'new-password',
-          creationAt: '2020-01-01T00:00:00.000Z',
-          updatedAt: '2020-01-01T00:00:00.000Z',
-        },
-      },
-    });
-  }),
-  gql.query('UserDetails', ({ variables }) => {
-    const id = String(variables.id);
-    return HttpResponse.json({
-      data: {
-        user: {
-          __typename: 'User',
-          id,
-          name: 'Test User',
-          email: 'test@example.com',
-          password: 'password123',
-          role: 'customer',
-          avatar: 'https://example.com/avatar.png',
-          creationAt: '2020-01-01T00:00:00.000Z',
-          updatedAt: '2020-01-01T00:00:00.000Z',
-        },
-      },
-    });
-  }),
-  gql.mutation('UpdateUser', ({ variables }) => {
-    const id = String(variables.id);
-    return HttpResponse.json({
-      data: {
-        updateUser: {
-          __typename: 'User',
-          id,
-          name: 'Test User',
-          email: 'test@example.com',
-          password: 'password123',
-          role: 'customer',
-          avatar: 'https://example.com/avatar.png',
-          creationAt: '2020-01-01T00:00:00.000Z',
-          updatedAt: '2020-01-01T00:00:00.000Z',
-        },
-      },
-    });
-  }),
+  ...loginGraphqlHandlers,
+  ...userGraphqlHandlers,
 ];
