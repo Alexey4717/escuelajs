@@ -1,18 +1,19 @@
+'use client';
+
 import type { ReactNode } from 'react';
 
 import { type ProductDetailsQuery } from '@/shared/api/generated/graphql';
 import { cn } from '@/shared/lib/styles/cn';
-import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { CategoryListLabel } from '@/entities/Category';
 import { parsePrice } from '@/entities/Price';
 
+import { ToggleCartItemButton } from '@/features/toggleCartItem';
+
 /** Акцент витрины (терракота): совпадает с референсом карточки товара. */
 const accentText =
   'text-[oklch(52%_0.14_42deg)] dark:text-[oklch(68%_0.12_45deg)]';
-const accentBg =
-  'bg-[oklch(52%_0.14_42deg)] hover:bg-[oklch(47%_0.14_42deg)] dark:bg-[oklch(62%_0.12_45deg)] dark:hover:bg-[oklch(57%_0.12_45deg)]';
 
 interface ProductContentProps {
   product: ProductDetailsQuery['product'];
@@ -24,7 +25,7 @@ export const ProductContent = ({
   product,
   titleAddon,
 }: ProductContentProps) => {
-  const priceFormatted = parsePrice(product.price, 'USD');
+  const priceFormatted = parsePrice(product.price);
 
   return (
     <div className="flex min-w-0 flex-col gap-5">
@@ -61,16 +62,13 @@ export const ProductContent = ({
       >
         {product.description}
       </Typography>
-      <Button
-        type="button"
-        size="lg"
-        className={cn(
-          'mt-2 h-11 w-full rounded-xl text-base font-medium text-white shadow-sm',
-          accentBg,
-        )}
-      >
-        В корзину
-      </Button>
+      <ToggleCartItemButton
+        variant="detail"
+        id={product.id}
+        title={product.title}
+        price={product.price}
+        image={product.images[0] ?? ''}
+      />
     </div>
   );
 };

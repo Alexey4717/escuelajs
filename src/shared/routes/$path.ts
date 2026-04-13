@@ -34,6 +34,13 @@ export const pagesPath = {
       path: `/admin-panel${buildSuffix(url)}`,
     }),
   },
+  cart: {
+    $url: (url?: { hash?: string }) => ({
+      pathname: '/cart' as const,
+      hash: url?.hash,
+      path: `/cart${buildSuffix(url)}`,
+    }),
+  },
   categories: {
     _id: (id: string | number) => ({
       edit: {

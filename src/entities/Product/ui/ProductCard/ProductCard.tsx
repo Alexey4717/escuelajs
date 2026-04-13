@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import Link from 'next/link';
 
 import type { ProductsQuery } from '@/shared/api/generated/graphql';
@@ -11,12 +13,13 @@ import { ProductCardFooter } from './components/ProductCardFooter';
 
 interface ProductCardProps {
   product: ProductsQuery['products'][number];
+  cartAction?: ReactNode;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
+export function ProductCard({ product, cartAction }: ProductCardProps) {
   const imageUrl = product.images[0];
   const href = `/products/${product.id}`;
-  const priceLabel = parsePrice(product.price, 'USD');
+  const priceLabel = parsePrice(product.price);
 
   return (
     <Card
@@ -41,7 +44,7 @@ export function ProductCard({ product }: ProductCardProps) {
           {product.title}
         </Link>
       }
-      footer={<ProductCardFooter priceLabel={priceLabel} />}
+      footer={<ProductCardFooter priceLabel={priceLabel} action={cartAction} />}
     />
   );
 }

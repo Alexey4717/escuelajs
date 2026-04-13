@@ -20,6 +20,7 @@ import {
   hasActiveFilters,
   useFilterProductsStore,
 } from '@/features/filterProducts';
+import { ToggleCartItemButton } from '@/features/toggleCartItem';
 
 import { useProductsQuery } from '../../api/useProductsQuery';
 import { productsGridComponents } from './productsGridComponents';
@@ -105,7 +106,20 @@ export function ProductsCatalogGrid({
         computeItemKey={(_, product) => product.id}
         endReached={loadMore}
         increaseViewportBy={{ bottom: 400, top: 200 }}
-        itemContent={(_, product) => <ProductCard product={product} />}
+        itemContent={(_, product) => (
+          <ProductCard
+            product={product}
+            cartAction={
+              <ToggleCartItemButton
+                variant="card"
+                id={product.id}
+                title={product.title}
+                price={product.price}
+                image={product.images[0] ?? ''}
+              />
+            }
+          />
+        )}
         restoreStateFrom={restoreStateFrom}
         stateChanged={onGridStateChanged}
       />

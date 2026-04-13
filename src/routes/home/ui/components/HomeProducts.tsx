@@ -8,6 +8,8 @@ import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ProductCard } from '@/entities/Product';
 
+import { ToggleCartItemButton } from '@/features/toggleCartItem';
+
 interface HomeProductsProps {
   products: HomeLandingQuery['products'];
 }
@@ -30,7 +32,18 @@ export const HomeProducts = ({ products }: HomeProductsProps) => {
         >
           {products.map((product) => (
             <li key={product.id} className="min-w-0">
-              <ProductCard product={product} />
+              <ProductCard
+                product={product}
+                cartAction={
+                  <ToggleCartItemButton
+                    variant="card"
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    image={product.images[0] ?? ''}
+                  />
+                }
+              />
             </li>
           ))}
         </ul>

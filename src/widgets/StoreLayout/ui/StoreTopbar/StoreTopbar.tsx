@@ -3,8 +3,8 @@
 import { cn } from '@/shared/lib/styles/cn';
 
 import { LoginLink, LogoutButton } from '@/features/auth';
-import { ShoppingCartButton } from '@/features/shoppingCart';
 
+import { ShoppingCartButton } from './components/ShoppingCartButton';
 import { ThemeToggleButton } from './components/ThemeToggle';
 import { topbarAuthSlotClassName } from './topbarAuthSlot';
 
