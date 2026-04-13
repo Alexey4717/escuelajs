@@ -12,16 +12,29 @@ vi.mock('../lib/hooks/useCartRoute', () => ({
   useCartRoute: () => useCartRouteMock(),
 }));
 
+function mockDesktopViewport() {
+  window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+    matches: String(query).includes('1024'),
+    media: query,
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+    dispatchEvent: vi.fn(),
+    onchange: null,
+  }));
+}
+
 describe('CartRoute', () => {
   const removeItemByProductId = vi.fn();
   const handleOrder = vi.fn();
   const clearCart = vi.fn();
 
   beforeEach(() => {
+    mockDesktopViewport();
     useCartRouteMock.mockReset();
     removeItemByProductId.mockReset();
     handleOrder.mockReset();
     clearCart.mockReset();
+    handleOrder.mockResolvedValue(undefined);
   });
 
   it('показывает пустое состояние если нет товаров', () => {
@@ -95,7 +108,7 @@ describe('CartRoute', () => {
     expect(clearCart).toHaveBeenCalledTimes(1);
   });
 
-  it('«Заказать» вызывает handleOrder', async () => {
+  it('пустая форма: «Заказать» не вызывает handleOrder', async () => {
     const user = userEvent.setup();
     useCartRouteMock.mockReturnValue({
       items: [
@@ -115,6 +128,40 @@ describe('CartRoute', () => {
 
     await user.click(screen.getByTestId('cartRoute__button__placeOrder'));
 
+    expect(handleOrder).not.toHaveBeenCalled();
+  });
+
+  it('«Заказать» вызывает handleOrder с данными формы', async () => {
+    const user = userEvent.setup();
+    useCartRouteMock.mockReturnValue({
+      items: [
+        {
+          id: '1',
+          title: 'T',
+          price: 1,
+          image: '',
+        },
+      ],
+      removeItemByProductId,
+      handleOrder,
+      clearCart,
+    });
+
+    renderWithProviders(<CartRoute />);
+
+    await user.type(screen.getByTestId('cart__input__name'), 'Иван');
+    await user.type(screen.getByTestId('cart__input__email'), 'ivan@test.com');
+    await user.type(
+      screen.getByTestId('cart__input__pickupAddress'),
+      'ПВЗ ул. Тест, 1',
+    );
+    await user.click(screen.getByTestId('cartRoute__button__placeOrder'));
+
     expect(handleOrder).toHaveBeenCalledTimes(1);
+    expect(handleOrder).toHaveBeenCalledWith({
+      name: 'Иван',
+      email: 'ivan@test.com',
+      pickupAddress: 'ПВЗ ул. Тест, 1',
+    });
   });
 });
