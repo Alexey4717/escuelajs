@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/Alexey4717/escuelajs/compare/v1.10.0...v1.11.0) (2026-04-13)
+
+
+### Features
+
+* add category details page, update delete category ([0f8d5a0](https://github.com/Alexey4717/escuelajs/commit/0f8d5a056a78768dcf3dbedcfe754678dc8f54f5))
+
 # [1.10.0](https://github.com/Alexey4717/escuelajs/compare/v1.9.0...v1.10.0) (2026-04-12)
 
 
