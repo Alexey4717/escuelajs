@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/Alexey4717/escuelajs/compare/v1.12.0...v1.13.0) (2026-04-13)
+
+
+### Features
+
+* add pickup delivery point in leaflet map ([b77affa](https://github.com/Alexey4717/escuelajs/commit/b77affadfa635a94b1835b4d63892e261d74fb0a))
+
 # [1.12.0](https://github.com/Alexey4717/escuelajs/compare/v1.11.0...v1.12.0) (2026-04-13)
 
 
