@@ -5,15 +5,21 @@ import { Card } from '@/shared/ui/Card/Card';
 
 export interface CategoryCardBodyProps {
   category: CategoriesQuery['categories'][number];
+  className?: string;
 }
 
-export const CategoryCardBody = ({ category }: CategoryCardBodyProps) => (
+export const CategoryCardBody = ({
+  category,
+  className,
+}: CategoryCardBodyProps) => (
   <Card
     role="article"
     aria-label={category.name}
     className={cn(
-      'h-full gap-0 border border-border p-0 ring-0 shadow-sm',
+      'h-full gap-0 border border-border p-0 ring-0 shadow-sm transition',
+      'hover:border-primary/40',
       'cursor-default select-none',
+      className,
     )}
     cover={
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-muted">
@@ -23,7 +29,7 @@ export const CategoryCardBody = ({ category }: CategoryCardBodyProps) => (
             alt=""
             loading="lazy"
             decoding="async"
-            className="absolute inset-0 size-full object-cover"
+            className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
           />
         ) : (
           <div

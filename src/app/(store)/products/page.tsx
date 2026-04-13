@@ -5,7 +5,7 @@ import {
   ProductsDocument,
   type ProductsQueryVariables,
 } from '@/shared/api/generated/graphql';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 
 import { PRODUCTS_PAGE_SIZE, ProductsRoute } from '@/routes/products';
 

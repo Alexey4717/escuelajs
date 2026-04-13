@@ -10,7 +10,7 @@ import {
   REFRESH_TOKEN_KEY,
 } from '@/shared/config/consts/auth';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { pagesPath } from '@/shared/routes/$path';
 import { RouteGuard } from '@/shared/ui/RouteGuard/RouteGuard';

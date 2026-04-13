@@ -1,5 +1,7 @@
 'use client';
 
+import { notFound } from 'next/navigation';
+
 import { useSuspenseQuery } from '@apollo/client/react';
 
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
@@ -17,11 +19,21 @@ interface ProductDetailsRouteProps {
 }
 
 export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
-  const { data } = useSuspenseQuery(ProductDetailsDocument, {
+  const { data, error } = useSuspenseQuery(ProductDetailsDocument, {
     variables: { id: productId },
+    errorPolicy: 'all',
   });
 
-  const product = data.product;
+  if (error) {
+    throw error;
+  }
+
+  const product = data?.product;
+  // 404 только без GraphQL-ошибки; иначе — проброс в error boundary
+  if (!product) {
+    notFound();
+  }
+
   const images = product.images.filter(Boolean);
   const hasMultiple = images.length > 1;
 

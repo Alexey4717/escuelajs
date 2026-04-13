@@ -17,7 +17,7 @@ import {
   writeEntityFragmentToCache,
 } from '@/shared/lib/cache/apollo/utils/cache-utils';
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { pagesPath } from '@/shared/routes/$path';
 import type { FilesBoxItem } from '@/shared/ui/FilesBox';
 

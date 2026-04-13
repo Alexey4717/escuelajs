@@ -1,12 +1,14 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
+
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
 import { DeleteCategoryDocument } from '@/shared/api/generated/graphql';
 import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils';
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
 interface DeleteCategoryArgs {
@@ -15,6 +17,7 @@ interface DeleteCategoryArgs {
 }
 
 export function useDeleteCategorySubmitHandler() {
+  const router = useRouter();
   const [deleteCategory, { loading }] = useMutation(DeleteCategoryDocument);
 
   const submitDelete = async ({
@@ -35,11 +38,16 @@ export function useDeleteCategorySubmitHandler() {
 
       await revalidateTagsAction({
         tags: [nextCacheTags.categories, nextCacheTags.category(categoryId)],
-        paths: [pagesPath.categories.$url().path],
+        paths: [
+          pagesPath.categories.$url().path,
+          pagesPath.categories._id(categoryId).$url().path,
+        ],
       });
 
       toast.success('Категория удалена');
       closeModal();
+
+      router.replace(pagesPath.categories.$url().path);
     } catch (err) {
       console.error(err);
       toast.error('Не удалось удалить категорию');

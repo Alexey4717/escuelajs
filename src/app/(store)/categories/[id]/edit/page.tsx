@@ -1,6 +1,6 @@
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
 import {

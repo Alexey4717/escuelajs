@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 
 import { DeleteProductDocument } from '@/shared/api/generated/graphql';
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { pagesPath } from '@/shared/routes/$path';
 
 type DeleteProductArgs = {

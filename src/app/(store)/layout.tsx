@@ -7,7 +7,7 @@ import { UserDetailsDocument } from '@/shared/api/generated/graphql';
 import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
-import { nextCacheTags } from '@/shared/lib/next-cache-tags/tags';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 
 import { SessionHydration } from '@/entities/Session';
 

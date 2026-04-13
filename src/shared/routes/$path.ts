@@ -44,6 +44,12 @@ export const pagesPath = {
           path: `/categories/${id}/edit${buildSuffix(url)}`,
         }),
       },
+      $url: (url?: { hash?: string }) => ({
+        pathname: '/categories/[id]' as const,
+        query: { id },
+        hash: url?.hash,
+        path: `/categories/${id}${buildSuffix(url)}`,
+      }),
     }),
     create: {
       $url: (url?: { hash?: string }) => ({
