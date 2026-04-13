@@ -1,0 +1,16 @@
+---
+description: Keep React components composable and reduce render overhead
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React Composition and Performance Rules
+
+- Minimize `useEffect`; prefer declarative data flow and derived values.
+- Split large components into focused child components.
+- Do not execute child-specific logic in parent components.
+- Keep root/parent components orchestration-focused and render-light.
+- Prevent unnecessary parent re-renders that cascade to unrelated children.
+
+## Intent
+Use composition to isolate logic and keep update scope local.

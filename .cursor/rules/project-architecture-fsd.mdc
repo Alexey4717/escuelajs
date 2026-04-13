@@ -1,0 +1,29 @@
+---
+description: Enforce project FSD architecture and segment placement
+alwaysApply: true
+---
+
+# FSD Architecture Rules
+
+Follow Feature-Sliced Design in all production code.
+
+## Layering
+- Use FSD layers and dependency direction from lower to higher abstractions.
+- Keep `routes` as Next.js page/route analog (project exception).
+- Keep tests and test-only shared logic isolated from production code.
+
+## Segment Structure (layers above `shared`)
+- `ui`: root exported component and UI-only parts.
+- `ui/components`: child UI components used by root component.
+- `lib`: reusable local logic (`constants.ts`, `types.ts`, `hooks/`, `utils/`).
+- `model`: state, events, selectors, business state transitions.
+- `api`: request clients, dto mappers, endpoint bindings.
+
+## Hooks Placement
+- Do not colocate component hooks next to component files.
+- Place component-related hooks in `lib/hooks`.
+
+## Component File Grouping
+- If a component consists of a single file, keep it as a single file.
+- If a component has multiple related files (for example `Component.module.scss`, `Component.test.tsx`, stories, fixtures), create a same-name folder and place all related files inside it.
+- Exception: root file in `ui` may stay as a file with its related files nearby, without mandatory folder wrapping.

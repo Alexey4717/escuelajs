@@ -1,0 +1,15 @@
+---
+description: Prefer interfaces for props and function or hook arguments
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# TypeScript Interface-First Rules
+
+- Use `interface` for component props and for function or hook argument objects.
+- Define these interfaces in the same file as the component/hook/function by default.
+- Extract interfaces to shared files only when reused by multiple modules.
+- Use `type` only when interface capabilities are insufficient (e.g. unions, mapped types, advanced composition).
+
+## Example
+- Prefer `interface UserCardProps { ... }` over `type UserCardProps = { ... }` for component props.
