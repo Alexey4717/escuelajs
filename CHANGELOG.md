@@ -1,3 +1,24 @@
+# [1.10.0](https://github.com/Alexey4717/escuelajs/compare/v1.9.0...v1.10.0) (2026-04-12)
+
+
+### Bug Fixes
+
+* alignment change password block in profile ([7b907dd](https://github.com/Alexey4717/escuelajs/commit/7b907ddbc1004b73681d1d5986bb394eb1ff0937))
+
+
+### Features
+
+* add choosing category with combobox in product management form ([50721f1](https://github.com/Alexey4717/escuelajs/commit/50721f189586052d4f1621198ba677ada7c90a2e))
+* add creation at and updated at dates in profile and users route ([98d6e5b](https://github.com/Alexey4717/escuelajs/commit/98d6e5bc5ef30f7cfcf2952b636cbf8e52dd32c2))
+* add disabling submit button in edit profile form while all queries ([b58b5f0](https://github.com/Alexey4717/escuelajs/commit/b58b5f08780063a77d2e29d0e90939acd66dfe97))
+* add files box into category management form ([c1447b0](https://github.com/Alexey4717/escuelajs/commit/c1447b02c9488f89249f5fd7eb575c7fca4244ca))
+* add files box into product management form ([94e69f6](https://github.com/Alexey4717/escuelajs/commit/94e69f6a9700961ad8eae44379252f7a512ae379))
+* add loading notification in shared button, use it for all buttons in project ([24dab80](https://github.com/Alexey4717/escuelajs/commit/24dab8027f24c3c31c22b933dda86d7186af9f42))
+* add products list filters, add debounce hook ([974aaa2](https://github.com/Alexey4717/escuelajs/commit/974aaa26ab978059aed2cf3327a3ce9b213634af))
+* add slider and spinner shared components ([86162ae](https://github.com/Alexey4717/escuelajs/commit/86162ae804252d172d7e580b73e1d92936488d9b))
+* update changing password, add user fragment, update tests ([6f3ae4d](https://github.com/Alexey4717/escuelajs/commit/6f3ae4d62ac8d53229a11d6de3450588840affd1))
+* update shared files box, update profile file box ([6862b34](https://github.com/Alexey4717/escuelajs/commit/6862b34f758518aa3d78f9ede7926fe701999215))
+
 # [1.9.0](https://github.com/Alexey4717/escuelajs/compare/v1.8.0...v1.9.0) (2026-04-11)
 
 
