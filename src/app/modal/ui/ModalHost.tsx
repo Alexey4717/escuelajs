@@ -70,7 +70,7 @@ export function ModalHost({ isMobile }: ModalHostProps) {
 
   return (
     <Modal
-      isMobile={isMobile}
+      isMobile={entry.forceDesktop ? false : isMobile}
       open={openedModal === mountedModal}
       onOpenChange={(nextOpen) => {
         if (!nextOpen) {

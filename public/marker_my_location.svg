@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 55" width="50" height="55">
+  <!-- Shadow -->
+  <ellipse cx="25" cy="52" rx="10" ry="3" fill="rgba(0,0,0,0.18)"/>
+  <!-- Pin body -->
+  <path d="M25 2
+    C13 2 4 11 4 22
+    C4 38 25 53 25 53
+    C25 53 46 38 46 22
+    C46 11 37 2 25 2 Z"
+    fill="#16A34A" stroke="#15803D" stroke-width="1.5"/>
+  <!-- Inner circle -->
+  <circle cx="25" cy="22" r="13" fill="white" opacity="0.95"/>
+  <!-- Person: head -->
+  <circle cx="25" cy="17" r="4.5" fill="#16A34A"/>
+  <!-- Person: body -->
+  <path d="M16.5 24.5 Q16 31 25 32.5 Q34 31 33.5 24.5 Q31 20 25 20 Q19 20 16.5 24.5 Z" fill="#16A34A"/>
+</svg>

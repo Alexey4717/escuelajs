@@ -8,10 +8,12 @@ import {
 
 interface CartCheckoutFormFieldsProps {
   isSubmitting: boolean;
+  onPickOnMap: () => void;
 }
 
 export function CartCheckoutFormFields({
   isSubmitting,
+  onPickOnMap,
 }: CartCheckoutFormFieldsProps) {
   return (
     <>
@@ -22,6 +24,7 @@ export function CartCheckoutFormFields({
           <CartCheckoutPickupAddressField autoComplete="street-address" />
         </div>
         <Button
+          onClick={onPickOnMap}
           type="button"
           variant="outline"
           className="w-full shrink-0 sm:mb-0 sm:w-auto"

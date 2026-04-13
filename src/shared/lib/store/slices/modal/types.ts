@@ -1,6 +1,13 @@
 import type { ComponentType, ReactNode } from 'react';
 
 export interface ModalRegistryMap {
+  pickupPointMap: {
+    onSelectPickupPoint: (selection: {
+      name: string;
+      latitude: number;
+      longitude: number;
+    }) => void;
+  };
   profileDelete: {
     email: string;
     userId: string;
@@ -34,4 +41,5 @@ export type ModalRegistryItem<K extends ModalKey = ModalKey> = {
   showContentCloseButton?: boolean;
   showFooterCloseButton?: boolean;
   dialogClassName?: string;
+  forceDesktop?: boolean;
 };

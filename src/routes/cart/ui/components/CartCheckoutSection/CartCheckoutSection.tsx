@@ -1,9 +1,13 @@
 'use client';
 
+import { useCallback } from 'react';
+
 import { useIsLgAndUp } from '@/shared/lib/hooks/use-is-lg-and-up';
 import { Form } from '@/shared/ui/Form/Form';
 
 import { useCurrentUser } from '@/entities/Session';
+
+import { usePickupPointMapModal } from '@/features/pickupPointMap';
 
 import { type CartCheckoutFormOutput } from '../../../lib/form/scheme';
 import { useCartCheckoutForm } from '../../../lib/hooks/useCartCheckoutForm';
@@ -60,7 +64,25 @@ function CartCheckoutSectionReady({
     userEmail,
   });
   const mobilePanel = useMobileCheckoutPanel();
+  const pickupPointMapModal = usePickupPointMapModal();
+
   const isSubmitting = methods.methods.formState.isSubmitting;
+
+  const handlePickOnMap = useCallback(() => {
+    pickupPointMapModal.open({
+      onSelectPickupPoint: ({ name, latitude, longitude }) => {
+        methods.methods.setValue(
+          'pickupAddress',
+          `${name} (${latitude.toFixed(6)}, ${longitude.toFixed(6)})`,
+          {
+            shouldDirty: true,
+            shouldTouch: true,
+            shouldValidate: true,
+          },
+        );
+      },
+    });
+  }, [methods.methods, pickupPointMapModal]);
 
   if (isLg) {
     return (
@@ -76,7 +98,10 @@ function CartCheckoutSectionReady({
           onSubmit={methods.onSubmit}
           className="space-y-3"
         >
-          <CartCheckoutFormFields isSubmitting={isSubmitting} />
+          <CartCheckoutFormFields
+            isSubmitting={isSubmitting}
+            onPickOnMap={handlePickOnMap}
+          />
         </Form>
       </section>
     );
@@ -111,7 +136,10 @@ function CartCheckoutSectionReady({
           onSubmit={methods.onSubmit}
           className="space-y-3"
         >
-          <CartCheckoutFormFields isSubmitting={isSubmitting} />
+          <CartCheckoutFormFields
+            isSubmitting={isSubmitting}
+            onPickOnMap={handlePickOnMap}
+          />
         </Form>
       </div>
     </section>

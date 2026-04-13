@@ -6,8 +6,10 @@ import type {
 import { categoryDeleteModalRegistryItem } from '@/features/deleteCategory';
 import { profileDeleteModalRegistryItem } from '@/features/deleteCurrentUser';
 import { productDeleteModalRegistryItem } from '@/features/deleteProduct';
+import { pickupPointMapModalRegistryItem } from '@/features/pickupPointMap';
 
 export const modalRegistry: { [K in ModalKey]: ModalRegistryItem<K> } = {
+  pickupPointMap: pickupPointMapModalRegistryItem,
   profileDelete: profileDeleteModalRegistryItem,
   productDelete: productDeleteModalRegistryItem,
   categoryDelete: categoryDeleteModalRegistryItem,

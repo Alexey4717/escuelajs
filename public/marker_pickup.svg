@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 55" width="50" height="55">
+  <!-- Shadow -->
+  <ellipse cx="25" cy="52" rx="10" ry="3" fill="rgba(0,0,0,0.18)"/>
+  <!-- Pin body -->
+  <path d="M25 2
+    C13 2 4 11 4 22
+    C4 38 25 53 25 53
+    C25 53 46 38 46 22
+    C46 11 37 2 25 2 Z"
+    fill="#2563EB" stroke="#1D4ED8" stroke-width="1.5"/>
+  <!-- Inner circle -->
+  <circle cx="25" cy="22" r="13" fill="white" opacity="0.95"/>
+  <!-- Box icon -->
+  <!-- Box body -->
+  <rect x="14" y="21" width="22" height="15" rx="1.5" fill="#2563EB"/>
+  <!-- Box lid -->
+  <polyline points="11,21 25,16 39,21" fill="none" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/>
+  <!-- Center line on lid -->
+  <line x1="25" y1="16" x2="25" y2="21" stroke="#1D4ED8" stroke-width="1.5"/>
+  <!-- Ribbon -->
+  <line x1="25" y1="21" x2="25" y2="36" stroke="white" stroke-width="1.5" opacity="0.6"/>
+</svg>
