@@ -1,3 +1,11 @@
+# [1.12.0](https://github.com/Alexey4717/escuelajs/compare/v1.11.0...v1.12.0) (2026-04-13)
+
+
+### Features
+
+* add store cart ([68bbb6b](https://github.com/Alexey4717/escuelajs/commit/68bbb6b32bf54ace32515fe974c7574244b8b982))
+* update cart, separate desktop and mobile layouts ([64a5419](https://github.com/Alexey4717/escuelajs/commit/64a5419ea28a3341a8b4fe517ef05eaa85f07eb8))
+
 # [1.11.0](https://github.com/Alexey4717/escuelajs/compare/v1.10.0...v1.11.0) (2026-04-13)
 
 
