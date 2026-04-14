@@ -16,6 +16,7 @@ This directory contains project rules for the coding agent.
 - `react/stable-constants-and-references.mdc` - stable references and module-level constants.
 - `typescript/interface-first.mdc` - interface-first typing style.
 - `rules/organization-and-naming.mdc` - rule organization and naming conventions.
+- `rules/skills-readme-maintenance.mdc` - keep `.cursor/skills/README.md` in sync with skills changes.
 
 ## Maintenance
 
