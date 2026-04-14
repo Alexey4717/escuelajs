@@ -72,6 +72,24 @@ describe('DeleteCategoryModalContent', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('пока охрана не готова — не блокирует по одному лишь hasProducts', () => {
+    useDeleteCategoryProductsGuardMock.mockReturnValue({
+      loading: false,
+      error: false,
+      hasProducts: true,
+      guardReady: false,
+    });
+
+    renderWithProviders(<DeleteCategoryModalContent {...defaultProps} />);
+
+    expect(
+      screen.getByText(/Вы действительно хотите удалить категорию/i),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/нельзя удалить: в ней есть товары/i),
+    ).not.toBeInTheDocument();
+  });
+
   it('если товаров нет — показывает стандартное подтверждение удаления', () => {
     useDeleteCategoryProductsGuardMock.mockReturnValue({
       loading: false,
