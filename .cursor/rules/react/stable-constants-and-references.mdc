@@ -1,0 +1,51 @@
+---
+description: Keep static constants and complex data outside React component/hook bodies
+globs: **/*.{ts,tsx,js,jsx}
+alwaysApply: false
+---
+
+# Stable Constants and References in React
+
+When adding constants or complex data structures that do not change dynamically,
+do not declare them inside React component or hook bodies.
+
+## Why
+
+- Values created inside a component/hook body are recreated on every render.
+- Recreated objects/arrays/functions produce unstable references in props.
+- Unstable references can trigger avoidable re-renders in child components.
+
+## Rules
+
+- Move static constants to module scope (outside component/hook functions).
+- Move complex static objects/arrays/maps/sets to module scope.
+- If a value depends on props/state, keep it inside and memoize with `useMemo` when needed.
+- Prefer passing stable references in props for unchanged data.
+
+## Examples
+
+```tsx
+// BAD
+function ProductList() {
+  const columns = [{ key: "name" }, { key: "price" }];
+  return <Table columns={columns} />;
+}
+
+// GOOD
+const PRODUCT_COLUMNS = [{ key: "name" }, { key: "price" }];
+
+function ProductList() {
+  return <Table columns={PRODUCT_COLUMNS} />;
+}
+```
+
+```tsx
+// GOOD (dynamic value)
+function ProductList({ currency }: { currency: string }) {
+  const columns = React.useMemo(
+    () => [{ key: "price", format: currency }],
+    [currency],
+  );
+  return <Table columns={columns} />;
+}
+```

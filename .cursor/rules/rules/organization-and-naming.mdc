@@ -1,0 +1,25 @@
+---
+description: Keep Cursor rules organized by domains and avoid redundant prefixes
+globs: .cursor/rules/**/*.mdc
+alwaysApply: true
+---
+
+# Cursor Rules Organization and Naming
+
+Use domain folders to keep rule discovery simple and predictable.
+
+## Folder Structure
+- Store rules in domain folders inside `.cursor/rules` (e.g. `react`, `typescript`, `architecture`, `rules`).
+- Use one clear domain per file.
+- Keep cross-domain process rules in `.cursor/rules/rules`.
+
+## Naming
+- Use concise kebab-case filenames.
+- Do not repeat domain prefixes that are already encoded in folder names.
+- Prefer semantic names by topic (e.g. `stable-constants-and-references.mdc`, `interface-first.mdc`).
+
+## Authoring
+- Keep frontmatter complete (`description`, `globs` when needed, `alwaysApply`).
+- Keep rule text concise and action-oriented.
+- Add examples only when they clarify a non-obvious requirement.
+- When adding, renaming, moving, or removing rules, update `.cursor/rules/README.md` in the same change.
