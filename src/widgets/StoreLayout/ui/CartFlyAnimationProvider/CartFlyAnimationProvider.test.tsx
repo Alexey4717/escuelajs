@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-import { screen, waitFor } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -52,6 +52,27 @@ describe('CartFlyAnimationProvider', () => {
           .items.map((i) => i.id)
           .sort(),
       ).toEqual(['prod-a', 'prod-b']);
+    });
+  });
+
+  it('не планирует повторный полёт для того же productId пока первый не завершен', async () => {
+    installAnimateMock();
+    const addItemSpy = vi.spyOn(useCartStore.getState(), 'addItem');
+
+    renderWithProviders(
+      <CartFlyAnimationProvider>
+        <CartFlyProviderHarness />
+      </CartFlyAnimationProvider>,
+    );
+
+    fireEvent.click(screen.getByTestId('start-a'));
+    fireEvent.click(screen.getByTestId('start-a'));
+
+    await waitFor(() => {
+      expect(useCartStore.getState().items.map((i) => i.id)).toEqual([
+        'prod-a',
+      ]);
+      expect(addItemSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

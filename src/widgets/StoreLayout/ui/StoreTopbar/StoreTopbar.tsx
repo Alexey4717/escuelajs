@@ -4,7 +4,7 @@ import { cn } from '@/shared/lib/styles/cn';
 
 import { LoginLink, LogoutButton } from '@/features/auth';
 
-import { ShoppingCartButton } from './components/ShoppingCartButton';
+import { ShoppingCartButton } from './components/ShoppingCartButton/ShoppingCartButton';
 import { ThemeToggleButton } from './components/ThemeToggle';
 import { topbarAuthSlotClassName } from './topbarAuthSlot';
 

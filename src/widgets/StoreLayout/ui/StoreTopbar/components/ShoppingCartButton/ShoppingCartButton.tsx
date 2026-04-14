@@ -14,7 +14,7 @@ import { Button } from '@/shared/ui/Button/Button';
 
 import { selectCartItemCount, useCartStore } from '@/entities/Cart';
 
-import { useShoppingCartBadgeFeedback } from '@/widgets/StoreLayout/lib/hooks/useShoppingCartBadgeFeedback';
+import { useShoppingCartBadgeFeedback } from '../../../../lib/hooks/useShoppingCartBadgeFeedback';
 
 export function ShoppingCartButton() {
   const count = useCartStore(selectCartItemCount);
