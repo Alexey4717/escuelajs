@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 import { HomeLandingQuery } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
-import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 

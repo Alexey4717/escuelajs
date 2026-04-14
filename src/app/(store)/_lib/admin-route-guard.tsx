@@ -9,10 +9,10 @@ import {
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
 } from '@/shared/config/consts/auth';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
-import { pagesPath } from '@/shared/routes/$path';
 import { RouteGuard } from '@/shared/ui/RouteGuard/RouteGuard';
 
 import { parseUserRole } from '@/entities/User';

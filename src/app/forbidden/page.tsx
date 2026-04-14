@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { Page } from '@/widgets/Page';

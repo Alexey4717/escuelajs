@@ -4,9 +4,9 @@ import type { Metadata } from 'next';
 
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ProductDetailsRoute } from '@/routes/product-detail';

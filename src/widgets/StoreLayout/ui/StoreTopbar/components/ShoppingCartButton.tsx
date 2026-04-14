@@ -4,8 +4,8 @@ import Link from 'next/link';
 
 import { ShoppingCartIcon } from 'lucide-react';
 
+import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
-import { pagesPath } from '@/shared/routes/$path';
 import { Badge } from '@/shared/ui/Badge/Badge';
 import { Button } from '@/shared/ui/Button/Button';
 

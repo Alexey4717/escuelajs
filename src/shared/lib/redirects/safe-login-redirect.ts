@@ -1,4 +1,4 @@
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 
 const DEFAULT_AFTER_LOGIN = pagesPath.profile.$url().path;
 

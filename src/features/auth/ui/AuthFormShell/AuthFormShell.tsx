@@ -2,7 +2,7 @@ import { type ReactNode } from 'react';
 
 import Link from 'next/link';
 
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ChangeModeButtonGroup } from './components/ChangeModeButtonGroup';

@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 
+import { pagesPath } from '../src/shared/config/routes/$path';
 import { createUnsignedJwtWithSub } from '../src/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
-import { pagesPath } from '../src/shared/routes/$path';
 
 const protectedAdminRoutes = [
   {

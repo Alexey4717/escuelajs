@@ -6,9 +6,9 @@ import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
 import { DeleteProductDocument } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { pagesPath } from '@/shared/routes/$path';
 
 type DeleteProductArgs = {
   productId: string;

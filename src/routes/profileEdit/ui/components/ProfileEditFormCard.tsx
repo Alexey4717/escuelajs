@@ -8,7 +8,7 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { useForm } from 'react-hook-form';
 
 import type { UserDetailsQuery } from '@/shared/api/generated/graphql';
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Card } from '@/shared/ui/Card/Card';
 import type { FilesBoxItem } from '@/shared/ui/FilesBox';

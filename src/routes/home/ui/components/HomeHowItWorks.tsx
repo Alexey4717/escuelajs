@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import { CreditCard, ShoppingBag, UserPlus } from 'lucide-react';
 
+import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
-import { pagesPath } from '@/shared/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 const STEPS = [

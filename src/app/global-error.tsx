@@ -6,7 +6,7 @@ import Link from 'next/link';
 
 import { AlertTriangle } from 'lucide-react';
 
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 

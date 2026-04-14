@@ -23,10 +23,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 | `pnpm prettier:check` | Prettier check only (no writes); useful in CI. |
 | `pnpm analyze` | Bundle analyzer (see below). |
 | `pnpm prepare` | Installs [Husky](https://typicode.github.io/husky/) git hooks after `pnpm install`. |
-| `pnpm pathpida` | Генерация [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
+| `pnpm pathpida` | Генерация [`src/shared/config/routes/$path.ts`](src/shared/config/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
 | `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
 | `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). После записи файлов в [`codegen.ts`](codegen.ts) через `hooks.afterAllFileWrite` запускается **`prettier --write`**, чтобы вывод совпадал с `prettier.config.mjs` (сырой текст плагина и Prettier расходятся по кавычкам и переносам). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
-| `pnpm verify:generated` | Проверка сгенерированных артефактов: `codegen`, Prettier для `src/shared/api/generated/*.ts`, pathpida, Prettier для [`$path.ts`](src/shared/routes/$path.ts), `scss:types:check`, затем `git diff` по generated-путям (включая `*.module.scss.d.ts`). См. [CI: сгенерированные файлы](#ci-сгенерированные-файлы). |
+| `pnpm verify:generated` | Проверка сгенерированных артефактов: `codegen`, Prettier для `src/shared/api/generated/*.ts`, pathpida, Prettier для [`$path.ts`](src/shared/config/routes/$path.ts), `scss:types:check`, затем `git diff` по generated-путям (включая `*.module.scss.d.ts`). См. [CI: сгенерированные файлы](#ci-сгенерированные-файлы). |
 | `pnpm test:unit` | Один прогон unit/integration: [Vitest](https://vitest.dev/) + Testing Library + [MSW](https://mswjs.io/) (сеть к GraphQL не уходит — только моки). Конфиг: [`vitest.config.ts`](vitest.config.ts). |
 | `pnpm test:unit:watch` | Vitest в режиме watch (локальная разработка тестов). |
 | `pnpm test:unit:coverage` | Vitest с отчётом покрытия (V8). |
@@ -51,7 +51,7 @@ TypeScript is checked during `pnpm build` (and via your editor). This stack uses
 
 ### CI: сгенерированные файлы
 
-В pipeline после линтеров выполняется **`pnpm verify:generated`**: перезапускаются GraphQL Codegen и pathpida, для сгенерированных `*.ts` применяется тот же Prettier, дополнительно проверяется актуальность `*.module.scss.d.ts` через `scss:types:check`, затем **`git diff`** по `src/shared/api/generated/`, [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) и `*.module.scss.d.ts` (остальные незакоммиченные файлы на результат не влияют). Если забыли выполнить `pnpm codegen`, `pnpm pathpida` или обновить SCSS typings после правок модулей стилей, job упадёт — сгенерируйте файлы локально и закоммитьте.
+В pipeline после линтеров выполняется **`pnpm verify:generated`**: перезапускаются GraphQL Codegen и pathpida, для сгенерированных `*.ts` применяется тот же Prettier, дополнительно проверяется актуальность `*.module.scss.d.ts` через `scss:types:check`, затем **`git diff`** по `src/shared/api/generated/`, [`src/shared/config/routes/$path.ts`](src/shared/config/routes/$path.ts) и `*.module.scss.d.ts` (остальные незакоммиченные файлы на результат не влияют). Если забыли выполнить `pnpm codegen`, `pnpm pathpida` или обновить SCSS typings после правок модулей стилей, job упадёт — сгенерируйте файлы локально и закоммитьте.
 
 До production build в job **quality** также выполняются **`pnpm test:unit`**, установка Chromium для Playwright (**`pnpm exec playwright install --with-deps chromium`**) и **`pnpm test:e2e`**; затем **`pnpm build`** (та же команда, что и на проде). См. [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
 
@@ -73,7 +73,7 @@ TypeScript is checked during `pnpm build` (and via your editor). This stack uses
 
 ### Типизированные URL (pathpida)
 
-По структуре `src/app/` генерируется файл [`src/shared/routes/$path.ts`](src/shared/routes/$path.ts) (экспорт из [`@/shared/routes`](src/shared/routes/index.ts): объект **`pagesPath`**). Это нужно, чтобы ссылки и `router.push` не расходились с реальными роутами App Router и ловились типами TypeScript.
+По структуре `src/app/` генерируется файл [`src/shared/config/routes/$path.ts`](src/shared/config/routes/$path.ts) (импорт: [`@/shared/config/routes/$path`](src/shared/config/routes/$path.ts), объект **`pagesPath`**). Это нужно, чтобы ссылки и `router.push` не расходились с реальными роутами App Router и ловились типами TypeScript.
 
 **Когда запускать:** после добавления, переименования или удаления страниц/сегментов в `src/app/` (аналогично тому, как после смены GraphQL-схемы запускают `pnpm codegen`). Сгенерированный `$path.ts` **коммитится** в репозиторий.
 

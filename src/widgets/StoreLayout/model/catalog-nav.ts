@@ -8,7 +8,7 @@ import {
 } from 'lucide-react';
 
 import { type Role } from '@/shared/api/generated/graphql';
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 
 export type NavItem = {
   href: string;

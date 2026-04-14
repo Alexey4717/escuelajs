@@ -34,11 +34,11 @@ prettierWrite(
   path.join('src', 'shared', 'api', 'generated', 'apolloCachePolicies.ts'),
 );
 
-run('pnpm exec pathpida --ignorePath .gitignore -o src/shared/routes');
+run('pnpm exec pathpida --ignorePath .gitignore -o src/shared/config/routes');
 
-prettierWrite(path.join('src', 'shared', 'routes', '$path.ts'));
+prettierWrite(path.join('src', 'shared', 'config', 'routes', '$path.ts'));
 
-const pathRoute = path.join('src', 'shared', 'routes', '$path.ts');
+const pathRoute = path.join('src', 'shared', 'config', 'routes', '$path.ts');
 run('pnpm run scss:types:check');
 execFileSync(
   'git',

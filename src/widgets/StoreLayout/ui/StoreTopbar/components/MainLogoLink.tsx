@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 export const MainLogoLink = () => {

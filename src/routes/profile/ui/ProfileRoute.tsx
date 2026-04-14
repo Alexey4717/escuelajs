@@ -7,8 +7,8 @@ import { usePathname, useRouter } from 'next/navigation';
 
 import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
-import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 

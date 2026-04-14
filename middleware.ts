@@ -5,7 +5,7 @@ import {
   ACCESS_TOKEN_KEY,
   REFRESH_TOKEN_KEY,
 } from './src/shared/config/consts';
-import { pagesPath } from './src/shared/routes/$path';
+import { pagesPath } from './src/shared/config/routes/$path';
 
 // Не забывать обновлять config.matcher
 const protectedPaths = [

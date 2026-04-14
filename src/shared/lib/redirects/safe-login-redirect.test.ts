@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { pagesPath } from '../../routes/$path';
+import { pagesPath } from '../../config/routes/$path';
 import {
   loginPageUrlWithFrom,
   sanitizeLoginFromParam,

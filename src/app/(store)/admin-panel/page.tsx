@@ -1,4 +1,4 @@
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 
 import { adminPanelHeadingPage, AdminPanelRoute } from '@/routes/admin-panel';
 

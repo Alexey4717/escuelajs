@@ -2,8 +2,8 @@ import Link from 'next/link';
 
 import { FileQuestion } from 'lucide-react';
 
+import { pagesPath } from '@/shared/config/routes/$path';
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
-import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 

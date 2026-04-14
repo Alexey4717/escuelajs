@@ -7,8 +7,8 @@ import Link from 'next/link';
 import { VirtuosoGrid } from 'react-virtuoso';
 import { useShallow } from 'zustand/react/shallow';
 
+import { pagesPath } from '@/shared/config/routes/$path';
 import { useVirtuosoScrollPersistence } from '@/shared/lib/hooks/use-virtuoso-scroll-persistence';
-import { pagesPath } from '@/shared/routes/$path';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 

@@ -7,9 +7,9 @@
   },
   "packageManager": "pnpm@10.33.0",
   "scripts": {
-    "pathpida": "pathpida --ignorePath .gitignore -o src/shared/routes && prettier --write \"src/shared/routes/$path.ts\"",
+    "pathpida": "pathpida --ignorePath .gitignore -o src/shared/config/routes && prettier --write \"src/shared/config/routes/$path.ts\"",
     "dev": "next dev",
-    "dev:path": "pathpida --ignorePath .gitignore -o src/shared/routes --watch",
+    "dev:path": "pathpida --ignorePath .gitignore -o src/shared/config/routes --watch",
     "scss:types": "awesome-typed-css-modules \"src/**/*.module.scss\" --exportType default --quoteType single",
     "scss:types:check": "awesome-typed-css-modules \"src/**/*.module.scss\" --exportType default --quoteType single --listDifferent",
     "build": "next build",

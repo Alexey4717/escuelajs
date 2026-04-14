@@ -2,7 +2,7 @@ import { type ComponentProps } from 'react';
 
 import Link from 'next/link';
 
-import { pagesPath } from '@/shared/routes/$path';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Badge } from '@/shared/ui/Badge/Badge';
 import { Button } from '@/shared/ui/Button/Button';

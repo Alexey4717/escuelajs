@@ -6,10 +6,10 @@ import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
 import { DeleteCategoryDocument } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils';
 import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { pagesPath } from '@/shared/routes/$path';
 
 interface DeleteCategoryArgs {
   categoryId: string;

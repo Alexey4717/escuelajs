@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 
+import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
-import { pagesPath } from '@/shared/routes/$path';
 import { Avatar } from '@/shared/ui/Avatar/Avatar';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
