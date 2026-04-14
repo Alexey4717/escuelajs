@@ -19,11 +19,13 @@ import { CartCheckoutSectionHeader } from './CartCheckoutSectionHeader';
 export interface CartCheckoutSectionProps {
   onCheckoutSubmit: (data: CartCheckoutFormOutput) => Promise<void>;
   onClearCart: () => void;
+  clearCartDisabled?: boolean;
 }
 
 export function CartCheckoutSection({
   onCheckoutSubmit,
   onClearCart,
+  clearCartDisabled = false,
 }: CartCheckoutSectionProps) {
   const { user, loading } = useCurrentUser();
   const userName = user?.name ?? null;
@@ -40,6 +42,7 @@ export function CartCheckoutSection({
       key={checkoutFormKey}
       onCheckoutSubmit={onCheckoutSubmit}
       onClearCart={onClearCart}
+      clearCartDisabled={clearCartDisabled}
       userName={userName}
       userEmail={userEmail}
     />
@@ -54,6 +57,7 @@ interface CartCheckoutSectionReadyProps extends CartCheckoutSectionProps {
 function CartCheckoutSectionReady({
   onCheckoutSubmit,
   onClearCart,
+  clearCartDisabled,
   userName,
   userEmail,
 }: CartCheckoutSectionReadyProps) {
@@ -91,7 +95,7 @@ function CartCheckoutSectionReady({
         data-testid="cartRoute__section__checkout"
       >
         <CartCheckoutSectionHeader>
-          <ClearCartButton onClear={onClearCart} />
+          <ClearCartButton disabled={clearCartDisabled} onClear={onClearCart} />
         </CartCheckoutSectionHeader>
         <Form
           methods={methods.methods}
@@ -125,7 +129,7 @@ function CartCheckoutSectionReady({
         <span className="h-1 w-[100px] rounded-full bg-muted" />
       </button>
       <CartCheckoutSectionHeader className="px-4 pt-1">
-        <ClearCartButton onClear={onClearCart} />
+        <ClearCartButton disabled={clearCartDisabled} onClear={onClearCart} />
       </CartCheckoutSectionHeader>
       <div
         className="min-h-0 overflow-y-auto px-4 pb-4 pt-2"

@@ -1,4 +1,4 @@
-import { type ComponentProps } from 'react';
+import { type ComponentProps, forwardRef } from 'react';
 
 import { type VariantProps } from 'class-variance-authority';
 import { Slot } from 'radix-ui';
@@ -14,37 +14,43 @@ type ButtonProps = ComponentProps<'button'> &
     loading?: boolean;
   };
 
-export const Button = ({
-  className,
-  variant = 'default',
-  size = 'default',
-  asChild = false,
-  loading = false,
-  disabled,
-  children,
-  ...props
-}: ButtonProps) => {
-  const Comp = asChild ? Slot.Root : 'button';
-  const isDisabled = asChild ? disabled : disabled || loading;
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      className,
+      variant = 'default',
+      size = 'default',
+      asChild = false,
+      loading = false,
+      disabled,
+      children,
+      ...props
+    },
+    ref,
+  ) {
+    const Comp = asChild ? Slot.Root : 'button';
+    const isDisabled = asChild ? disabled : disabled || loading;
 
-  return (
-    <Comp
-      data-slot="button"
-      data-variant={variant}
-      data-size={size}
-      className={cn(buttonVariants({ variant, size, className }))}
-      disabled={isDisabled}
-      aria-busy={loading || undefined}
-      {...props}
-    >
-      {!asChild && loading ? (
-        <>
-          {children}
-          <Spinner data-icon="inline-end" />
-        </>
-      ) : (
-        children
-      )}
-    </Comp>
-  );
-};
+    return (
+      <Comp
+        ref={ref}
+        data-slot="button"
+        data-variant={variant}
+        data-size={size}
+        className={cn(buttonVariants({ variant, size, className }))}
+        disabled={isDisabled}
+        aria-busy={loading || undefined}
+        {...props}
+      >
+        {!asChild && loading ? (
+          <>
+            {children}
+            <Spinner data-icon="inline-end" />
+          </>
+        ) : (
+          children
+        )}
+      </Comp>
+    );
+  },
+);

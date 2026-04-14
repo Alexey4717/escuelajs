@@ -1,6 +1,6 @@
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { renderWithProviders } from '@/test/testing';
 
@@ -35,6 +35,10 @@ describe('CartRoute', () => {
     handleOrder.mockReset();
     clearCart.mockReset();
     handleOrder.mockResolvedValue(undefined);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   it('показывает пустое состояние если нет товаров', () => {
@@ -85,7 +89,7 @@ describe('CartRoute', () => {
     ).toBeInTheDocument();
   });
 
-  it('очистка корзины вызывает clearCart из хука', async () => {
+  it('очистка корзины вызывает clearCart из хука после анимации строк', async () => {
     const user = userEvent.setup();
     useCartRouteMock.mockReturnValue({
       items: [
@@ -105,7 +109,9 @@ describe('CartRoute', () => {
 
     await user.click(screen.getByTestId('cartRoute__button__clearCart'));
 
-    expect(clearCart).toHaveBeenCalledTimes(1);
+    await waitFor(() => {
+      expect(clearCart).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('пустая форма: «Заказать» не вызывает handleOrder', async () => {
