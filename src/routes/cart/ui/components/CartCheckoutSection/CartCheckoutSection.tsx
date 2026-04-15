@@ -3,6 +3,7 @@
 import { useCallback } from 'react';
 
 import { useIsLgAndUp } from '@/shared/lib/hooks/use-is-lg-and-up';
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Form } from '@/shared/ui/Form/Form';
 
 import { useCurrentUser } from '@/entities/Session';
@@ -93,6 +94,7 @@ function CartCheckoutSectionReady({
       <section
         className="mt-0 space-y-4 border-t-0 pt-0 lg:sticky lg:self-start"
         data-testid="cartRoute__section__checkout"
+        data-onboarding={ONBOARDING_TARGET_IDS.cartCheckout}
       >
         <CartCheckoutSectionHeader>
           <ClearCartButton disabled={clearCartDisabled} onClear={onClearCart} />
@@ -134,6 +136,7 @@ function CartCheckoutSectionReady({
       <div
         className="min-h-0 overflow-y-auto px-4 pb-4 pt-2"
         data-testid="cartRoute__section__checkout"
+        data-onboarding={ONBOARDING_TARGET_IDS.cartCheckout}
       >
         <Form
           methods={methods.methods}

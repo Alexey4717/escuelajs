@@ -3,12 +3,14 @@
 import type { ReactNode } from 'react';
 
 import { type ProductDetailsQuery } from '@/shared/api/generated/graphql';
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { cn } from '@/shared/lib/styles/cn';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { CategoryListLabel } from '@/entities/Category';
 import { parsePrice } from '@/entities/Price';
 
+import { ONBOARDING_DEMO_PRODUCT_B_ID } from '@/features/onboarding';
 import { ToggleCartItemButton } from '@/features/toggleCartItem';
 
 /** Акцент витрины (терракота): совпадает с референсом карточки товара. */
@@ -62,13 +64,21 @@ export const ProductContent = ({
       >
         {product.description}
       </Typography>
-      <ToggleCartItemButton
-        variant="detail"
-        id={product.id}
-        title={product.title}
-        price={product.price}
-        image={product.images[0] ?? ''}
-      />
+      <span
+        data-onboarding={
+          product.id === ONBOARDING_DEMO_PRODUCT_B_ID
+            ? ONBOARDING_TARGET_IDS.productDetailCart
+            : undefined
+        }
+      >
+        <ToggleCartItemButton
+          variant="detail"
+          id={product.id}
+          title={product.title}
+          price={product.price}
+          image={product.images[0] ?? ''}
+        />
+      </span>
     </div>
   );
 };

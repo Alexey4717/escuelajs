@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react';
 
 import { NetworkStatus } from '@apollo/client';
 
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
+
 import { useFilterProductsStore } from '../model/filter-products-store';
 import { FilterCategoryField } from './components/FilterCategoryField';
 import { FilterPriceRangeField } from './components/FilterPriceRangeField';
@@ -31,6 +33,7 @@ export function FilterProductsBar({
     <section
       className="space-y-4 rounded-lg border border-border bg-card/40 p-4"
       aria-labelledby="filter-products-heading"
+      data-onboarding={ONBOARDING_TARGET_IDS.catalogFilters}
     >
       <FilterProductsBarHeader onReset={handleReset} />
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start lg:gap-x-6 lg:gap-y-6">

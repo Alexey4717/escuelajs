@@ -6,6 +6,12 @@ import { useLocationsQuery } from '@/shared/api/rest/locations/use-locations-que
 import type { ModalComponentProps } from '@/shared/lib/store/slices/modal/types';
 import { Button } from '@/shared/ui/Button/Button';
 
+import { useOnboardingSessionStore } from '@/features/onboarding';
+
+import {
+  DEMO_PICKUP_POINT_PRIMARY_ID,
+  DEMO_PICKUP_POINT_SECONDARY_ID,
+} from './model/demo-pickup-point-ids';
 import { usePickupPointMapController } from './model/usePickupPointMapController';
 import { MapMoveEndHandler } from './ui/MapMoveEndHandler';
 import { PickupPointMapStatus } from './ui/PickupPointMapStatus';
@@ -26,6 +32,10 @@ export function PickupPointMapModalContent({
   closeModal,
   onSelectPickupPoint,
 }: ModalComponentProps<'pickupPointMap'>) {
+  const isOnboardingGuestMapStep = useOnboardingSessionStore(
+    (s) =>
+      s.isDemoActive && s.activeFlow === 'guest' && s.currentStepIndex >= 6,
+  );
   const {
     mapCenterPoint,
     myLocationPoint,
@@ -36,7 +46,26 @@ export function PickupPointMapModalContent({
     handleMapMoveEnd,
   } = usePickupPointMapController();
 
-  const locationsQuery = useLocationsQuery(queryParams);
+  const locationsQuery = useLocationsQuery(queryParams, {
+    mockData: isOnboardingGuestMapStep
+      ? [
+          {
+            id: DEMO_PICKUP_POINT_PRIMARY_ID,
+            name: 'Демо ПВЗ (выберите меня)',
+            description: 'Онбординг: нажмите на эту точку для выбора.',
+            latitude: 55.751244,
+            longitude: 37.618423,
+          },
+          {
+            id: DEMO_PICKUP_POINT_SECONDARY_ID,
+            name: 'Запасной ПВЗ',
+            description: 'Резервная точка в демо-режиме.',
+            latitude: 55.7578,
+            longitude: 37.6056,
+          },
+        ]
+      : null,
+  });
 
   return (
     <div className="relative h-dvh w-full">

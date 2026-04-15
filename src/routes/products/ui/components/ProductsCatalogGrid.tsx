@@ -9,6 +9,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { pagesPath } from '@/shared/config/routes/$path';
 import { useVirtuosoScrollPersistence } from '@/shared/lib/hooks/use-virtuoso-scroll-persistence';
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -20,6 +21,10 @@ import {
   hasActiveFilters,
   useFilterProductsStore,
 } from '@/features/filterProducts';
+import {
+  ONBOARDING_DEMO_PRODUCT_A_ID,
+  ONBOARDING_DEMO_PRODUCT_B_ID,
+} from '@/features/onboarding';
 import { ToggleCartItemButton } from '@/features/toggleCartItem';
 
 import { useProductsQuery } from '../../api/useProductsQuery';
@@ -106,20 +111,37 @@ export function ProductsCatalogGrid({
         computeItemKey={(_, product) => product.id}
         endReached={loadMore}
         increaseViewportBy={{ bottom: 400, top: 200 }}
-        itemContent={(_, product) => (
-          <ProductCard
-            product={product}
-            cartAction={
-              <ToggleCartItemButton
-                variant="card"
-                id={product.id}
-                title={product.title}
-                price={product.price}
-                image={product.images[0] ?? ''}
-              />
-            }
-          />
-        )}
+        itemContent={(_, product) => {
+          const isDemoA = product.id === ONBOARDING_DEMO_PRODUCT_A_ID;
+          const isDemoB = product.id === ONBOARDING_DEMO_PRODUCT_B_ID;
+          return (
+            <ProductCard
+              product={product}
+              titleDataOnboarding={
+                isDemoB
+                  ? ONBOARDING_TARGET_IDS.catalogSecondProductLink
+                  : undefined
+              }
+              cartAction={
+                <span
+                  data-onboarding={
+                    isDemoA
+                      ? ONBOARDING_TARGET_IDS.catalogFirstProductCart
+                      : undefined
+                  }
+                >
+                  <ToggleCartItemButton
+                    variant="card"
+                    id={product.id}
+                    title={product.title}
+                    price={product.price}
+                    image={product.images[0] ?? ''}
+                  />
+                </span>
+              }
+            />
+          );
+        }}
         restoreStateFrom={restoreStateFrom}
         stateChanged={onGridStateChanged}
       />

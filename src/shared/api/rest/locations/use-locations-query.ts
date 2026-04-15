@@ -4,22 +4,35 @@ import { useQuery } from '@tanstack/react-query';
 
 import { escuelaRestQueryKeys } from '../query-keys';
 import { getLocations } from './get-locations';
-import type { GetEscuelaLocationsParams } from './types';
+import type { EscuelaLocationDto, GetEscuelaLocationsParams } from './types';
 
-export function useLocationsQuery(params: GetEscuelaLocationsParams | null) {
+interface UseLocationsQueryOptions {
+  mockData?: EscuelaLocationDto[] | null;
+}
+
+export function useLocationsQuery(
+  params: GetEscuelaLocationsParams | null,
+  options?: UseLocationsQueryOptions,
+) {
   return useQuery({
     queryKey: [
       ...escuelaRestQueryKeys.locations.list(),
       params?.origin ?? null,
       params?.radius ?? null,
       params?.size ?? null,
+      options?.mockData ? 'mock' : 'real',
     ],
     queryFn: () => {
+      if (options?.mockData) {
+        return new Promise<EscuelaLocationDto[]>((resolve) => {
+          window.setTimeout(() => resolve(options.mockData ?? []), 250);
+        });
+      }
       if (!params) {
         throw new Error('Параметры locations-запроса не заданы');
       }
       return getLocations(params);
     },
-    enabled: Boolean(params),
+    enabled: Boolean(params) || Boolean(options?.mockData),
   });
 }

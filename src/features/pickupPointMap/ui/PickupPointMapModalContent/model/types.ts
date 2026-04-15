@@ -18,4 +18,5 @@ export type MapMoveEndPayload = {
 export interface MapIconsState {
   myLocation: import('leaflet').Icon | null;
   pickupPoint: import('leaflet').Icon | null;
+  pickupPointDemo: import('leaflet').Icon | null;
 }

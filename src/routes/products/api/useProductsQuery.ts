@@ -23,6 +23,7 @@ import {
   buildProductsFilterVariables,
   useFilterProductsStore,
 } from '@/features/filterProducts';
+import { useOnboardingSessionStore } from '@/features/onboarding';
 
 import { resolveScrollAreaViewport } from '@/widgets/Page/lib/utils/findScrollContainer';
 
@@ -59,22 +60,34 @@ export const useProductsQuery = (
   );
 
   const filterKey = useMemo(() => JSON.stringify(filterVars), [filterVars]);
+  const isOnboardingDemoActive = useOnboardingSessionStore(
+    (s) => s.isDemoActive,
+  );
 
-  const variables = useMemo(
-    () =>
-      ({
+  const variables = useMemo(() => {
+    if (isOnboardingDemoActive) {
+      return {
         limit: PRODUCTS_PAGE_SIZE,
         offset: 0,
-        ...filterVars,
-      }) as ProductsQueryVariables,
-    [filterVars],
-  );
+        price_min: filterVars.price_min ?? null,
+        price_max: filterVars.price_max ?? null,
+        title: filterVars.title ?? null,
+        categoryId: filterVars.categoryId ?? null,
+      } satisfies ProductsQueryVariables;
+    }
+    return {
+      limit: PRODUCTS_PAGE_SIZE,
+      offset: 0,
+      ...filterVars,
+    } as ProductsQueryVariables;
+  }, [filterVars, isOnboardingDemoActive]);
 
   const { data, previousData, loading, fetchMore, networkStatus } = useQuery(
     ProductsDocument,
     {
       variables,
       notifyOnNetworkStatusChange: false,
+      fetchPolicy: isOnboardingDemoActive ? 'cache-only' : undefined,
     },
   );
 

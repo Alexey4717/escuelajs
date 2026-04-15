@@ -14,9 +14,14 @@ import { ProductCardFooter } from './components/ProductCardFooter';
 interface ProductCardProps {
   product: ProductsQuery['products'][number];
   cartAction?: ReactNode;
+  titleDataOnboarding?: string;
 }
 
-export function ProductCard({ product, cartAction }: ProductCardProps) {
+export function ProductCard({
+  product,
+  cartAction,
+  titleDataOnboarding,
+}: ProductCardProps) {
   const imageUrl = product.images[0];
   const href = `/products/${product.id}`;
   const priceLabel = parsePrice(product.price);
@@ -40,6 +45,7 @@ export function ProductCard({ product, cartAction }: ProductCardProps) {
           href={href}
           className="block min-w-0 w-full truncate text-base sm:text-lg py-2"
           title={product.title}
+          data-onboarding={titleDataOnboarding}
         >
           {product.title}
         </Link>

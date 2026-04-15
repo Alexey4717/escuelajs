@@ -16,6 +16,7 @@ import { useCurrentUser } from '@/entities/Session';
 import { getRoleText, parseUserRole } from '@/entities/User';
 
 import { ChangeCurrentPasswordCard } from '@/features/changeCurrentPassword';
+import { OnboardingProfileSection } from '@/features/onboarding';
 
 import { Page } from '@/widgets/Page';
 
@@ -110,6 +111,7 @@ export const ProfileRoute = () => {
             roleBadgeVariant={roleBadgeVariant}
           />
           <ChangeCurrentPasswordCard />
+          <OnboardingProfileSection />
         </div>
       </div>
     </Page>

@@ -8,6 +8,7 @@ import { ShoppingCartIcon } from 'lucide-react';
 
 import { pagesPath } from '@/shared/config/routes/$path';
 import { useCartFlyOptional } from '@/shared/lib/animations/cart-fly';
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { cn } from '@/shared/lib/styles/cn';
 import { Badge } from '@/shared/ui/Badge/Badge';
 import { Button } from '@/shared/ui/Button/Button';
@@ -50,6 +51,7 @@ export function ShoppingCartButton() {
     >
       <Link
         data-testid="storeTopbar__link__cart"
+        data-onboarding={ONBOARDING_TARGET_IDS.topbarCart}
         href={pagesPath.cart.$url().path}
         className="relative inline-flex size-9 items-center justify-center"
         style={durationStyle}

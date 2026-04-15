@@ -6,6 +6,7 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Form } from '@/shared/ui/Form/Form';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
@@ -41,7 +42,11 @@ export const ContactUsForm = () => {
   };
 
   return (
-    <section aria-labelledby={`${formId}-heading`} className="mt-16 space-y-6">
+    <section
+      aria-labelledby={`${formId}-heading`}
+      className="mt-16 space-y-6"
+      data-onboarding={ONBOARDING_TARGET_IDS.homeContactForm}
+    >
       <div>
         <Typography id={`${formId}-heading`} variant="h2" gutterBottom>
           Связаться с нами

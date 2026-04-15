@@ -53,6 +53,7 @@
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.0",
+    "react-joyride": "^3.0.2",
     "react-leaflet": "^5.0.0",
     "react-virtuoso": "^4.18.4",
     "rxjs": "^7.8.2",

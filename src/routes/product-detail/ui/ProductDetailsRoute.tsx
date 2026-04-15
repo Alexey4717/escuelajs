@@ -6,6 +6,8 @@ import { useSuspenseQuery } from '@apollo/client/react';
 
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 
+import { useOnboardingSessionStore } from '@/features/onboarding';
+
 import { Page } from '@/widgets/Page';
 
 import { NoProductImagesFallback } from './components/NoProductImagesFallback';
@@ -19,9 +21,13 @@ interface ProductDetailsRouteProps {
 }
 
 export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
+  const isOnboardingDemoActive = useOnboardingSessionStore(
+    (s) => s.isDemoActive,
+  );
   const { data, error } = useSuspenseQuery(ProductDetailsDocument, {
     variables: { id: productId },
     errorPolicy: 'all',
+    fetchPolicy: isOnboardingDemoActive ? 'cache-first' : undefined,
   });
 
   if (error) {

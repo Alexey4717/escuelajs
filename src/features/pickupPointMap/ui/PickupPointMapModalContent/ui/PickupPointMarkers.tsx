@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic';
 
 import type { ModalComponentProps } from '@/shared/lib/store/slices/modal/types';
 
+import { DEMO_PICKUP_POINT_PRIMARY_ID } from '../model/demo-pickup-point-ids';
 import type { LatLngPoint, MapIconsState } from '../model/types';
 
 const Marker = dynamic(() => import('react-leaflet').then((m) => m.Marker), {
@@ -54,7 +55,12 @@ export function PickupPointMarkers({
           <Marker
             key={location.id}
             position={[location.latitude, location.longitude]}
-            icon={icons.pickupPoint!}
+            icon={
+              location.id === DEMO_PICKUP_POINT_PRIMARY_ID &&
+              icons.pickupPointDemo
+                ? icons.pickupPointDemo
+                : icons.pickupPoint!
+            }
             bubblingMouseEvents={false}
             eventHandlers={{
               click: () => {

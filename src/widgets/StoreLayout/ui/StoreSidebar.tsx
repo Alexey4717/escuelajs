@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 import { pagesPath } from '@/shared/config/routes/$path';
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import {
   Sidebar,
   SidebarContent,
@@ -46,6 +47,19 @@ function StoreSidebarBrand({ onNavigate }: { onNavigate: () => void }) {
     </Link>
   );
 }
+
+const onboardingForNavItem = (href: string) => {
+  if (href === pagesPath.products.$url().path) {
+    return ONBOARDING_TARGET_IDS.sidebarNavProducts;
+  }
+  if (href === pagesPath.users.$url().path) {
+    return ONBOARDING_TARGET_IDS.sidebarNavUsers;
+  }
+  if (href === pagesPath.admin_panel.$url().path) {
+    return ONBOARDING_TARGET_IDS.sidebarNavAdmin;
+  }
+  return undefined;
+};
 
 interface StoreSidebarProps {
   isLoggedIn: boolean;
@@ -92,7 +106,11 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
                       isActive={active}
                       tooltip={item.label}
                     >
-                      <Link href={item.href} onClick={closeMobileSheet}>
+                      <Link
+                        href={item.href}
+                        onClick={closeMobileSheet}
+                        data-onboarding={onboardingForNavItem(item.href)}
+                      >
                         <ItemIcon
                           className="size-4 shrink-0"
                           strokeWidth={1.75}

@@ -1,3 +1,4 @@
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Button } from '@/shared/ui/Button/Button';
 
 import {
@@ -29,6 +30,7 @@ export function CartCheckoutFormFields({
           variant="outline"
           className="w-full shrink-0 sm:mb-0 sm:w-auto"
           data-testid="cartRoute__button__pickOnMap"
+          data-onboarding={ONBOARDING_TARGET_IDS.cartPickOnMapButton}
         >
           Выбрать на карте
         </Button>

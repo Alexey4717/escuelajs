@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
+
 import type { LatLngPoint, MapIconsState, MapMoveEndPayload } from './types';
 
 const MOSCOW_POINT: LatLngPoint = {
@@ -25,6 +27,7 @@ export function usePickupPointMapController() {
   const [mapIcons, setMapIcons] = useState<MapIconsState>({
     myLocation: null,
     pickupPoint: null,
+    pickupPointDemo: null,
   });
   const suppressMoveEndRef = useRef(false);
 
@@ -67,6 +70,15 @@ export function usePickupPointMapController() {
           popupAnchor: [0, -16],
           tooltipAnchor: [0, -14],
         }),
+        pickupPointDemo: new Icon({
+          className: ONBOARDING_TARGET_IDS.mapDemoPickupPoint,
+          iconUrl: '/marker_pickup.svg',
+          iconSize: [50, 55],
+          iconAnchor: [25, 55],
+          popupAnchor: [0, -16],
+          tooltipAnchor: [0, -14],
+          crossOrigin: true,
+        }),
       });
     });
 
@@ -106,6 +118,17 @@ export function usePickupPointMapController() {
       },
     );
   }, [setFallbackLocation]);
+
+  useEffect(() => {
+    if (mapCenterPoint == null || queryParams != null) {
+      return;
+    }
+    setQueryParams({
+      radius: 3000,
+      size: 20,
+      origin: `${mapCenterPoint.lat},${mapCenterPoint.lng}`,
+    });
+  }, [mapCenterPoint, queryParams]);
 
   return {
     mapCenterPoint,
