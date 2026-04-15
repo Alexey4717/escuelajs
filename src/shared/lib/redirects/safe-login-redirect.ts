@@ -1,6 +1,7 @@
 import { pagesPath } from '@/shared/config/routes/$path';
 
-const DEFAULT_AFTER_LOGIN = pagesPath.profile.$url().path;
+// TODO вернуть login после проверки деплоя
+const DEFAULT_AFTER_LOGIN = pagesPath.login.$url().path;
 
 /**
  * Безопасный путь после логина из query `from` (защита от open redirect).
