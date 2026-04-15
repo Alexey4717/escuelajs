@@ -1,3 +1,10 @@
+# [1.14.0](https://github.com/Alexey4717/escuelajs/compare/v1.13.0...v1.14.0) (2026-04-15)
+
+
+### Features
+
+* add animation cart-fly for adding product in cart ([0643fba](https://github.com/Alexey4717/escuelajs/commit/0643fbadee453fd4fb4c7e4a69d8d9617d1e8c58))
+
 # [1.13.0](https://github.com/Alexey4717/escuelajs/compare/v1.12.0...v1.13.0) (2026-04-13)
 
 
