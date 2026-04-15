@@ -23,6 +23,8 @@ export function StoreTopbar({ isLoggedIn, className }: StoreTopbarProps) {
       )}
     >
       <div className="ml-auto flex items-center gap-2">
+        {/* TODO убрать после проверки деплоя */}
+        <span>Проверка деплоя</span>
         <ShoppingCartButton />
         <ThemeToggleButton />
         <div className={topbarAuthSlotClassName}>
