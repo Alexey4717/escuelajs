@@ -25,6 +25,7 @@ export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
 
   const guest = useOnboardingProgressStore((s) => s.guest);
   const admin = useOnboardingProgressStore((s) => s.admin);
+  const hasHydrated = useOnboardingProgressStore((s) => s.hasHydrated);
   const dismissBottomBar = useOnboardingProgressStore(
     (s) => s.dismissBottomBar,
   );
@@ -32,7 +33,7 @@ export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
     s.activeFlow === 'guest' ? s.currentStepIndex : 0,
   );
 
-  if (loading || isDemoActive || run) {
+  if (loading || !hasHydrated || isDemoActive || run) {
     return null;
   }
 

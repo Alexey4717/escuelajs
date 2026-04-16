@@ -37,6 +37,7 @@ export function ProductCard({
           href={href}
           imageUrl={imageUrl}
           categoryName={product.category.name}
+          dataOnboarding={titleDataOnboarding}
         />
       }
       title={

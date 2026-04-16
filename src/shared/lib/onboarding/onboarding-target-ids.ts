@@ -13,6 +13,7 @@ export const ONBOARDING_TARGET_IDS = {
   topbarCart: 'onboarding-topbar-cart',
   cartCheckout: 'onboarding-cart-checkout',
   cartPickOnMapButton: 'onboarding-cart-pick-on-map-button',
+  cartPlaceOrderButton: 'onboarding-cart-place-order-button',
   mapDemoPickupPoint: 'onboarding-map-demo-pickup-point',
   homeContactForm: 'onboarding-home-contact-form',
   adminPanelGrid: 'onboarding-admin-panel-grid',

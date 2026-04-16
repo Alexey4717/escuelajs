@@ -8,6 +8,7 @@ import {
 } from '@/shared/lib/onboarding';
 
 import { applyOnboardingAdminPreset } from '../lib/apply-onboarding-preset';
+import { type OnboardingStepAdvanceMode } from '../lib/onboarding-step-behavior';
 import { delay } from '../lib/utils/delay';
 
 interface BuildAdminStepsParams {
@@ -37,6 +38,12 @@ export function buildAdminOnboardingSteps({
     { pathname: adminPath },
     { pathname: usersPath },
   ];
+  const advanceModes: OnboardingStepAdvanceMode[] = [
+    'targetClick',
+    'targetClick',
+    'tooltipNext',
+    'tooltipLast',
+  ];
 
   const total = ADMIN_TARGETS.length;
 
@@ -49,6 +56,9 @@ export function buildAdminOnboardingSteps({
       placement: 'bottom' as const,
       disableBeacon: true,
       showBeacon: false,
+      data: {
+        advanceMode: advanceModes[stepIndex],
+      },
       before: async () => {
         applyOnboardingAdminPreset(client, stepIndex);
         const targetPath = m.pathname;

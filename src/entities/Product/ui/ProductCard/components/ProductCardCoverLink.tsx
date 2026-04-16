@@ -9,12 +9,14 @@ interface ProductCardCoverLinkProps {
   href: string;
   imageUrl?: string;
   categoryName?: string;
+  dataOnboarding?: string;
 }
 
 export const ProductCardCoverLink = ({
   href,
   imageUrl,
   categoryName,
+  dataOnboarding,
 }: ProductCardCoverLinkProps) => {
   return (
     <Link
@@ -24,6 +26,7 @@ export const ProductCardCoverLink = ({
         'group/cover relative block w-full',
         'aspect-[4/3] min-h-[140px] sm:min-h-0 sm:aspect-[16/10] lg:aspect-[4/3]',
       )}
+      data-onboarding={dataOnboarding}
     >
       {imageUrl ? (
         <AppImage

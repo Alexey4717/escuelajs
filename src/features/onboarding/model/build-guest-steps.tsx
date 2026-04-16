@@ -9,6 +9,9 @@ import {
 
 import { applyOnboardingGuestPreset } from '../lib/apply-onboarding-preset';
 import { ONBOARDING_DEMO_PRODUCT_B_ID } from '../lib/onboarding-demo-fixtures';
+import { onboardingEventBus } from '../lib/onboarding-event-bus';
+import { type OnboardingStepAdvanceMode } from '../lib/onboarding-step-behavior';
+import { delay } from '../lib/utils/delay';
 
 type BuildGuestStepsParams = {
   client: ApolloClient;
@@ -17,15 +20,9 @@ type BuildGuestStepsParams = {
   openMapModal: () => void;
 };
 
-function delay(ms: number): Promise<void> {
-  return new Promise((r) => {
-    setTimeout(r, ms);
-  });
-}
-
 async function waitForTarget(
   selector: string,
-  timeoutMs = 3000,
+  timeoutMs = 15000,
 ): Promise<void> {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
@@ -45,6 +42,7 @@ const GUEST_TARGETS = [
   onboardingSelector(ONBOARDING_TARGET_IDS.topbarCart),
   onboardingSelector(ONBOARDING_TARGET_IDS.cartPickOnMapButton),
   `.${ONBOARDING_TARGET_IDS.mapDemoPickupPoint}`,
+  onboardingSelector(ONBOARDING_TARGET_IDS.cartPlaceOrderButton),
   onboardingSelector(ONBOARDING_TARGET_IDS.homeContactForm),
 ] as const;
 
@@ -73,7 +71,20 @@ export function buildGuestOnboardingSteps({
     { pathname: null },
     { pathname: cartPath },
     { pathname: cartPath },
+    { pathname: cartPath },
     { pathname: homePath },
+  ];
+  const advanceModes: OnboardingStepAdvanceMode[] = [
+    'targetClick',
+    'tooltipNext',
+    'targetClick',
+    'targetClick',
+    'targetClick',
+    'targetClick',
+    'targetClick',
+    'mapEvent',
+    'targetClick',
+    'tooltipLast',
   ];
 
   const total = GUEST_TARGETS.length;
@@ -87,17 +98,39 @@ export function buildGuestOnboardingSteps({
       placement: 'bottom' as const,
       disableBeacon: true,
       showBeacon: false,
+      data: {
+        advanceMode: advanceModes[stepIndex],
+      },
+      blockTargetInteraction: stepIndex === 1 || stepIndex === 9,
       before: async () => {
         applyOnboardingGuestPreset(client, stepIndex);
         const targetPath = m.pathname;
         if (targetPath && getPathname() !== targetPath) {
           navigate(targetPath);
-          await delay(450);
+          await delay(700);
+        }
+        if (stepIndex === 0 && typeof window !== 'undefined') {
+          onboardingEventBus.emit('openMobileSidebar');
+        }
+        if (stepIndex === 6 && typeof window !== 'undefined') {
+          await waitForTarget(
+            onboardingSelector(ONBOARDING_TARGET_IDS.cartCheckout),
+          );
+          onboardingEventBus.emit('clearPickupAddress');
+          onboardingEventBus.emit('openMobileCheckout');
+          await delay(120);
+          onboardingEventBus.emit('openMobileCheckout');
+        }
+        if (stepIndex === 8 && typeof window !== 'undefined') {
+          onboardingEventBus.emit('openMobileCheckout');
+          await delay(120);
+          onboardingEventBus.emit('openMobileCheckout');
         }
         if (stepIndex === 7) {
           openMapModal();
           await waitForTarget(`.${ONBOARDING_TARGET_IDS.mapDemoPickupPoint}`);
         }
+        await waitForTarget(target);
       },
     };
   });
@@ -113,6 +146,7 @@ function GuestStepContent({ index }: { index: number }) {
     'Откройте корзину через иконку в шапке.',
     'Нажмите «Выбрать на карте» в блоке оформления, чтобы открыть карту пунктов выдачи.',
     'Выберите на карте подсвеченный демо-пункт выдачи.',
+    'Форма уже заполнена демо-данными. Нажмите кнопку «Заказать».',
     'Остались вопросы? Внизу главной страницы есть форма обратной связи.',
   ];
 

@@ -13,6 +13,7 @@ import { usePickupPointMapModal } from '@/features/pickupPointMap';
 import { type CartCheckoutFormOutput } from '../../../lib/form/scheme';
 import { useCartCheckoutForm } from '../../../lib/hooks/useCartCheckoutForm';
 import { useMobileCheckoutPanel } from '../../../lib/hooks/useMobileCheckoutPanel';
+import { useOnboardingCartCheckoutBridge } from '../../../lib/hooks/useOnboardingCartCheckoutBridge';
 import { ClearCartButton } from '../ClearCartButton';
 import { CartCheckoutFormFields } from './CartCheckoutFormFields';
 import { CartCheckoutSectionHeader } from './CartCheckoutSectionHeader';
@@ -63,20 +64,27 @@ function CartCheckoutSectionReady({
   userEmail,
 }: CartCheckoutSectionReadyProps) {
   const isLg = useIsLgAndUp();
-  const methods = useCartCheckoutForm({
+  const checkoutFormMethods = useCartCheckoutForm({
     onCheckoutSubmit,
     userName,
     userEmail,
   });
+  const { methods, onSubmit } = checkoutFormMethods;
+  const isSubmitting = methods.formState.isSubmitting;
+
   const mobilePanel = useMobileCheckoutPanel();
   const pickupPointMapModal = usePickupPointMapModal();
 
-  const isSubmitting = methods.methods.formState.isSubmitting;
+  useOnboardingCartCheckoutBridge({
+    mobilePanel,
+    methods,
+    isLg,
+  });
 
   const handlePickOnMap = useCallback(() => {
     pickupPointMapModal.open({
       onSelectPickupPoint: ({ name, latitude, longitude }) => {
-        methods.methods.setValue(
+        methods.setValue(
           'pickupAddress',
           `${name} (${latitude.toFixed(6)}, ${longitude.toFixed(6)})`,
           {
@@ -87,7 +95,7 @@ function CartCheckoutSectionReady({
         );
       },
     });
-  }, [methods.methods, pickupPointMapModal]);
+  }, [methods, pickupPointMapModal]);
 
   if (isLg) {
     return (
@@ -99,11 +107,7 @@ function CartCheckoutSectionReady({
         <CartCheckoutSectionHeader>
           <ClearCartButton disabled={clearCartDisabled} onClear={onClearCart} />
         </CartCheckoutSectionHeader>
-        <Form
-          methods={methods.methods}
-          onSubmit={methods.onSubmit}
-          className="space-y-3"
-        >
+        <Form methods={methods} onSubmit={onSubmit} className="space-y-3">
           <CartCheckoutFormFields
             isSubmitting={isSubmitting}
             onPickOnMap={handlePickOnMap}
@@ -138,11 +142,7 @@ function CartCheckoutSectionReady({
         data-testid="cartRoute__section__checkout"
         data-onboarding={ONBOARDING_TARGET_IDS.cartCheckout}
       >
-        <Form
-          methods={methods.methods}
-          onSubmit={methods.onSubmit}
-          className="space-y-3"
-        >
+        <Form methods={methods} onSubmit={onSubmit} className="space-y-3">
           <CartCheckoutFormFields
             isSubmitting={isSubmitting}
             onPickOnMap={handlePickOnMap}

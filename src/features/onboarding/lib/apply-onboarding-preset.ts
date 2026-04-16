@@ -96,8 +96,14 @@ export function applyOnboardingAdminPreset(
   void stepIndex;
 }
 
-export function resetOnboardingApolloDemo(client: ApolloClient): void {
+export function resetOnboardingApolloDemo(
+  client: ApolloClient,
+  flow: 'guest' | 'admin' | null,
+): void {
   void client;
+  if (flow === 'guest') {
+    useFilterProductsStore.getState().reset();
+  }
 }
 
 export {

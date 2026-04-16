@@ -40,6 +40,7 @@ export function CartCheckoutFormFields({
         size="lg"
         className="w-full"
         data-testid="cartRoute__button__placeOrder"
+        data-onboarding={ONBOARDING_TARGET_IDS.cartPlaceOrderButton}
         disabled={isSubmitting}
       >
         Заказать

@@ -16,3 +16,7 @@ export {
   ONBOARDING_DEMO_CHECKOUT,
   ONBOARDING_DEMO_FILTER_TITLE,
 } from './lib/onboarding-demo-fixtures';
+export {
+  onboardingEventBus,
+  type OnboardingEventMap,
+} from './lib/onboarding-event-bus';

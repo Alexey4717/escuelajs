@@ -20,6 +20,7 @@ import { buildAdminOnboardingSteps } from '../../model/build-admin-steps';
 import { buildGuestOnboardingSteps } from '../../model/build-guest-steps';
 import { useOnboardingProgressStore } from '../../model/onboarding-progress-store';
 import { useOnboardingSessionStore } from '../../model/onboarding-session-store';
+import { OnboardingJoyrideTooltip } from '../../ui/OnboardingJoyrideTooltip';
 import {
   applyOnboardingAdminPreset,
   applyOnboardingGuestPreset,
@@ -29,8 +30,8 @@ import {
   enterOnboardingCartIsolation,
   exitOnboardingCartIsolation,
 } from '../onboarding-cart-bridge';
-
-const mapPickupSelectedEvent = 'onboarding:map-pickup-selected';
+import { onboardingEventBus } from '../onboarding-event-bus';
+import { getOnboardingStepData } from '../onboarding-step-behavior';
 
 export type UseOnboardingTourResult = {
   Tour: import('react').ReactElement | null;
@@ -69,7 +70,7 @@ export function useOnboardingTour(): UseOnboardingTourResult {
   const openMapModal = useCallback(() => {
     useAppStore.getState().openModal('pickupPointMap', {
       onSelectPickupPoint: () => {
-        window.dispatchEvent(new Event(mapPickupSelectedEvent));
+        onboardingEventBus.emit('mapPickupSelected');
       },
     });
   }, []);
@@ -96,6 +97,7 @@ export function useOnboardingTour(): UseOnboardingTourResult {
   }, [activeFlow, client, navigate, openMapModal]);
 
   const finalizeTourEnd = useCallback(() => {
+    const flow = activeFlowRef.current;
     setRun(false);
     setActiveFlow(null);
     activeFlowRef.current = null;
@@ -107,7 +109,7 @@ export function useOnboardingTour(): UseOnboardingTourResult {
     if (pathname.includes('/products/onboarding-demo-product-')) {
       router.replace('/products');
     }
-    resetOnboardingApolloDemo(client);
+    resetOnboardingApolloDemo(client, flow);
   }, [client, router, stopDemoSession]);
 
   const onEvent = useCallback(
@@ -115,7 +117,9 @@ export function useOnboardingTour(): UseOnboardingTourResult {
       const flow = activeFlowRef.current;
       if (data.type === EVENTS.STEP_AFTER && flow != null) {
         markStepSeen(flow, data.index);
-        setCurrentStepIndex(data.index + 1);
+        const nextStepIndex =
+          data.action === ACTIONS.PREV ? data.index - 1 : data.index + 1;
+        setCurrentStepIndex(Math.max(0, nextStepIndex));
       }
       if (data.type === EVENTS.TOUR_END) {
         if (
@@ -137,14 +141,29 @@ export function useOnboardingTour(): UseOnboardingTourResult {
     steps,
     continuous: true,
     scrollToFirstStep: true,
+    tooltipComponent: OnboardingJoyrideTooltip,
+    locale: {
+      back: 'Back',
+      close: 'Close',
+      last: 'Last',
+      next: 'Next',
+    },
     options: {
+      arrowColor: 'hsl(var(--popover))',
+      backgroundColor: 'hsl(var(--popover))',
       overlayClickAction: false,
       closeButtonAction: 'skip',
+      dismissKeyAction: false,
       skipBeacon: true,
-      buttons: ['back', 'close'],
+      buttons: ['back', 'close', 'primary'],
       zIndex: 10050,
       showProgress: true,
-      targetWaitTimeout: 4000,
+      targetWaitTimeout: 15000,
+    },
+    styles: {
+      arrow: {
+        color: 'hsl(var(--popover))',
+      },
     },
     onEvent,
   });
@@ -176,20 +195,45 @@ export function useOnboardingTour(): UseOnboardingTourResult {
   );
 
   useEffect(() => {
-    const handleMapPickupSelected = () => {
-      if (!run || activeFlow !== 'guest' || currentStepIndex !== 7) {
+    const unsubscribe = onboardingEventBus.on('mapPickupSelected', () => {
+      if (!run || activeFlow !== 'guest') {
         return;
       }
+
+      const currentStep = steps[currentStepIndex];
+      if (currentStep == null) {
+        return;
+      }
+
+      const advanceMode = getOnboardingStepData(currentStep)?.advanceMode;
+      if (advanceMode !== 'mapEvent') {
+        return;
+      }
+
       controls.next(null);
+    });
+    return unsubscribe;
+  }, [activeFlow, controls, currentStepIndex, run, steps]);
+
+  useEffect(() => {
+    if (!run || activeFlow == null) {
+      return;
+    }
+
+    const handleEscToExitTour = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') {
+        return;
+      }
+      event.preventDefault();
+      event.stopPropagation();
+      controls.skip('button_close');
     };
-    window.addEventListener(mapPickupSelectedEvent, handleMapPickupSelected);
+
+    window.addEventListener('keydown', handleEscToExitTour, true);
     return () => {
-      window.removeEventListener(
-        mapPickupSelectedEvent,
-        handleMapPickupSelected,
-      );
+      window.removeEventListener('keydown', handleEscToExitTour, true);
     };
-  }, [activeFlow, controls, currentStepIndex, run]);
+  }, [activeFlow, controls, run]);
 
   useEffect(() => {
     if (!run || activeFlow == null) {
@@ -199,12 +243,8 @@ export function useOnboardingTour(): UseOnboardingTourResult {
     if (!step || typeof step.target !== 'string') {
       return;
     }
-    const autoAdvanceGuestSteps = new Set([0, 1, 2, 3, 4, 5, 6, 8]);
-    const autoAdvanceAdminSteps = new Set([0, 1]);
-    const shouldAutoAdvance =
-      (activeFlow === 'guest' && autoAdvanceGuestSteps.has(currentStepIndex)) ||
-      (activeFlow === 'admin' && autoAdvanceAdminSteps.has(currentStepIndex));
-    if (!shouldAutoAdvance) {
+    const advanceMode = getOnboardingStepData(step)?.advanceMode;
+    if (advanceMode !== 'targetClick') {
       return;
     }
 

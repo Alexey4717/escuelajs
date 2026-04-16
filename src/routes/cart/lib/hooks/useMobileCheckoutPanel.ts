@@ -89,8 +89,13 @@ export function useMobileCheckoutPanel() {
     );
   };
 
+  const expandPanel = () => {
+    setMobilePanelHeight(mobileMaxHeight);
+  };
+
   return {
     mobilePanelHeightSafe,
+    expandPanel,
     handlePanelToggle,
     handlePointerDown,
     handlePointerMove,

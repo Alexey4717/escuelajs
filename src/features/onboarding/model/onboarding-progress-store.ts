@@ -32,6 +32,8 @@ function defineFlowKey(flow: OnboardingFlowId) {
 interface OnboardingProgressState {
   guest: FlowProgress;
   admin: FlowProgress;
+  hasHydrated: boolean;
+  markHydrated: () => void;
   markStepSeen: (flow: OnboardingFlowId, stepIndex: number) => void;
   markScenarioComplete: (flow: OnboardingFlowId) => void;
   dismissBottomBar: (flow: OnboardingFlowId) => void;
@@ -43,6 +45,8 @@ export const useOnboardingProgressStore = create<OnboardingProgressState>()(
     (set, get) => ({
       guest: emptyFlow(),
       admin: emptyFlow(),
+      hasHydrated: false,
+      markHydrated: () => set({ hasHydrated: true }),
 
       markStepSeen: (flow, stepIndex) => {
         const key = defineFlowKey(flow);
@@ -79,6 +83,15 @@ export const useOnboardingProgressStore = create<OnboardingProgressState>()(
       name: ONBOARDING_PROGRESS_STORAGE_KEY,
       version: 1,
       storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        guest: state.guest,
+        admin: state.admin,
+      }),
+      onRehydrateStorage: () => {
+        return (state) => {
+          state?.markHydrated();
+        };
+      },
     },
   ),
 );

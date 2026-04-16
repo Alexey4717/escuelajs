@@ -23,7 +23,7 @@ const ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS: Record<string, string> = {
   [ONBOARDING_DEMO_PRODUCT_B_ID]:
     'Elevate your casual wardrobe with these classic olive chino shorts. Designed for comfort and versatility, they feature a smooth waistband, practical pockets, and a tailored fit that makes them perfect for both relaxed weekends and smart-casual occasions. The durable fabric ensures they hold up throughout your daily activities while maintaining a stylish look.',
 };
-export const ONBOARDING_DEMO_FILTER_TITLE = 'Демо';
+export const ONBOARDING_DEMO_FILTER_TITLE = 'classic';
 export const ONBOARDING_DEMO_CHECKOUT = {
   name: 'Демо Покупатель',
   email: 'onboarding@example.com',
