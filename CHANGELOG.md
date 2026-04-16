@@ -1,3 +1,10 @@
+# [1.16.0](https://github.com/Alexey4717/escuelajs/compare/v1.15.0...v1.16.0) (2026-04-16)
+
+
+### Features
+
+* **onboarding:** update admin flow ([9b0b3fb](https://github.com/Alexey4717/escuelajs/commit/9b0b3fbc029fa6f1565b48a724cd65aa9969813f))
+
 # [1.15.0](https://github.com/Alexey4717/escuelajs/compare/v1.14.0...v1.15.0) (2026-04-16)
 
 
