@@ -1,6 +1,7 @@
 import { type ApolloClient } from '@apollo/client';
 
 import {
+  CategoryDetailsDocument,
   ProductDetailsDocument,
   ProductsDocument,
   type ProductsQueryVariables,
@@ -14,6 +15,8 @@ import { USERS_LIST_LIMIT } from '@/routes/users/lib/constants';
 
 import {
   makeOnboardingProductDetails,
+  ONBOARDING_DEMO_CATEGORY_DETAILS,
+  ONBOARDING_DEMO_CATEGORY_ID,
   ONBOARDING_DEMO_FILTER_TITLE,
   ONBOARDING_DEMO_PRODUCTS_LIST,
   ONBOARDING_DEMO_USERS,
@@ -45,6 +48,11 @@ function seedCatalogCache(client: ApolloClient): void {
       title: ONBOARDING_DEMO_FILTER_TITLE,
     },
     data: { products: ONBOARDING_DEMO_PRODUCTS_LIST },
+  });
+  client.writeQuery({
+    query: CategoryDetailsDocument,
+    variables: { id: ONBOARDING_DEMO_CATEGORY_ID },
+    data: { category: ONBOARDING_DEMO_CATEGORY_DETAILS },
   });
   for (const p of ONBOARDING_DEMO_PRODUCTS_LIST) {
     client.writeQuery({

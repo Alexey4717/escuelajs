@@ -1,19 +1,18 @@
 import { useCartStore } from '@/entities/Cart';
 
 import {
-  makeOnboardingProductListItem,
   ONBOARDING_DEMO_PRODUCT_A_ID,
   ONBOARDING_DEMO_PRODUCT_B_ID,
+  ONBOARDING_DEMO_PRODUCTS_LIST,
 } from './onboarding-demo-fixtures';
 
 export type GuestCartExpectation = 'empty' | 'onlyA' | 'both';
 
-function itemA() {
-  const p = makeOnboardingProductListItem(
-    ONBOARDING_DEMO_PRODUCT_A_ID,
-    'Демо-товар A',
-    1000,
-  );
+function cartLineFromDemoProduct(id: string) {
+  const p = ONBOARDING_DEMO_PRODUCTS_LIST.find((x) => x.id === id);
+  if (!p) {
+    throw new Error(`Onboarding demo product missing: ${id}`);
+  }
   return {
     id: p.id,
     title: p.title,
@@ -22,18 +21,12 @@ function itemA() {
   };
 }
 
+function itemA() {
+  return cartLineFromDemoProduct(ONBOARDING_DEMO_PRODUCT_A_ID);
+}
+
 function itemB() {
-  const p = makeOnboardingProductListItem(
-    ONBOARDING_DEMO_PRODUCT_B_ID,
-    'Демо-товар B',
-    2500,
-  );
-  return {
-    id: p.id,
-    title: p.title,
-    price: p.price,
-    image: p.images[0] ?? '',
-  };
+  return cartLineFromDemoProduct(ONBOARDING_DEMO_PRODUCT_B_ID);
 }
 
 /** Приводит демо-корзину к ожидаемому для шага состоянию. */
