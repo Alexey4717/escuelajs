@@ -28,6 +28,10 @@ export function makeApolloClient(): ApolloClient {
             ...arraysPoliciesByCursorLimit,
             ...queryListFieldsWithKeyArgs,
             ...nonNormalizedQueryFields,
+            // для исключения ворнинга при онбординге
+            categories: {
+              merge: false,
+            },
           },
         },
         ...typePoliciesByType,

@@ -18,6 +18,8 @@ import {
 } from '@/shared/ui/FilesBox';
 import type { FilesBoxItem } from '@/shared/ui/FilesBox';
 
+import { useOnboardingSessionStore } from '@/features/onboarding';
+
 import type { CategoryFormStateOutput } from './schema';
 
 interface CreateSubmitArgs {
@@ -29,11 +31,21 @@ export function useCreateSubmitHandler() {
   const router = useRouter();
   const [addCategory, { loading }] = useMutation(AddCategoryDocument);
   const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
+  const isAdminOnboardingCreateStep = useOnboardingSessionStore(
+    (s) =>
+      s.isDemoActive && s.activeFlow === 'admin' && s.currentStepIndex === 4,
+  );
 
   async function handleSubmit({
     values,
     imageFiles,
   }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
+    if (isAdminOnboardingCreateStep) {
+      toast.success('Демо-категория создана');
+      router.replace(pagesPath.categories.$url().path);
+      return imageFiles;
+    }
+
     let filesState = imageFiles;
     const uploadResult = await uploadQueuedFilesBoxItemsWithLoading(
       imageFiles,

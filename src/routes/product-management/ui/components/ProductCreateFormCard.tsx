@@ -17,6 +17,7 @@ import {
   type ProductFormStateOutput,
 } from '../../lib/form/schema';
 import { useCreateSubmitHandler } from '../../lib/form/useCreateSubmitHandler';
+import { useOnboardingProductCreateAutofill } from '../../lib/hooks/useOnboardingProductCreateAutofill';
 import { ProductManagementFormActions } from './ProductManagementFormActions';
 import { ProductManagementFormFields } from './ProductManagementFormFields';
 
@@ -36,6 +37,8 @@ export function ProductCreateFormCard() {
     resolver: standardSchemaResolver(productFormSchema),
     defaultValues: productFormDefaultValues,
   });
+
+  useOnboardingProductCreateAutofill({ methods, setImageFiles });
 
   const onSubmit = async (values: ProductFormStateOutput) => {
     const nextFiles = await submitProduct({ values, imageFiles });

@@ -17,6 +17,15 @@ export const ONBOARDING_TARGET_IDS = {
   mapDemoPickupPoint: 'onboarding-map-demo-pickup-point',
   homeContactForm: 'onboarding-home-contact-form',
   adminPanelGrid: 'onboarding-admin-panel-grid',
+  adminPanelAddCategory: 'onboarding-admin-panel-add-category',
+  adminPanelAddProduct: 'onboarding-admin-panel-add-product',
+  categoryCreateSubmitButton: 'onboarding-category-create-submit-button',
+  productCreateSubmitButton: 'onboarding-product-create-submit-button',
+  categoriesList: 'onboarding-categories-list',
+  productsList: 'onboarding-products-list',
+  productsListAdminDemoProductLink:
+    'onboarding-products-list-admin-demo-product-link',
+  productDetailAdminActions: 'onboarding-product-detail-admin-actions',
   usersTable: 'onboarding-users-table',
 } as const;
 

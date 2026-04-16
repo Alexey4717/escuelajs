@@ -13,6 +13,7 @@ import {
   useJoyride,
 } from 'react-joyride';
 
+import { pagesPath } from '@/shared/config/routes/$path';
 import { type OnboardingFlowId } from '@/shared/lib/onboarding';
 import { useAppStore } from '@/shared/lib/store';
 
@@ -106,8 +107,11 @@ export function useOnboardingTour(): UseOnboardingTourResult {
     exitOnboardingCartIsolation();
     const pathname =
       typeof window !== 'undefined' ? window.location.pathname : '';
-    if (pathname.includes('/products/onboarding-demo-product-')) {
-      router.replace('/products');
+    const isOnDemoProductRoute =
+      pathname.includes('/products/onboarding-demo-product-') ||
+      pathname.includes('/products/onboarding-admin-demo-product-');
+    if (isOnDemoProductRoute) {
+      router.replace(pagesPath.profile.$url().path);
     }
     resetOnboardingApolloDemo(client, flow);
   }, [client, router, stopDemoSession]);

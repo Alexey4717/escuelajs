@@ -16,7 +16,11 @@ export const AdminPanelRoute = () => {
         data-onboarding={ONBOARDING_TARGET_IDS.adminPanelGrid}
       >
         {addEntitiesButtonsConfig.map((item) => (
-          <AddEntityButtonLink key={item.href} href={item.href}>
+          <AddEntityButtonLink
+            key={item.href}
+            href={item.href}
+            onboardingTarget={item.onboardingTarget}
+          >
             {item.title}
           </AddEntityButtonLink>
         ))}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useSuspenseQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 
 import { UsersDocument } from '@/shared/api/generated/graphql';
 import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
@@ -15,13 +15,14 @@ import { UsersTableBody } from './components/UsersTableBody';
 import { UsersTableHeader } from './components/UsersTableHeader';
 
 export const UsersRoute = () => {
-  const isOnboardingDemoActive = useOnboardingSessionStore(
-    (s) => s.isDemoActive,
+  const isAdminOnboardingDemo = useOnboardingSessionStore(
+    (s) => s.isDemoActive && s.activeFlow === 'admin',
   );
-  const { data } = useSuspenseQuery(UsersDocument, {
+  const { data, loading } = useQuery(UsersDocument, {
     variables: { limit: USERS_LIST_LIMIT },
-    fetchPolicy: isOnboardingDemoActive ? 'cache-first' : undefined,
+    fetchPolicy: isAdminOnboardingDemo ? 'cache-only' : 'cache-first',
   });
+  const users = loading && data == null ? [] : (data?.users ?? []);
 
   return (
     <Page className="space-y-6" heading="Пользователи">
@@ -34,7 +35,7 @@ export const UsersRoute = () => {
           className="min-w-[640px] sm:min-w-0"
         >
           <UsersTableHeader />
-          <UsersTableBody users={data.users} />
+          <UsersTableBody users={users} />
         </Table>
       </div>
     </Page>

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 
 import { pagesPath } from '@/shared/config/routes/$path';
+import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Button } from '@/shared/ui/Button/Button';
 
 interface ProductManagementFormActionsProps {
@@ -36,6 +37,7 @@ export function ProductManagementFormActions({
         loading={busy}
         disabled={submitDisabled}
         data-testid="productForm__button__submit"
+        data-onboarding={ONBOARDING_TARGET_IDS.productCreateSubmitButton}
       >
         {imagesUploadLoading
           ? 'Загрузка изображений…'

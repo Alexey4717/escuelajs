@@ -17,6 +17,7 @@ import {
   type CategoryFormStateOutput,
 } from '../../lib/form/schema';
 import { useCreateSubmitHandler } from '../../lib/form/useCreateSubmitHandler';
+import { useOnboardingCategoryCreateAutofill } from '../../lib/hooks/useOnboardingCategoryCreateAutofill';
 import { CategoryManagementFormActions } from './CategoryManagementFormActions';
 import { CategoryManagementFormFields } from './CategoryManagementFormFields';
 
@@ -41,6 +42,11 @@ export function CategoryCreateFormCard() {
     const nextFiles = await submitCategory({ values, imageFiles });
     setImageFiles(nextFiles);
   };
+
+  useOnboardingCategoryCreateAutofill({
+    methods,
+    setImageFiles,
+  });
 
   return (
     <Card

@@ -22,6 +22,7 @@ import {
   useFilterProductsStore,
 } from '@/features/filterProducts';
 import {
+  ONBOARDING_ADMIN_DEMO_PRODUCT_A_ID,
   ONBOARDING_DEMO_PRODUCT_A_ID,
   ONBOARDING_DEMO_PRODUCT_B_ID,
 } from '@/features/onboarding';
@@ -70,12 +71,19 @@ export function ProductsCatalogGrid({
     useVirtuosoScrollPersistence(pathname);
 
   if (initialLoading) {
-    return <Typography variant="muted">Загрузка каталога…</Typography>;
+    return (
+      <div data-onboarding={ONBOARDING_TARGET_IDS.productsList}>
+        <Typography variant="muted">Загрузка каталога…</Typography>
+      </div>
+    );
   }
 
   if (products.length === 0 && filtersActive) {
     return (
-      <div className="space-y-6">
+      <div
+        className="space-y-6"
+        data-onboarding={ONBOARDING_TARGET_IDS.productsList}
+      >
         <FilterProductsBar productsNetworkStatus={networkStatus} />
         <FilteredProductsEmptyMessage />
       </div>
@@ -84,7 +92,10 @@ export function ProductsCatalogGrid({
 
   if (products.length === 0 && !filtersActive) {
     return (
-      <div className="flex flex-col items-center gap-4 py-12 text-center">
+      <div
+        className="flex flex-col items-center gap-4 py-12 text-center"
+        data-onboarding={ONBOARDING_TARGET_IDS.productsList}
+      >
         <Typography variant="muted">В каталоге пока нет продуктов.</Typography>
         {isAdmin ? (
           <Button asChild variant="default">
@@ -98,7 +109,10 @@ export function ProductsCatalogGrid({
   }
 
   return (
-    <div className="space-y-6">
+    <div
+      className="space-y-6"
+      data-onboarding={ONBOARDING_TARGET_IDS.productsList}
+    >
       {showFilterBar ? (
         <FilterProductsBar productsNetworkStatus={networkStatus} />
       ) : null}
@@ -114,14 +128,17 @@ export function ProductsCatalogGrid({
         itemContent={(_, product) => {
           const isDemoA = product.id === ONBOARDING_DEMO_PRODUCT_A_ID;
           const isDemoB = product.id === ONBOARDING_DEMO_PRODUCT_B_ID;
+          const isAdminDemoProductA =
+            product.id === ONBOARDING_ADMIN_DEMO_PRODUCT_A_ID;
+          const titleOnboardingTarget = isDemoB
+            ? ONBOARDING_TARGET_IDS.catalogSecondProductLink
+            : isAdminDemoProductA
+              ? ONBOARDING_TARGET_IDS.productsListAdminDemoProductLink
+              : undefined;
           return (
             <ProductCard
               product={product}
-              titleDataOnboarding={
-                isDemoB
-                  ? ONBOARDING_TARGET_IDS.catalogSecondProductLink
-                  : undefined
-              }
+              titleDataOnboarding={titleOnboardingTarget}
               cartAction={
                 <span
                   data-onboarding={

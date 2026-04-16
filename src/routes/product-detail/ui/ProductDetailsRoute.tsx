@@ -2,7 +2,7 @@
 
 import { notFound } from 'next/navigation';
 
-import { useSuspenseQuery } from '@apollo/client/react';
+import { useQuery } from '@apollo/client/react';
 
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 
@@ -21,17 +21,25 @@ interface ProductDetailsRouteProps {
 }
 
 export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
-  const isOnboardingDemoActive = useOnboardingSessionStore(
-    (s) => s.isDemoActive,
+  const isAdminOnboardingDemo = useOnboardingSessionStore(
+    (s) => s.isDemoActive && s.activeFlow === 'admin',
   );
-  const { data, error } = useSuspenseQuery(ProductDetailsDocument, {
+  const { data, error, loading } = useQuery(ProductDetailsDocument, {
     variables: { id: productId },
     errorPolicy: 'all',
-    fetchPolicy: isOnboardingDemoActive ? 'cache-first' : undefined,
+    fetchPolicy: isAdminOnboardingDemo ? 'cache-only' : 'cache-first',
   });
 
   if (error) {
     throw error;
+  }
+
+  if (loading && data == null) {
+    return (
+      <Page narrow heading={<ProductPageHeading />}>
+        Загрузка товара...
+      </Page>
+    );
   }
 
   const product = data?.product;

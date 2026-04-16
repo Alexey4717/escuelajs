@@ -18,6 +18,8 @@ import {
   uploadQueuedFilesBoxItemsWithLoading,
 } from '@/shared/ui/FilesBox';
 
+import { useOnboardingSessionStore } from '@/features/onboarding';
+
 import type { ProductFormStateOutput } from './schema';
 
 interface CreateSubmitArgs {
@@ -29,11 +31,21 @@ export function useCreateSubmitHandler() {
   const router = useRouter();
   const [addProduct, { loading }] = useMutation(AddProductDocument);
   const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
+  const isAdminOnboardingCreateStep = useOnboardingSessionStore(
+    (s) =>
+      s.isDemoActive && s.activeFlow === 'admin' && s.currentStepIndex === 7,
+  );
 
   async function handleSubmit({
     values,
     imageFiles,
   }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
+    if (isAdminOnboardingCreateStep) {
+      toast.success('Демо-товар создан');
+      router.replace(pagesPath.products.$url().path);
+      return imageFiles;
+    }
+
     let filesState = imageFiles;
     const uploadResult = await uploadQueuedFilesBoxItemsWithLoading(
       imageFiles,
