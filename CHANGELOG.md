@@ -1,3 +1,11 @@
+# [1.15.0](https://github.com/Alexey4717/escuelajs/compare/v1.14.0...v1.15.0) (2026-04-16)
+
+
+### Features
+
+* add general onboarding guest and admin tours ([aaf71ec](https://github.com/Alexey4717/escuelajs/commit/aaf71ecf904cc7b45da118c304b87bd789df5523))
+* **onboarding:** update fixtures data for demo products and catalog ([4f78fc1](https://github.com/Alexey4717/escuelajs/commit/4f78fc141e511d4693b3893715f2780500e49f9b))
+
 # [1.14.0](https://github.com/Alexey4717/escuelajs/compare/v1.13.0...v1.14.0) (2026-04-15)
 
 
