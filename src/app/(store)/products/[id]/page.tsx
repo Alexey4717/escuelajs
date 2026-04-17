@@ -7,9 +7,11 @@ import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { ProductDetailsRoute } from '@/routes/product-detail';
+import {
+  ProductDetailsLoadPage,
+  ProductDetailsRoute,
+} from '@/routes/product-detail';
 
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';
@@ -90,9 +92,7 @@ export default async function ProductDetailsPage({
       errorPolicy="all"
       context={productDetailsQueryContext(id)}
     >
-      <Suspense
-        fallback={<Typography variant="muted">Загрузка товара…</Typography>}
-      >
+      <Suspense fallback={<ProductDetailsLoadPage />}>
         <ProductDetailsRoute productId={id} />
       </Suspense>
     </PreloadQuery>

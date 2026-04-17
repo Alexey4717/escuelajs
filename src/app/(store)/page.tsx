@@ -7,11 +7,11 @@ import { HomeLandingDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
 import {
   HOME_FEATURED_PRODUCTS_LIMIT,
   HOME_TESTIMONIAL_USERS_LIMIT,
+  HomeLoadPage,
   HomeRoute,
 } from '@/routes/home';
 
@@ -62,9 +62,7 @@ export default function HomePage() {
       errorPolicy="all"
       context={homeLandingFetchContext}
     >
-      <Suspense
-        fallback={<Typography variant="muted">Загрузка главной…</Typography>}
-      >
+      <Suspense fallback={<HomeLoadPage />}>
         <HomeRoute />
       </Suspense>
     </PreloadQuery>

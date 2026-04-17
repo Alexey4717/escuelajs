@@ -11,6 +11,7 @@ import { pagesPath } from '@/shared/config/routes/$path';
 import { useVirtuosoScrollPersistence } from '@/shared/lib/hooks/use-virtuoso-scroll-persistence';
 import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Button } from '@/shared/ui/Button/Button';
+import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { ProductCard } from '@/entities/Product';
@@ -36,6 +37,34 @@ export type ProductsCatalogGridProps = {
   mainRef: RefObject<HTMLElement | null>;
   isAdmin: boolean;
 };
+
+const productsSkeletonItems = Array.from({ length: 8 }, (_, index) => index);
+
+function ProductsCatalogGridLoad() {
+  return (
+    <div
+      className="space-y-6"
+      data-onboarding={ONBOARDING_TARGET_IDS.productsList}
+    >
+      <div className="flex flex-wrap gap-2.5" aria-hidden>
+        <Skeleton className="h-10 w-44 rounded-md" />
+        <Skeleton className="h-10 w-36 rounded-md" />
+        <Skeleton className="h-10 w-28 rounded-md" />
+        <Skeleton className="h-10 w-40 rounded-md" />
+      </div>
+      <div
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4"
+        aria-hidden
+      >
+        {productsSkeletonItems.map((item) => (
+          <Skeleton key={item} loading className="rounded-xl bg-muted/70">
+            <div className="h-[22rem] rounded-xl border border-border/40" />
+          </Skeleton>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function ProductsCatalogGrid({
   pathname,
@@ -71,11 +100,7 @@ export function ProductsCatalogGrid({
     useVirtuosoScrollPersistence(pathname);
 
   if (initialLoading) {
-    return (
-      <div data-onboarding={ONBOARDING_TARGET_IDS.productsList}>
-        <Typography variant="muted">Загрузка каталога…</Typography>
-      </div>
-    );
+    return <ProductsCatalogGridLoad />;
   }
 
   if (products.length === 0 && filtersActive) {

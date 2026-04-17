@@ -15,6 +15,7 @@ import { ProductCarousel } from './components/ProductCarousel';
 import { ProductContent } from './components/ProductContent';
 import { ProductDetailAdminActions } from './components/ProductDetailAdminActions/ProductDetailAdminActions';
 import { ProductPageHeading } from './components/ProductPageHeading';
+import { ProductDetailsLoadPage } from './ProductDetailsLoadPage';
 
 interface ProductDetailsRouteProps {
   productId: string;
@@ -35,11 +36,7 @@ export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
   }
 
   if (loading && data == null) {
-    return (
-      <Page narrow heading={<ProductPageHeading />}>
-        Загрузка товара...
-      </Page>
-    );
+    return <ProductDetailsLoadPage />;
   }
 
   const product = data?.product;

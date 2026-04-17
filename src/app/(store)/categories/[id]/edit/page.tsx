@@ -5,6 +5,7 @@ import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 
 import {
   categoryEditHeadingPage,
+  CategoryEditLoadPage,
   CategoryEditPageParams,
   CategoryEditRoute,
 } from '@/routes/category-management';
@@ -41,7 +42,10 @@ export default async function CategoryEditPage({
         },
       }}
     >
-      <AdminRouteClientGuard heading={categoryEditHeadingPage}>
+      <AdminRouteClientGuard
+        heading={categoryEditHeadingPage}
+        fallback={<CategoryEditLoadPage />}
+      >
         <CategoryEditRoute />
       </AdminRouteClientGuard>
     </PreloadQuery>

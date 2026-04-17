@@ -5,6 +5,7 @@ import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 
 import {
   productEditHeadingPage,
+  ProductEditLoadPage,
   ProductEditPageParams,
   ProductEditRoute,
 } from '@/routes/product-management';
@@ -39,7 +40,10 @@ export default async function ProductEditPage({
         },
       }}
     >
-      <AdminRouteClientGuard heading={productEditHeadingPage}>
+      <AdminRouteClientGuard
+        heading={productEditHeadingPage}
+        fallback={<ProductEditLoadPage />}
+      >
         <ProductEditRoute />
       </AdminRouteClientGuard>
     </PreloadQuery>

@@ -14,6 +14,7 @@ import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-pay
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { RouteGuard } from '@/shared/ui/RouteGuard/RouteGuard';
+import { Spinner } from '@/shared/ui/Spinner/Spinner';
 
 import { parseUserRole } from '@/entities/User';
 
@@ -64,23 +65,31 @@ export async function protectAdminRouteOnServer(fromPath: string) {
   }
 }
 
+function AdminRouteGuardLoadPage({ heading }: { heading: string }) {
+  return (
+    <Page narrow heading={heading}>
+      <div className="flex min-h-24 items-center justify-center">
+        <Spinner className="size-6 text-muted-foreground" />
+      </div>
+    </Page>
+  );
+}
+
 interface AdminRouteClientGuardProps {
   heading: string;
   children: ReactNode;
+  fallback?: ReactNode;
 }
 
 export function AdminRouteClientGuard({
   heading,
   children,
+  fallback,
 }: AdminRouteClientGuardProps) {
   return (
     <RouteGuard
       requiredRole="admin"
-      fallback={
-        <Page narrow heading={heading}>
-          <p className="text-sm text-muted-foreground">Проверка доступа…</p>
-        </Page>
-      }
+      fallback={fallback ?? <AdminRouteGuardLoadPage heading={heading} />}
     >
       {children}
     </RouteGuard>

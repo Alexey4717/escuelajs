@@ -1,18 +1,10 @@
 import { Suspense } from 'react';
 
-import { LoginRoute } from '@/routes/login';
-
-function LoginFallback() {
-  return (
-    <div className="flex min-h-[min(100dvh,100vh)] items-center justify-center bg-background text-muted-foreground">
-      Загрузка…
-    </div>
-  );
-}
+import { LoginLoadPage, LoginRoute } from '@/routes/login';
 
 export default function LoginPage() {
   return (
-    <Suspense fallback={<LoginFallback />}>
+    <Suspense fallback={<LoginLoadPage />}>
       <LoginRoute />
     </Suspense>
   );

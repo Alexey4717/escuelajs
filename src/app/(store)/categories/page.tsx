@@ -7,9 +7,8 @@ import { CategoriesDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { CategoriesRoute } from '@/routes/categories';
+import { CategoriesLoadPage, CategoriesRoute } from '@/routes/categories';
 
 const CATEGORIES_REVALIDATE_SEC = 86_400; // 24 ч — категории меняются редко
 
@@ -53,9 +52,7 @@ export default function CategoriesPage() {
       errorPolicy="all"
       context={categoriesFetchContext}
     >
-      <Suspense
-        fallback={<Typography variant="muted">Загрузка категорий…</Typography>}
-      >
+      <Suspense fallback={<CategoriesLoadPage />}>
         <CategoriesRoute />
       </Suspense>
     </PreloadQuery>

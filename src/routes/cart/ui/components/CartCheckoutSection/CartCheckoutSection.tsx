@@ -17,6 +17,7 @@ import { useOnboardingCartCheckoutBridge } from '../../../lib/hooks/useOnboardin
 import { ClearCartButton } from '../ClearCartButton';
 import { CartCheckoutFormFields } from './CartCheckoutFormFields';
 import { CartCheckoutSectionHeader } from './CartCheckoutSectionHeader';
+import { CartCheckoutSectionLoad } from './CartCheckoutSectionLoad';
 
 export interface CartCheckoutSectionProps {
   onCheckoutSubmit: (data: CartCheckoutFormOutput) => Promise<void>;
@@ -34,7 +35,7 @@ export function CartCheckoutSection({
   const userEmail = user?.email ?? null;
 
   if (loading) {
-    return null;
+    return <CartCheckoutSectionLoad />;
   }
 
   const checkoutFormKey = `${userName ?? 'guest'}:${userEmail ?? 'guest'}`;

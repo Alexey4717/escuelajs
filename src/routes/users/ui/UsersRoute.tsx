@@ -13,6 +13,7 @@ import { Page } from '@/widgets/Page';
 import { USERS_LIST_LIMIT } from '../lib/constants';
 import { UsersTableBody } from './components/UsersTableBody';
 import { UsersTableHeader } from './components/UsersTableHeader';
+import { UsersLoadPage } from './UsersLoadPage';
 
 export const UsersRoute = () => {
   const isAdminOnboardingDemo = useOnboardingSessionStore(
@@ -22,10 +23,15 @@ export const UsersRoute = () => {
     variables: { limit: USERS_LIST_LIMIT },
     fetchPolicy: isAdminOnboardingDemo ? 'cache-only' : 'cache-first',
   });
-  const users = loading && data == null ? [] : (data?.users ?? []);
+  const users = data?.users ?? [];
+  const isInitialLoading = loading && data == null;
+
+  if (isInitialLoading) {
+    return <UsersLoadPage />;
+  }
 
   return (
-    <Page className="space-y-6" heading="Пользователи">
+    <Page heading="Пользователи">
       <div
         className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
         data-onboarding={ONBOARDING_TARGET_IDS.usersTable}

@@ -10,11 +10,13 @@ import type {
 } from 'react-virtuoso';
 
 import { cn } from '@/shared/lib/styles/cn';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
 export type ProductsGridContext = {
   loadingMore: boolean;
 };
+
+const loadingMoreSkeletonItems = Array.from({ length: 4 }, (_, index) => index);
 
 const ProductsGridList = forwardRef<HTMLDivElement, GridListProps>(
   function ProductsGridList({ style, children, className, ...props }, ref) {
@@ -50,8 +52,13 @@ function ProductsGridFooter({ context }: ContextProp<ProductsGridContext>) {
   }
 
   return (
-    <div className="flex justify-center py-4">
-      <Typography variant="muted">Загрузка…</Typography>
+    <div
+      className="grid grid-cols-1 gap-3 py-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+      aria-hidden
+    >
+      {loadingMoreSkeletonItems.map((item) => (
+        <Skeleton key={item} className="h-3.5 rounded-md" />
+      ))}
     </div>
   );
 }

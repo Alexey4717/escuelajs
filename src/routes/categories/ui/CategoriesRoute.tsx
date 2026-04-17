@@ -4,7 +4,6 @@ import { useQuery } from '@apollo/client/react';
 
 import { CategoriesDocument } from '@/shared/api/generated/graphql';
 import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
-import { cn } from '@/shared/lib/styles/cn';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import {
@@ -14,6 +13,7 @@ import {
 
 import { Page } from '@/widgets/Page';
 
+import { CategoriesSkeletonGrid } from './CategoriesSkeletons';
 import { CategoryCard } from './components/CategoryCard';
 
 export const CategoriesRoute = () => {
@@ -34,17 +34,12 @@ export const CategoriesRoute = () => {
     !shouldShowSingleDemoCategory && loading && data == null;
 
   return (
-    <Page className="space-y-6" heading="Категории">
+    <Page heading="Категории">
       <div data-onboarding={ONBOARDING_TARGET_IDS.categoriesList}>
         {isInitialLoading ? (
-          <Typography variant="muted">Загрузка категорий…</Typography>
+          <CategoriesSkeletonGrid ariaHidden />
         ) : categories.length ? (
-          <ul
-            className={cn(
-              'grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4',
-              'md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5',
-            )}
-          >
+          <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {categories.map((category) => (
               <li key={category.id} className="min-w-0">
                 <CategoryCard category={category} />

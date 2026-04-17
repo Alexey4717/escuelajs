@@ -7,9 +7,8 @@ import { UsersDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { USERS_LIST_LIMIT, UsersRoute } from '@/routes/users';
+import { USERS_LIST_LIMIT, UsersLoadPage, UsersRoute } from '@/routes/users';
 
 const USERS_REVALIDATE_SEC = 120;
 
@@ -59,11 +58,7 @@ export default function UsersPage() {
       errorPolicy="all"
       context={usersFetchContext}
     >
-      <Suspense
-        fallback={
-          <Typography variant="muted">Загрузка пользователей…</Typography>
-        }
-      >
+      <Suspense fallback={<UsersLoadPage />}>
         <UsersRoute />
       </Suspense>
     </PreloadQuery>

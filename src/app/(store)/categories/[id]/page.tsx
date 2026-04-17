@@ -7,9 +7,11 @@ import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
-import { CategoryDetailsRoute } from '@/routes/category-detail';
+import {
+  CategoryDetailsLoadPage,
+  CategoryDetailsRoute,
+} from '@/routes/category-detail';
 
 export const dynamic = 'force-dynamic';
 
@@ -83,9 +85,7 @@ export default async function CategoryDetailsPage({
       errorPolicy="all"
       context={categoryDetailsQueryContext(id)}
     >
-      <Suspense
-        fallback={<Typography variant="muted">Загрузка категории…</Typography>}
-      >
+      <Suspense fallback={<CategoryDetailsLoadPage />}>
         <CategoryDetailsRoute categoryId={id} />
       </Suspense>
     </PreloadQuery>

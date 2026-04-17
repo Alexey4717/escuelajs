@@ -22,6 +22,7 @@ import { Page } from '@/widgets/Page';
 
 import { ProfileAccountDataCard } from './components/ProfileAccountDataCard';
 import { ProfileSummaryCard } from './components/ProfileSummaryCard';
+import { ProfileLoadPage } from './ProfileLoadPage';
 
 export const ProfileRoute = () => {
   const router = useRouter();
@@ -42,27 +43,16 @@ export const ProfileRoute = () => {
   }
 
   if (loading) {
-    return (
-      <Page narrow className="space-y-6" heading="Профиль">
-        <Typography variant="body1" component="div">
-          Загрузка профиля…
-        </Typography>
-      </Page>
-    );
+    return <ProfileLoadPage />;
   }
 
   if (error) {
     if (isUnauthorized(error)) {
-      return (
-        <Page narrow className="space-y-6" heading="Профиль">
-          <Typography variant="body1" component="p">
-            Перенаправление на вход…
-          </Typography>
-        </Page>
-      );
+      // Перенаправление на вход
+      return <ProfileLoadPage />;
     }
     return (
-      <Page narrow className="space-y-6" heading="Профиль">
+      <Page narrow heading="Профиль">
         <div className="space-y-4">
           <Typography variant="body1" component="p">
             Не удалось загрузить профиль
@@ -89,7 +79,7 @@ export const ProfileRoute = () => {
   const roleBadgeVariant = role === 'admin' ? 'destructive' : 'secondary';
 
   return (
-    <Page narrow className="space-y-6" heading="Профиль">
+    <Page narrow heading="Профиль">
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:items-start">
         <ProfileSummaryCard
           userId={u.id}

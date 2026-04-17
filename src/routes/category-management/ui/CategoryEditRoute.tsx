@@ -11,6 +11,7 @@ import { Page } from '@/widgets/Page';
 
 import { categoryEditHeadingPage } from '../lib/constants';
 import { CategoryEditPageParams } from '../lib/types';
+import { CategoryEditLoadPage } from './CategoryEditLoadPage';
 import { CategoryEditFormCard } from './components/CategoryEditFormCard';
 
 export function CategoryEditRoute() {
@@ -37,13 +38,7 @@ export function CategoryEditRoute() {
   }
 
   if (loading || !data?.category) {
-    return (
-      <Page narrow heading={categoryEditHeadingPage}>
-        <Typography variant="body1" component="p">
-          Загрузка данных категории...
-        </Typography>
-      </Page>
-    );
+    return <CategoryEditLoadPage />;
   }
 
   return (

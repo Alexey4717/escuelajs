@@ -7,6 +7,7 @@ import { useCurrentUser } from '@/entities/Session';
 import { Page } from '@/widgets/Page';
 
 import { ProfileEditFormCard } from './components/ProfileEditFormCard';
+import { ProfileEditLoadPage } from './ProfileEditLoadPage';
 
 const headingPage = 'Редактировать профиль';
 
@@ -24,13 +25,7 @@ export function ProfileEditRoute() {
   }
 
   if (loading || !user?.id) {
-    return (
-      <Page narrow heading={headingPage}>
-        <Typography variant="body1" component="p">
-          Загрузка данных профиля...
-        </Typography>
-      </Page>
-    );
+    return <ProfileEditLoadPage />;
   }
 
   return (

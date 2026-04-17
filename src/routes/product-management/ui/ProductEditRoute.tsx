@@ -12,6 +12,7 @@ import { Page } from '@/widgets/Page';
 import { productEditHeadingPage } from '../lib/constants';
 import { ProductEditPageParams } from '../lib/types';
 import { ProductEditFormCard } from './components/ProductEditFormCard';
+import { ProductEditLoadPage } from './ProductEditLoadPage';
 
 export function ProductEditRoute() {
   const params = useParams<ProductEditPageParams>();
@@ -37,13 +38,7 @@ export function ProductEditRoute() {
   }
 
   if (loading || !data?.product) {
-    return (
-      <Page narrow heading={productEditHeadingPage}>
-        <Typography variant="body1" component="p">
-          Загрузка данных товара...
-        </Typography>
-      </Page>
-    );
+    return <ProductEditLoadPage />;
   }
 
   return (
