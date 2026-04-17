@@ -9,7 +9,7 @@ import { Page } from '@/widgets/Page';
 import { ProfileEditFormCard } from './components/ProfileEditFormCard';
 import { ProfileEditLoadPage } from './ProfileEditLoadPage';
 
-const headingPage = 'Редактировать профиль';
+const headingPage = 'Edit profile';
 
 export function ProfileEditRoute() {
   const { user, loading, error } = useCurrentUser();
@@ -18,7 +18,7 @@ export function ProfileEditRoute() {
     return (
       <Page narrow heading={headingPage}>
         <Typography variant="body1" component="p">
-          Не удалось загрузить данные пользователя
+          Failed to load user data
         </Typography>
       </Page>
     );

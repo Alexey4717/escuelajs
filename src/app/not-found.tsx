@@ -20,18 +20,18 @@ export default async function GlobalNotFound() {
           <FileQuestion className="h-7 w-7" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
-          <Typography variant="overline">Ошибка 404</Typography>
+          <Typography variant="overline">Error 404</Typography>
           <Typography component="h1" className="text-foreground">
-            Такой страницы нет
+            Page not found
           </Typography>
           <Typography variant="muted" className="text-pretty leading-relaxed">
-            Ссылка устарела, адрес набран с опечаткой или страница перенесена.
-            Проверьте URL или вернитесь на главную.
+            The link is outdated, the URL has a typo, or the page was moved.
+            Check the address or go back home.
           </Typography>
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button asChild>
-            <Link href={pagesPath.$url().path}>На главную</Link>
+            <Link href={pagesPath.$url().path}>Home</Link>
           </Button>
           <Button asChild variant="outline">
             <Link
@@ -41,7 +41,7 @@ export default async function GlobalNotFound() {
                   : pagesPath.login.$url().path
               }
             >
-              {isLoggedIn ? 'Профиль' : 'Войти'}
+              {isLoggedIn ? 'Profile' : 'Sign in'}
             </Link>
           </Button>
         </div>

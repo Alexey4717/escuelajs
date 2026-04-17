@@ -14,29 +14,29 @@ import { useOnboardingProgressStore } from '../model/onboarding-progress-store';
 import { useOnboardingTourOptional } from '../model/onboarding-tour-context';
 
 const GUEST_LABELS = [
-  'Меню «Продукты»',
-  'Фильтры',
-  'Корзина из списка',
-  'Карточка второго товара',
-  'Корзина на странице товара',
-  'Иконка корзины',
-  'Кнопка «Выбрать на карте»',
-  'Пункт выдачи на карте',
-  'Кнопка «Заказать»',
-  'Форма связи',
+  'Products menu',
+  'Filters',
+  'Add to cart from list',
+  'Second product card',
+  'Cart on product page',
+  'Cart icon',
+  '“Choose on map” button',
+  'Pickup point on map',
+  '“Place order” button',
+  'Contact form',
 ];
 
 const ADMIN_LABELS = [
-  'Таб «Пользователи»',
-  'Список пользователей',
-  'Таб «Админка»',
-  'Кнопка «Добавить категорию»',
-  'Форма создания категории',
-  'Список категорий',
-  'Кнопка «Добавить продукт»',
-  'Форма создания товара',
-  'Список товаров',
-  'Действия товара',
+  'Users tab',
+  'Users list',
+  'Admin panel tab',
+  '“Add category” button',
+  'Category creation form',
+  'Categories list',
+  '“Add product” button',
+  'Product creation form',
+  'Products list',
+  'Product actions',
 ];
 
 export function OnboardingProfileSection() {
@@ -73,10 +73,10 @@ export function OnboardingProfileSection() {
       {role !== 'admin' ? (
         <div className="space-y-3">
           <Typography variant="h5" component="h2">
-            Обучение магазину
+            Store onboarding
           </Typography>
           <Typography variant="muted" className="text-sm">
-            Прогресс сохраняется в браузере по шагам.
+            Progress is saved in your browser by step.
           </Typography>
           <Progress value={guestPct} className="h-1.5" />
           <ul className="space-y-1">
@@ -113,8 +113,8 @@ export function OnboardingProfileSection() {
             }}
           >
             {guest.completedStepIndices.length > 0
-              ? 'Повторить обучение'
-              : 'Начать обучение'}
+              ? 'Restart onboarding'
+              : 'Start onboarding'}
           </Button>
         </div>
       ) : null}
@@ -122,7 +122,7 @@ export function OnboardingProfileSection() {
       {role === 'admin' ? (
         <div className="space-y-3">
           <Typography variant="h5" component="h2">
-            Обучение администратора
+            Admin onboarding
           </Typography>
           <Progress value={adminPct} className="h-1.5" />
           <ul className="space-y-1">
@@ -159,8 +159,8 @@ export function OnboardingProfileSection() {
             }}
           >
             {admin.completedStepIndices.length > 0
-              ? 'Повторить обучение'
-              : 'Начать обучение'}
+              ? 'Restart onboarding'
+              : 'Start onboarding'}
           </Button>
         </div>
       ) : null}

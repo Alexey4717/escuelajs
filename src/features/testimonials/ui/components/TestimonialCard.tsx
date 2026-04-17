@@ -15,7 +15,7 @@ export function TestimonialCard({ item }: TestimonialCardProps) {
         'flex w-full max-w-sm shrink-0 gap-4 border-l border-border pl-6 pr-2 sm:pl-8 sm:pr-4',
         'first:border-l-0 first:pl-0 sm:first:pl-0',
       )}
-      aria-label={`Отзыв: ${item.name}`}
+      aria-label={`Testimonial: ${item.name}`}
     >
       <Avatar
         className="size-11 shrink-0 rounded-full border border-border"

@@ -33,7 +33,7 @@ export function useDeleteCategorySubmitHandler() {
       });
 
       if (!data?.deleteCategory) {
-        throw new Error('Не удалось удалить категорию');
+        throw new Error('Failed to delete category');
       }
 
       await revalidateTagsAction({
@@ -44,13 +44,13 @@ export function useDeleteCategorySubmitHandler() {
         ],
       });
 
-      toast.success('Категория удалена');
+      toast.success('Category deleted');
       closeModal();
 
       router.replace(pagesPath.categories.$url().path);
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось удалить категорию');
+      toast.error('Failed to delete category');
     }
   };
 

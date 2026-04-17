@@ -17,8 +17,8 @@ function FilterCategoryFieldInner() {
   return (
     <div className="min-w-0 [&_[data-slot=field-label]]:!mb-0">
       <Combobox<string>
-        label="Категория"
-        placeholder="Выберите категорию…"
+        label="Category"
+        placeholder="Select category…"
         options={categoryOptions}
         value={selectedCategoryOption}
         onValueChange={(item) => {
@@ -26,7 +26,7 @@ function FilterCategoryFieldInner() {
           setCategoryId(opt?.value != null ? String(opt.value) : null);
         }}
         showClear
-        emptyText="Категории не найдены"
+        emptyText="No categories found"
         listLoading={categoriesLoading && categoryOptions.length === 0}
         onOpenChange={onCategoriesOpenChange}
         triggerClassName={cn(

@@ -35,7 +35,7 @@ export function validateImageFile(
   const maxBytes = maxFileSizeMb * 1024 * 1024;
 
   if (file.type === 'application/pdf') {
-    return 'PDF-файлы не поддерживаются';
+    return 'PDF files are not supported';
   }
 
   const hasImageMime =
@@ -43,11 +43,11 @@ export function validateImageFile(
   const hasImageExt = hasAllowedImageExtension(file.name, allowedExtensions);
 
   if (!hasImageMime && !hasImageExt) {
-    return 'Разрешены только изображения';
+    return 'Only image files are allowed';
   }
 
   if (file.size > maxBytes) {
-    return `Максимальный размер файла: ${maxFileSizeMb}MB`;
+    return `Maximum file size: ${maxFileSizeMb}MB`;
   }
 
   return undefined;
@@ -62,10 +62,8 @@ export function createImageFilesSchema(
 ) {
   const maxFiles = Math.min(options.maxFiles ?? 1, DEFAULT_MAX_IMAGE_FILES);
 
-  return array(
-    custom<File>((value) => value instanceof File, 'Некорректный файл'),
-  )
-    .max(maxFiles, `Можно выбрать не более ${maxFiles} файлов`)
+  return array(custom<File>((value) => value instanceof File, 'Invalid file'))
+    .max(maxFiles, `You can select up to ${maxFiles} files`)
     .superRefine((files, ctx) => {
       files.forEach((file, index) => {
         const err = validateImageFile(file, options);

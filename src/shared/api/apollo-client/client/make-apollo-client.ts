@@ -28,8 +28,12 @@ export function makeApolloClient(): ApolloClient {
             ...arraysPoliciesByCursorLimit,
             ...queryListFieldsWithKeyArgs,
             ...nonNormalizedQueryFields,
-            // для исключения ворнинга при онбординге
+            // для исключения ворнинга при онбординге (writeQuery подменяет списки целиком)
             categories: {
+              merge: false,
+            },
+            users: {
+              ...queryListFieldsWithKeyArgs.users,
               merge: false,
             },
           },

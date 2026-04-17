@@ -121,11 +121,11 @@ export function ProductsCatalogGrid({
         className="flex flex-col items-center gap-4 py-12 text-center"
         data-onboarding={ONBOARDING_TARGET_IDS.productsList}
       >
-        <Typography variant="muted">В каталоге пока нет продуктов.</Typography>
+        <Typography variant="muted">No products in the catalog yet.</Typography>
         {isAdmin ? (
           <Button asChild variant="default">
             <Link href={pagesPath.products.create.$url().path}>
-              Добавить продукт
+              Add product
             </Link>
           </Button>
         ) : null}

@@ -18,7 +18,7 @@ function ProductManagementCategoryFieldInner() {
         options={categoryOptions}
         onOpenChange={onCategoriesOpenChange}
         showClear
-        emptyText="Категории не найдены"
+        emptyText="No categories found"
         listLoading={categoriesLoading && categoryOptions.length === 0}
         triggerClassName={cn(
           'w-full min-w-0 !h-[38px] min-h-[38px] max-h-[38px] shrink-0 rounded-md border border-border bg-muted dark:bg-input/30',

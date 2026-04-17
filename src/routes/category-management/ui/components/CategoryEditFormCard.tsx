@@ -63,10 +63,7 @@ export function CategoryEditFormCard({ category }: CategoryEditFormCardProps) {
   };
 
   return (
-    <Card
-      title="Редактирование категории"
-      className="max-w-2xl shadow-sm ring-border/60"
-    >
+    <Card title="Edit category" className="max-w-2xl shadow-sm ring-border/60">
       <Form
         methods={methods}
         onSubmit={onSubmit}
@@ -78,7 +75,7 @@ export function CategoryEditFormCard({ category }: CategoryEditFormCardProps) {
           onImageFilesChange={setImageFiles}
         />
         <CategoryManagementFormActions
-          submitLabel="Сохранить изменения"
+          submitLabel="Save changes"
           submitLoading={submitLoading}
           imagesUploadLoading={imagesUploadLoading}
           submitDisabled={isFilesBoxOverLimit(

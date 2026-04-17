@@ -6,8 +6,8 @@ import {
 
 import { isUnauthorized } from '../auth/is-unauthorized';
 
-const MSG_CLIENT_ERROR = 'Что-то пошло не так';
-const MSG_SERVER_ERROR = 'Внутренняя ошибка сервера';
+const MSG_CLIENT_ERROR = 'Something went wrong';
+const MSG_SERVER_ERROR = 'Internal server error';
 
 function getHttpStatusCode(error: unknown): number | undefined {
   if (ServerError.is(error) || ServerParseError.is(error)) {

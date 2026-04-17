@@ -32,9 +32,9 @@ export const productDeleteModalRegistryItem: ModalRegistryItem<'productDelete'> 
         productTitle: candidate.productTitle,
       };
     },
-    fallbackContent: 'Не удалось загрузить данные для этой модалки.',
-    title: 'Удаление товара',
-    description: 'Подтвердите удаление товара из каталога.',
+    fallbackContent: 'Failed to load data for this modal.',
+    title: 'Delete product',
+    description: 'Confirm product removal from the catalog.',
     showContentCloseButton: true,
     showFooterCloseButton: false,
     dialogClassName: 'max-w-xl',

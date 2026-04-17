@@ -68,10 +68,7 @@ export function ProductEditFormCard({ product }: ProductEditFormCardProps) {
   };
 
   return (
-    <Card
-      title="Редактирование товара"
-      className="max-w-2xl shadow-sm ring-border/60"
-    >
+    <Card title="Edit product" className="max-w-2xl shadow-sm ring-border/60">
       <Form
         methods={methods}
         onSubmit={onSubmit}
@@ -83,7 +80,7 @@ export function ProductEditFormCard({ product }: ProductEditFormCardProps) {
           onImageFilesChange={setImageFiles}
         />
         <ProductManagementFormActions
-          submitLabel="Сохранить изменения"
+          submitLabel="Save changes"
           submitLoading={submitLoading}
           imagesUploadLoading={imagesUploadLoading}
           submitDisabled={isFilesBoxOverLimit(

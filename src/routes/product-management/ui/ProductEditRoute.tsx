@@ -31,7 +31,7 @@ export function ProductEditRoute() {
     return (
       <Page narrow heading={productEditHeadingPage}>
         <Typography variant="body1" component="p">
-          Не удалось загрузить данные товара
+          Failed to load product data
         </Typography>
       </Page>
     );

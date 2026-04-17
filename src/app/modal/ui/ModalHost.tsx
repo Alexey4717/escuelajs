@@ -55,10 +55,10 @@ export function ModalHost({ isMobile }: ModalHostProps) {
     <div className="space-y-3 text-sm">
       <p className="text-muted-foreground">
         {entry.fallbackContent ??
-          'Не удалось открыть модалку: отсутствуют обязательные данные.'}
+          'Failed to open modal: required data is missing.'}
       </p>
       <p className="text-muted-foreground">
-        Повторите действие из интерфейса приложения.
+        Please retry this action from the app interface.
       </p>
     </div>
   );

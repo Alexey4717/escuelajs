@@ -15,11 +15,11 @@ export const HomeFaq = () => {
           FAQ
         </Typography>
         <Typography id="home-faq-heading" variant="h2">
-          Остались вопросы?
+          Still have questions?
         </Typography>
         <Typography variant="muted" className="mt-2 max-w-xl">
-          Коротко о входе, каталоге и ролях — всё, что чаще всего спрашивают
-          новые пользователи.
+          A quick primer on sign-in, the catalog, and roles — what new users ask
+          most often.
         </Typography>
       </div>
 

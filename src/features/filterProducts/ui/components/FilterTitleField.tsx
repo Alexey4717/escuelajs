@@ -21,8 +21,8 @@ export function FilterTitleField({
   return (
     <div className="min-w-0 [&_[data-slot=field-label]]:!mb-0">
       <TextField
-        label="Название"
-        placeholder="Поиск по названию…"
+        label="Title"
+        placeholder="Search by title…"
         value={titleInput}
         onChange={onTitleChange}
         loading={titleLoading}

@@ -20,7 +20,7 @@ export const SubmitButton = ({ loading }: SubmitButtonProps) => {
       className="mt-1.5 w-full py-2.5 text-[13px] hover:opacity-90 disabled:opacity-60"
       data-testid="register__button__submit"
     >
-      {inProcessing ? 'Регистрация' : 'Зарегистрироваться'}
+      {inProcessing ? 'Creating account' : 'Create account'}
     </Button>
   );
 };

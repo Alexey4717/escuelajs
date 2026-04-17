@@ -32,7 +32,7 @@ export function StoreBackToTopButton({ scrollRef }: StoreBackToTopButtonProps) {
             variant="secondary"
             size="icon"
             className="pointer-events-auto shadow-md"
-            aria-label="Наверх"
+            aria-label="Back to top"
             onClick={() =>
               scrollRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
             }
@@ -41,7 +41,7 @@ export function StoreBackToTopButton({ scrollRef }: StoreBackToTopButtonProps) {
           </Button>
         }
         triggerProps={{ asChild: true }}
-        content="Наверх"
+        content="Back to top"
       />
     </div>
   );

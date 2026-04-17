@@ -29,7 +29,7 @@ export function HomeTestimonials({ data }: HomeTestimonialsProps) {
 
   return (
     <section
-      aria-label="Отзывы покупателей"
+      aria-label="Customer reviews"
       className={cn(
         'relative min-w-0 space-y-8 py-10',
         '-mx-[var(--spacing-layout)] w-[calc(100%+2*var(--spacing-layout))] max-w-none',
@@ -41,14 +41,14 @@ export function HomeTestimonials({ data }: HomeTestimonialsProps) {
           variant="outline"
           className="mb-3 h-auto rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground"
         >
-          Отзывы
+          Reviews
         </Badge>
         <Typography variant="h2" className="text-balance">
-          Нам доверяют покупатели и команды
+          Customers and teams trust us
         </Typography>
         <Typography variant="muted" className="mx-auto mt-2 max-w-xl">
-          Демонстрационные отзывы: имена и аватары из каталога пользователей,
-          тексты примерные.
+          Demo reviews: names and avatars come from the user catalog; copy is
+          illustrative.
         </Typography>
       </div>
 

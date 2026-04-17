@@ -46,13 +46,13 @@ export function useUpdateSubmitHandler() {
     );
     filesState = uploadResult.files;
     if (uploadResult.hasUploadError) {
-      toast.error('Не удалось загрузить одно или несколько изображений');
+      toast.error('Failed to upload one or more images');
       return filesState;
     }
 
     const images = collectUploadedFileUrls(filesState);
     if (images.length === 0) {
-      toast.error('Добавьте хотя бы одно изображение');
+      toast.error('Add at least one image');
       return filesState;
     }
 
@@ -91,7 +91,7 @@ export function useUpdateSubmitHandler() {
       });
 
       if (!data?.updateProduct) {
-        throw new Error('Не удалось обновить товар');
+        throw new Error('Failed to update product');
       }
 
       await revalidateTagsAction({
@@ -103,13 +103,13 @@ export function useUpdateSubmitHandler() {
         ],
       });
 
-      toast.success('Товар успешно обновлен');
+      toast.success('Product updated successfully');
       router.replace(pagesPath.products.$url().path);
       router.refresh();
       return filesState;
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось обновить товар');
+      toast.error('Failed to update product');
       return filesState;
     }
   }

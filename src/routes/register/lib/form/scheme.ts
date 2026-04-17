@@ -5,10 +5,10 @@ import { emailSchema, passwordSchema } from '@/shared/lib/form';
 export const registerFormSchema = object({
   name: string()
     .trim()
-    .min(2, 'Минимум 2 символа')
+    .min(2, 'Minimum 2 characters')
     .meta({
       formField: {
-        label: 'Имя',
+        label: 'Name',
         'data-testid': 'register__input__name',
       },
     }),
@@ -20,13 +20,13 @@ export const registerFormSchema = object({
   }),
   password: passwordSchema.meta({
     formField: {
-      label: 'Пароль',
+      label: 'Password',
       'data-testid': 'register__input__password',
     },
   }),
   confirmPassword: string().meta({
     formField: {
-      label: 'Подтверждение пароля',
+      label: 'Confirm password',
       'data-testid': 'register__input__confirm-password',
     },
   }),
@@ -37,7 +37,7 @@ export const registerFormSchema = object({
   if (!data.confirmPassword.trim()) {
     ctx.addIssue({
       code: 'custom',
-      message: 'Пароль не может быть пустым',
+      message: 'Password cannot be empty',
       path: ['confirmPassword'],
     });
     return;
@@ -45,7 +45,7 @@ export const registerFormSchema = object({
   if (data.password !== data.confirmPassword) {
     ctx.addIssue({
       code: 'custom',
-      message: 'Пароли не совпадают',
+      message: 'Passwords do not match',
       path: ['confirmPassword'],
     });
   }

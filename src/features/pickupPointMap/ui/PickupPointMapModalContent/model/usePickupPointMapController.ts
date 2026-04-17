@@ -90,7 +90,7 @@ export function usePickupPointMapController() {
   useEffect(() => {
     if (!('geolocation' in navigator)) {
       const fallbackTimeoutId = window.setTimeout(() => {
-        setFallbackLocation('Геолокация недоступна в этом браузере');
+        setFallbackLocation('Geolocation is not available in this browser');
       }, 0);
 
       return () => window.clearTimeout(fallbackTimeoutId);
@@ -108,7 +108,7 @@ export function usePickupPointMapController() {
       },
       () => {
         setFallbackLocation(
-          'Не удалось получить геопозицию, использована точка по умолчанию',
+          'Unable to detect your location, using the default point instead',
         );
       },
       {

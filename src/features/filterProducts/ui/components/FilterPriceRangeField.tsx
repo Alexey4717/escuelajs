@@ -36,7 +36,7 @@ export function FilterPriceRangeField({
         className={cn(textFieldLabelClassName, '!mb-0')}
         htmlFor="filter-price-slider"
       >
-        Цена
+        Price
       </label>
       <div className="relative flex h-[38px] max-h-[38px] min-h-[38px] shrink-0 items-center">
         <Slider
@@ -47,7 +47,7 @@ export function FilterPriceRangeField({
           step={1}
           value={priceRangeLocal}
           onValueChange={onPriceSliderChange}
-          aria-label="Диапазон цены"
+          aria-label="Price range"
         />
         {priceLoading ? (
           <div

@@ -5,7 +5,7 @@ import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { Page } from '@/widgets/Page';
 
 export const ProfileLoadPage = () => (
-  <Page narrow heading="Профиль">
+  <Page narrow heading="Profile">
     <div
       className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:items-start"
       aria-hidden

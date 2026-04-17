@@ -52,7 +52,7 @@ export const ProfileSummaryCard = ({
         </div>
         <div className="flex w-full flex-col gap-2">
           <Button type="button" variant="outline" className="w-full" asChild>
-            <Link href={pagesPath.profile.edit.$url().path}>Редактировать</Link>
+            <Link href={pagesPath.profile.edit.$url().path}>Edit profile</Link>
           </Button>
           <DeleteCurrentUserButton email={email} userId={userId} />
         </div>

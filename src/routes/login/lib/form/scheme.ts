@@ -11,7 +11,7 @@ export const loginFormSchema = object({
   }),
   password: passwordSchema.meta({
     formField: {
-      label: 'Пароль',
+      label: 'Password',
       'data-testid': 'login__input__password',
     },
   }),

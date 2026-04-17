@@ -9,30 +9,30 @@ import { Typography } from '@/shared/ui/Typography/Typography';
 const STEPS = [
   {
     n: '01',
-    title: 'Зарегистрируйтесь',
+    title: 'Create an account',
     description:
-      'Создайте аккаунт на странице регистрации — понадобится email и пароль. После входа откроется профиль и персональные возможности.',
+      'Sign up on the registration page using your email and password. After login, your profile and personalized features become available.',
     href: pagesPath.register.$url().path,
     icon: UserPlus,
-    cta: 'Регистрация',
+    cta: 'Sign up',
   },
   {
     n: '02',
-    title: 'Выберите товар',
+    title: 'Pick a product',
     description:
-      'Откройте каталог или категории, сравните цены и фото. Карточка товара покажет описание и характеристики перед решением.',
+      'Open the catalog or categories, compare prices and images, and review product details before deciding.',
     href: pagesPath.products.$url().path,
     icon: ShoppingBag,
-    cta: 'В каталог',
+    cta: 'Browse catalog',
   },
   {
     n: '03',
-    title: 'Оплатите заказ',
+    title: 'Complete checkout',
     description:
-      'Оформление оплаты в этом демо не подключено: в реальном магазине здесь был бы выбор способа оплаты и подтверждение заказа.',
+      'Payment is not connected in this demo. In a real store this step would include payment method selection and order confirmation.',
     href: pagesPath.products.$url().path,
     icon: CreditCard,
-    cta: 'К товарам',
+    cta: 'Go to products',
   },
 ] as const;
 
@@ -40,7 +40,7 @@ export function HomeHowItWorks() {
   return (
     <section aria-labelledby="home-how-heading" className="space-y-10">
       <Typography id="home-how-heading" variant="h2">
-        Как это работает
+        How it works
       </Typography>
 
       <ul className="grid grid-cols-1 gap-10 md:grid-cols-3 md:gap-8">

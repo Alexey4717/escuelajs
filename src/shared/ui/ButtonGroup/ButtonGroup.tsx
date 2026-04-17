@@ -108,7 +108,7 @@ function ButtonGroupConstructor({
  * import { ButtonGroup } from '@/shared/ui/ButtonGroup/ButtonGroup';
  *
  * <ButtonGroup.Root>
- *   <ButtonGroup.Text>Фильтр</ButtonGroup.Text>
+ *   <ButtonGroup.Text>Filter</ButtonGroup.Text>
  *   <ButtonGroup.Separator />
  * </ButtonGroup.Root>
  * ```

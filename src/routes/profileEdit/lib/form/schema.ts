@@ -28,16 +28,16 @@ export const profileEditFormSchema = object({
     },
   }),
   name: string()
-    .min(1, 'Введите имя')
+    .min(1, 'Enter your name')
     .meta({
       formField: {
-        label: 'Имя',
+        label: 'Name',
         'data-testid': 'profileEdit__input__name',
       },
     }),
   role: zodEnum(profileEditRoleValues).meta({
     formField: {
-      label: 'Роль',
+      label: 'Role',
       'data-testid': 'profileEdit__select__role',
       options: profileEditRoleOptions,
     },

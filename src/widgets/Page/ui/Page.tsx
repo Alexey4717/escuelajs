@@ -34,7 +34,7 @@ export const Page = ({
       onScrollEnd={onScrollEnd}
     >
       {typeof heading === 'string' ? (
-        <Typography variant="h1" className="text-left">
+        <Typography variant="h1" className="text-left mb-6">
           {heading}
         </Typography>
       ) : (

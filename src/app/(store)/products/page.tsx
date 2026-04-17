@@ -21,8 +21,8 @@ const productsListFetchContext = {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Товары',
-  description: 'Каталог товаров',
+  title: 'Products',
+  description: 'Product catalog',
 };
 
 const productsListQueryVariables = {

@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'Escuela.io',
   description:
-    'Витрина на Next.js и GraphQL API Escuela (JWT, BFF /api/graphql).',
+    'Escuela storefront built with Next.js and GraphQL API (JWT, BFF /api/graphql).',
 };
 
 export default async function RootLayout({
@@ -67,6 +67,12 @@ export default async function RootLayout({
       )}
     >
       <body className="flex min-h-dvh flex-col overflow-y-auto bg-background font-sans text-[14px] text-foreground antialiased">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-[10060] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:text-foreground focus:ring-2 focus:ring-ring"
+        >
+          Skip to main content
+        </a>
         <ThemeBootstrapScript />
         <QueryProvider>
           <ApolloProvider>

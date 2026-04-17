@@ -44,7 +44,7 @@ export async function generateMetadata({
 
     const product = data?.product;
     if (!product) {
-      return { title: 'Товар' };
+      return { title: 'Product' };
     }
 
     const description =
@@ -75,7 +75,7 @@ export async function generateMetadata({
     };
   } catch {
     return {
-      title: 'Товар',
+      title: 'Product',
     };
   }
 }

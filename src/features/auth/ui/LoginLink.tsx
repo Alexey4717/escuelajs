@@ -14,7 +14,7 @@ export const LoginLink = () => {
         'transition-colors hover:bg-white/10',
       )}
     >
-      Войти
+      Sign in
     </Link>
   );
 };

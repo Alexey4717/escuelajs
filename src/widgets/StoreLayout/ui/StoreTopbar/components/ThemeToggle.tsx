@@ -55,7 +55,7 @@ export const ThemeToggleButton = () => {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      aria-label={isDark ? 'Включить светлую тему' : 'Включить тёмную тему'}
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
       className={cn(
         'rounded-md border border-white/12 text-inherit',
         'hover:bg-white/10 dark:hover:bg-white/10',

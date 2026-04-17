@@ -28,23 +28,23 @@ const homeLandingFetchContext = {
 export const dynamic = 'force-dynamic';
 
 const description =
-  'Интернет-магазин одежды и электроники: каталог, отзывы, как начать и ответы на частые вопросы.';
+  'Online store for clothing and electronics: catalog, reviews, getting started guide, and FAQ.';
 
 export async function generateMetadata(): Promise<Metadata> {
   const base = getAppOrigin();
 
   return {
-    title: 'Главная',
+    title: 'Home',
     description,
     openGraph: {
-      title: 'Главная',
+      title: 'Home',
       description,
       url: `${base}${pagesPath.$url().pathname}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Главная',
+      title: 'Home',
       description,
     },
   };

@@ -1,6 +1,6 @@
 import { Role } from '@/shared/api/generated/graphql';
 
 export const UserRoleText = {
-  admin: 'Администратор',
-  customer: 'Покупатель',
+  admin: 'Administrator',
+  customer: 'Customer',
 } as const satisfies Record<Role, string>;

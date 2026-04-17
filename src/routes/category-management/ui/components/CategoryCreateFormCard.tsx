@@ -49,10 +49,7 @@ export function CategoryCreateFormCard() {
   });
 
   return (
-    <Card
-      title="Новая категория"
-      className="max-w-2xl shadow-sm ring-border/60"
-    >
+    <Card title="New category" className="max-w-2xl shadow-sm ring-border/60">
       <Form
         methods={methods}
         onSubmit={onSubmit}
@@ -64,7 +61,7 @@ export function CategoryCreateFormCard() {
           onImageFilesChange={setImageFiles}
         />
         <CategoryManagementFormActions
-          submitLabel="Создать категорию"
+          submitLabel="Create category"
           submitLoading={submitLoading}
           imagesUploadLoading={imagesUploadLoading}
           submitDisabled={isFilesBoxOverLimit(

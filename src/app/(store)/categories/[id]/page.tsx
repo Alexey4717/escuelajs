@@ -43,7 +43,7 @@ export async function generateMetadata({
 
     const category = data?.category;
     if (!category) {
-      return { title: 'Категория' };
+      return { title: 'Category' };
     }
 
     const base = getAppOrigin();
@@ -51,10 +51,10 @@ export async function generateMetadata({
 
     return {
       title: category.name,
-      description: `Категория «${category.name}» в каталоге.`,
+      description: `Category “${category.name}” in the catalog.`,
       openGraph: {
         title: category.name,
-        description: `Категория «${category.name}» в каталоге.`,
+        description: `Category “${category.name}” in the catalog.`,
         url,
         type: 'website',
         ...(category.image ? { images: [{ url: category.image }] } : {}),
@@ -62,13 +62,13 @@ export async function generateMetadata({
       twitter: {
         card: 'summary_large_image',
         title: category.name,
-        description: `Категория «${category.name}» в каталоге.`,
+        description: `Category “${category.name}” in the catalog.`,
         ...(category.image ? { images: [category.image] } : {}),
       },
     };
   } catch {
     return {
-      title: 'Категория',
+      title: 'Category',
     };
   }
 }

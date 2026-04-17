@@ -18,7 +18,7 @@ export function DeleteCurrentUserModalFooter({
         className="w-full sm:w-auto"
         data-testid="deleteCurrentUser__button__closeModal"
       >
-        Отмена
+        Cancel
       </Button>
       <Button
         type="submit"
@@ -27,7 +27,7 @@ export function DeleteCurrentUserModalFooter({
         className="w-full sm:w-auto"
         data-testid="deleteCurrentUser__button__submitDelete"
       >
-        Удалить аккаунт
+        Delete account
       </Button>
     </div>
   );

@@ -4,7 +4,7 @@ import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
 import { Page } from '@/widgets/Page';
 
-const headingPage = 'Редактировать профиль';
+const headingPage = 'Edit profile';
 
 export function ProfileEditLoadPage() {
   return (

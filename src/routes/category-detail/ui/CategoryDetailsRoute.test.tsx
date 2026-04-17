@@ -64,7 +64,7 @@ describe('CategoryDetailsRoute', () => {
     expect(edit).toHaveAttribute('href', '/categories/cat-1/edit');
     expect(
       screen.getByTestId('categoryDetail__button__openDeleteCategoryModal'),
-    ).toHaveAccessibleName('Удалить');
+    ).toHaveAccessibleName('Delete');
   });
 
   it('не показывает кнопки управления пока загружается роль', () => {

@@ -24,10 +24,11 @@ export function DeleteCurrentUserButton({
       type="button"
       variant="destructive"
       className="w-full"
+      aria-haspopup="dialog"
       onClick={handleDeleteCurrentUser}
       data-testid="deleteCurrentUser__button__handleDeleteCurrentUser"
     >
-      Удалить аккаунт
+      Delete account
     </Button>
   );
 }

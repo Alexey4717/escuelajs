@@ -28,7 +28,7 @@ export async function uploadQueuedFilesBoxItems(files: FilesBoxItem[]) {
     } catch (error) {
       hasUploadError = true;
       const errorMessage =
-        error instanceof Error ? error.message : 'Не удалось загрузить файл';
+        error instanceof Error ? error.message : 'Failed to upload file';
       next[i] = {
         ...next[i],
         status: 'error',

@@ -93,7 +93,7 @@ export function buildGuestOnboardingSteps({
     const m = routeTargets[stepIndex];
     return {
       target,
-      title: `Шаг ${stepIndex + 1} из ${total}`,
+      title: `Step ${stepIndex + 1} of ${total}`,
       content: <GuestStepContent index={stepIndex} />,
       placement: 'bottom' as const,
       disableBeacon: true,
@@ -138,16 +138,16 @@ export function buildGuestOnboardingSteps({
 
 function GuestStepContent({ index }: { index: number }) {
   const bodies: string[] = [
-    'Откройте раздел «Продукты» в боковом меню.',
-    'Используйте фильтры каталога, чтобы сузить список товаров. Поля фильтра заполняются автоматически для демо.',
-    'Добавьте первый демо-товар (A) в корзину из списка.',
-    'Перейдите ко второму демо-товару (B), открыв его карточку.',
-    'На странице товара добавьте демо-товар B в корзину.',
-    'Откройте корзину через иконку в шапке.',
-    'Нажмите «Выбрать на карте» в блоке оформления, чтобы открыть карту пунктов выдачи.',
-    'Выберите на карте подсвеченный демо-пункт выдачи.',
-    'Форма уже заполнена демо-данными. Нажмите кнопку «Заказать».',
-    'Остались вопросы? Внизу главной страницы есть форма обратной связи.',
+    'Open the “Products” item in the sidebar.',
+    'Use catalog filters to narrow the product list. Filter fields are auto-filled for demo mode.',
+    'Add the first demo product (A) to cart from the list.',
+    'Open the second demo product (B) by clicking its card.',
+    'On the product page, add demo product B to cart.',
+    'Open the cart using the top bar icon.',
+    'Click “Choose on map” in checkout to open pickup points map.',
+    'Select the highlighted demo pickup point on the map.',
+    'The form is prefilled with demo data. Click “Place order”.',
+    'Need help? You can use the contact form at the bottom of the home page.',
   ];
 
   return <p className="text-sm leading-relaxed">{bodies[index] ?? ''}</p>;

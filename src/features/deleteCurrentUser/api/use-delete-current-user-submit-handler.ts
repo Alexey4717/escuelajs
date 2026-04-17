@@ -33,12 +33,12 @@ export function useDeleteCurrentUserSubmitHandler() {
 
       await clearAuthSession();
       closeModal();
-      toast.success('Аккаунт удален');
+      toast.success('Account deleted');
       router.push(pagesPath.login.$url().path);
       router.refresh();
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось удалить аккаунт');
+      toast.error('Failed to delete account');
     }
   };
 

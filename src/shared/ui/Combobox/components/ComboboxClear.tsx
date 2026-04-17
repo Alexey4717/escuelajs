@@ -15,7 +15,8 @@ export function ComboboxClear({ className, ...props }: ComboboxClearProps) {
       className={cn(className)}
       {...props}
     >
-      <XIcon className="pointer-events-none" />
+      <XIcon className="pointer-events-none" aria-hidden />
+      <span className="sr-only">Clear</span>
     </ComboboxPrimitive.Clear>
   );
 }

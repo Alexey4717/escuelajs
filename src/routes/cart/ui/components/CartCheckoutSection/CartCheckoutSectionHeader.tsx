@@ -22,7 +22,7 @@ export function CartCheckoutSectionHeader({
         component="h2"
         className="text-xl font-semibold leading-tight"
       >
-        Оформить заказ
+        Checkout
       </Typography>
       {children}
     </div>

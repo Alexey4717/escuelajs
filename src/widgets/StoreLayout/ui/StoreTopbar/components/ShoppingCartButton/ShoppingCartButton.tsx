@@ -31,7 +31,7 @@ export function ShoppingCartButton() {
     [cartFly],
   );
 
-  const label = showBadge ? `Корзина, товаров: ${badgeCount}` : 'Корзина';
+  const label = showBadge ? `Cart, items: ${badgeCount}` : 'Cart';
 
   const durationStyle = {
     '--cart-badge-feedback-duration': `${feedbackDurationMs}ms`,

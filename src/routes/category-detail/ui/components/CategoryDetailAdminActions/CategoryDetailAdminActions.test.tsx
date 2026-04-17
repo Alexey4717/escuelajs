@@ -75,11 +75,9 @@ describe('CategoryDetailAdminActions', () => {
 
     const edit = screen.getByTestId('categoryDetail__link__editCategory');
     expect(edit).toHaveAttribute('href', '/categories/cat-42/edit');
-    expect(
-      screen.getByRole('link', { name: 'Редактировать' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Edit' })).toBeInTheDocument();
     expect(
       screen.getByTestId('categoryDetail__button__openDeleteCategoryModal'),
-    ).toHaveAccessibleName('Удалить');
+    ).toHaveAccessibleName('Delete');
   });
 });

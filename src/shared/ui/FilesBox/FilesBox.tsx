@@ -46,6 +46,7 @@ export function FilesBox(props: FilesBoxProps) {
 
   return (
     <Field
+      aria-labelledby={fieldTitleId}
       data-invalid={
         Boolean(errorText) || localErrors.length > 0 || overLimit || undefined
       }

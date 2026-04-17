@@ -31,8 +31,8 @@ export const LoginRoute = () => {
   return (
     <AuthFormShell
       mode="login"
-      title="Добро пожаловать"
-      subtitle="Войдите, чтобы открыть профиль и оформлять заказы"
+      title="Welcome back"
+      subtitle="Sign in to access your profile and place orders"
       registerHref={registerHref}
       footer={<FormShellFooter registerHref={registerHref} />}
     >

@@ -34,16 +34,15 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               <AlertTriangle className="h-7 w-7" strokeWidth={1.5} />
             </div>
             <div className="space-y-2">
-              <Typography variant="overline">Критическая ошибка</Typography>
+              <Typography variant="overline">Critical error</Typography>
               <Typography component="h1" className="text-foreground">
-                Не удалось загрузить приложение
+                Couldn&apos;t load the application
               </Typography>
               <Typography
                 variant="muted"
                 className="text-pretty leading-relaxed"
               >
-                Сбой в корневом макете. Обновите страницу или откройте сайт
-                заново.
+                The root layout failed. Refresh the page or open the site again.
               </Typography>
               {process.env.NODE_ENV === 'development' && error.digest ? (
                 <Typography
@@ -56,10 +55,10 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
             </div>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Button type="button" onClick={() => reset()}>
-                Попробовать снова
+                Try again
               </Button>
               <Button asChild variant="outline">
-                <Link href={pagesPath.$url().path}>На главную</Link>
+                <Link href={pagesPath.$url().path}>Home</Link>
               </Button>
             </div>
           </div>

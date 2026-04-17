@@ -71,7 +71,10 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
   };
 
   return (
-    <Card title="Данные профиля" className="max-w-2xl shadow-sm ring-border/60">
+    <Card
+      title="Profile details"
+      className="max-w-2xl shadow-sm ring-border/60"
+    >
       <Form
         methods={methods}
         onSubmit={onSubmit}
@@ -83,10 +86,10 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
           autoComplete="email"
           placeholder="you@example.com"
         />
-        <ProfileEditNameField autoComplete="name" placeholder="Ваше имя" />
+        <ProfileEditNameField autoComplete="name" placeholder="Your name" />
         <ProfileEditRoleSection />
         <FilesBox
-          label="Аватар"
+          label="Avatar"
           maxFiles={AVATAR_MAX_FILES}
           accept="image/*"
           maxFileSizeMb={5}
@@ -102,7 +105,7 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
             asChild
             className="w-full sm:w-auto"
           >
-            <Link href={pagesPath.profile.$url().path}>Назад в профиль</Link>
+            <Link href={pagesPath.profile.$url().path}>Back to profile</Link>
           </Button>
           <Button
             type="submit"
@@ -113,10 +116,10 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
           >
             {avatarUploadLoading || submitLoading ? (
               <>
-                {avatarUploadLoading ? 'Загрузка файла…' : 'Изменение профиля…'}
+                {avatarUploadLoading ? 'Uploading file…' : 'Updating profile…'}
               </>
             ) : (
-              'Сохранить изменения'
+              'Save changes'
             )}
           </Button>
         </div>

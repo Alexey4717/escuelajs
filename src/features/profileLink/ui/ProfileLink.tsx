@@ -21,16 +21,16 @@ function ProfileLinkFallback({ className }: { className?: string }) {
     <Link
       href={pagesPath.profile.$url().path}
       className={cn(profileLinkClassName, className)}
-      aria-label="Профиль"
+      aria-label="Profile"
     >
       <span
         className="flex size-[26px] shrink-0 items-center justify-center rounded-lg bg-accent text-[11px] font-semibold text-accent-foreground"
         aria-hidden
       >
-        П
+        P
       </span>
       <span className="min-w-0 flex-1 truncate text-left text-[12px] opacity-80">
-        Профиль
+        Profile
       </span>
     </Link>
   );
@@ -54,7 +54,7 @@ export function ProfileLink({ className }: ProfileLinkProps) {
     <Link
       href={pagesPath.profile.$url().path}
       className={cn(profileLinkClassName, 'group', className)}
-      aria-label={user ? `Профиль: ${user.name}` : 'Профиль'}
+      aria-label={user ? `Profile: ${user.name}` : 'Profile'}
     >
       <Avatar
         className="size-[26px] shrink-0 self-center after:border-0"
@@ -82,7 +82,7 @@ export function ProfileLink({ className }: ProfileLinkProps) {
                   'group-hover:pointer-events-none group-hover:opacity-0',
                 )}
               >
-                {user?.name ?? 'Профиль'}
+                {user?.name ?? 'Profile'}
               </span>
               <span
                 className={cn(
@@ -90,7 +90,7 @@ export function ProfileLink({ className }: ProfileLinkProps) {
                   'group-hover:opacity-90',
                 )}
               >
-                Профиль
+                Profile
               </span>
             </div>
             {roleText ? (

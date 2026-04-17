@@ -61,19 +61,19 @@ export function ToggleCartItemButton({
         variant={inCart ? 'secondary' : 'outline'}
         size="lg"
         aria-pressed={inCart}
-        aria-label={inCart ? 'Убрать из корзины' : 'Добавить в корзину'}
-        title={inCart ? 'Убрать из корзины' : 'Добавить в корзину'}
+        aria-label={inCart ? 'Remove from cart' : 'Add to cart'}
+        title={inCart ? 'Remove from cart' : 'Add to cart'}
         onClick={handleClick}
         disabled={flyBusy}
         data-testid="toggleCartItem__button__card"
       >
         {inCart ? (
           <>
-            В корзине <Check className="size-4 shrink-0" strokeWidth={2.5} />
+            In cart <Check className="size-4 shrink-0" strokeWidth={2.5} />
           </>
         ) : (
           <>
-            Добавить в корзину <ShoppingCartIcon className="size-4 shrink-0" />
+            Add to cart <ShoppingCartIcon className="size-4 shrink-0" />
           </>
         )}
       </Button>
@@ -94,11 +94,11 @@ export function ToggleCartItemButton({
       size="lg"
       variant={inCart ? 'outline' : 'default'}
       aria-pressed={inCart}
-      aria-label={inCart ? 'Убрать из корзины' : 'Добавить в корзину'}
+      aria-label={inCart ? 'Remove from cart' : 'Add to cart'}
       disabled={flyBusy}
       data-testid="toggleCartItem__button__detail"
     >
-      {inCart ? 'Убрать из корзины' : 'В корзину'}
+      {inCart ? 'Remove from cart' : 'Add to cart'}
     </Button>
   );
 }

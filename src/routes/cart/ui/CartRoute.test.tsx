@@ -41,7 +41,7 @@ describe('CartRoute', () => {
     vi.useRealTimers();
   });
 
-  it('показывает пустое состояние если нет товаров', () => {
+  it('показывает пустое состояние если нет товаров', async () => {
     useCartRouteMock.mockReturnValue({
       items: [],
       removeItemByProductId,
@@ -51,19 +51,19 @@ describe('CartRoute', () => {
 
     renderWithProviders(<CartRoute />);
 
-    expect(screen.getByText(/Корзина пуста/)).toBeInTheDocument();
+    expect(await screen.findByText(/Your cart is empty/i)).toBeInTheDocument();
     expect(screen.getByTestId('cartRoute__link__catalog')).toHaveAttribute(
       'href',
       expect.stringContaining('/products'),
     );
   });
 
-  it('показывает список, очистку и оформление заказа', () => {
+  it('показывает список, очистку и оформление заказа', async () => {
     useCartRouteMock.mockReturnValue({
       items: [
         {
           id: '1',
-          title: 'Товар А',
+          title: 'Product A',
           price: 100,
           image: '',
         },
@@ -76,13 +76,13 @@ describe('CartRoute', () => {
     renderWithProviders(<CartRoute />);
 
     expect(
-      screen.getByTestId('cartRoute__link__productTitle'),
-    ).toHaveTextContent('Товар А');
+      await screen.findByTestId('cartRoute__link__productTitle'),
+    ).toHaveTextContent('Product A');
     expect(
       screen.getByTestId('cartRoute__button__clearCart'),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { name: 'Оформить заказ' }),
+      screen.getByRole('heading', { name: 'Checkout' }),
     ).toBeInTheDocument();
     expect(
       screen.getByTestId('cartRoute__button__placeOrder'),
@@ -107,6 +107,7 @@ describe('CartRoute', () => {
 
     renderWithProviders(<CartRoute />);
 
+    await screen.findByTestId('cartRoute__button__clearCart');
     await user.click(screen.getByTestId('cartRoute__button__clearCart'));
 
     await waitFor(() => {
@@ -132,6 +133,7 @@ describe('CartRoute', () => {
 
     renderWithProviders(<CartRoute />);
 
+    await screen.findByTestId('cartRoute__button__placeOrder');
     await user.click(screen.getByTestId('cartRoute__button__placeOrder'));
 
     expect(handleOrder).not.toHaveBeenCalled();
@@ -155,11 +157,12 @@ describe('CartRoute', () => {
 
     renderWithProviders(<CartRoute />);
 
+    await screen.findByTestId('cart__input__name');
     await user.type(screen.getByTestId('cart__input__name'), 'Иван');
     await user.type(screen.getByTestId('cart__input__email'), 'ivan@test.com');
     await user.type(
       screen.getByTestId('cart__input__pickupAddress'),
-      'ПВЗ ул. Тест, 1',
+      'Pickup point, Test st. 1',
     );
     await user.click(screen.getByTestId('cartRoute__button__placeOrder'));
 
@@ -167,7 +170,7 @@ describe('CartRoute', () => {
     expect(handleOrder).toHaveBeenCalledWith({
       name: 'Иван',
       email: 'ivan@test.com',
-      pickupAddress: 'ПВЗ ул. Тест, 1',
+      pickupAddress: 'Pickup point, Test st. 1',
     });
   });
 });

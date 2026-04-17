@@ -20,9 +20,9 @@ export const profileDeleteModalRegistryItem: ModalRegistryItem<'profileDelete'> 
       }
       return { email: candidate.email, userId: candidate.userId };
     },
-    fallbackContent: 'Не удалось загрузить данные для этой модалки.',
-    title: 'Удаление аккаунта',
-    description: 'Подтвердите удаление аккаунта.',
+    fallbackContent: 'Failed to load data for this modal.',
+    title: 'Delete account',
+    description: 'Confirm account deletion.',
     showContentCloseButton: true,
     showFooterCloseButton: false,
     dialogClassName: 'max-w-xl',

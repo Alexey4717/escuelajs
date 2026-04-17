@@ -17,7 +17,7 @@ export function useCartRoute() {
 
   async function handleOrder(data: CartCheckoutFormOutput) {
     await new Promise((r) => setTimeout(r, 1000));
-    toast.success(`Заказ оформлен (демо): ${data.email}`);
+    toast.success(`Order placed (demo): ${data.email}`);
     if (!isOnboardingDemoActive) {
       clearCart();
     }

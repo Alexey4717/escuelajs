@@ -41,7 +41,7 @@ export function useCreateSubmitHandler() {
     imageFiles,
   }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
     if (isAdminOnboardingCreateStep) {
-      toast.success('Демо-категория создана');
+      toast.success('Demo category created');
       router.replace(pagesPath.categories.$url().path);
       return imageFiles;
     }
@@ -53,13 +53,13 @@ export function useCreateSubmitHandler() {
     );
     filesState = uploadResult.files;
     if (uploadResult.hasUploadError) {
-      toast.error('Не удалось загрузить изображения');
+      toast.error('Failed to upload images');
       return filesState;
     }
 
     const image = firstUploadedFileUrl(filesState);
     if (!image) {
-      toast.error('Добавьте хотя бы одно изображение');
+      toast.error('Add at least one image');
       return filesState;
     }
 
@@ -78,7 +78,7 @@ export function useCreateSubmitHandler() {
 
       const createdCategoryId = data?.addCategory?.id;
       if (!createdCategoryId) {
-        throw new Error('Не удалось получить созданную категорию');
+        throw new Error('Failed to get created category');
       }
 
       await revalidateTagsAction({
@@ -92,13 +92,13 @@ export function useCreateSubmitHandler() {
         ],
       });
 
-      toast.success('Категория успешно создана');
+      toast.success('Category created successfully');
       router.replace(pagesPath.categories.$url().path);
       router.refresh();
       return filesState;
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось создать категорию');
+      toast.error('Failed to create category');
       return filesState;
     }
   }

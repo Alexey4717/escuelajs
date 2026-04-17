@@ -50,25 +50,25 @@ export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
     <div
       className="fixed inset-x-0 bottom-0 z-[10040] border-t border-border bg-popover/95 px-4 py-3 text-popover-foreground shadow-lg backdrop-blur supports-[backdrop-filter]:bg-popover/80"
       role="region"
-      aria-label="Обучение"
+      aria-label="Onboarding"
     >
       <div className="mx-auto flex max-w-3xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 space-y-1">
           <Typography variant="small" className="font-semibold">
-            {showGuest ? 'Интерактивное обучение магазину' : null}
-            {showAdmin ? 'Обучение администратора' : null}
+            {showGuest ? 'Interactive store onboarding' : null}
+            {showAdmin ? 'Admin onboarding' : null}
           </Typography>
           <Typography variant="muted" className="text-[12px]">
-            Сценарий на демо-данных, отдельно от вашей корзины.
+            Demo scenario runs separately from your actual cart.
             {isLoggedIn ? (
               <>
                 {' '}
-                Подробности и выбор шага — в{' '}
+                Details and step selection are available in your{' '}
                 <Link
                   href={pagesPath.profile.$url().path}
                   className="underline underline-offset-2"
                 >
-                  профиле
+                  profile
                 </Link>
                 .
               </>
@@ -96,8 +96,8 @@ export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
               }}
             >
               {guest.completedStepIndices.length > 0
-                ? 'Продолжить обучение'
-                : 'Начать обучение'}
+                ? 'Continue onboarding'
+                : 'Start onboarding'}
             </Button>
           ) : null}
           {showAdmin ? (
@@ -106,14 +106,14 @@ export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
               size="sm"
               onClick={() => startTour('admin', 0)}
             >
-              Начать обучение
+              Start onboarding
             </Button>
           ) : null}
           <Button
             type="button"
             size="icon"
             variant="ghost"
-            aria-label="Скрыть панель"
+            aria-label="Hide panel"
             onClick={() => {
               if (showGuest) dismissBottomBar('guest');
               if (showAdmin) dismissBottomBar('admin');

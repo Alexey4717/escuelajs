@@ -69,7 +69,7 @@ describe('useCartRoute', () => {
 
     expect(toastSuccessMock).toHaveBeenCalledTimes(1);
     expect(toastSuccessMock).toHaveBeenCalledWith(
-      'Заказ оформлен (демо): ivan@test.com',
+      'Order placed (demo): ivan@test.com',
     );
     expect(clearCartMock).toHaveBeenCalledTimes(1);
   });

@@ -4,10 +4,10 @@ import { emailSchema } from '@/shared/lib/form';
 
 export const contactUsFormSchema = object({
   name: string()
-    .min(1, 'Введите имя')
+    .min(1, 'Enter your name')
     .meta({
       formField: {
-        label: 'Имя',
+        label: 'Name',
         'data-testid': 'contactUs__input__name',
       },
     }),
@@ -18,10 +18,10 @@ export const contactUsFormSchema = object({
     },
   }),
   message: string()
-    .min(1, 'Введите сообщение')
+    .min(1, 'Enter your message')
     .meta({
       formField: {
-        label: 'Сообщение',
+        label: 'Message',
         'data-testid': 'contactUs__input__message',
       },
     }),

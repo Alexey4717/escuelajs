@@ -5,9 +5,9 @@ import { NotFoundPage } from '@/widgets/Page';
 export default function ProductNotFound() {
   return (
     <NotFoundPage
-      title="Товар"
+      title="Product"
       listHref={pagesPath.products.$url().path}
-      listLinkLabel="каталоге"
+      listLinkLabel="catalog"
     />
   );
 }

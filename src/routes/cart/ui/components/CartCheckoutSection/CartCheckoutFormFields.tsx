@@ -31,8 +31,9 @@ export function CartCheckoutFormFields({
           className="w-full shrink-0 sm:mb-0 sm:w-auto"
           data-testid="cartRoute__button__pickOnMap"
           data-onboarding={ONBOARDING_TARGET_IDS.cartPickOnMapButton}
+          aria-haspopup="dialog"
         >
-          Выбрать на карте
+          Choose on map
         </Button>
       </div>
       <Button
@@ -43,7 +44,7 @@ export function CartCheckoutFormFields({
         data-onboarding={ONBOARDING_TARGET_IDS.cartPlaceOrderButton}
         disabled={isSubmitting}
       >
-        Заказать
+        Place order
       </Button>
     </>
   );

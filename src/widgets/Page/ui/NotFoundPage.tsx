@@ -30,11 +30,11 @@ export const NotFoundPage = ({
       </div>
       <div className="flex max-w-lg flex-col gap-3">
         <Typography component="h1" variant="h2" className="text-balance">
-          Не найдено:{' '}
+          Not found:{' '}
           <span className="font-semibold text-foreground">{title}</span>
         </Typography>
         <Typography variant="muted" className="text-pretty leading-relaxed">
-          Возможно, запись была удалена или перемещена. Попробуйте найти её в{' '}
+          The item may have been deleted or moved. Try finding it in the{' '}
           <Link
             href={listHref}
             className={cn(

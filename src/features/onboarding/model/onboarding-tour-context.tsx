@@ -44,7 +44,9 @@ export function OnboardingTourProvider({ children }: PropsWithChildren) {
 export function useOnboardingTourContext(): UseOnboardingTourResult {
   const ctx = useContext(OnboardingTourContext);
   if (!ctx) {
-    throw new Error('useOnboardingTourContext вне OnboardingTourProvider');
+    throw new Error(
+      'useOnboardingTourContext must be used inside OnboardingTourProvider',
+    );
   }
   return ctx;
 }

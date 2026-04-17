@@ -52,7 +52,10 @@ export function Modal({
         footerProps={footerProps}
         showOverlay={showOverlay}
         showHandle={showHandle}
-        contentProps={preserveMounted ? { forceMount: true } : undefined}
+        contentProps={{
+          ...(preserveMounted ? { forceMount: true } : null),
+          'aria-modal': true,
+        }}
       >
         {children}
       </DynamicDrawer>
@@ -78,6 +81,7 @@ export function Modal({
       contentProps={{
         ...(preserveMounted ? { forceMount: true } : null),
         ...(dialogClassName ? { className: dialogClassName } : null),
+        'aria-modal': true,
       }}
     >
       {children}

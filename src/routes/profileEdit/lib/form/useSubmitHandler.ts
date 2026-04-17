@@ -60,7 +60,7 @@ export function useSubmitHandler() {
       } catch (error) {
         hasUploadError = true;
         const errorMessage =
-          error instanceof Error ? error.message : 'Не удалось загрузить файл';
+          error instanceof Error ? error.message : 'Failed to upload file';
         next[i] = {
           ...next[i],
           status: 'error',
@@ -98,7 +98,7 @@ export function useSubmitHandler() {
       const uploadResult = await uploadQueuedAvatarFiles(avatarFiles);
       filesState = uploadResult.files;
       if (uploadResult.hasUploadError) {
-        toast.error('Не удалось загрузить один или несколько файлов');
+        toast.error('Failed to upload one or more files');
         return filesState;
       }
     } finally {
@@ -133,21 +133,21 @@ export function useSubmitHandler() {
       });
 
       if (!data?.updateUser) {
-        throw new Error('Не удалось получить обновленные данные пользователя');
+        throw new Error('Failed to get updated user data');
       }
 
       await revalidateTagsAction({
         tags: [nextCacheTags.users, nextCacheTags.user(userId)],
         paths: [pagesPath.profile.$url().path, pagesPath.users.$url().path],
       });
-      toast.success('Профиль успешно обновлен');
+      toast.success('Profile updated successfully');
       router.replace(pagesPath.profile.$url().path);
       router.refresh();
 
       return filesState.filter((file) => file.status !== 'marked_for_removal');
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось обновить профиль');
+      toast.error('Failed to update profile');
       return filesState;
     }
   }

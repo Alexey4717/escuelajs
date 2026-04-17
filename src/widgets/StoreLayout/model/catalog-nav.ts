@@ -17,20 +17,20 @@ export type NavItem = {
 };
 
 const baseCatalog: NavItem[] = [
-  { href: pagesPath.$url().path, label: 'Главная', icon: Home },
+  { href: pagesPath.$url().path, label: 'Home', icon: Home },
   {
     href: pagesPath.products.$url().path,
-    label: 'Продукты',
+    label: 'Products',
     icon: Package,
   },
   {
     href: pagesPath.categories.$url().path,
-    label: 'Категории',
+    label: 'Categories',
     icon: FolderTree,
   },
   {
     href: pagesPath.users.$url().path,
-    label: 'Пользователи',
+    label: 'Users',
     icon: Users,
   },
 ];
@@ -44,7 +44,7 @@ export function getCatalogNav(role: Role | null): NavItem[] {
     ...baseCatalog,
     {
       href: pagesPath.admin_panel.$url().path,
-      label: 'Админка',
+      label: 'Admin panel',
       icon: Settings,
     },
   ];

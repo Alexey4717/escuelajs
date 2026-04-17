@@ -18,7 +18,10 @@ export function ComboboxTrigger({
       {...props}
     >
       {children}
-      <ChevronDownIcon className="pointer-events-none size-4 text-muted-foreground" />
+      <ChevronDownIcon
+        className="pointer-events-none size-4 text-muted-foreground"
+        aria-hidden
+      />
     </ComboboxPrimitive.Trigger>
   );
 }

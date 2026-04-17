@@ -25,9 +25,7 @@ export const pickupPointMapModalRegistryItem: ModalRegistryItem<'pickupPointMap'
     },
     showContentCloseButton: false,
     showFooterCloseButton: false,
-    title: 'Выбор пункта выдачи на карте',
-    description: 'Выберите точку самовывоза из списка доступных локаций.',
     dialogClassName:
-      'top-0 left-0 h-dvh w-screen max-w-none -translate-x-0 -translate-y-0 rounded-none border-0 p-0 sm:max-w-none [&>[data-slot=dialog-header]]:hidden',
+      'top-0 left-0 h-dvh w-screen max-w-none -translate-x-0 -translate-y-0 rounded-none border-0 p-0 sm:max-w-none',
     forceDesktop: true,
   };

@@ -9,7 +9,7 @@ describe('Skeleton', () => {
 
     const skeleton = container.querySelector('[data-slot="skeleton"]');
     expect(skeleton).not.toBeNull();
-    expect(skeleton).toHaveClass('animate-pulse');
+    expect(skeleton).toHaveAttribute('data-slot', 'skeleton');
   });
 
   it('wraps children and shows overlay while loading', () => {

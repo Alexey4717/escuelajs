@@ -12,9 +12,9 @@ import { USERS_LIST_LIMIT, UsersLoadPage, UsersRoute } from '@/routes/users';
 
 const USERS_REVALIDATE_SEC = 120;
 
-const title = 'Пользователи';
+const title = 'Users';
 const description =
-  'Список пользователей Escuela: имена, email, роли. Поиск по каталогу учётных записей.';
+  'Escuela users list: names, emails, and roles. Browse registered accounts.';
 
 /**
  * Список пользователей на API меняется чаще, чем справочники (добавления несколько раз в день).

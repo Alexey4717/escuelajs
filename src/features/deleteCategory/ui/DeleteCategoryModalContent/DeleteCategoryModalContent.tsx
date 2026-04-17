@@ -32,8 +32,8 @@ export function DeleteCategoryModalContent({
         component="p"
         className="text-muted-foreground"
       >
-        Не удалось проверить наличие товаров в категории. Попробуйте снова
-        позже.
+        Failed to verify whether this category still contains products. Please
+        try again later.
       </Typography>
     );
   }
@@ -45,18 +45,18 @@ export function DeleteCategoryModalContent({
         component="p"
         className="text-muted-foreground"
       >
-        Категорию <strong className="text-foreground">{categoryName}</strong>{' '}
-        нельзя удалить: в ней есть товары. Сначала удалите все товары этой
-        категории, затем повторите удаление.
+        Category <strong className="text-foreground">{categoryName}</strong>{' '}
+        cannot be deleted because it still contains products. Remove all
+        products in this category first, then try again.
       </Typography>
     );
   }
 
   return (
     <Typography variant="body2" component="p" className="text-muted-foreground">
-      Вы действительно хотите удалить категорию{' '}
-      <strong className="text-foreground">{categoryName}</strong>? Это действие
-      необратимо.
+      Are you sure you want to delete category{' '}
+      <strong className="text-foreground">{categoryName}</strong>? This action
+      cannot be undone.
     </Typography>
   );
 }

@@ -7,13 +7,13 @@ export const UsersTableHeader = () => (
         scope="col"
         className="w-16 min-w-16 max-w-16 py-3 pl-4 pr-2 align-middle"
       >
-        <span className="sr-only">Аватар</span>
+        <span className="sr-only">Avatar</span>
       </TableHead>
       <TableHead
         scope="col"
         className="px-4 py-3 text-left text-[11px] font-semibold tracking-wide uppercase text-muted-foreground"
       >
-        Имя
+        Name
       </TableHead>
       <TableHead
         scope="col"
@@ -25,13 +25,13 @@ export const UsersTableHeader = () => (
         scope="col"
         className="px-4 py-3 text-[11px] font-semibold tracking-wide uppercase text-muted-foreground whitespace-nowrap"
       >
-        Создан
+        Created
       </TableHead>
       <TableHead
         scope="col"
         className="px-4 py-3 text-[11px] font-semibold tracking-wide uppercase text-muted-foreground"
       >
-        Роль
+        Role
       </TableHead>
     </TableRow>
   </TableHeader>

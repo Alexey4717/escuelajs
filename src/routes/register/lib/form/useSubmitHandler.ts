@@ -48,7 +48,7 @@ export const useSubmitHandler = () => {
         variables: { email: email.trim(), password },
       });
 
-      toast.success('Регистрация выполнена успешно');
+      toast.success('Registration completed successfully');
       router.push(redirectTo);
       router.refresh();
     } catch (err) {

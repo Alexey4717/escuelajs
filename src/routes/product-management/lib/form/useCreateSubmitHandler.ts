@@ -41,7 +41,7 @@ export function useCreateSubmitHandler() {
     imageFiles,
   }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
     if (isAdminOnboardingCreateStep) {
-      toast.success('Демо-товар создан');
+      toast.success('Demo product created');
       router.replace(pagesPath.products.$url().path);
       return imageFiles;
     }
@@ -53,13 +53,13 @@ export function useCreateSubmitHandler() {
     );
     filesState = uploadResult.files;
     if (uploadResult.hasUploadError) {
-      toast.error('Не удалось загрузить одно или несколько изображений');
+      toast.error('Failed to upload one or more images');
       return filesState;
     }
 
     const images = collectUploadedFileUrls(filesState);
     if (images.length === 0) {
-      toast.error('Добавьте хотя бы одно изображение');
+      toast.error('Add at least one image');
       return filesState;
     }
 
@@ -81,7 +81,7 @@ export function useCreateSubmitHandler() {
 
       const createdProductId = data?.addProduct?.id;
       if (!createdProductId) {
-        throw new Error('Не удалось получить созданный товар');
+        throw new Error('Failed to get created product');
       }
 
       await revalidateTagsAction({
@@ -93,13 +93,13 @@ export function useCreateSubmitHandler() {
         ],
       });
 
-      toast.success('Товар успешно создан');
+      toast.success('Product created successfully');
       router.replace(pagesPath.products.$url().path);
       router.refresh();
       return filesState;
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось создать товар');
+      toast.error('Failed to create product');
       return filesState;
     }
   }

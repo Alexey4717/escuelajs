@@ -34,7 +34,7 @@ export const CategoriesRoute = () => {
     !shouldShowSingleDemoCategory && loading && data == null;
 
   return (
-    <Page heading="Категории">
+    <Page heading="Categories">
       <div data-onboarding={ONBOARDING_TARGET_IDS.categoriesList}>
         {isInitialLoading ? (
           <CategoriesSkeletonGrid ariaHidden />
@@ -47,7 +47,9 @@ export const CategoriesRoute = () => {
             ))}
           </ul>
         ) : (
-          <Typography variant="muted">Категории пока недоступны.</Typography>
+          <Typography variant="muted">
+            Categories are not available yet.
+          </Typography>
         )}
       </div>
     </Page>

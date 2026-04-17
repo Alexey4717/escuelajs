@@ -28,12 +28,12 @@ export const useSubmitHandler = () => {
       await login({
         variables: { email: email.trim(), password },
       });
-      toast.success('Вход выполнен успешно');
+      toast.success('Signed in successfully');
       router.push(redirectTo);
       router.refresh();
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось выполнить вход');
+      toast.error('Sign in failed');
     }
   }
 

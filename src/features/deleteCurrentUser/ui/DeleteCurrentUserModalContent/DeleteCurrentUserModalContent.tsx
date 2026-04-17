@@ -47,8 +47,8 @@ export function DeleteCurrentUserModalContent({
         component="p"
         className="text-muted-foreground"
       >
-        Вы действительно хотите удалить аккаунт <strong>{email}</strong>? Это
-        действие необратимо.
+        Are you sure you want to delete account <strong>{email}</strong>? This
+        action cannot be undone.
       </Typography>
 
       <Form
@@ -57,7 +57,7 @@ export function DeleteCurrentUserModalContent({
         onSubmit={handleSubmit}
         className="space-y-4"
       >
-        <DeleteCurrentUserReasonField placeholder="Например: хочу создать новый аккаунт" />
+        <DeleteCurrentUserReasonField placeholder="For example: I want to create a new account" />
       </Form>
     </div>
   );

@@ -67,7 +67,7 @@ export function FilesBoxAttachSection({
         onClick={() => fileInputRef.current?.click()}
       >
         <UploadIcon />
-        Прикрепить файл
+        Attach file
       </Button>
       <FieldDescription
         id={uploadHintId}

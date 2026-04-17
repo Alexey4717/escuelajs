@@ -3,7 +3,7 @@ import { input, object, output, string } from 'zod/v4';
 export const deleteCurrentUserFormSchema = object({
   reason: string().meta({
     formField: {
-      label: 'Причина удаления',
+      label: 'Reason for deletion',
     },
   }),
 });

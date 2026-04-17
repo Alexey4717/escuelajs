@@ -9,13 +9,13 @@ interface FormShellFooterProps {
 export const FormShellFooter = ({ registerHref }: FormShellFooterProps) => {
   return (
     <Typography variant="muted" align="center" className="text-[11px]">
-      Нет аккаунта?{' '}
+      Don&apos;t have an account?{' '}
       <Link
         href={registerHref}
         className="font-medium text-primary underline-offset-2 transition-colors hover:underline"
         prefetch
       >
-        Зарегистрироваться →
+        Sign up →
       </Link>
     </Typography>
   );

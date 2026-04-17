@@ -30,7 +30,7 @@ export function LogoutButton({ className }: LogoutButtonProps) {
       className={cn(logoutButtonClassName, className)}
       onClick={logout}
     >
-      Выйти
+      Sign out
     </button>
   );
 }

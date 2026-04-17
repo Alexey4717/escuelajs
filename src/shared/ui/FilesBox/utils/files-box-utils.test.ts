@@ -27,14 +27,14 @@ describe('files-box-utils', () => {
 
     expect(result.validFiles).toHaveLength(1);
     expect(result.errors).toEqual([
-      'document.pdf: PDF-файлы не поддерживаются',
+      'document.pdf: PDF files are not supported',
     ]);
   });
 
   it('formats file size for display', () => {
     expect(formatFileSize(0)).toBe('—');
-    expect(formatFileSize(512)).toMatch(/КБ$/);
-    expect(formatFileSize(2 * 1024 * 1024)).toBe('2 МБ');
+    expect(formatFileSize(512)).toMatch(/KB$/);
+    expect(formatFileSize(2 * 1024 * 1024)).toBe('2 MB');
   });
 
   it('detects when active files exceed configured max', () => {

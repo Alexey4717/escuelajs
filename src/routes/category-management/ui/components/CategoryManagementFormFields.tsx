@@ -15,9 +15,9 @@ export function CategoryManagementFormFields({
 }: CategoryManagementFormFieldsProps) {
   return (
     <>
-      <CategoryNameField placeholder="Например, Clothes" />
+      <CategoryNameField placeholder="For example, Clothes" />
       <FilesBox
-        label="Изображение категории"
+        label="Category image"
         maxFiles={CATEGORY_IMAGE_FILES_MAX}
         accept="image/*"
         maxFileSizeMb={5}

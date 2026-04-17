@@ -38,7 +38,7 @@ export function DeleteCategoryModalFooter({
         className="w-full sm:w-auto"
         data-testid="deleteCategory__button__closeModal"
       >
-        Отмена
+        Cancel
       </Button>
       {showDeleteButton ? (
         <Button
@@ -49,7 +49,7 @@ export function DeleteCategoryModalFooter({
           onClick={handleDelete}
           data-testid="deleteCategory__button__deleteCategory"
         >
-          {deleteLoading ? 'Удаление' : 'Удалить'}
+          {deleteLoading ? 'Deleting' : 'Delete'}
         </Button>
       ) : null}
     </div>

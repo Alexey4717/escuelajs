@@ -54,10 +54,10 @@ export function ProductDetailAdminActions({
         data-testid="productDetail__link__editProduct"
       >
         {isOnboardingFinalStep ? (
-          <span>Редактировать</span>
+          <span>Edit</span>
         ) : (
           <Link href={pagesPath.products._id(productId).edit.$url().path}>
-            Редактировать
+            Edit
           </Link>
         )}
       </Button>
@@ -65,13 +65,14 @@ export function ProductDetailAdminActions({
         type="button"
         variant="destructive"
         size="sm"
+        aria-haspopup="dialog"
         onClick={
           isOnboardingFinalStep ? undefined : handleOpenDeleteProductModal
         }
         disabled={isOnboardingFinalStep}
         data-testid="productDetail__button__openDeleteProductModal"
       >
-        Удалить
+        Delete
       </Button>
     </div>
   );

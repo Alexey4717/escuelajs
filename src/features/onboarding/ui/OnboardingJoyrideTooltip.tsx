@@ -37,6 +37,7 @@ export function OnboardingJoyrideTooltip({
         )}
         <button
           {...closeProps}
+          aria-label="Close onboarding"
           className={cn(
             'inline-flex size-8 items-center justify-center rounded-md border border-transparent text-muted-foreground transition',
             'hover:border-border hover:text-foreground',

@@ -31,9 +31,9 @@ const ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS: Record<string, string> = {
 };
 export const ONBOARDING_DEMO_FILTER_TITLE = 'classic';
 export const ONBOARDING_DEMO_CHECKOUT = {
-  name: 'Демо Покупатель',
+  name: 'Demo Customer',
   email: 'onboarding@example.com',
-  pickupAddress: 'ПВЗ: Демо-точка (55.751244, 37.618423)',
+  pickupAddress: 'Pickup point: Demo location (55.751244, 37.618423)',
 } as const;
 
 export const ONBOARDING_ADMIN_DEMO_CATEGORY_FORM = {
@@ -184,7 +184,7 @@ export function makeOnboardingProductDetails(
     price: product.price,
     description:
       ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS[product.id] ??
-      'Описание демо-товара для обучения.',
+      'Demo product description for onboarding.',
     images: product.images,
     creationAt: '2026-04-16T02:43:00.000Z',
     updatedAt: '2026-04-16T02:43:00.000Z',

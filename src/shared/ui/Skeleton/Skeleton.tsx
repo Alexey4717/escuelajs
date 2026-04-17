@@ -8,6 +8,7 @@ interface SkeletonProps extends Omit<ComponentProps<'div'>, 'children'> {
   containerClassName?: string;
 }
 
+/** Пульсация: `skeleton-pulse` в globals.css на `[data-slot='skeleton']` (вне @layer). */
 export const Skeleton = ({
   className,
   loading = true,
@@ -32,7 +33,7 @@ export const Skeleton = ({
           <div
             data-slot="skeleton"
             className={cn(
-              'absolute inset-0 animate-pulse rounded-[inherit] bg-muted',
+              'absolute inset-0 rounded-[inherit] bg-muted',
               className,
             )}
             {...props}
@@ -45,7 +46,7 @@ export const Skeleton = ({
   return (
     <div
       data-slot="skeleton"
-      className={cn('animate-pulse rounded-md bg-muted', className)}
+      className={cn('rounded-md bg-muted', className)}
       {...props}
     />
   );

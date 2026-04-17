@@ -5,9 +5,9 @@ import { NotFoundPage } from '@/widgets/Page';
 export default function CategoryNotFound() {
   return (
     <NotFoundPage
-      title="Категория"
+      title="Category"
       listHref={pagesPath.categories.$url().path}
-      listLinkLabel="списке категорий"
+      listLinkLabel="categories list"
     />
   );
 }

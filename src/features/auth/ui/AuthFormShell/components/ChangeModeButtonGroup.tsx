@@ -32,7 +32,7 @@ export const ChangeModeButtonGroup = ({
             className={authTabActiveButtonClassName}
             asChild
           >
-            <span aria-current="page">Вход</span>
+            <span aria-current="page">Sign in</span>
           </Button>
           <Button
             variant="outline"
@@ -41,7 +41,7 @@ export const ChangeModeButtonGroup = ({
             asChild
           >
             <Link href={registerHref} prefetch>
-              Регистрация
+              Sign up
             </Link>
           </Button>
         </>
@@ -54,7 +54,7 @@ export const ChangeModeButtonGroup = ({
             asChild
           >
             <Link href={loginHref} prefetch>
-              Вход
+              Sign in
             </Link>
           </Button>
           <Button
@@ -63,7 +63,7 @@ export const ChangeModeButtonGroup = ({
             className={authTabActiveButtonClassName}
             asChild
           >
-            <span aria-current="page">Регистрация</span>
+            <span aria-current="page">Sign up</span>
           </Button>
         </>
       )}

@@ -12,9 +12,9 @@ export function DeleteProductModalContent({
 }: DeleteProductModalContentProps) {
   return (
     <Typography variant="body2" component="p" className="text-muted-foreground">
-      Вы действительно хотите удалить товар{' '}
-      <strong className="text-foreground">{productTitle}</strong>? Это действие
-      необратимо.
+      Are you sure you want to delete product{' '}
+      <strong className="text-foreground">{productTitle}</strong>? This action
+      cannot be undone.
     </Typography>
   );
 }

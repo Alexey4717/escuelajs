@@ -15,12 +15,12 @@ export function ClearCartButton({
       variant="outline"
       size="sm"
       className="text-muted-foreground hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
-      aria-label="Очистить корзину"
+      aria-label="Clear cart"
       disabled={disabled}
       onClick={onClear}
       data-testid="cartRoute__button__clearCart"
     >
-      Очистить корзину
+      Clear cart
     </Button>
   );
 }

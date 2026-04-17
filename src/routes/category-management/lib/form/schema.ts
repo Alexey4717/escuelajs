@@ -2,10 +2,10 @@ import { input, object, output, string } from 'zod/v4';
 
 export const categoryFormSchema = object({
   name: string()
-    .min(1, 'Введите название категории')
+    .min(1, 'Enter category name')
     .meta({
       formField: {
-        label: 'Название',
+        label: 'Title',
         'data-testid': 'categoryForm__input__name',
       },
     }),

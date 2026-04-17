@@ -69,7 +69,7 @@ export const UsersTableBody = ({ users }: UsersTableBodyProps) => (
     ) : (
       <TableRow className="hover:bg-transparent">
         <TableCell colSpan={5} className="px-4 py-10 text-center">
-          <Typography variant="muted">Пользователи пока недоступны.</Typography>
+          <Typography variant="muted">Users are not available yet.</Typography>
         </TableCell>
       </TableRow>
     )}

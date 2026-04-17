@@ -19,10 +19,10 @@ export const HomeProducts = ({ products }: HomeProductsProps) => {
     <section aria-labelledby="home-featured-heading" className="space-y-5">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <Typography id="home-featured-heading" variant="h2" gutterBottom>
-          Самые популярные товары
+          Most popular products
         </Typography>
         <Button asChild variant="secondary">
-          <Link href={pagesPath.products.$url().path}>Все товары</Link>
+          <Link href={pagesPath.products.$url().path}>All products</Link>
         </Button>
       </div>
 
@@ -49,12 +49,12 @@ export const HomeProducts = ({ products }: HomeProductsProps) => {
         </ul>
       ) : (
         <Typography variant="muted">
-          Товары пока недоступны — загляните позже или откройте{' '}
+          Products are not available right now. Please check back later or open{' '}
           <Link
             href={pagesPath.categories.$url().path}
             className="text-foreground underline-offset-4 hover:underline"
           >
-            категории
+            categories
           </Link>
           .
         </Typography>

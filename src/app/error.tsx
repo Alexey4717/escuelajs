@@ -30,13 +30,13 @@ export default function AppError({ error, reset }: AppErrorProps) {
           <AlertTriangle className="h-7 w-7" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
-          <Typography variant="overline">Ошибка</Typography>
+          <Typography variant="overline">Error</Typography>
           <Typography component="h1" className="text-foreground">
-            Что-то пошло не так
+            Something went wrong
           </Typography>
           <Typography variant="muted" className="text-pretty leading-relaxed">
-            Произошла непредвиденная ошибка. Попробуйте обновить страницу или
-            вернуться на главную.
+            An unexpected error occurred. Try refreshing the page or returning
+            to the home page.
           </Typography>
           {process.env.NODE_ENV === 'development' && error.digest ? (
             <Typography
@@ -49,10 +49,10 @@ export default function AppError({ error, reset }: AppErrorProps) {
         </div>
         <div className="flex flex-wrap items-center justify-center gap-3">
           <Button type="button" onClick={() => reset()}>
-            Попробовать снова
+            Try again
           </Button>
           <Button asChild variant="outline">
-            <Link href={pagesPath.$url().path}>На главную</Link>
+            <Link href={pagesPath.$url().path}>Home</Link>
           </Button>
         </div>
       </div>

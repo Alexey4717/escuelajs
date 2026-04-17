@@ -38,17 +38,18 @@ export function CategoryDetailAdminActions({
         data-testid="categoryDetail__link__editCategory"
       >
         <Link href={pagesPath.categories._id(categoryId).edit.$url().path}>
-          Редактировать
+          Edit
         </Link>
       </Button>
       <Button
         type="button"
         variant="destructive"
         size="sm"
+        aria-haspopup="dialog"
         onClick={handleOpenDeleteCategoryModal}
         data-testid="categoryDetail__button__openDeleteCategoryModal"
       >
-        Удалить
+        Delete
       </Button>
     </>
   );

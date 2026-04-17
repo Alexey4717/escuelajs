@@ -16,7 +16,7 @@ export const ContactUsSubmitButton = () => {
       loading={busy}
       data-testid="contact-us__button__submit"
     >
-      {busy ? 'Отправка' : 'Отправить'}
+      {busy ? 'Sending' : 'Send'}
     </Button>
   );
 };

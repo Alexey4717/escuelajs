@@ -27,7 +27,7 @@ export function useChangeCurrentPasswordSubmitHandler() {
   }: ChangeCurrentPasswordArgs) {
     try {
       if (!userId) {
-        throw new Error('Ошибка определения ID текущего пользователя');
+        throw new Error('Unable to resolve current user id');
       }
 
       await updateUser({
@@ -47,11 +47,11 @@ export function useChangeCurrentPasswordSubmitHandler() {
         },
       });
 
-      toast.success('Пароль успешно изменен');
+      toast.success('Password changed successfully');
       onSuccess?.();
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось изменить пароль');
+      toast.error('Failed to change password');
     }
   }
 

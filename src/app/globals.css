@@ -126,6 +126,34 @@
 }
 
 /*
+  Индикатор загрузки: правило вне @layer, иначе при prefers-reduced-motion
+  неслойный сброс `*` перебивает утилиту `.animate-spin` из @layer utilities.
+ */
+@keyframes spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  animation: spinner-rotate 1s linear infinite !important;
+}
+
+/* Как у .spinner-root: animate-pulse из @layer utilities теряется к неслойному сбросу в prefers-reduced-motion. */
+@keyframes skeleton-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+[data-slot='skeleton'] {
+  animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite !important;
+}
+
+/*
   ---break---
  */
 @custom-variant dark (&:is(.dark *));
@@ -332,4 +360,37 @@
     height: 0;
   }
   /* stylelint-enable csstools/use-logical */
+}
+
+/* Для увеличения доступности пользователям с эпилепсиями и прочими расстройствами */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-cart-icon-pulse,
+  .animate-cart-badge-exit,
+  .animate-cart-item-enter,
+  .animate-cart-item-exit {
+    animation: none !important;
+  }
+
+  /*
+    Глобальный сброс выше с !important намеренно глушит любые анимации, но
+    перебивает и длительность/повтор из `animation` у утилит из @layer utilities
+    (например animate-spin). Скелетон: см. неслойное `[data-slot='skeleton']` выше.
+  */
+  .animate-spin,
+  .spinner-root {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
+  }
 }

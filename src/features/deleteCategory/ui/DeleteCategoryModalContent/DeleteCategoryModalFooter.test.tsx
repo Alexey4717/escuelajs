@@ -23,7 +23,7 @@ vi.mock('../../api/use-delete-category-submit-handler', () => ({
 
 const defaultProps = {
   categoryId: '42',
-  categoryName: 'Книги',
+  categoryName: 'Books',
   closeModal: vi.fn(),
 } as const;
 
@@ -97,9 +97,9 @@ describe('DeleteCategoryModalFooter', () => {
 
     expect(
       screen.getByTestId('deleteCategory__button__deleteCategory'),
-    ).toHaveAccessibleName('Удалить');
+    ).toHaveAccessibleName('Delete');
     expect(
       screen.getByTestId('deleteCategory__button__closeModal'),
-    ).toHaveAccessibleName('Отмена');
+    ).toHaveAccessibleName('Cancel');
   });
 });

@@ -125,7 +125,7 @@ function CartCheckoutSectionReady({
     >
       <button
         type="button"
-        aria-label="Изменить высоту панели оформления"
+        aria-label="Resize checkout panel"
         className="flex touch-none cursor-row-resize select-none items-center justify-center py-2"
         onClick={mobilePanel.handlePanelToggle}
         onPointerDown={mobilePanel.handlePointerDown}

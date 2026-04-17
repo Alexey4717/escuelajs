@@ -9,7 +9,7 @@ import {
 describe('files schema', () => {
   it('rejects pdf file', () => {
     const pdf = new File(['pdf'], 'doc.pdf', { type: 'application/pdf' });
-    expect(validateImageFile(pdf)).toBe('PDF-файлы не поддерживаются');
+    expect(validateImageFile(pdf)).toBe('PDF files are not supported');
   });
 
   it('rejects oversized image file', () => {
@@ -18,7 +18,7 @@ describe('files schema', () => {
     });
 
     expect(validateImageFile(bigFile, { maxFileSizeMb: 5 })).toBe(
-      'Максимальный размер файла: 5MB',
+      'Maximum file size: 5MB',
     );
   });
 

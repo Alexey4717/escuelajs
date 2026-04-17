@@ -35,7 +35,7 @@ export function AuthFormShell({
           href={pagesPath.$url().path}
           className="absolute left-0 -top-10 z-10 inline-flex text-[13px] text-muted-foreground transition-colors hover:text-foreground"
         >
-          ← На главную
+          ← Back to home
         </Link>
 
         <div className="rounded-[14px] border border-border bg-card p-7 shadow-sm">

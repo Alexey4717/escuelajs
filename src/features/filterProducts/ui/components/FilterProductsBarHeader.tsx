@@ -30,7 +30,7 @@ export function FilterProductsBarHeader({
         variant="h2"
         className="text-base font-semibold"
       >
-        Фильтры
+        Filters
       </Typography>
       <Button
         type="button"
@@ -40,7 +40,7 @@ export function FilterProductsBarHeader({
         onClick={onReset}
         disabled={!filtersActive}
       >
-        Сбросить фильтры
+        Reset filters
       </Button>
     </div>
   );

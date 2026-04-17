@@ -68,13 +68,13 @@ function ChangeCurrentPasswordFormInner({
           <CurrentPasswordField
             type="password"
             autoComplete="current-password"
-            placeholder="Текущий пароль"
+            placeholder="Current password"
             disabled={fieldsDisabled}
           />
           <NewPasswordField
             type="password"
             autoComplete="new-password"
-            placeholder="Новый пароль"
+            placeholder="New password"
             disabled={fieldsDisabled}
           />
         </div>
@@ -86,7 +86,7 @@ function ChangeCurrentPasswordFormInner({
           size="lg"
           data-testid="changeCurrentPassword__button__submit"
         >
-          {loading ? 'Сохранение' : 'Сохранить'}
+          {loading ? 'Saving' : 'Save'}
         </Button>
       </div>
     </Form>
@@ -103,7 +103,7 @@ export function ChangeCurrentPasswordCard() {
   const formInstanceKey = `${userId ?? ''}:${profilePassword ?? 'pending'}`;
 
   return (
-    <Card title="Сменить пароль" className="shadow-sm ring-border/60">
+    <Card title="Change password" className="shadow-sm ring-border/60">
       <ChangeCurrentPasswordFormInner
         key={formInstanceKey}
         profilePassword={profilePassword}

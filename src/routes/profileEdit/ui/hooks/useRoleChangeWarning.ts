@@ -1,9 +1,9 @@
 import type { Role } from '@/shared/api/generated/graphql';
 
 const roleChangedToAdminMessage =
-  'У вас появится право на управление продуктами и категориями';
+  'You will gain permissions to manage products and categories';
 const roleChangedToCustomerMessage =
-  'У вас исчезнет право на управление продуктами и категориями';
+  'You will lose permissions to manage products and categories';
 
 export function useRoleChangeWarning({
   currentRole,

@@ -13,7 +13,7 @@ vi.mock('../../api/use-delete-category-products-guard', () => ({
 
 const defaultProps = {
   categoryId: '42',
-  categoryName: 'Книги',
+  categoryName: 'Books',
   closeModal: vi.fn(),
 } as const;
 
@@ -34,7 +34,7 @@ describe('DeleteCategoryModalContent', () => {
 
     expect(screen.getByRole('status')).toBeInTheDocument();
     expect(
-      screen.queryByText(/Вы действительно хотите удалить категорию/i),
+      screen.queryByText(/Are you sure you want to delete category/i),
     ).not.toBeInTheDocument();
   });
 
@@ -49,7 +49,9 @@ describe('DeleteCategoryModalContent', () => {
     renderWithProviders(<DeleteCategoryModalContent {...defaultProps} />);
 
     expect(
-      screen.getByText(/Не удалось проверить наличие товаров в категории/i),
+      screen.getByText(
+        /Failed to verify whether this category still contains products/i,
+      ),
     ).toBeInTheDocument();
   });
 
@@ -64,11 +66,11 @@ describe('DeleteCategoryModalContent', () => {
     renderWithProviders(<DeleteCategoryModalContent {...defaultProps} />);
 
     expect(
-      screen.getByText(/нельзя удалить: в ней есть товары/i),
+      screen.getByText(/cannot be deleted because it still contains products/i),
     ).toBeInTheDocument();
-    expect(screen.getByText('Книги')).toBeInTheDocument();
+    expect(screen.getByText('Books')).toBeInTheDocument();
     expect(
-      screen.queryByText(/Вы действительно хотите удалить категорию/i),
+      screen.queryByText(/Are you sure you want to delete category/i),
     ).not.toBeInTheDocument();
   });
 
@@ -83,10 +85,12 @@ describe('DeleteCategoryModalContent', () => {
     renderWithProviders(<DeleteCategoryModalContent {...defaultProps} />);
 
     expect(
-      screen.getByText(/Вы действительно хотите удалить категорию/i),
+      screen.getByText(/Are you sure you want to delete category/i),
     ).toBeInTheDocument();
     expect(
-      screen.queryByText(/нельзя удалить: в ней есть товары/i),
+      screen.queryByText(
+        /cannot be deleted because it still contains products/i,
+      ),
     ).not.toBeInTheDocument();
   });
 
@@ -101,11 +105,13 @@ describe('DeleteCategoryModalContent', () => {
     renderWithProviders(<DeleteCategoryModalContent {...defaultProps} />);
 
     expect(
-      screen.getByText(/Вы действительно хотите удалить категорию/i),
+      screen.getByText(/Are you sure you want to delete category/i),
     ).toBeInTheDocument();
-    expect(screen.getByText('Книги')).toBeInTheDocument();
+    expect(screen.getByText('Books')).toBeInTheDocument();
     expect(
-      screen.queryByText(/нельзя удалить: в ней есть товары/i),
+      screen.queryByText(
+        /cannot be deleted because it still contains products/i,
+      ),
     ).not.toBeInTheDocument();
   });
 });

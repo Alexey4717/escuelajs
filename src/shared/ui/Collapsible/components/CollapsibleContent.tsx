@@ -7,14 +7,14 @@ import { COLLAPSIBLE_SLOT } from '../constants';
 import type { CollapsibleContentProps } from '../types';
 
 /**
- * Анимируемая область контента. Рендерится рядом с `CollapsibleTrigger` внутри `CollapsibleRoot`.
+ * Animated content region. Renders next to `CollapsibleTrigger` inside `CollapsibleRoot`.
  *
  * @example
  * ```tsx
  * <CollapsibleRoot defaultOpen>
- *   <CollapsibleTrigger>Секция</CollapsibleTrigger>
+ *   <CollapsibleTrigger>Section</CollapsibleTrigger>
  *   <CollapsibleContent className="pt-0">
- *     <p>Основной текст</p>
+ *     <p>Main content</p>
  *   </CollapsibleContent>
  * </CollapsibleRoot>
  * ```

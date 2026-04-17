@@ -2,42 +2,42 @@ import { input, object, output, string } from 'zod/v4';
 
 export const productFormSchema = object({
   title: string()
-    .min(1, 'Введите название товара')
+    .min(1, 'Enter product title')
     .meta({
       formField: {
-        label: 'Название',
+        label: 'Title',
         'data-testid': 'productForm__input__title',
       },
     }),
   price: string()
-    .min(1, 'Введите цену')
-    .refine((value) => Number(value) > 0, 'Цена должна быть больше 0')
+    .min(1, 'Enter price')
+    .refine((value) => Number(value) > 0, 'Price must be greater than 0')
     .meta({
       formField: {
-        label: 'Цена',
+        label: 'Price',
         'data-testid': 'productForm__input__price',
       },
     }),
   description: string()
-    .min(1, 'Введите описание')
+    .min(1, 'Enter description')
     .meta({
       formField: {
-        label: 'Описание',
+        label: 'Description',
         'data-testid': 'productForm__input__description',
       },
     }),
   categoryId: string()
-    .min(1, 'Выберите категорию')
+    .min(1, 'Select category')
     .refine(
       (value) => Number.isInteger(Number(value)) && Number(value) > 0,
-      'Укажите корректную категорию',
+      'Specify a valid category',
     )
     .meta({
       // для категорий опции приходят из API
       // в `ProductManagementCategoryField` и передаются в props
       formField: {
-        label: 'Категория',
-        placeholder: 'Выберите категорию…',
+        label: 'Category',
+        placeholder: 'Select category…',
         'data-testid': 'productForm__input__categoryId',
       },
     }),

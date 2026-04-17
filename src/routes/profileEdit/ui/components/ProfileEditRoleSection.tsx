@@ -30,7 +30,7 @@ export function ProfileEditRoleSection() {
       <ProfileEditRoleField />
       {roleChangeMessage ? (
         <Alert
-          title="Изменение доступа"
+          title="Access level change"
           description={roleChangeMessage}
           icon={<AlertTriangle className="h-4 w-4" />}
           className="mt-2"

@@ -3,12 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { CART_LIST_ITEM_ANIMATION_MS } from '@/shared/lib/animations/cart-list';
+import { useIsClient } from '@/shared/lib/hooks/use-is-client';
 import { ScrollArea } from '@/shared/ui/ScrollArea/ScrollArea';
 
 import { Page } from '@/widgets/Page';
 
 import { CART_PAGE_HEADING } from '../lib/constants';
 import { useCartRoute } from '../lib/hooks/useCartRoute';
+import { CartPageLoading } from './CartPageLoading';
 import { CartCheckoutSection } from './components/CartCheckoutSection/CartCheckoutSection';
 import { CartEmptyState } from './components/CartEmptyState';
 import { CartItemsList } from './components/CartItemsList';
@@ -16,6 +18,7 @@ import { CartItemsList } from './components/CartItemsList';
 export function CartRoute() {
   const { items, removeItemByProductId, handleOrder, clearCart } =
     useCartRoute();
+  const hasMounted = useIsClient();
   const [bulkExiting, setBulkExiting] = useState(false);
   const clearTimeoutRef = useRef<number | null>(null);
 
@@ -38,6 +41,10 @@ export function CartRoute() {
       }
     };
   }, []);
+
+  if (!hasMounted) {
+    return <CartPageLoading />;
+  }
 
   if (items.length === 0) {
     return (

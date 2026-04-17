@@ -8,13 +8,13 @@ export function createChangeCurrentPasswordFormSchema(options: {
   return object({
     currentPassword: passwordSchema.meta({
       formField: {
-        label: 'Текущий пароль',
+        label: 'Current password',
         'data-testid': 'changeCurrentPassword__input__currentPassword',
       },
     }),
     password: passwordSchema.meta({
       formField: {
-        label: 'Новый пароль',
+        label: 'New password',
         'data-testid': 'changeCurrentPassword__input__password',
       },
     }),
@@ -22,7 +22,7 @@ export function createChangeCurrentPasswordFormSchema(options: {
     if (data.currentPassword === data.password) {
       ctx.addIssue({
         code: 'custom',
-        message: 'Новый пароль должен отличаться от текущего',
+        message: 'New password must be different from current password',
         path: ['password'],
       });
       return;
@@ -31,7 +31,7 @@ export function createChangeCurrentPasswordFormSchema(options: {
     if (!options.profilePassword) {
       ctx.addIssue({
         code: 'custom',
-        message: 'Данные профиля ещё не загружены',
+        message: 'Profile data is not loaded yet',
         path: ['currentPassword'],
       });
       return;
@@ -40,7 +40,7 @@ export function createChangeCurrentPasswordFormSchema(options: {
     if (data.currentPassword !== options.profilePassword) {
       ctx.addIssue({
         code: 'custom',
-        message: 'Неверный текущий пароль',
+        message: 'Incorrect current password',
         path: ['currentPassword'],
       });
     }

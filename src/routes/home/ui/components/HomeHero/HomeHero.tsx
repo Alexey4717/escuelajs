@@ -39,7 +39,7 @@ const FLOATING_CARDS = [
 export const HomeHero = () => {
   return (
     <section
-      aria-label="Главный баннер"
+      aria-label="Main banner"
       className={cn(
         'relative -mx-[var(--spacing-layout)] -mt-[var(--spacing-layout)] mb-12 w-[calc(100%+2*var(--spacing-layout))] max-w-none overflow-hidden rounded-none',
         'border-y border-slate-200/80 dark:border-white/5',
@@ -242,7 +242,7 @@ export const HomeHero = () => {
             'dark:from-white dark:via-sky-100 dark:to-sky-300/90',
           )}
         >
-          Одежда и электроника в одном каталоге
+          Clothing and electronics in one catalog
         </Typography>
         <Typography
           variant="body1"
@@ -252,8 +252,8 @@ export const HomeHero = () => {
             'dark:text-sky-100/75',
           )}
         >
-          Подберите образ или гаджет: актуальные категории, прозрачные цены и
-          быстрый просмотр карточек товара.
+          Find your next outfit or gadget with curated categories, transparent
+          pricing, and fast product previews.
         </Typography>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           <Button
@@ -261,10 +261,10 @@ export const HomeHero = () => {
             size="lg"
             className="shadow-lg shadow-sky-500/15 dark:shadow-sky-500/20"
           >
-            <Link href={pagesPath.products.$url().path}>В каталог</Link>
+            <Link href={pagesPath.products.$url().path}>Browse products</Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link href={pagesPath.categories.$url().path}>Категории</Link>
+            <Link href={pagesPath.categories.$url().path}>Categories</Link>
           </Button>
         </div>
       </div>

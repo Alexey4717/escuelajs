@@ -55,7 +55,7 @@ export const ProductCarousel = ({
                 <div className="relative aspect-square w-full overflow-hidden rounded-3xl border border-border/60 bg-muted">
                   <AppImage
                     src={src}
-                    alt={`${productTitle} — фото ${index + 1}`}
+                    alt={`${productTitle} — image ${index + 1}`}
                     className="absolute inset-0 size-full object-cover"
                     draggable={false}
                   />
@@ -84,7 +84,7 @@ export const ProductCarousel = ({
         <div
           className="mt-4 flex justify-center gap-2 overflow-x-auto p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           role="tablist"
-          aria-label="Миниатюры фотографий"
+          aria-label="Image thumbnails"
         >
           {images.map((src, index) => (
             <button

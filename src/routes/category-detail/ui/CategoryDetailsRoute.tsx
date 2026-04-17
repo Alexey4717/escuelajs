@@ -84,11 +84,11 @@ export function CategoryDetailsRoute({
             )}
           >
             <div className="flex flex-col gap-0.5">
-              <dt className="text-muted-foreground">Создана</dt>
+              <dt className="text-muted-foreground">Created</dt>
               <dd className="font-medium text-foreground">{createdLabel}</dd>
             </div>
             <div className="flex flex-col gap-0.5">
-              <dt className="text-muted-foreground">Обновлена</dt>
+              <dt className="text-muted-foreground">Updated</dt>
               <dd className="font-medium text-foreground">{updatedLabel}</dd>
             </div>
           </dl>

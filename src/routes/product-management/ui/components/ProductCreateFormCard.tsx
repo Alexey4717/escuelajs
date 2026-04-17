@@ -46,7 +46,7 @@ export function ProductCreateFormCard() {
   };
 
   return (
-    <Card title="Новый товар" className="max-w-2xl shadow-sm ring-border/60">
+    <Card title="New product" className="max-w-2xl shadow-sm ring-border/60">
       <Form
         methods={methods}
         onSubmit={onSubmit}
@@ -58,7 +58,7 @@ export function ProductCreateFormCard() {
           onImageFilesChange={setImageFiles}
         />
         <ProductManagementFormActions
-          submitLabel="Создать товар"
+          submitLabel="Create product"
           submitLoading={submitLoading}
           imagesUploadLoading={imagesUploadLoading}
           submitDisabled={isFilesBoxOverLimit(

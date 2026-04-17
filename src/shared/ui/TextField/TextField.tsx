@@ -79,9 +79,13 @@ export function TextField({
             aria-describedby={ariaDescribedBy || undefined}
             className={cn(textFieldInputClassName, loading && 'pr-9')}
             {...inputProps}
+            aria-busy={loading ? true : inputProps['aria-busy']}
           />
           {loading ? (
-            <span className="pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2">
+            <span
+              className="pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2"
+              aria-hidden
+            >
               <Spinner className="size-4 text-muted-foreground" />
             </span>
           ) : null}

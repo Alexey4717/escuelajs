@@ -46,7 +46,7 @@ export function PickupPointMarkers({
           icon={icons.myLocation!}
           bubblingMouseEvents={false}
         >
-          <Popup>Вы находитесь здесь</Popup>
+          <Popup>You are here</Popup>
         </Marker>
       )}
 

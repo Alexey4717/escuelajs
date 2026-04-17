@@ -29,7 +29,7 @@ export function useLocationsQuery(
         });
       }
       if (!params) {
-        throw new Error('Параметры locations-запроса не заданы');
+        throw new Error('Locations query params are not provided');
       }
       return getLocations(params);
     },

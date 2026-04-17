@@ -4,10 +4,10 @@ import { emailSchema } from '@/shared/lib/form';
 
 export const cartCheckoutFormSchema = object({
   name: string()
-    .min(1, 'Введите имя')
+    .min(1, 'Enter your name')
     .meta({
       formField: {
-        label: 'Имя',
+        label: 'Name',
         'data-testid': 'cart__input__name',
       },
     }),
@@ -18,10 +18,10 @@ export const cartCheckoutFormSchema = object({
     },
   }),
   pickupAddress: string()
-    .min(1, 'Укажите адрес пункта выдачи')
+    .min(1, 'Enter the pickup point address')
     .meta({
       formField: {
-        label: 'Адрес пункта выдачи',
+        label: 'Pickup point address',
         'data-testid': 'cart__input__pickupAddress',
       },
     }),

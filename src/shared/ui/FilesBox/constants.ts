@@ -1,7 +1,7 @@
 export const FILES_BOX_DEFAULT_ACCEPT = 'image/*';
 
 export const UPLOAD_MODE_DESCRIPTION_ON_SELECT =
-  'Файлы загружаются сразу после выбора';
+  'Files upload immediately after selection';
 
 export const UPLOAD_MODE_DESCRIPTION_ON_SUBMIT =
-  'Файлы будут загружены при сохранении формы';
+  'Files are uploaded when the form is submitted';

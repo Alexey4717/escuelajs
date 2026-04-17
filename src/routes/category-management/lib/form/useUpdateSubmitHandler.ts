@@ -46,13 +46,13 @@ export function useUpdateSubmitHandler() {
     );
     filesState = uploadResult.files;
     if (uploadResult.hasUploadError) {
-      toast.error('Не удалось загрузить  изображения');
+      toast.error('Failed to upload images');
       return filesState;
     }
 
     const image = firstUploadedFileUrl(filesState);
     if (!image) {
-      toast.error('Добавьте хотя бы одно изображение');
+      toast.error('Add at least one image');
       return filesState;
     }
 
@@ -85,7 +85,7 @@ export function useUpdateSubmitHandler() {
       });
 
       if (!data?.updateCategory) {
-        throw new Error('Не удалось обновить категорию');
+        throw new Error('Failed to update category');
       }
 
       await revalidateTagsAction({
@@ -96,13 +96,13 @@ export function useUpdateSubmitHandler() {
         ],
       });
 
-      toast.success('Категория успешно обновлена');
+      toast.success('Category updated successfully');
       router.replace(pagesPath.categories.$url().path);
       router.refresh();
       return filesState;
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось обновить категорию');
+      toast.error('Failed to update category');
       return filesState;
     }
   }

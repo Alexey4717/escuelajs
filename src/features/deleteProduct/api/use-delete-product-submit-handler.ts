@@ -26,7 +26,7 @@ export function useDeleteProductSubmitHandler() {
       });
 
       if (!data?.deleteProduct) {
-        throw new Error('Не удалось удалить товар');
+        throw new Error('Failed to delete product');
       }
 
       await revalidateTagsAction({
@@ -34,13 +34,13 @@ export function useDeleteProductSubmitHandler() {
         paths: [pagesPath.products.$url().path],
       });
 
-      toast.success('Товар удалён');
+      toast.success('Product deleted');
       closeModal();
 
       router.replace(pagesPath.products.$url().path);
     } catch (err) {
       console.error(err);
-      toast.error('Не удалось удалить товар');
+      toast.error('Failed to delete product');
     }
   };
 

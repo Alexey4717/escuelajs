@@ -18,7 +18,7 @@ export const ProductsRoute = () => {
   const isAdmin = !roleLoading && role === 'admin';
 
   return (
-    <Page mainRef={mainRef} heading="Продукты" withSavingScrollPosition>
+    <Page mainRef={mainRef} heading="Products" withSavingScrollPosition>
       <ProductsCatalogGrid
         pathname={pathname}
         mainRef={mainRef}

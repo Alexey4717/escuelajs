@@ -90,7 +90,7 @@ export function buildAdminOnboardingSteps({
     const m = routeTargets[stepIndex];
     return {
       target,
-      title: `Админ: шаг ${stepIndex + 1} из ${total}`,
+      title: `Admin: step ${stepIndex + 1} of ${total}`,
       content: <AdminStepContent index={stepIndex} />,
       placement: 'bottom' as const,
       disableBeacon: true,
@@ -116,16 +116,16 @@ export function buildAdminOnboardingSteps({
 
 function AdminStepContent({ index }: { index: number }) {
   const bodies: string[] = [
-    'Откройте таб «Пользователи» в боковом меню.',
-    'Здесь вы можете посмотреть информацию по пользователям, зарегистрированным на платформе.',
-    'Перейдите в раздел «Админка» через боковое меню.',
-    'Нажмите «Добавить категорию», чтобы открыть форму создания категории.',
-    'Форма заполнена демо-данными. Нажмите «Создать категорию».',
-    'На этой странице можно просмотреть созданные категории.',
-    'Вернитесь в админку и нажмите «Добавить продукт».',
-    'Форма заполнена демо-данными товара. Нажмите «Создать товар».',
-    'Нажмите на созданный товар в списке, чтобы открыть его карточку.',
-    'Здесь вы можете редактировать и удалять товар.',
+    'Open the “Users” tab in the sidebar.',
+    'Here you can review information about registered users.',
+    'Go to the “Admin panel” section from the sidebar.',
+    'Click “Add category” to open category creation form.',
+    'The form is prefilled with demo data. Click “Create category”.',
+    'This page shows created categories.',
+    'Go back to admin panel and click “Add product”.',
+    'The form is prefilled with demo data. Click “Create product”.',
+    'Click the created product in the list to open its details.',
+    'Here you can edit and delete the product.',
   ];
 
   return <p className="text-sm leading-relaxed">{bodies[index] ?? ''}</p>;

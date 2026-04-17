@@ -11,7 +11,7 @@ const usersSkeletonRows = Array.from({ length: 6 }, (_, index) => index);
 
 export const UsersLoadPage = () => {
   return (
-    <Page heading="Пользователи">
+    <Page heading="Users">
       <div
         className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
         aria-hidden

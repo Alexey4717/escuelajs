@@ -13,23 +13,23 @@ import { CategoriesLoadPage, CategoriesRoute } from '@/routes/categories';
 const CATEGORIES_REVALIDATE_SEC = 86_400; // 24 ч — категории меняются редко
 
 const description =
-  'Категории товаров в каталоге: одежда, электроника, мебель, обувь и другие разделы.';
+  'Product categories in the catalog: clothing, electronics, furniture, footwear, and more.';
 
 export async function generateMetadata(): Promise<Metadata> {
   const base = getAppOrigin();
 
   return {
-    title: 'Категории',
+    title: 'Categories',
     description,
     openGraph: {
-      title: 'Категории',
+      title: 'Categories',
       description,
       url: `${base}${pagesPath.categories.$url().pathname}`,
       type: 'website',
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Категории',
+      title: 'Categories',
       description,
     },
   };

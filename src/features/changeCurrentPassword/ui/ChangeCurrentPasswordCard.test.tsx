@@ -58,7 +58,7 @@ describe('ChangeCurrentPasswordCard (integration)', () => {
     );
 
     await waitFor(() => {
-      expect(toast.error).toHaveBeenCalledWith('Не удалось изменить пароль');
+      expect(toast.error).toHaveBeenCalledWith('Failed to change password');
     });
     expect(toast.success).not.toHaveBeenCalled();
   });
@@ -78,7 +78,7 @@ describe('ChangeCurrentPasswordCard (integration)', () => {
     );
 
     expect(
-      await screen.findByText('Неверный текущий пароль'),
+      await screen.findByText('Incorrect current password'),
     ).toBeInTheDocument();
   });
 
@@ -97,7 +97,9 @@ describe('ChangeCurrentPasswordCard (integration)', () => {
     );
 
     expect(
-      await screen.findByText('Новый пароль должен отличаться от текущего'),
+      await screen.findByText(
+        'New password must be different from current password',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -116,7 +118,9 @@ describe('ChangeCurrentPasswordCard (integration)', () => {
     );
 
     expect(
-      await screen.findByText('Допускается латиница, цифры и символы'),
+      await screen.findByText(
+        'Only Latin letters, digits, and symbols are allowed',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -135,7 +139,9 @@ describe('ChangeCurrentPasswordCard (integration)', () => {
     );
 
     await waitFor(() => {
-      expect(toast.success).toHaveBeenCalledWith('Пароль успешно изменен');
+      expect(toast.success).toHaveBeenCalledWith(
+        'Password changed successfully',
+      );
     });
     expect(toast.error).not.toHaveBeenCalled();
   });

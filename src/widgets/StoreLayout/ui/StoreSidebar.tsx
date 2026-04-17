@@ -91,7 +91,7 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="px-2 text-[10px] font-normal tracking-[0.8px]">
-            Каталог
+            Catalog
           </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>

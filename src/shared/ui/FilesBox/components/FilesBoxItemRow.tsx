@@ -38,7 +38,7 @@ export function FilesBoxItemRow({
             className="flex h-full w-full items-center justify-center text-[0.65rem] text-muted-foreground"
             aria-hidden
           >
-            Нет превью
+            No preview
           </div>
         )}
       </div>
@@ -65,8 +65,8 @@ export function FilesBoxItemRow({
             variant="ghost"
             size="icon-sm"
             disabled={disabled}
-            title="Восстановить файл"
-            aria-label={`Восстановить файл «${item.name}»`}
+            title="Restore file"
+            aria-label={`Restore file “${item.name}”`}
             className="text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
             onClick={() => onToggleRemoval(item.localId)}
           >
@@ -79,8 +79,8 @@ export function FilesBoxItemRow({
             size="icon-sm"
             disabled={disabled}
             className="border border-destructive/20 bg-background/80 text-destructive shadow-sm hover:bg-destructive/15"
-            title="Удалить файл"
-            aria-label={`Удалить файл «${item.name}»`}
+            title="Delete file"
+            aria-label={`Delete file “${item.name}”`}
             onClick={() => onToggleRemoval(item.localId)}
           >
             <Trash2Icon />

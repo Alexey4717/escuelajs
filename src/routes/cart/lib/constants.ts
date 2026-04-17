@@ -1,1 +1,1 @@
-export const CART_PAGE_HEADING = 'Корзина';
+export const CART_PAGE_HEADING = 'Cart';

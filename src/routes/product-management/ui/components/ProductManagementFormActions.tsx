@@ -29,7 +29,7 @@ export function ProductManagementFormActions({
         asChild
         className="w-full sm:w-auto"
       >
-        <Link href={pagesPath.products.$url().path}>К списку товаров</Link>
+        <Link href={pagesPath.products.$url().path}>Back to products</Link>
       </Button>
       <Button
         type="submit"
@@ -40,7 +40,7 @@ export function ProductManagementFormActions({
         data-onboarding={ONBOARDING_TARGET_IDS.productCreateSubmitButton}
       >
         {imagesUploadLoading
-          ? 'Загрузка изображений…'
+          ? 'Uploading images…'
           : submitLoading
             ? `${submitLabel}…`
             : submitLabel}

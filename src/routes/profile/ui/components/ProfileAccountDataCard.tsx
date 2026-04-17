@@ -26,14 +26,14 @@ export const ProfileAccountDataCard = ({
   const createdLabel = formatDateTime(creationAt);
   const updatedLabel = formatDateTime(updatedAt);
   return (
-    <Card title="Данные аккаунта" className="shadow-sm ring-border/60">
+    <Card title="Account data" className="shadow-sm ring-border/60">
       <div className="divide-y divide-border">
         <div className="flex flex-col gap-1 py-3 first:pt-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span className="text-muted-foreground">ID</span>
           <span className="font-medium text-foreground sm:text-end">{id}</span>
         </div>
         <div className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <span className="text-muted-foreground">Имя</span>
+          <span className="text-muted-foreground">Name</span>
           <span className="font-medium text-foreground sm:text-end">
             {name}
           </span>
@@ -45,19 +45,19 @@ export const ProfileAccountDataCard = ({
           </span>
         </div>
         <div className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <span className="text-muted-foreground">Создан</span>
+          <span className="text-muted-foreground">Created</span>
           <span className="font-medium text-foreground sm:text-end tabular-nums">
             {createdLabel || '—'}
           </span>
         </div>
         <div className="flex flex-col gap-1 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <span className="text-muted-foreground">Обновлён</span>
+          <span className="text-muted-foreground">Updated</span>
           <span className="font-medium text-foreground sm:text-end tabular-nums">
             {updatedLabel || '—'}
           </span>
         </div>
         <div className="flex flex-col gap-1 py-3 last:pb-0 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <span className="text-muted-foreground">Роль</span>
+          <span className="text-muted-foreground">Role</span>
           <span className="flex justify-end sm:justify-end">
             <Badge variant={roleBadgeVariant}>{roleLabel}</Badge>
           </span>

@@ -37,7 +37,7 @@ export const ContactUsForm = () => {
 
   const onSubmit: SubmitHandler<ContactUsFormStateOutput> = () => {
     // Имитация отправки сообщения
-    toast.success('Сообщение отправлено');
+    toast.success('Message sent');
     methods.reset();
   };
 
@@ -49,10 +49,10 @@ export const ContactUsForm = () => {
     >
       <div>
         <Typography id={`${formId}-heading`} variant="h2" gutterBottom>
-          Связаться с нами
+          Contact us
         </Typography>
         <Typography variant="muted">
-          Оставьте сообщение — мы ответим на указанный email.
+          Leave a message and we&apos;ll reply to your email.
         </Typography>
       </div>
       <Form
@@ -62,7 +62,7 @@ export const ContactUsForm = () => {
       >
         <ContactUsNameField
           autoComplete="name"
-          placeholder="Как к вам обращаться"
+          placeholder="How should we address you?"
         />
         <ContactUsEmailField
           type="email"
@@ -71,7 +71,7 @@ export const ContactUsForm = () => {
         />
         <ContactUsMessageField
           rows={4}
-          placeholder="Вопрос по заказу, доставке или ассортименту"
+          placeholder="Question about your order, delivery, or products"
         />
         <ContactUsSubmitButton />
       </Form>

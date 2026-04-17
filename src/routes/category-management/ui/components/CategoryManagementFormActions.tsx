@@ -29,7 +29,7 @@ export function CategoryManagementFormActions({
         asChild
         className="w-full sm:w-auto"
       >
-        <Link href={pagesPath.categories.$url().path}>К списку категорий</Link>
+        <Link href={pagesPath.categories.$url().path}>Back to categories</Link>
       </Button>
       <Button
         type="submit"
@@ -40,7 +40,7 @@ export function CategoryManagementFormActions({
         data-onboarding={ONBOARDING_TARGET_IDS.categoryCreateSubmitButton}
       >
         {imagesUploadLoading
-          ? 'Загрузка изображений…'
+          ? 'Uploading images…'
           : submitLoading
             ? `${submitLabel}…`
             : submitLabel}

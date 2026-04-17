@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import { useLocationsQuery } from '@/shared/api/rest/locations/use-locations-query';
 import type { ModalComponentProps } from '@/shared/lib/store/slices/modal/types';
 import { Button } from '@/shared/ui/Button/Button';
+import { Dialog } from '@/shared/ui/Dialog/Dialog';
 
 import { useOnboardingSessionStore } from '@/features/onboarding';
 
@@ -51,15 +52,15 @@ export function PickupPointMapModalContent({
       ? [
           {
             id: DEMO_PICKUP_POINT_PRIMARY_ID,
-            name: 'Демо ПВЗ (выберите меня)',
-            description: 'Онбординг: нажмите на эту точку для выбора.',
+            name: 'Demo pickup point (select me)',
+            description: 'Onboarding: click this point to continue.',
             latitude: 55.751244,
             longitude: 37.618423,
           },
           {
             id: DEMO_PICKUP_POINT_SECONDARY_ID,
-            name: 'Запасной ПВЗ',
-            description: 'Резервная точка в демо-режиме.',
+            name: 'Backup pickup point',
+            description: 'Fallback location for demo mode.',
             latitude: 55.7578,
             longitude: 37.6056,
           },
@@ -69,18 +70,25 @@ export function PickupPointMapModalContent({
 
   return (
     <div className="relative h-dvh w-full">
+      <Dialog.Title className="sr-only">
+        Choose a pickup point on the map
+      </Dialog.Title>
+      <Dialog.Description className="sr-only">
+        Select one of the available pickup locations.
+      </Dialog.Description>
+
       <Button
         type="button"
         variant="secondary"
         className="absolute top-3 right-3 z-[1000]"
         onClick={closeModal}
       >
-        Закрыть
+        Close
       </Button>
 
       {!mapCenterPoint ? (
         <div className="flex h-full items-center justify-center">
-          Определяем вашу геопозицию...
+          Detecting your location...
         </div>
       ) : (
         <MapContainer

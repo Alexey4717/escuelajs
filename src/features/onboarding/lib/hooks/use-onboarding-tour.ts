@@ -224,6 +224,51 @@ export function useOnboardingTour(): UseOnboardingTourResult {
       return;
     }
 
+    const isTypingTarget = (target: EventTarget | null): boolean => {
+      if (!(target instanceof HTMLElement)) {
+        return false;
+      }
+      if (target.isContentEditable) {
+        return true;
+      }
+      const tagName = target.tagName.toLowerCase();
+      return (
+        tagName === 'input' ||
+        tagName === 'textarea' ||
+        tagName === 'select' ||
+        Boolean(target.closest('[contenteditable="true"]'))
+      );
+    };
+
+    const handleNavigationKeys = (event: KeyboardEvent) => {
+      if (
+        event.defaultPrevented ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.altKey
+      ) {
+        return;
+      }
+      if (isTypingTarget(event.target)) {
+        return;
+      }
+      if (
+        event.key === 'ArrowRight' ||
+        event.key === 'Enter' ||
+        event.key === ' '
+      ) {
+        event.preventDefault();
+        event.stopPropagation();
+        controls.next();
+        return;
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        event.stopPropagation();
+        controls.prev();
+      }
+    };
+
     const handleEscToExitTour = (event: KeyboardEvent) => {
       if (event.key !== 'Escape') {
         return;
@@ -233,8 +278,10 @@ export function useOnboardingTour(): UseOnboardingTourResult {
       controls.skip('button_close');
     };
 
+    window.addEventListener('keydown', handleNavigationKeys, true);
     window.addEventListener('keydown', handleEscToExitTour, true);
     return () => {
+      window.removeEventListener('keydown', handleNavigationKeys, true);
       window.removeEventListener('keydown', handleEscToExitTour, true);
     };
   }, [activeFlow, controls, run]);

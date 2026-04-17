@@ -67,8 +67,8 @@ export type ComboboxProps<TValue extends string = string> = Omit<
  * import { Combobox } from '@/shared/ui/Combobox/Combobox';
  *
  * const cities = [
- *   { value: 'msk', label: 'Москва' },
- *   { value: 'spb', label: 'Санкт-Петербург' },
+ *   { value: 'nyc', label: 'New York' },
+ *   { value: 'lon', label: 'London' },
  * ] as const;
  *
  * export function CityField() {
@@ -76,12 +76,12 @@ export type ComboboxProps<TValue extends string = string> = Omit<
  *
  *   return (
  *     <Combobox
- *       label="Город"
- *       placeholder="Начните вводить название…"
+ *       label="City"
+ *       placeholder="Start typing a name…"
  *       options={cities}
  *       value={city}
  *       onValueChange={setCity}
- *       emptyText="Город не найден"
+ *       emptyText="No city found"
  *       showClear
  *     />
  *   );
@@ -97,7 +97,7 @@ export function Combobox<TValue extends string = string>({
   orientation = 'vertical',
   options,
   placeholder,
-  emptyText = 'Ничего не найдено',
+  emptyText = 'Nothing found',
   showClear = false,
   showTrigger = true,
   triggerClassName,

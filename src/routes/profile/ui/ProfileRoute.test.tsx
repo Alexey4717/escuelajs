@@ -42,7 +42,7 @@ describe('ProfileRoute — UNAUTHENTICATED (integration)', () => {
     renderWithProviders(<ProfileRoute />);
 
     await waitFor(() => {
-      expect(screen.queryByText('Редактировать')).not.toBeInTheDocument();
+      expect(screen.queryByText('Edit profile')).not.toBeInTheDocument();
     });
   });
 });

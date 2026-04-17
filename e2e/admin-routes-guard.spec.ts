@@ -45,7 +45,7 @@ test.describe('Защита admin-panel', () => {
 
     await expect(page).toHaveURL(/\/forbidden$/);
     await expect(
-      page.getByRole('heading', { name: 'Доступ запрещен' }),
+      page.getByRole('heading', { name: 'Access denied' }),
     ).toBeVisible();
   });
 
@@ -70,7 +70,9 @@ test.describe('Защита admin-panel', () => {
     await page.goto('/admin-panel', { waitUntil: 'commit' });
 
     await expect(page).toHaveURL(/\/admin-panel$/);
-    await expect(page.getByRole('heading', { name: 'Админка' })).toBeVisible();
+    await expect(
+      page.getByRole('heading', { name: 'Admin panel' }),
+    ).toBeVisible();
   });
 
   test.describe('защита management-роутов', () => {
@@ -98,7 +100,7 @@ test.describe('Защита admin-panel', () => {
 
           await expect(page).toHaveURL(pagesPath.forbidden.$url().path);
           await expect(
-            page.getByRole('heading', { name: 'Доступ запрещен' }),
+            page.getByRole('heading', { name: 'Access denied' }),
           ).toBeVisible();
         });
       }

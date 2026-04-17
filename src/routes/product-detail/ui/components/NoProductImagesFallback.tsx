@@ -6,7 +6,7 @@ export const NoProductImagesFallback = () => (
     aria-hidden
   >
     <Typography variant="muted" className="text-sm">
-      Нет фото
+      No images
     </Typography>
   </div>
 );

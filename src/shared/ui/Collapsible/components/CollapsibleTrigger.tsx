@@ -8,13 +8,13 @@ import { COLLAPSIBLE_SLOT } from '../constants';
 import type { CollapsibleTriggerProps } from '../types';
 
 /**
- * Кнопка раскрытия: наследует пропсы Radix `CollapsibleTrigger`, добавляет базовые стили и иконки chevron.
- * Должен находиться внутри `CollapsibleRoot` (или обёртки `Collapsible`).
+ * Expand/collapse trigger: inherits Radix `CollapsibleTrigger` props, base styles, and chevron icons.
+ * Must live inside `CollapsibleRoot` (or the `Collapsible` wrapper).
  *
  * @example
  * ```tsx
  * <CollapsibleRoot>
- *   <CollapsibleTrigger className="text-left">Показать детали</CollapsibleTrigger>
+ *   <CollapsibleTrigger className="text-left">Show details</CollapsibleTrigger>
  *   <CollapsibleContent>...</CollapsibleContent>
  * </CollapsibleRoot>
  * ```

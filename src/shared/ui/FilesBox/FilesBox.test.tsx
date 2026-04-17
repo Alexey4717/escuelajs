@@ -7,13 +7,11 @@ import type { FilesBoxItem } from './types';
 
 describe('FilesBox', () => {
   it('renders file input and label', () => {
-    render(<FilesBox label="Аватар" data-testid="avatar-file-input" />);
+    render(<FilesBox label="Avatar" data-testid="avatar-file-input" />);
 
-    expect(screen.getByLabelText('Аватар')).toBeInTheDocument();
-    expect(screen.getByTestId('avatar-file-input')).toHaveAttribute(
-      'type',
-      'file',
-    );
+    const fileInput = screen.getByTestId('avatar-file-input');
+    expect(fileInput).toHaveAttribute('type', 'file');
+    expect(fileInput).toHaveAccessibleName('Avatar');
   });
 
   it('hides attach control when active file count reaches maxFiles', () => {
@@ -27,7 +25,7 @@ describe('FilesBox', () => {
 
     render(
       <FilesBox
-        label="Файлы"
+        label="Files"
         maxFiles={1}
         value={[queued]}
         onChange={() => {}}
@@ -35,15 +33,13 @@ describe('FilesBox', () => {
       />,
     );
 
-    expect(
-      screen.queryByRole('button', { name: /прикрепить файл/i }),
-    ).toBeNull();
-    expect(screen.getByText('Максимум 1 файл')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /attach file/i })).toBeNull();
+    expect(screen.getByText('Maximum 1 file')).toBeInTheDocument();
   });
 
   it('shows validation error for pdf file', async () => {
     const user = userEvent.setup({ applyAccept: false });
-    render(<FilesBox label="Аватар" data-testid="avatar-file-input" />);
+    render(<FilesBox label="Avatar" data-testid="avatar-file-input" />);
 
     const input = screen.getByTestId('avatar-file-input');
     const pdf = new File(['pdf'], 'file.pdf', { type: 'application/pdf' });
@@ -51,7 +47,7 @@ describe('FilesBox', () => {
     await user.upload(input, pdf);
 
     expect(
-      await screen.findByText('file.pdf: PDF-файлы не поддерживаются'),
+      await screen.findByText('file.pdf: PDF files are not supported'),
     ).toBeInTheDocument();
   });
 });

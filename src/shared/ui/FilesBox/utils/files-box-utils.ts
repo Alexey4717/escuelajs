@@ -35,11 +35,11 @@ export function formatFileSize(bytes: number): string {
   const mb = bytes / (1024 * 1024);
   if (mb >= 1) {
     const rounded = mb >= 10 ? Math.round(mb) : Math.round(mb * 10) / 10;
-    return `${rounded} МБ`;
+    return `${rounded} MB`;
   }
   const kb = bytes / 1024;
   const roundedKb = kb >= 10 ? Math.round(kb) : Math.round(kb * 10) / 10;
-  return `${roundedKb} КБ`;
+  return `${roundedKb} KB`;
 }
 
 export function isFilesBoxOverLimit(
@@ -51,14 +51,13 @@ export function isFilesBoxOverLimit(
 
 export function formatFilesBoxMaxFilesHint(maxFiles: number): string {
   const max = normalizeMaxFiles(maxFiles);
-  if (max === 1) return 'Максимум 1 файл';
-  if (max >= 2 && max <= 4) return `Максимум ${max} файла`;
-  return `Максимум ${max} файлов`;
+  if (max === 1) return 'Maximum 1 file';
+  return `Maximum ${max} files`;
 }
 
 export function formatFilesBoxOverLimitHint(maxFiles: number): string {
   const max = normalizeMaxFiles(maxFiles);
-  return `Превышен лимит файлов (${max}). Удалите лишние вложения.`;
+  return `File limit exceeded (${max}). Remove extra files.`;
 }
 
 export function getFilesBoxRequirementDescription(
@@ -67,9 +66,9 @@ export function getFilesBoxRequirementDescription(
 ): string {
   const typePart =
     accept.trim() === 'image/*' || accept.startsWith('image/')
-      ? 'Разрешены изображения (JPEG, PNG, WebP и др.)'
-      : `Допустимые типы: ${accept}`;
-  return `${typePart}. Максимальный размер одного файла: ${maxFileSizeMb} МБ.`;
+      ? 'Allowed image formats (JPEG, PNG, WebP, etc.)'
+      : `Allowed types: ${accept}`;
+  return `${typePart}. Maximum size per file: ${maxFileSizeMb} MB.`;
 }
 
 export function validateSelectedFiles(
@@ -94,7 +93,7 @@ export function validateSelectedFiles(
   }
 
   if (validFiles.length > maxFiles) {
-    errors.push(`Можно выбрать не более ${maxFiles} файлов`);
+    errors.push(`You can select up to ${maxFiles} files`);
   }
 
   return {

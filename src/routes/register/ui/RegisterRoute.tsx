@@ -40,8 +40,8 @@ export const RegisterRoute = () => {
   return (
     <AuthFormShell
       mode="register"
-      title="Создать аккаунт"
-      subtitle="Заполните поля, чтобы зарегистрироваться в магазине"
+      title="Create account"
+      subtitle="Fill in the fields to register in the store"
       loginHref={loginHref}
       registerHref={registerHref}
     >
@@ -49,7 +49,7 @@ export const RegisterRoute = () => {
         <RegisterNameField
           type="text"
           autoComplete="name"
-          placeholder="Иван Иванов"
+          placeholder="John Doe"
         />
         <RegisterEmailField
           type="email"
@@ -59,14 +59,14 @@ export const RegisterRoute = () => {
         <RegisterPasswordField
           type="password"
           autoComplete="new-password"
-          placeholder="Не менее 6 символов"
+          placeholder="At least 6 characters"
         />
 
         <ConfirmPasswordFieldHandler>
           <RegisterConfirmPasswordField
             type="password"
             autoComplete="new-password"
-            placeholder="Повторите пароль"
+            placeholder="Repeat password"
           />
         </ConfirmPasswordFieldHandler>
 

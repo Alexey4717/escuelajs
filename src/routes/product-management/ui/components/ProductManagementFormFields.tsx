@@ -20,12 +20,15 @@ export function ProductManagementFormFields({
 }: ProductManagementFormFieldsProps) {
   return (
     <>
-      <ProductTitleField placeholder="Например, Awesome Shirt" />
+      <ProductTitleField placeholder="For example, Awesome Shirt" />
       <ProductPriceField type="number" min={1} step="0.01" placeholder="1999" />
-      <ProductDescriptionField rows={4} placeholder="Краткое описание товара" />
+      <ProductDescriptionField
+        rows={4}
+        placeholder="Short product description"
+      />
       <ProductManagementCategoryField />
       <FilesBox
-        label="Изображения товара"
+        label="Product images"
         maxFiles={PRODUCT_IMAGES_MAX_FILES}
         accept="image/*"
         maxFileSizeMb={5}

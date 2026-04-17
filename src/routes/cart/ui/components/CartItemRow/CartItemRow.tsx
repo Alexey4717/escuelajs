@@ -65,8 +65,8 @@ export function CartItemRow({
         size="icon"
         data-testid={`cartRoute__button__removeItem_${item.id}`}
         className="absolute right-1 top-1 size-9 shrink-0 text-muted-foreground hover:bg-destructive/15 hover:text-destructive"
-        aria-label={`Удалить «${item.title}» из корзины`}
-        title="Удалить из корзины"
+        aria-label={`Remove “${item.title}” from cart`}
+        title="Remove from cart"
         disabled={removeDisabled || isExiting}
         onClick={() => onRemove(item.id)}
       >

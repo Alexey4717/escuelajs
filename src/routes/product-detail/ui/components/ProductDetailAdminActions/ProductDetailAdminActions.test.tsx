@@ -75,11 +75,9 @@ describe('ProductDetailAdminActions', () => {
 
     const edit = screen.getByTestId('productDetail__link__editProduct');
     expect(edit).toHaveAttribute('href', '/products/prod-42/edit');
-    expect(
-      screen.getByRole('link', { name: 'Редактировать' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Edit' })).toBeInTheDocument();
     expect(
       screen.getByTestId('productDetail__button__openDeleteProductModal'),
-    ).toHaveAccessibleName('Удалить');
+    ).toHaveAccessibleName('Delete');
   });
 });

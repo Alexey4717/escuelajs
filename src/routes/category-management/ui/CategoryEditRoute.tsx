@@ -31,7 +31,7 @@ export function CategoryEditRoute() {
     return (
       <Page narrow heading={categoryEditHeadingPage}>
         <Typography variant="body1" component="p">
-          Не удалось загрузить данные категории
+          Failed to load category data
         </Typography>
       </Page>
     );

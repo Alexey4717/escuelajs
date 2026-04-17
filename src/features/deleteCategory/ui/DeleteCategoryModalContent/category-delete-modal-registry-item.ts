@@ -32,9 +32,9 @@ export const categoryDeleteModalRegistryItem: ModalRegistryItem<'categoryDelete'
         categoryName: candidate.categoryName,
       };
     },
-    fallbackContent: 'Не удалось загрузить данные для этой модалки.',
-    title: 'Удаление категории',
-    description: 'Подтвердите удаление категории из каталога.',
+    fallbackContent: 'Failed to load data for this modal.',
+    title: 'Delete category',
+    description: 'Confirm category removal from the catalog.',
     showContentCloseButton: true,
     showFooterCloseButton: false,
     dialogClassName: 'max-w-xl',

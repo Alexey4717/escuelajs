@@ -1,32 +1,32 @@
 export const FAQ_ITEMS: Array<{ id: string; q: string; a: string }> = [
   {
     id: 'auth',
-    q: 'Как авторизоваться на сайте?',
-    a: 'Откройте страницу «Вход», введите email и пароль, указанные при регистрации. После успешного входа сессия сохраняется в браузере; выйти можно через пункт в шапке.',
+    q: 'How do I sign in?',
+    a: 'Open the Login page and enter the email and password from your registration. After a successful sign-in, your session stays in the browser; you can sign out from the header.',
   },
   {
     id: 'order',
-    q: 'Как заказать товар?',
-    a: 'Выберите товар в каталоге, откройте карточку и ознакомьтесь с описанием и ценой. В этом учебном проекте корзина и оплата не подключены к платёжному шлюзу — дальнейшие шаги зависят от настройки бэкенда.',
+    q: 'How do I order a product?',
+    a: 'Pick a product in the catalog, open its page, and review the description and price. In this learning project the cart and checkout are not wired to a payment gateway — next steps depend on your backend setup.',
   },
   {
     id: 'admin-role',
-    q: 'Что даёт роль администратора?',
-    a: 'Администратор обычно получает доступ к управлению товарами (создание, редактирование), разделу пользователей и другим закрытым экранам. Точный набор прав задаётся на сервере.',
+    q: 'What does the administrator role include?',
+    a: 'Administrators typically get access to managing products (create, edit), the users section, and other protected screens. The exact permissions are defined on the server.',
   },
   {
     id: 'guest-catalog',
-    q: 'Можно ли смотреть каталог без регистрации?',
-    a: 'Да: главная, категории и список товаров доступны без входа. Регистрация нужна для профиля и функций, привязанных к аккаунту.',
+    q: 'Can I browse the catalog without signing up?',
+    a: 'Yes: home, categories, and product listings are available without signing in. Sign-up is required for profile and account features.',
   },
   {
     id: 'password',
-    q: 'Как сменить пароль?',
-    a: 'После входа откройте «Профиль» — там есть форма смены пароля (текущий пароль и новый). Сохраните изменения и при необходимости войдите снова.',
+    q: 'How do I change my password?',
+    a: 'After signing in, open Profile — there is a form to change your password (current and new). Save your changes and sign in again if needed.',
   },
   {
     id: 'support',
-    q: 'Как связаться с поддержкой?',
-    a: 'Внизу главной страницы есть форма обратной связи (демо): в продакшене её можно подключить к почте или тикет-системе. Контакты магазина также можно разместить в подвале сайта.',
+    q: 'How do I contact support?',
+    a: 'At the bottom of the home page there is a contact form (demo); in production you can connect it to email or a ticketing system. You can also add store contacts in the footer.',
   },
 ];

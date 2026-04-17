@@ -53,7 +53,7 @@ export const CategoriesSkeletonGrid = ({ ariaHidden = false }) => {
 
 export const CategoriesLoadPage = () => {
   return (
-    <Page heading="Категории">
+    <Page heading="Categories">
       <CategoriesSkeletonGrid ariaHidden />
     </Page>
   );

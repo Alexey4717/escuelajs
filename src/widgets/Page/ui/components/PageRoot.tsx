@@ -6,6 +6,8 @@ const RootMain = (props: ScrollPositionSetterProps) => {
   return (
     <main
       ref={mainRef}
+      id="main-content"
+      tabIndex={-1}
       className={className}
       data-testid={props['data-testid'] ?? 'Page'}
     >

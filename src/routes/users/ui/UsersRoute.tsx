@@ -31,7 +31,7 @@ export const UsersRoute = () => {
   }
 
   return (
-    <Page heading="Пользователи">
+    <Page heading="Users">
       <div
         className="overflow-hidden rounded-xl border border-border bg-card shadow-sm"
         data-onboarding={ONBOARDING_TARGET_IDS.usersTable}

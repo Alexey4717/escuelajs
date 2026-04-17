@@ -23,20 +23,20 @@ export async function uploadFile(file: File): Promise<EscuelaUploadedFileDto> {
   } catch (error) {
     if (error instanceof EscuelaRestError) {
       if (error.status === 413) {
-        throw new Error('Файл слишком большой');
+        throw new Error('File is too large');
       }
-      throw new Error(`Ошибка загрузки файла (${error.status})`);
+      throw new Error(`File upload failed (${error.status})`);
     }
 
     if (error instanceof DOMException && error.name === 'TimeoutError') {
-      throw new Error('Таймаут загрузки файла');
+      throw new Error('File upload timeout');
     }
 
-    throw new Error('Сетевая ошибка при загрузке файла');
+    throw new Error('Network error during file upload');
   }
 
   if (!response.location) {
-    throw new Error('Файл загружен, но URL не получен');
+    throw new Error('File uploaded but URL is missing');
   }
 
   return response;

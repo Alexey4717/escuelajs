@@ -29,7 +29,7 @@ export function DeleteProductModalFooter({
         className="w-full sm:w-auto"
         data-testid="deleteProduct__button__closeModal"
       >
-        Отмена
+        Cancel
       </Button>
       <Button
         type="button"
@@ -39,7 +39,7 @@ export function DeleteProductModalFooter({
         onClick={handleDeleteProduct}
         data-testid="deleteProduct__button__deleteProduct"
       >
-        {loading ? 'Удаление' : 'Удалить'}
+        {loading ? 'Deleting' : 'Delete'}
       </Button>
     </div>
   );
