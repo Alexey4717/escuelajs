@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode } from 'react';
+import { type ReactNode, useRef } from 'react';
 
 import { ScrollArea } from '@/shared/ui/ScrollArea/ScrollArea';
 import {
@@ -17,6 +17,7 @@ import {
 
 import { useOnboardingMobileSidebarBridge } from '../lib/hooks/useOnboardingMobileSidebarBridge';
 import { CartFlyAnimationProvider } from './CartFlyAnimationProvider/CartFlyAnimationProvider';
+import { StoreBackToTopButton } from './StoreBackToTopButton';
 import { StoreSidebar } from './StoreSidebar';
 import { StoreTopbar } from './StoreTopbar/StoreTopbar';
 
@@ -34,6 +35,8 @@ export function StoreLayoutShell({
   isLoggedIn,
   children,
 }: StoreLayoutShellProps) {
+  const mainScrollRef = useRef<HTMLDivElement>(null);
+
   return (
     <TooltipProvider delayDuration={0}>
       <OnboardingTourProvider>
@@ -42,17 +45,21 @@ export function StoreLayoutShell({
             <OnboardingMobileSidebarBridge />
             <StoreSidebar isLoggedIn={isLoggedIn} />
             <SidebarInset className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-              <header className="sticky top-0 z-20 flex h-[52px] shrink-0 items-center gap-3 border-b border-border bg-primary px-5 text-primary-foreground dark:bg-card dark:text-card-foreground">
+              <header
+                id="store-layout-header"
+                className="sticky top-0 z-20 flex h-[52px] shrink-0 items-center gap-3 border-b border-border bg-primary px-5 text-primary-foreground dark:bg-card dark:text-card-foreground"
+              >
                 <SidebarTrigger className="md:hidden" />
                 <StoreTopbar
                   isLoggedIn={isLoggedIn}
                   className="min-w-0 flex-1"
                 />
               </header>
-              <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
-                <ScrollArea className="min-h-0 flex-1">
+              <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
+                <ScrollArea ref={mainScrollRef} className="min-h-0 flex-1">
                   <div className="p-layout">{children}</div>
                 </ScrollArea>
+                <StoreBackToTopButton scrollRef={mainScrollRef} />
               </div>
             </SidebarInset>
             <OnboardingBottomBar isLoggedIn={isLoggedIn} />
