@@ -29,6 +29,7 @@ export function AppImage({
   src,
   alt = DEFAULT_APP_IMAGE_ALT,
   proxifyEscuelaRest = true,
+  disablePreload = false,
   fallback,
   disableDefaultLoadingSkeleton = false,
   errorFallback,
@@ -37,6 +38,7 @@ export function AppImage({
   const { isLoading, hasError, resolvedSrc } = useAppImagePreload(
     src,
     proxifyEscuelaRest,
+    disablePreload,
   );
 
   if (!src) {

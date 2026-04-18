@@ -1,7 +1,9 @@
 import { useSyncExternalStore } from 'react';
 
-/** Tailwind `lg` (1024px). */
-const LG_MIN_QUERY = '(min-width: 1024px)';
+import { MEDIA_QUERIES } from '@/shared/config/consts';
+
+/** Tailwind `lg` (shared breakpoint constant). */
+const LG_MIN_QUERY = MEDIA_QUERIES.lgAndUp;
 
 function subscribe(onStoreChange: () => void) {
   const mql = window.matchMedia(LG_MIN_QUERY);

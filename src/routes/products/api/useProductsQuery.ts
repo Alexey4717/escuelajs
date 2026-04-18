@@ -28,7 +28,6 @@ import { useOnboardingSessionStore } from '@/features/onboarding';
 import { resolveScrollAreaViewport } from '@/widgets/Page/lib/utils/findScrollContainer';
 
 import { PRODUCTS_PAGE_SIZE } from '../constants';
-import { ProductsGridContext } from '../ui/components/productsGridComponents';
 
 export const useProductsQuery = (
   pathname: string,
@@ -42,7 +41,10 @@ export const useProductsQuery = (
       return;
     }
     const viewport = resolveScrollAreaViewport(el);
-    setScrollParent(viewport instanceof HTMLElement ? viewport : null);
+    const nextScrollParent = viewport instanceof HTMLElement ? viewport : null;
+    setScrollParent((prev) =>
+      prev === nextScrollParent ? prev : nextScrollParent,
+    );
   }, [mainRef]);
 
   const filterSnapshot = useFilterProductsStore(
@@ -59,7 +61,6 @@ export const useProductsQuery = (
     [filterSnapshot],
   );
 
-  const filterKey = useMemo(() => JSON.stringify(filterVars), [filterVars]);
   const isOnboardingDemoActive = useOnboardingSessionStore(
     (s) => s.isDemoActive,
   );
@@ -97,26 +98,27 @@ export const useProductsQuery = (
   /** Первый запрос без кэша: нет ни `data`, ни `previousData`. */
   const initialLoading = loading && dataResolved == null;
 
-  const hasMoreRef = useRef(
-    (dataResolved?.products.length ?? 0) === PRODUCTS_PAGE_SIZE,
+  const visibleProductsCount = dataResolved?.products.length ?? 0;
+  const hasSinglePageSnapshot = visibleProductsCount <= PRODUCTS_PAGE_SIZE;
+  const [hasMoreFromPagination, setHasMoreFromPagination] = useState(
+    visibleProductsCount === PRODUCTS_PAGE_SIZE,
   );
+  const hasMore = hasSinglePageSnapshot
+    ? visibleProductsCount === PRODUCTS_PAGE_SIZE
+    : hasMoreFromPagination;
+  const hasMoreRef = useRef(hasMore);
   const loadingMoreRef = useRef(false);
   const [loadingMore, setLoadingMore] = useState(false);
-  const lastBatchSizeRef = useRef(0);
 
   useEffect(() => {
-    const len = dataResolved?.products.length ?? 0;
-    // Только пока в кэше не больше одной «страницы»: иначе hasMore задаётся в .then() у fetchMore.
-    if (len <= PRODUCTS_PAGE_SIZE) {
-      hasMoreRef.current = len === PRODUCTS_PAGE_SIZE;
-    }
-  }, [filterKey, dataResolved?.products.length]);
+    hasMoreRef.current = hasMore;
+  }, [hasMore]);
 
   const loadMore = useCallback(() => {
     if (!hasMoreRef.current || loadingMoreRef.current) {
       return;
     }
-    const listLen = dataResolved?.products.length ?? 0;
+    const listLen = visibleProductsCount;
     loadingMoreRef.current = true;
     setLoadingMore(true);
     const filters = buildProductsFilterVariables(
@@ -133,43 +135,46 @@ export const useProductsQuery = (
           if (!fetchMoreResult) {
             return prev;
           }
-          lastBatchSizeRef.current = fetchMoreResult.products.length;
+          const mergedProducts = [
+            ...prev.products,
+            ...fetchMoreResult.products,
+          ];
+          const uniqueProducts = mergedProducts.filter(
+            (product, index, array) =>
+              array.findIndex((item) => item.id === product.id) === index,
+          );
           return {
             ...prev,
-            products: [...prev.products, ...fetchMoreResult.products],
+            products: uniqueProducts,
           };
         },
       })
-        .then(() => {
-          if (lastBatchSizeRef.current < PRODUCTS_PAGE_SIZE) {
-            hasMoreRef.current = false;
-          }
+        .then((result) => {
+          const fetchedBatchSize = result.data?.products.length ?? 0;
+          setHasMoreFromPagination(fetchedBatchSize === PRODUCTS_PAGE_SIZE);
         })
         .finally(() => {
           loadingMoreRef.current = false;
           setLoadingMore(false);
         });
     });
-  }, [dataResolved?.products.length, fetchMore]);
-
-  const gridContext: ProductsGridContext = { loadingMore };
+  }, [fetchMore, visibleProductsCount]);
 
   useLayoutEffect(() => {
     queueMicrotask(() => {
       applyMainToScrollParent();
     });
-    const id = requestAnimationFrame(() => {
+    const rafId = requestAnimationFrame(() => {
       applyMainToScrollParent();
     });
-    return () => cancelAnimationFrame(id);
+    const timeoutId = window.setTimeout(() => {
+      applyMainToScrollParent();
+    }, 250);
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.clearTimeout(timeoutId);
+    };
   }, [pathname, applyMainToScrollParent]);
-
-  /** После первого ответа Apollo / смены макета ref `main` уже в DOM — повторяем поиск viewport. */
-  useEffect(() => {
-    queueMicrotask(() => {
-      applyMainToScrollParent();
-    });
-  }, [dataResolved, initialLoading, pathname, applyMainToScrollParent]);
 
   useEffect(() => {
     return () => setScrollParent(null);
@@ -178,7 +183,8 @@ export const useProductsQuery = (
   return {
     data: dataResolved,
     initialLoading,
-    gridContext,
+    hasMore,
+    loadingMore,
     loadMore,
     scrollParent,
     networkStatus,

@@ -11,8 +11,11 @@ type UseAppImagePreloadResult = {
 export function useAppImagePreload(
   src: string | undefined,
   proxifyEscuelaRest: boolean,
+  disablePreload: boolean,
 ): UseAppImagePreloadResult {
-  const [isLoading, setIsLoading] = useState(() => Boolean(src));
+  const [isLoading, setIsLoading] = useState(() =>
+    Boolean(src && !disablePreload),
+  );
   const [hasError, setHasError] = useState(false);
 
   const resolvedSrc = resolveAppImageSrc(src, proxifyEscuelaRest);
@@ -21,6 +24,11 @@ export function useAppImagePreload(
    * Предзагрузка через `Image()` до paint без лишней DOM-обёртки вокруг `<img>` (важно для absolute/flex).
    */
   useLayoutEffect(() => {
+    if (disablePreload) {
+      setIsLoading(false);
+      setHasError(false);
+      return;
+    }
     if (!src) {
       setIsLoading(false);
       setHasError(false);
@@ -49,7 +57,7 @@ export function useAppImagePreload(
     return () => {
       cancelled = true;
     };
-  }, [src, proxifyEscuelaRest]);
+  }, [disablePreload, src, proxifyEscuelaRest]);
   /* eslint-enable react-hooks/set-state-in-effect */
 
   return { isLoading, hasError, resolvedSrc };

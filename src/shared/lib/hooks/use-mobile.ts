@@ -1,7 +1,8 @@
 import { useSyncExternalStore } from 'react';
 
-const MOBILE_BREAKPOINT = 768;
-const QUERY = `(max-width: ${MOBILE_BREAKPOINT - 1}px)`;
+import { MEDIA_QUERIES } from '@/shared/config/consts';
+
+const QUERY = MEDIA_QUERIES.mobileOnly;
 
 function getSnapshot() {
   return window.matchMedia(QUERY).matches;

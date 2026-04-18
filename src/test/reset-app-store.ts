@@ -5,7 +5,6 @@ export function resetAppStore(): void {
   useAppStore.setState({
     currentUserId: null,
     scrollByPath: {},
-    virtuosoGridByPath: {},
     openedModal: null,
     modalPropsByKey: {},
   });

@@ -16,10 +16,6 @@ import { ScrollPositionSetterProps } from './types';
  * `scroll` сохраняет `scrollTop` в `scrollByPath[pathname]`. Так работает
  * сохранение скролла для **любой** страницы без виртуализации — достаточно обернуть
  * разметку в `Page`.
- *
- * Если на странице Virtuoso с `customScrollParent`, дополнительно подключите
- * `useVirtuosoScrollPersistence(pathname)` и передайте `restoreStateFrom` /
- * `onGridStateChanged` в Virtuoso (снимок измерений сетки).
  */
 export const ScrollPositionSetter = (props: ScrollPositionSetterProps) => {
   const { className, children, onScrollEnd, mainRef: mainRefProp } = props;

@@ -4,6 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { renderWithProviders } from '@/test/testing';
 
+import { MEDIA_QUERIES } from '@/shared/config/consts';
+
 import { CartRoute } from './CartRoute';
 
 const useCartRouteMock = vi.fn();
@@ -14,7 +16,7 @@ vi.mock('../lib/hooks/useCartRoute', () => ({
 
 function mockDesktopViewport() {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
-    matches: String(query).includes('1024'),
+    matches: query === MEDIA_QUERIES.lgAndUp,
     media: query,
     addEventListener: vi.fn(),
     removeEventListener: vi.fn(),

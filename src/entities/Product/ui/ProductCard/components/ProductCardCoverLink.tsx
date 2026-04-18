@@ -30,8 +30,12 @@ export const ProductCardCoverLink = ({
     >
       {imageUrl ? (
         <AppImage
+          key={`${href}:${imageUrl}`}
           src={imageUrl}
           alt="product image"
+          disablePreload
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover/cover:scale-[1.02]"
         />
       ) : null}

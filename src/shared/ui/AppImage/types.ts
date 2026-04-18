@@ -13,6 +13,8 @@ export type AppImageProps = Omit<ImgHTMLAttributes<HTMLImageElement>, 'src'> & {
    * встроенный скелетон на всю область `className` (см. `disableDefaultLoadingSkeleton`).
    */
   fallback?: ReactNode;
+  /** Отключить предзагрузку через `Image()` и рендерить нативный `<img>` сразу. */
+  disablePreload?: boolean;
   /** Не показывать встроенный скелетон, если `fallback` не передан. */
   disableDefaultLoadingSkeleton?: boolean;
   /** Содержимое при ошибке загрузки. Если не задано, повторно используется `fallback`, затем скелетон. */
