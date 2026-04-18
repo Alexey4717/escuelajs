@@ -377,10 +377,28 @@
   }
 
   .animate-cart-icon-pulse,
-  .animate-cart-badge-exit,
-  .animate-cart-item-enter,
-  .animate-cart-item-exit {
+  .animate-cart-badge-exit {
     animation: none !important;
+  }
+
+  /*
+    Строки корзины: как у .animate-spin — глобальный `*` сбрасывает duration до 0.01ms,
+    а явное `animation: none` для enter/exit отключало жест полностью. Восстанавливаем keyframes.
+  */
+  .animate-cart-item-enter {
+    animation-name: cart-item-enter !important;
+    animation-duration: var(--cart-list-item-duration, 400ms) !important;
+    animation-timing-function: ease-out !important;
+    animation-fill-mode: both !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .animate-cart-item-exit {
+    animation-name: cart-item-exit !important;
+    animation-duration: var(--cart-list-item-duration, 400ms) !important;
+    animation-timing-function: ease-in !important;
+    animation-fill-mode: forwards !important;
+    animation-iteration-count: 1 !important;
   }
 
   /*
