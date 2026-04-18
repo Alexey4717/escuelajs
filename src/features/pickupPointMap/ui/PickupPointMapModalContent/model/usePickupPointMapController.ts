@@ -58,13 +58,13 @@ export function usePickupPointMapController() {
       }
       setMapIcons({
         myLocation: new Icon({
-          iconUrl: '/marker_my_location.svg',
+          iconUrl: '/svg/marker_my_location.svg',
           iconSize: [50, 55],
           iconAnchor: [25, 55],
           popupAnchor: [0, -16],
         }),
         pickupPoint: new Icon({
-          iconUrl: '/marker_pickup.svg',
+          iconUrl: '/svg/marker_pickup.svg',
           iconSize: [50, 55],
           iconAnchor: [25, 55],
           popupAnchor: [0, -16],
@@ -72,7 +72,7 @@ export function usePickupPointMapController() {
         }),
         pickupPointDemo: new Icon({
           className: ONBOARDING_TARGET_IDS.mapDemoPickupPoint,
-          iconUrl: '/marker_pickup.svg',
+          iconUrl: '/svg/marker_pickup.svg',
           iconSize: [50, 55],
           iconAnchor: [25, 55],
           popupAnchor: [0, -16],

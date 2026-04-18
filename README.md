@@ -59,6 +59,18 @@ TypeScript is checked during `pnpm build` (and via your editor). This stack uses
 
 ## Архитектура приложения
 
+### Маршруты и стратегии рендера
+
+| Роут | Стратегия | Примечание |
+| --- | --- | --- |
+| `/forbidden` | `SSG` | Статичный контент без динамических API. |
+| `/categories/[id]` | `ISR (segment)` | `export const revalidate = 3600`. |
+| `/categories` | `ISR (fetch)` | `fetchOptions.next.revalidate` в Apollo `PreloadQuery` context. |
+| `/`, `/products`, `/products/[id]` | `SSR dynamic` | Явно `dynamic = 'force-dynamic'`. |
+| `/users` | `SSR no-store` | `fetchOptions.cache = 'no-store'`. |
+| `/profile` | `SSR no-store` | `PreloadQuery` + `fetchOptions.cache = 'no-store'` и проверка auth cookie. |
+| `/cart`, `/admin-panel`, `/products/create`, `/categories/create`, `*/edit` | `SSR (auth/session-aware)` | Маршруты в `(store)` используют серверные cookie/guard логику. |
+
 ### Структура `src/`
 
 Архитектура по паттерну Feature-Sliced Design, но с учетом ограничений и особенностей Next.js.
@@ -193,8 +205,8 @@ mutate({ variables: { … } }, { context: { [SKIP_ERROR_TOAST_KEY]: true } });
 
 Цель — совместить **shadcn** (класс **`dark`** на `<html>` и CSS-переменные) и атрибут **`data-theme`**.
 
-1. **Сервер** — в [`src/app/layout.tsx`](src/app/layout.tsx) читается cookie **`theme`** (`dark` / иначе считается светлой темой для первого HTML). На `<html>` выставляются `data-theme` и класс `dark` при `theme=dark`.
-2. **Скрипт до отрисовки** — [`src/app/theme-bootstrap.tsx`](src/app/theme-bootstrap.tsx) в `<head>` синхронно переопределяет тему по приоритету: cookie `theme` → `localStorage.getItem('theme')` → системная `prefers-color-scheme: dark`. Так уменьшается мигание при рассинхроне cookie и локального выбора. На `<html>` используется **`suppressHydrationWarning`**, потому что скрипт может слегка отличаться от серверной разметки.
+1. **Сервер** — в [`src/app/layout.tsx`](src/app/layout.tsx) читается cookie **`theme`** (`dark` / иначе светлая тема для первого HTML). На `<html>` выставляются `data-theme` и класс `dark`, а также из `headers()` вычисляется server snapshot `isMobile` для [`ModalProvider`](src/app/modal/ui/ModalProvider.tsx).
+2. **Скрипт до отрисовки** — [`src/app/theme-bootstrap.tsx`](src/app/theme-bootstrap.tsx) подключает `/public/scripts/theme-bootstrap.js`, который синхронно уточняет тему по приоритету: cookie `theme` → `localStorage.getItem('theme')` → системная `prefers-color-scheme: dark`. Это дополнительно уменьшает flash при рассинхроне серверного и клиентского источников темы.
 
 При переключении темы в UI имеет смысл обновлять и cookie (например через server action или route handler), и `localStorage`, чтобы поведение совпадало при следующих заходах и при SSR.
 

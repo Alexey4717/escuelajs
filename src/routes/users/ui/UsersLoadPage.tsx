@@ -1,5 +1,3 @@
-'use client';
-
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { Table, TableBody, TableCell, TableRow } from '@/shared/ui/Table/Table';
 

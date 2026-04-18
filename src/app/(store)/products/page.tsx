@@ -5,7 +5,9 @@ import {
   ProductsDocument,
   type ProductsQueryVariables,
 } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { buildPageMetadata } from '@/shared/lib/seo';
 
 import { PRODUCTS_PAGE_SIZE, ProductsRoute } from '@/routes/products';
 
@@ -21,8 +23,11 @@ const productsListFetchContext = {
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title: 'Products',
-  description: 'Product catalog',
+  ...buildPageMetadata({
+    title: 'Products',
+    description: 'Product catalog',
+    path: pagesPath.products.$url().pathname,
+  }),
 };
 
 const productsListQueryVariables = {

@@ -5,49 +5,30 @@ import type { Metadata } from 'next';
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { UsersDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
-import { getAppOrigin } from '@/shared/lib/app-origin';
-import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { buildPageMetadata } from '@/shared/lib/seo';
 
 import { USERS_LIST_LIMIT, UsersLoadPage, UsersRoute } from '@/routes/users';
-
-const USERS_REVALIDATE_SEC = 120;
 
 const title = 'Users';
 const description =
   'Escuela users list: names, emails, and roles. Browse registered accounts.';
 
 /**
- * Список пользователей на API меняется чаще, чем справочники (добавления несколько раз в день).
- * Короткий ISR + тег `users` даёт актуальные данные для SEO и снижает нагрузку; при навигации
- * в клиенте Apollo дополнительно подтягивает свежие данные (`cache-and-network` по умолчанию).
+ * SSR no-store: список пользователей всегда запрашивается заново на сервере,
+ * без сохранения результата в Next Data Cache.
  */
 const usersFetchContext = {
   fetchOptions: {
-    next: {
-      revalidate: USERS_REVALIDATE_SEC,
-      tags: [nextCacheTags.users],
-    },
+    cache: 'no-store',
   },
 } as const;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const base = getAppOrigin();
-
-  return {
+  return buildPageMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      url: `${base}${pagesPath.users.$url().pathname}`,
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-    },
-  };
+    path: pagesPath.users.$url().pathname,
+  });
 }
 
 export default function UsersPage() {

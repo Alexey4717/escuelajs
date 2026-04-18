@@ -1,5 +1,3 @@
-'use client';
-
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
 import { Page } from '@/widgets/Page';

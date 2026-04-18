@@ -5,15 +5,15 @@ import type { Metadata } from 'next';
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
 import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
-import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { buildPageMetadata } from '@/shared/lib/seo';
 
 import {
   CategoryDetailsLoadPage,
   CategoryDetailsRoute,
 } from '@/routes/category-detail';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 interface CategoryDetailsPageProps {
   params: Promise<{ id: string }>;
@@ -43,33 +43,19 @@ export async function generateMetadata({
 
     const category = data?.category;
     if (!category) {
-      return { title: 'Category' };
+      return buildPageMetadata({ title: 'Category' });
     }
 
-    const base = getAppOrigin();
-    const url = `${base}${pagesPath.categories._id(id).$url().path}`;
+    const description = `Category “${category.name}” in the catalog.`;
 
-    return {
+    return buildPageMetadata({
       title: category.name,
-      description: `Category “${category.name}” in the catalog.`,
-      openGraph: {
-        title: category.name,
-        description: `Category “${category.name}” in the catalog.`,
-        url,
-        type: 'website',
-        ...(category.image ? { images: [{ url: category.image }] } : {}),
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: category.name,
-        description: `Category “${category.name}” in the catalog.`,
-        ...(category.image ? { images: [category.image] } : {}),
-      },
-    };
+      description,
+      path: pagesPath.categories._id(id).$url().path,
+      images: category.image ? [category.image] : [],
+    });
   } catch {
-    return {
-      title: 'Category',
-    };
+    return buildPageMetadata({ title: 'Category' });
   }
 }
 

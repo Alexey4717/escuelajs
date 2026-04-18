@@ -2,13 +2,16 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 
 import { pagesPath } from '@/shared/config/routes/$path';
+import { buildNoIndexMetadata } from '@/shared/lib/seo';
 import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { Page } from '@/widgets/Page';
 
 export const metadata: Metadata = {
-  title: 'Access denied',
-  description: 'Access restriction page based on user role.',
+  ...buildNoIndexMetadata({
+    title: 'Access denied',
+    description: 'Access restriction page based on user role.',
+  }),
 };
 
 // Страница без данных: всегда один и тот же UI.

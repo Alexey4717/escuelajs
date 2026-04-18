@@ -1,5 +1,3 @@
-'use client';
-
 import { Separator } from '@/shared/ui/Separator/Separator';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 

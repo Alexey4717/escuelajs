@@ -5,8 +5,8 @@ import type { Metadata } from 'next';
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
 import { ProductDetailsDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
-import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { buildPageMetadata } from '@/shared/lib/seo';
 
 import {
   ProductDetailsLoadPage,
@@ -44,7 +44,7 @@ export async function generateMetadata({
 
     const product = data?.product;
     if (!product) {
-      return { title: 'Product' };
+      return buildPageMetadata({ title: 'Product' });
     }
 
     const description =
@@ -52,31 +52,16 @@ export async function generateMetadata({
         ? `${product.description.slice(0, 157)}…`
         : product.description;
 
-    const base = getAppOrigin();
-    const url = `${base}${pagesPath.products._id(id).$url().path}`;
     const ogImage = product.images[0];
 
-    return {
+    return buildPageMetadata({
       title: product.title,
       description,
-      openGraph: {
-        title: product.title,
-        description,
-        url,
-        type: 'website',
-        ...(ogImage ? { images: [{ url: ogImage }] } : {}),
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: product.title,
-        description,
-        ...(ogImage ? { images: [ogImage] } : {}),
-      },
-    };
+      path: pagesPath.products._id(id).$url().path,
+      images: ogImage ? [ogImage] : [],
+    });
   } catch {
-    return {
-      title: 'Product',
-    };
+    return buildPageMetadata({ title: 'Product' });
   }
 }
 

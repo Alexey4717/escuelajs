@@ -1,3 +1,5 @@
+import { type ReactNode } from 'react';
+
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { cookies, headers } from 'next/headers';
@@ -7,6 +9,7 @@ import { Toaster } from 'sonner';
 
 import { ApolloProvider } from '@/shared/api/apollo-client/provider';
 import { QueryProvider } from '@/shared/api/query-client/query-provider';
+import { getMetadataBase } from '@/shared/lib/seo';
 import { cn } from '@/shared/lib/styles/cn';
 
 import { ModalProvider } from '@/app/modal/ui/ModalProvider';
@@ -24,29 +27,18 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-function getSiteUrlForMetadata(): string {
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL.replace(/\/$/, '');
-  }
-  if (process.env.VERCEL_URL) {
-    return `https://${process.env.VERCEL_URL}`;
-  }
-  return 'http://localhost:3000';
-}
-
-const siteUrl = getSiteUrlForMetadata();
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: getMetadataBase(),
   title: 'Escuela.io',
   description:
     'Escuela storefront built with Next.js and GraphQL API (JWT, BFF /api/graphql).',
+  manifest: '/manifest.webmanifest',
 };
 
 export default async function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   const themeCookie = (await cookies()).get('theme')?.value;
   const serverDark = themeCookie === 'dark';

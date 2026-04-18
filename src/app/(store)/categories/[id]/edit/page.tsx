@@ -1,7 +1,10 @@
+import type { Metadata } from 'next';
+
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { CategoryDetailsDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { buildNoIndexMetadata } from '@/shared/lib/seo';
 
 import {
   categoryEditHeadingPage,
@@ -18,6 +21,13 @@ import {
 interface CategoryEditPageProps {
   params: Promise<CategoryEditPageParams>;
 }
+
+export const metadata: Metadata = {
+  ...buildNoIndexMetadata({
+    title: 'Edit category',
+    description: 'Administrative category editing page.',
+  }),
+};
 
 export default async function CategoryEditPage({
   params,

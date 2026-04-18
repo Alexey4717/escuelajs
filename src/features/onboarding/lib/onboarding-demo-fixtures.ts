@@ -17,10 +17,10 @@ export const ONBOARDING_ADMIN_DEMO_PRODUCT_A_ID =
 export const ONBOARDING_ADMIN_DEMO_PRODUCT_A_SLUG = 'admin-demo-product-a';
 
 const ONBOARDING_DEMO_PRODUCT_A_IMAGES = [
-  '/onboarding-demo-product-a.jpeg',
+  '/images/onboarding-demo-product-a.jpeg',
 ] as const;
 const ONBOARDING_DEMO_PRODUCT_B_IMAGES = [
-  '/onboarding-demo-product-b.jpeg',
+  '/images/onboarding-demo-product-b.jpeg',
 ] as const;
 
 const ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS: Record<string, string> = {
@@ -38,7 +38,7 @@ export const ONBOARDING_DEMO_CHECKOUT = {
 
 export const ONBOARDING_ADMIN_DEMO_CATEGORY_FORM = {
   name: 'Clothes',
-  image: '/onboarding-demo-category.jpeg',
+  image: '/images/onboarding-demo-category.jpeg',
 } as const;
 
 export const ONBOARDING_ADMIN_DEMO_PRODUCT_FORM = {
@@ -47,7 +47,7 @@ export const ONBOARDING_ADMIN_DEMO_PRODUCT_FORM = {
   description:
     ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS[ONBOARDING_DEMO_PRODUCT_A_ID],
   categoryId: ONBOARDING_ADMIN_DEMO_CATEGORY_ID,
-  image: '/onboarding-demo-product-a.jpeg',
+  image: '/images/onboarding-demo-product-a.jpeg',
 } as const;
 
 const categoryA: ProductsQuery['products'][number]['category'] = {
@@ -62,7 +62,7 @@ const categoryDetail: ProductDetailsQuery['product']['category'] = {
   id: ONBOARDING_DEMO_CATEGORY_ID,
   name: 'Clothes',
   slug: 'clothes',
-  image: '/onboarding-demo-category.jpeg',
+  image: '/images/onboarding-demo-category.jpeg',
 };
 
 const adminCategoryListItem: CategoriesQuery['categories'][number] = {
@@ -87,7 +87,7 @@ export const ONBOARDING_DEMO_CATEGORY_DETAILS: CategoryDetailsQuery['category'] 
     id: ONBOARDING_DEMO_CATEGORY_ID,
     name: 'Clothes',
     slug: 'clothes',
-    image: '/onboarding-demo-category.jpeg',
+    image: '/images/onboarding-demo-category.jpeg',
     creationAt: '2026-04-16T02:43:00.000Z',
     updatedAt: '2026-04-16T02:43:00.000Z',
   };
@@ -199,7 +199,7 @@ export const ONBOARDING_ADMIN_DEMO_PRIMARY_USER: UsersQuery['users'][number] = {
   email: 'john@mail.com',
   password: '',
   role: 'customer',
-  avatar: '/onboarding-demo-user.jpeg',
+  avatar: '/images/onboarding-demo-user.jpeg',
   creationAt: '2026-04-16T02:43:00',
   updatedAt: '2026-04-16T02:43:00',
 };

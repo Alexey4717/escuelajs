@@ -5,8 +5,8 @@ import type { Metadata } from 'next';
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
 import { HomeLandingDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
-import { getAppOrigin } from '@/shared/lib/app-origin';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { buildPageMetadata } from '@/shared/lib/seo';
 
 import {
   HOME_FEATURED_PRODUCTS_LIMIT,
@@ -31,23 +31,11 @@ const description =
   'Online store for clothing and electronics: catalog, reviews, getting started guide, and FAQ.';
 
 export async function generateMetadata(): Promise<Metadata> {
-  const base = getAppOrigin();
-
-  return {
+  return buildPageMetadata({
     title: 'Home',
     description,
-    openGraph: {
-      title: 'Home',
-      description,
-      url: `${base}${pagesPath.$url().pathname}`,
-      type: 'website',
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: 'Home',
-      description,
-    },
-  };
+    path: pagesPath.$url().pathname,
+  });
 }
 
 export default function HomePage() {
