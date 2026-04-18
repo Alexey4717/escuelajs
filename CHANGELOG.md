@@ -1,3 +1,12 @@
+# [1.17.0](https://github.com/Alexey4717/escuelajs/compare/v1.16.0...v1.17.0) (2026-04-17)
+
+
+### Features
+
+* add back to top button for root scroll area layout ([5cdea05](https://github.com/Alexey4717/escuelajs/commit/5cdea05585c3c89acb34d1c5fbf8023c27cc3d0e))
+* add skeletons for pages, route guard and some lists ([0da8a03](https://github.com/Alexey4717/escuelajs/commit/0da8a03749b7f417aa36dc4725dfd292adc56fbb))
+* improve component availability, change language app to en ([c9f20df](https://github.com/Alexey4717/escuelajs/commit/c9f20df364a13e708a499cb5bfcdb9da27cd21eb))
+
 # [1.16.0](https://github.com/Alexey4717/escuelajs/compare/v1.15.0...v1.16.0) (2026-04-16)
 
 
