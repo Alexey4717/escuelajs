@@ -69,7 +69,7 @@ export function OnboardingProfileSection() {
   );
 
   return (
-    <div className="space-y-6 rounded-xl border border-border bg-card p-5 shadow-sm">
+    <div className="min-w-0 flex-1 space-y-6 rounded-xl border border-border bg-card p-5 shadow-sm">
       {role !== 'admin' ? (
         <div className="space-y-3">
           <Typography variant="h5" component="h2">

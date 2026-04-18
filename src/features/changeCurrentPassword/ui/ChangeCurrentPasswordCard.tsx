@@ -63,24 +63,22 @@ function ChangeCurrentPasswordFormInner({
 
   return (
     <Form methods={methods} onSubmit={handleSubmit}>
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
-        <div className="flex min-w-0 flex-1 flex-col gap-2">
-          <CurrentPasswordField
-            type="password"
-            autoComplete="current-password"
-            placeholder="Current password"
-            disabled={fieldsDisabled}
-          />
-          <NewPasswordField
-            type="password"
-            autoComplete="new-password"
-            placeholder="New password"
-            disabled={fieldsDisabled}
-          />
-        </div>
+      <div className="flex flex-col gap-2">
+        <CurrentPasswordField
+          type="password"
+          autoComplete="current-password"
+          placeholder="Current password"
+          disabled={fieldsDisabled}
+        />
+        <NewPasswordField
+          type="password"
+          autoComplete="new-password"
+          placeholder="New password"
+          disabled={fieldsDisabled}
+        />
         <Button
           type="submit"
-          className="w-full shrink-0 sm:w-auto"
+          className="w-full shrink-0 self-end mt-4"
           loading={loading}
           disabled={fieldsDisabled}
           size="lg"
@@ -103,7 +101,10 @@ export function ChangeCurrentPasswordCard() {
   const formInstanceKey = `${userId ?? ''}:${profilePassword ?? 'pending'}`;
 
   return (
-    <Card title="Change password" className="shadow-sm ring-border/60">
+    <Card
+      title="Change password"
+      className="min-w-0 h-content flex-1 shadow-sm ring-border/60"
+    >
       <ChangeCurrentPasswordFormInner
         key={formInstanceKey}
         profilePassword={profilePassword}

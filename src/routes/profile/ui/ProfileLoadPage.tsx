@@ -18,10 +18,18 @@ export const ProfileLoadPage = () => (
         <Skeleton loading className="rounded-2xl bg-muted/70">
           <div className="h-60 rounded-2xl border border-border/40" />
         </Skeleton>
-        <Skeleton loading className="rounded-2xl bg-muted/70">
-          <div className="h-48 rounded-2xl border border-border/40" />
-        </Skeleton>
-        <Skeleton className="h-20 rounded-2xl" aria-hidden />
+        <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:items-start">
+          <div className="min-w-0 flex-1">
+            <Skeleton loading className="rounded-2xl bg-muted/70">
+              <div className="min-h-[16rem] rounded-2xl border border-border/40" />
+            </Skeleton>
+          </div>
+          <div className="min-w-0 flex-1">
+            <Skeleton loading className="rounded-2xl bg-muted/70">
+              <div className="min-h-[22rem] rounded-2xl border border-border/40" />
+            </Skeleton>
+          </div>
+        </div>
       </div>
     </div>
   </Page>

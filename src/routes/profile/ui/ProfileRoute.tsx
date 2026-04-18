@@ -100,8 +100,10 @@ export const ProfileRoute = () => {
             roleLabel={roleLabel}
             roleBadgeVariant={roleBadgeVariant}
           />
-          <ChangeCurrentPasswordCard />
-          <OnboardingProfileSection />
+          <div className="flex min-w-0 flex-col gap-6 lg:flex-row lg:items-start">
+            <ChangeCurrentPasswordCard />
+            <OnboardingProfileSection />
+          </div>
         </div>
       </div>
     </Page>
