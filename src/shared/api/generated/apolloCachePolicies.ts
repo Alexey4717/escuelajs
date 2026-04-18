@@ -9,11 +9,10 @@ export const arraysPoliciesByOffsetLimit = {
   products: offsetLimitPagination([
     'categoryId',
     'categorySlug',
+    'limit',
     'price',
     'price_max',
     'price_min',
-    'productsLimit',
-    'productsOffset',
     'title',
   ]),
 } as const;
@@ -23,7 +22,7 @@ export const arraysPoliciesByCursorLimit = {} as const;
 
 /** Списки на Query с аргументами, не offset/cursor (явные keyArgs). Сгенерировано codegen-apollo-cache-plugin. */
 export const queryListFieldsWithKeyArgs = {
-  users: { keyArgs: ['limit', 'usersLimit'] },
+  users: { keyArgs: ['limit'] },
 } as const;
 
 /** Нет полей Query с одиночной не-нормализованной сущностью. */

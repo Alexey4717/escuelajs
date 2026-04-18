@@ -23,6 +23,13 @@ const {
 const PAGINATION_ARGS_CURSOR = ['after', 'first'];
 /** Имена переменных операции, которые не участвуют в keyArgs (пагинация). */
 const OP_VAR_EXCLUDE = new Set(['limit', 'offset', 'first', 'after']);
+/** Имена GraphQL-аргументов поля для пагинации: имена переменных ($productsLimit и т.д.) не должны попадать в keyArgs. */
+const PAGINATION_FIELD_ARG_NAMES = new Set([
+  'limit',
+  'offset',
+  'first',
+  'after',
+]);
 const ROOT_TYPES_TO_SKIP = new Set(['Query', 'Mutation', 'Subscription']);
 const LOG_PREFIX = '[codegen-apollo-cache-plugin]';
 
@@ -42,10 +49,11 @@ function tsStringArrayLiteral(strings) {
  */
 function getOffsetPaginationPair(argNames) {
   if (argNames.includes('offset') && argNames.includes('limit')) {
-    return { exclude: ['offset', 'limit'] };
+    /** Только `offset` исключаем из keyArgs: `limit` различает «подборку» (4) и страницу каталога (20). */
+    return { exclude: ['offset'] };
   }
   if (argNames.includes('offset') && argNames.includes('first')) {
-    return { exclude: ['offset', 'first'] };
+    return { exclude: ['offset'] };
   }
   return null;
 }
@@ -125,13 +133,13 @@ function collectRootFieldArgNamesFromDocuments(documents) {
         }
         for (const arg of sel.arguments ?? []) {
           set.add(arg.name.value);
-        }
-        const varsInField = new Set();
-        for (const arg of sel.arguments ?? []) {
-          collectVariableNamesFromValueNode(arg.value, varsInField);
-        }
-        for (const v of varsInField) {
-          if (!OP_VAR_EXCLUDE.has(v)) set.add(v);
+          const varsInArg = new Set();
+          collectVariableNamesFromValueNode(arg.value, varsInArg);
+          for (const v of varsInArg) {
+            if (OP_VAR_EXCLUDE.has(v)) continue;
+            if (PAGINATION_FIELD_ARG_NAMES.has(arg.name.value)) continue;
+            set.add(v);
+          }
         }
       }
     }
@@ -183,7 +191,7 @@ function collectNestedPaginatedFromDocuments(schema, documents) {
         : null;
       for (const n of operationVarNames) {
         if (kind === NESTED_FIELD_KIND_OFFSET) {
-          const exclude = offsetPair ? offsetPair.exclude : ['limit', 'offset'];
+          const exclude = offsetPair ? offsetPair.exclude : ['offset'];
           if (!exclude.includes(n)) set.add(n);
         }
         if (
@@ -231,13 +239,15 @@ function collectNestedPaginatedFromDocuments(schema, documents) {
         const fieldName = sel.name.value;
         const field = fields[fieldName];
         if (!field) continue;
-        const varsInFieldArgs = new Set();
+        const varsForPagination = new Set();
         for (const arg of sel.arguments ?? []) {
-          collectVariableNamesFromValueNode(arg.value, varsInFieldArgs);
+          if (PAGINATION_FIELD_ARG_NAMES.has(arg.name.value)) continue;
+          const varsInArg = new Set();
+          collectVariableNamesFromValueNode(arg.value, varsInArg);
+          for (const n of varsInArg) {
+            if (!OP_VAR_EXCLUDE.has(n)) varsForPagination.add(n);
+          }
         }
-        const varsForPagination = new Set(
-          [...varsInFieldArgs].filter((n) => !OP_VAR_EXCLUDE.has(n)),
-        );
         const argNames = (field.args ?? []).map((a) => a.name);
         const offsetPair = getOffsetPaginationPair(argNames);
         if (offsetPair) {
@@ -338,10 +348,7 @@ function collectNestedPaginatedFromDocuments(schema, documents) {
 function mergedKeyArgsForPagination(schemaArgNames, documentArgNames, kind) {
   const exclude =
     kind === 'offset'
-      ? (getOffsetPaginationPair(schemaArgNames)?.exclude ?? [
-          'limit',
-          'offset',
-        ])
+      ? (getOffsetPaginationPair(schemaArgNames)?.exclude ?? ['offset'])
       : PAGINATION_ARGS_CURSOR;
   const fromSchema = new Set(
     schemaArgNames.filter((n) => !exclude.includes(n)),
