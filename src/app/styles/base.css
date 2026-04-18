@@ -1,0 +1,63 @@
+@layer base {
+  body {
+    margin: 0;
+    min-block-size: 100vh;
+    background-color: var(--background);
+    color: var(--foreground);
+
+    @apply bg-background text-foreground;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  button {
+    cursor: pointer;
+    font: inherit;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  /*
+    Документ на корне: нативная полоса скрыта (login и др.).
+    Прокрутка колесом/тачом сохраняется. В витрине — ScrollArea.
+  */
+  html {
+    @apply font-sans;
+
+    scrollbar-width: none;
+  }
+
+  body {
+    scrollbar-width: none;
+  }
+
+  /* stylelint-disable csstools/use-logical -- WebKit ::-webkit-scrollbar */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  /* stylelint-enable csstools/use-logical */
+}

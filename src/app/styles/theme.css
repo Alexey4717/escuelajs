@@ -1,0 +1,141 @@
+@custom-variant dark (&:is(.dark *));
+
+/* Тема: переменные из shadcn (neutral), @theme — утилиты bg-*, text-*, border-* */
+:root {
+  --card: oklch(100% 0 0deg);
+  --muted: oklch(97% 0 0deg);
+  --muted-foreground: oklch(55.6% 0 0deg);
+  --border: oklch(92.2% 0 0deg);
+  --primary: oklch(20.5% 0 0deg);
+  --primary-foreground: oklch(98.5% 0 0deg);
+  --secondary: oklch(97% 0 0deg);
+  --secondary-foreground: oklch(20.5% 0 0deg);
+  --accent: oklch(97% 0 0deg);
+  --accent-foreground: oklch(20.5% 0 0deg);
+
+  /* Утилита w-[var(--sidebar-width)] */
+  --sidebar-width: 14rem;
+  --background: oklch(100% 0 0deg);
+  --foreground: oklch(14.5% 0 0deg);
+  --card-foreground: oklch(14.5% 0 0deg);
+  --popover: oklch(100% 0 0deg);
+  --popover-foreground: oklch(14.5% 0 0deg);
+  --destructive: oklch(57.7% 0.245 27.325deg);
+  --input: oklch(92.2% 0 0deg);
+  --ring: oklch(70.8% 0 0deg);
+  --chart-1: oklch(87% 0 0deg);
+  --chart-2: oklch(55.6% 0 0deg);
+  --chart-3: oklch(43.9% 0 0deg);
+  --chart-4: oklch(37.1% 0 0deg);
+  --chart-5: oklch(26.9% 0 0deg);
+  --radius: 0.625rem;
+  --sidebar: oklch(98.5% 0 0deg);
+  --sidebar-foreground: oklch(14.5% 0 0deg);
+  --sidebar-primary: oklch(20.5% 0 0deg);
+  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-accent: oklch(97% 0 0deg);
+  --sidebar-accent-foreground: oklch(20.5% 0 0deg);
+  --sidebar-border: oklch(92.2% 0 0deg);
+  --sidebar-ring: oklch(70.8% 0 0deg);
+
+  /* Скроллбар: Firefox (scrollbar-*) + WebKit (ниже) */
+  --scrollbar-track: oklch(96.5% 0 0deg);
+  --scrollbar-thumb: oklch(78% 0 0deg);
+  --scrollbar-thumb-hover: oklch(64% 0 0deg);
+}
+
+@media (width >= 48rem) {
+  :root {
+    --sidebar-width: 15rem;
+  }
+}
+
+@media (width >= 64rem) {
+  :root {
+    --sidebar-width: 220px;
+  }
+}
+
+.dark {
+  --background: oklch(14.5% 0 0deg);
+  --foreground: oklch(98.5% 0 0deg);
+  --card: oklch(20.5% 0 0deg);
+  --muted: oklch(26.9% 0 0deg);
+  --muted-foreground: oklch(70.8% 0 0deg);
+  --border: oklch(100% 0 0deg / 10%);
+  --primary: oklch(92.2% 0 0deg);
+  --primary-foreground: oklch(20.5% 0 0deg);
+  --secondary: oklch(26.9% 0 0deg);
+  --secondary-foreground: oklch(98.5% 0 0deg);
+  --accent: oklch(26.9% 0 0deg);
+  --accent-foreground: oklch(98.5% 0 0deg);
+  --card-foreground: oklch(98.5% 0 0deg);
+  --popover: oklch(20.5% 0 0deg);
+  --popover-foreground: oklch(98.5% 0 0deg);
+  --destructive: oklch(70.4% 0.191 22.216deg);
+  --input: oklch(100% 0 0deg / 15%);
+  --ring: oklch(55.6% 0 0deg);
+  --chart-1: oklch(87% 0 0deg);
+  --chart-2: oklch(55.6% 0 0deg);
+  --chart-3: oklch(43.9% 0 0deg);
+  --chart-4: oklch(37.1% 0 0deg);
+  --chart-5: oklch(26.9% 0 0deg);
+  --sidebar: oklch(20.5% 0 0deg);
+  --sidebar-foreground: oklch(98.5% 0 0deg);
+  --sidebar-primary: oklch(48.8% 0.243 264.376deg);
+  --sidebar-primary-foreground: oklch(98.5% 0 0deg);
+  --sidebar-accent: oklch(26.9% 0 0deg);
+  --sidebar-accent-foreground: oklch(98.5% 0 0deg);
+  --sidebar-border: oklch(100% 0 0deg / 10%);
+  --sidebar-ring: oklch(55.6% 0 0deg);
+  --scrollbar-track: oklch(22% 0 0deg);
+  --scrollbar-thumb: oklch(46% 0 0deg);
+  --scrollbar-thumb-hover: oklch(58% 0 0deg);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-geist-mono);
+  --spacing-layout: 1.4rem;
+  --default-transition-duration: 333ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-destructive: var(--destructive);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
