@@ -1,3 +1,17 @@
+# [1.18.0](https://github.com/Alexey4717/escuelajs/compare/v1.17.0...v1.18.0) (2026-04-18)
+
+
+### Bug Fixes
+
+* animation styling for components availability ([b26edd1](https://github.com/Alexey4717/escuelajs/commit/b26edd18d7db80aad546a9af885be07831d95925))
+* codegen apollo cache plugin ([efd5cca](https://github.com/Alexey4717/escuelajs/commit/efd5cca82dda9a0647f2c330fb739498d9e905ea))
+* virtualization products list by change Virtuoso on tanstack/react-virtual, add breakpoints consts ([a5ec40a](https://github.com/Alexey4717/escuelajs/commit/a5ec40a2433de428faefed17ac7d4ca8e67a3971))
+
+
+### Features
+
+* update grid in profile ([9ac6e79](https://github.com/Alexey4717/escuelajs/commit/9ac6e79720bdccb9603877f2020b25a54b4b7fa3))
+
 # [1.17.0](https://github.com/Alexey4717/escuelajs/compare/v1.16.0...v1.17.0) (2026-04-17)
 
 
