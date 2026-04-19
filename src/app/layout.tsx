@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import { cookies, headers } from 'next/headers';
 import { userAgent } from 'next/server';
 
+import { Analytics } from '@vercel/analytics/next';
 import { Toaster } from 'sonner';
 
 import { ApolloProvider } from '@/shared/api/apollo-client/provider';
@@ -74,6 +75,7 @@ export default async function RootLayout({
             </ModalProvider>
           </ApolloProvider>
         </QueryProvider>
+        <Analytics />
       </body>
     </html>
   );
