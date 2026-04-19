@@ -8,6 +8,7 @@ import { ACCESS_TOKEN_KEY } from '@/shared/config/consts/auth';
 import { defineIsLoggedIn } from '@/shared/lib/auth/is-logged-in';
 import { getSubFromAccessToken } from '@/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
+import { emitDebugSessionLog } from '@/shared/lib/debug-session-log';
 
 import { SessionHydration } from '@/entities/Session';
 
@@ -24,6 +25,19 @@ export default async function StoreLayout({
   const cookieStore = await cookies();
   const accessToken = cookieStore.get(ACCESS_TOKEN_KEY)?.value;
   const userId = getSubFromAccessToken(accessToken);
+
+  // #region agent log
+  emitDebugSessionLog({
+    hypothesisId: 'H5',
+    location: 'app/(store)/layout.tsx',
+    message: 'store shell session',
+    data: {
+      isLoggedIn,
+      userIdFromJwt: Boolean(userId),
+      preloadUserDetailsBranch: Boolean(userId),
+    },
+  });
+  // #endregion
 
   return (
     <SessionHydration userId={userId}>

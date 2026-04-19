@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
 
 import { AddUserDocument, LoginDocument } from '@/shared/api/generated/graphql';
+import { emitDebugSessionLog } from '@/shared/lib/debug-session-log';
 import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redirect';
 
 import { DEFAULT_AVATAR } from '../constants';
@@ -48,6 +49,14 @@ export const useSubmitHandler = () => {
         variables: { email: email.trim(), password },
       });
 
+      // #region agent log
+      emitDebugSessionLog({
+        hypothesisId: 'H6',
+        location: 'useSubmitHandler register',
+        message: 'AddUser+Login mutations settled on client',
+        data: { redirectTo, nextNavigation: 'push+refresh' },
+      });
+      // #endregion
       toast.success('Registration completed successfully');
       router.push(redirectTo);
       router.refresh();

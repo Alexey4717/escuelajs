@@ -25,6 +25,7 @@ import {
   clearAuthCookiesOnResponse,
   clearRefreshHintOnResponse,
 } from '@/shared/lib/cookies/auth-cookies';
+import { emitDebugSessionLog } from '@/shared/lib/debug-session-log';
 
 const E2E_MOCK_GRAPHQL = process.env.E2E_MOCK_GRAPHQL === '1';
 
@@ -119,6 +120,24 @@ export async function POST(request: NextRequest) {
   const accessToken = request.cookies.get(ACCESS_TOKEN_KEY)?.value;
   const bodyText = await request.text();
   const parsed = parseJson(bodyText);
+  const operationName =
+    parsed && typeof parsed.operationName === 'string'
+      ? parsed.operationName
+      : 'unknown';
+  // #region agent log
+  emitDebugSessionLog({
+    hypothesisId: 'H4',
+    location: 'api/graphql/route.ts',
+    message: 'POST incoming',
+    data: {
+      operationName,
+      hasAccessCookie: Boolean(accessToken?.length),
+      hasRefreshCookie: Boolean(
+        request.cookies.get(REFRESH_TOKEN_KEY)?.value?.length,
+      ),
+    },
+  });
+  // #endregion
   const isE2eMockRequest =
     E2E_MOCK_GRAPHQL || request.headers.get('x-e2e-mock-graphql') === '1';
 
@@ -233,8 +252,27 @@ export async function POST(request: NextRequest) {
         login.access_token,
         login.refresh_token,
       );
+      // #region agent log
+      emitDebugSessionLog({
+        hypothesisId: 'H4',
+        location: 'api/graphql/route.ts',
+        message: 'login mutation: Set-Cookie applied on BFF response',
+        data: { upstreamStatus: upstream.status },
+      });
+      // #endregion
       return response;
     }
+    // #region agent log
+    emitDebugSessionLog({
+      hypothesisId: 'H4',
+      location: 'api/graphql/route.ts',
+      message: 'login data present but tokens missing in upstream payload',
+      data: {
+        hasAccessInPayload: Boolean(login.access_token),
+        hasRefreshInPayload: Boolean(login.refresh_token),
+      },
+    });
+    // #endregion
   }
 
   if (data?.refreshToken && typeof data.refreshToken === 'object') {
@@ -248,8 +286,31 @@ export async function POST(request: NextRequest) {
         headers: { 'Content-Type': 'application/json' },
       });
       applyAuthCookiesToResponse(response, rt.access_token, rt.refresh_token);
+      // #region agent log
+      emitDebugSessionLog({
+        hypothesisId: 'H4',
+        location: 'api/graphql/route.ts',
+        message: 'refreshToken mutation: Set-Cookie applied',
+        data: { upstreamStatus: upstream.status },
+      });
+      // #endregion
       return response;
     }
+  }
+
+  if (
+    Array.isArray(json.errors) &&
+    json.errors.length > 0 &&
+    isUserDetailsOperation(parsed ?? {})
+  ) {
+    // #region agent log
+    emitDebugSessionLog({
+      hypothesisId: 'H8',
+      location: 'api/graphql/route.ts',
+      message: 'UserDetails upstream returned GraphQL errors',
+      data: { errorCount: json.errors.length },
+    });
+    // #endregion
   }
 
   return new NextResponse(resBody, {
