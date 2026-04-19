@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
@@ -15,7 +15,6 @@ import { DEFAULT_AVATAR } from '../constants';
 import { RegisterFormStateOutput } from './scheme';
 
 export const useSubmitHandler = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [addUser, { loading: adding }] = useMutation(AddUserDocument);
@@ -54,11 +53,12 @@ export const useSubmitHandler = () => {
         hypothesisId: 'H6',
         location: 'useSubmitHandler register',
         message: 'AddUser+Login mutations settled on client',
-        data: { redirectTo, nextNavigation: 'replace-only' },
+        data: { redirectTo, nextNavigation: 'location-assign' },
       });
       // #endregion
       toast.success('Registration completed successfully');
-      router.replace(redirectTo);
+      // См. login useSubmitHandler: полная навигация после установки cookie.
+      window.location.assign(redirectTo);
     } catch (err) {
       console.error(err);
     }

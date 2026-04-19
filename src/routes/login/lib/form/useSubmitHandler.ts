@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react';
 
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 import { useMutation } from '@apollo/client/react';
 import { toast } from 'sonner';
@@ -14,7 +14,6 @@ import { sanitizeLoginFromParam } from '@/shared/lib/redirects/safe-login-redire
 import { LoginFormStateOutput } from './scheme';
 
 export const useSubmitHandler = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
 
   const [login, { loading }] = useMutation(LoginDocument);
@@ -34,13 +33,13 @@ export const useSubmitHandler = () => {
         hypothesisId: 'H6',
         location: 'useSubmitHandler login',
         message: 'Login mutation settled on client',
-        data: { redirectTo, nextNavigation: 'replace-only' },
+        data: { redirectTo, nextNavigation: 'location-assign' },
       });
       // #endregion
       toast.success('Signed in successfully');
-      // Не вызывать router.refresh() сразу после входа: на текущем URL ещё /login,
-      // refresh перезапрашивает RSC именно логина и может «перебить» переход на /profile.
-      router.replace(redirectTo);
+      // Полная перезагрузка целевого URL: после Set-Cookie soft-navigation (router.replace)
+      // может параллельно запросить RSC без cookie (в логах H2: jwtSegmentCount 1) — пустой профиль и Sign in.
+      window.location.assign(redirectTo);
     } catch (err) {
       console.error(err);
       toast.error('Sign in failed');
