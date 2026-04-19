@@ -13,7 +13,7 @@ import {
 import { useSliderThumbCount } from './hooks/useSliderThumbCount';
 import type { SliderProps } from './types';
 
-export function Slider({
+export const Slider = ({
   className,
   defaultValue,
   value,
@@ -23,7 +23,7 @@ export function Slider({
   rangeClassName,
   thumbClassName,
   ...props
-}: SliderProps) {
+}: SliderProps) => {
   const thumbCount = useSliderThumbCount(value, defaultValue, min, max);
 
   return (
@@ -43,4 +43,4 @@ export function Slider({
       <SliderThumbs count={thumbCount} thumbClassName={thumbClassName} />
     </SliderPrimitive.Root>
   );
-}
+};

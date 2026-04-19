@@ -9,7 +9,7 @@ import { makeQueryClient } from './make-query-client';
  */
 let browserQueryClient: QueryClient | undefined;
 
-export function getQueryClient(): QueryClient {
+export const getQueryClient = (): QueryClient => {
   if (environmentManager.isServer()) {
     return makeQueryClient();
   }
@@ -17,4 +17,4 @@ export function getQueryClient(): QueryClient {
     browserQueryClient = makeQueryClient();
   }
   return browserQueryClient;
-}
+};

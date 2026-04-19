@@ -38,7 +38,7 @@ interface ProfileEditFormCardProps {
   user: UserDetailsQuery['user'];
 }
 
-export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
+export const ProfileEditFormCard = ({ user }: ProfileEditFormCardProps) => {
   const {
     handleSubmit: submitProfileEdit,
     loading: submitLoading,
@@ -126,4 +126,4 @@ export function ProfileEditFormCard({ user }: ProfileEditFormCardProps) {
       </Form>
     </Card>
   );
-}
+};

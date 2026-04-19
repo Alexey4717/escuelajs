@@ -7,14 +7,12 @@ interface AppImageStateSlotProps {
   children: ReactNode;
 }
 
-export function AppImageStateSlot({
+export const AppImageStateSlot = ({
   className,
   busy,
   children,
-}: AppImageStateSlotProps) {
-  return (
-    <div className={className} {...(busy ? { 'aria-busy': true } : {})}>
-      {children}
-    </div>
-  );
-}
+}: AppImageStateSlotProps) => (
+  <div className={className} {...(busy ? { 'aria-busy': true } : {})}>
+    {children}
+  </div>
+);

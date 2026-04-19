@@ -8,11 +8,11 @@ interface UseInfinityScrollOptions {
   wrapperRef?: RefObject<HTMLElement>;
 }
 
-export function useInfinityScroll({
+export const useInfinityScroll = ({
   callback,
   triggerRef,
   wrapperRef,
-}: UseInfinityScrollOptions) {
+}: UseInfinityScrollOptions) => {
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
     const wrapperElement = wrapperRef?.current || null;
@@ -40,4 +40,4 @@ export function useInfinityScroll({
       }
     };
   }, [callback, triggerRef, wrapperRef]);
-}
+};

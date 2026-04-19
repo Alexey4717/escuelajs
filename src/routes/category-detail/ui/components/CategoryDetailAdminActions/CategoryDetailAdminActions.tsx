@@ -14,10 +14,10 @@ interface CategoryDetailAdminActionsProps {
   categoryName: string;
 }
 
-export function CategoryDetailAdminActions({
+export const CategoryDetailAdminActions = ({
   categoryId,
   categoryName,
-}: CategoryDetailAdminActionsProps) {
+}: CategoryDetailAdminActionsProps) => {
   const { role, loading } = useCurrentUserRole();
   const { open } = useDeleteCategoryModal();
 
@@ -53,4 +53,4 @@ export function CategoryDetailAdminActions({
       </Button>
     </>
   );
-}
+};

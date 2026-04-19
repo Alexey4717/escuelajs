@@ -3,10 +3,10 @@ import { type RefObject, useEffect, useState } from 'react';
 /**
  * Возвращает true, если у элемента scrollTop больше порога.
  */
-export function useScrollPastThreshold(
+export const useScrollPastThreshold = (
   scrollRef: RefObject<HTMLElement | null>,
   thresholdPx: number,
-): boolean {
+): boolean => {
   const [past, setPast] = useState(false);
 
   useEffect(() => {
@@ -22,4 +22,4 @@ export function useScrollPastThreshold(
   }, [scrollRef, thresholdPx]);
 
   return past;
-}
+};

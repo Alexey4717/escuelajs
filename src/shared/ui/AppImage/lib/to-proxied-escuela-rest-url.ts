@@ -8,7 +8,7 @@ export const ESCUELA_REST_BFF_PATHNAME = '/api/escuela-rest';
  * на тот же origin (`/api/escuela-rest/…`), чтобы обойти `Cross-Origin-Resource-Policy: same-origin`
  * у upstream при отображении через `<img>`.
  */
-export function toProxiedEscuelaRestUrl(src: string): string {
+export const toProxiedEscuelaRestUrl = (src: string): string => {
   if (!src || src.startsWith(ESCUELA_REST_BFF_PATHNAME)) {
     return src;
   }
@@ -39,4 +39,4 @@ export function toProxiedEscuelaRestUrl(src: string): string {
   } catch {
     return src;
   }
-}
+};

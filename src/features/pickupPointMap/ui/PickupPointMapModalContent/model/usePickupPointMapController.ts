@@ -11,7 +11,7 @@ const MOSCOW_POINT: LatLngPoint = {
   lng: 37.6176,
 };
 
-export function usePickupPointMapController() {
+export const usePickupPointMapController = () => {
   const [mapCenterPoint, setMapCenterPoint] = useState<LatLngPoint | null>(
     null,
   );
@@ -113,8 +113,8 @@ export function usePickupPointMapController() {
       },
       {
         enableHighAccuracy: true,
-        timeout: 10_000,
-        maximumAge: 60_000,
+        timeout: 10000,
+        maximumAge: 60000,
       },
     );
   }, [setFallbackLocation]);
@@ -139,4 +139,4 @@ export function usePickupPointMapController() {
     suppressMoveEndRef,
     handleMapMoveEnd,
   };
-}
+};

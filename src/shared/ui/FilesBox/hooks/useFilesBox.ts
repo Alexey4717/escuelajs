@@ -19,7 +19,7 @@ import {
   validateSelectedFiles,
 } from '../utils/files-box-utils';
 
-export function useFilesBox({
+export const useFilesBox = ({
   id: idProp,
   value,
   defaultValue = [],
@@ -30,7 +30,7 @@ export function useFilesBox({
   multiple,
   accept = FILES_BOX_DEFAULT_ACCEPT,
   uploadMode,
-}: FilesBoxProps) {
+}: FilesBoxProps) => {
   const generatedId = useId();
   const inputId = idProp ?? generatedId;
   const fieldTitleId = `${inputId}-title`;
@@ -62,12 +62,13 @@ export function useFilesBox({
     onChange?.(next);
   };
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       items.forEach((item) => revokeItemPreview(item));
-    };
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    [],
+  );
 
   const handleFileSelect = (fileList: FileList | null) => {
     if (!fileList) return;
@@ -133,4 +134,4 @@ export function useFilesBox({
     limitHintText,
     accept,
   };
-}
+};

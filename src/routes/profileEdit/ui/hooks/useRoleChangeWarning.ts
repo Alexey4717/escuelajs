@@ -5,13 +5,13 @@ const roleChangedToAdminMessage =
 const roleChangedToCustomerMessage =
   'You will lose permissions to manage products and categories';
 
-export function useRoleChangeWarning({
+export const useRoleChangeWarning = ({
   currentRole,
   selectedRole,
 }: {
   currentRole: Role;
   selectedRole: Role;
-}) {
+}) => {
   if (currentRole === selectedRole) {
     return null;
   }
@@ -25,4 +25,4 @@ export function useRoleChangeWarning({
   }
 
   return null;
-}
+};

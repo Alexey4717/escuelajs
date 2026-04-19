@@ -25,7 +25,7 @@ function getModalRawProps<K extends ModalKey>(
   return modalPropsByKey[key];
 }
 
-export function ModalHost({ isMobile }: ModalHostProps) {
+export const ModalHost = ({ isMobile }: ModalHostProps) => {
   const openedModal = useAppStore((state) => state.openedModal);
   const modalPropsByKey = useAppStore((state) => state.modalPropsByKey);
   const closeModal = useAppStore((state) => state.closeModal);
@@ -94,4 +94,4 @@ export function ModalHost({ isMobile }: ModalHostProps) {
       }
     />
   );
-}
+};

@@ -28,7 +28,9 @@ interface CategoryEditFormCardProps {
   category: CategoryDetailsQuery['category'];
 }
 
-export function CategoryEditFormCard({ category }: CategoryEditFormCardProps) {
+export const CategoryEditFormCard = ({
+  category,
+}: CategoryEditFormCardProps) => {
   const {
     handleSubmit: submitCategory,
     loading: submitLoading,
@@ -86,4 +88,4 @@ export function CategoryEditFormCard({ category }: CategoryEditFormCardProps) {
       </Form>
     </Card>
   );
-}
+};

@@ -12,7 +12,7 @@ import { ProfileEditRoleField } from '../../lib/form/fields';
 import type { ProfileEditFormStateOutput } from '../../lib/form/schema';
 import { useRoleChangeWarning } from '../hooks/useRoleChangeWarning';
 
-export function ProfileEditRoleSection() {
+export const ProfileEditRoleSection = () => {
   const { role } = useCurrentUserRole();
   const { control } = useFormContext<ProfileEditFormStateOutput>();
   const selectedRole = useWatch({
@@ -38,4 +38,4 @@ export function ProfileEditRoleSection() {
       ) : null}
     </div>
   );
-}
+};

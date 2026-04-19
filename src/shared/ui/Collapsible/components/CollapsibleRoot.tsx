@@ -18,12 +18,13 @@ import type { CollapsibleRootProps } from '../types';
  * </CollapsibleRoot>
  * ```
  */
-export function CollapsibleRoot({ className, ...props }: CollapsibleRootProps) {
-  return (
-    <CollapsiblePrimitive.Root
-      data-slot={COLLAPSIBLE_SLOT.root}
-      className={cn('w-full', className)}
-      {...props}
-    />
-  );
-}
+export const CollapsibleRoot = ({
+  className,
+  ...props
+}: CollapsibleRootProps) => (
+  <CollapsiblePrimitive.Root
+    data-slot={COLLAPSIBLE_SLOT.root}
+    className={cn('w-full', className)}
+    {...props}
+  />
+);

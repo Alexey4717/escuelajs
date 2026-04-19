@@ -8,9 +8,7 @@ import type { ZodObject } from 'zod/v4';
  * Чтобы убрать маркер «обязательности» в UI, в схеме нужно явное необязательность:
  * `string().optional()`, `optional(string())` и т.п.
  */
-export function isZodObjectFieldRequired<T extends ZodObject>(
+export const isZodObjectFieldRequired = <T extends ZodObject>(
   schema: T,
   key: keyof T['shape'] & string,
-): boolean {
-  return !schema.shape[key].isOptional();
-}
+): boolean => !schema.shape[key].isOptional();

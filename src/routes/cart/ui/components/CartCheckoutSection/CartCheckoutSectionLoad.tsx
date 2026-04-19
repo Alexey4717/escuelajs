@@ -8,23 +8,21 @@ interface CheckoutFormSkeletonProps {
   className?: string;
 }
 
-function CheckoutFormSkeleton({
+const CheckoutFormSkeleton = ({
   titleClassName,
   submitClassName,
   className,
-}: CheckoutFormSkeletonProps) {
-  return (
-    <div className={className}>
-      <Skeleton className={titleClassName} />
-      <Skeleton className="h-10 rounded-md" />
-      <Skeleton className="h-10 rounded-md" />
-      <Skeleton className="h-10 rounded-md" />
-      <Skeleton className={submitClassName} />
-    </div>
-  );
-}
+}: CheckoutFormSkeletonProps) => (
+  <div className={className}>
+    <Skeleton className={titleClassName} />
+    <Skeleton className="h-10 rounded-md" />
+    <Skeleton className="h-10 rounded-md" />
+    <Skeleton className="h-10 rounded-md" />
+    <Skeleton className={submitClassName} />
+  </div>
+);
 
-export function CartCheckoutSectionLoad() {
+export const CartCheckoutSectionLoad = () => {
   const isLg = useIsLgAndUp();
 
   if (isLg) {
@@ -60,4 +58,4 @@ export function CartCheckoutSectionLoad() {
       />
     </section>
   );
-}
+};

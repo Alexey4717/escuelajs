@@ -13,12 +13,12 @@ interface ProductManagementFormActionsProps {
   submitDisabled?: boolean;
 }
 
-export function ProductManagementFormActions({
+export const ProductManagementFormActions = ({
   submitLabel,
   submitLoading,
   imagesUploadLoading,
   submitDisabled = false,
-}: ProductManagementFormActionsProps) {
+}: ProductManagementFormActionsProps) => {
   const busy = imagesUploadLoading || submitLoading;
 
   return (
@@ -47,4 +47,4 @@ export function ProductManagementFormActions({
       </Button>
     </div>
   );
-}
+};

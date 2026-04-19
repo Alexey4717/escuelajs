@@ -23,16 +23,14 @@ describe('ChangeCurrentPasswordCard (integration)', () => {
     vi.mocked(toast.success).mockClear();
     vi.mocked(toast.error).mockClear();
   });
-
-  async function waitForFormReady() {
+  const waitForFormReady = async () => {
     await waitFor(() => {
       expect(
         screen.getByTestId('changeCurrentPassword__input__currentPassword'),
       ).not.toBeDisabled();
     });
     return screen.getByTestId('changeCurrentPassword__input__currentPassword');
-  }
-
+  };
   /** Раньше в конце файла после сценария успешной смены пароля давал ложное «неверный текущий»; держим до успешного submit. */
   it('показывает toast об ошибке при неудачной мутации UpdateUser', async () => {
     const user = userEvent.setup();

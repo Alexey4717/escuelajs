@@ -3,17 +3,17 @@ import { type CartLineItem, useCartStore } from '@/entities/Cart';
 let savedCartSnapshot: CartLineItem[] | null = null;
 
 /** Снять persist-корзину пользователя и начать с пустой для демо. */
-export function enterOnboardingCartIsolation(): void {
+export const enterOnboardingCartIsolation = (): void => {
   if (savedCartSnapshot !== null) {
     return;
   }
   const items = useCartStore.getState().items.map((i) => ({ ...i }));
   savedCartSnapshot = items;
   useCartStore.getState().clearCart();
-}
+};
 
 /** Восстановить корзину пользователя после выхода из онбординга. */
-export function exitOnboardingCartIsolation(): void {
+export const exitOnboardingCartIsolation = (): void => {
   useCartStore.getState().clearCart();
   if (savedCartSnapshot !== null) {
     for (const item of savedCartSnapshot) {
@@ -21,4 +21,4 @@ export function exitOnboardingCartIsolation(): void {
     }
     savedCartSnapshot = null;
   }
-}
+};

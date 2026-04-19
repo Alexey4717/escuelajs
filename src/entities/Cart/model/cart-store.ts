@@ -37,6 +37,6 @@ export const useCartStore = create<CartState>()(
   ),
 );
 
-export function clearCart(): void {
+export const clearCart = (): void => {
   useCartStore.getState().clearCart();
-}
+};

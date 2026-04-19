@@ -7,7 +7,7 @@ import { hasRefreshTokenHint } from './auth-refresh-hint.client';
  * Клиент: эти токены в JS недоступны (и в localStorage мы их не кладём — только cookie через BFF).
  * Приблизительный признак сессии — читаемый флаг `auth_has_refresh` (см. `auth-refresh-hint.client`).
  */
-export async function defineIsLoggedIn(): Promise<boolean> {
+export const defineIsLoggedIn = async (): Promise<boolean> => {
   if (typeof window === 'undefined') {
     const { cookies } = await import('next/headers');
     const c = await cookies();
@@ -17,4 +17,4 @@ export async function defineIsLoggedIn(): Promise<boolean> {
   }
 
   return hasRefreshTokenHint();
-}
+};

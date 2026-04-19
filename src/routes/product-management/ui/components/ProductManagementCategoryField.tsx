@@ -8,7 +8,7 @@ import { useCategoriesComboboxQuery } from '@/entities/Category';
 
 import { ProductCategoryIdField } from '../../lib/form/fields';
 
-function ProductManagementCategoryFieldInner() {
+const ProductManagementCategoryFieldInner = () => {
   const { categoryOptions, categoriesLoading, onCategoriesOpenChange } =
     useCategoriesComboboxQuery();
 
@@ -26,7 +26,7 @@ function ProductManagementCategoryFieldInner() {
       />
     </div>
   );
-}
+};
 
 export const ProductManagementCategoryField = memo(
   ProductManagementCategoryFieldInner,

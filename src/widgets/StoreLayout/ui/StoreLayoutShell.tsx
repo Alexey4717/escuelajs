@@ -26,15 +26,15 @@ interface StoreLayoutShellProps {
   children: ReactNode;
 }
 
-function OnboardingMobileSidebarBridge() {
+const OnboardingMobileSidebarBridge = () => {
   useOnboardingMobileSidebarBridge();
   return null;
-}
+};
 
-export function StoreLayoutShell({
+export const StoreLayoutShell = ({
   isLoggedIn,
   children,
-}: StoreLayoutShellProps) {
+}: StoreLayoutShellProps) => {
   const mainScrollRef = useRef<HTMLDivElement>(null);
 
   return (
@@ -68,4 +68,4 @@ export function StoreLayoutShell({
       </OnboardingTourProvider>
     </TooltipProvider>
   );
-}
+};

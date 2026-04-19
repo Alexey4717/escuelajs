@@ -3,8 +3,8 @@ import { HttpResponse } from 'msw';
 import { testGql } from './test-gql';
 
 export const loginGraphqlHandlers = [
-  testGql.mutation('Login', () => {
-    return HttpResponse.json({
+  testGql.mutation('Login', () =>
+    HttpResponse.json({
       data: {
         login: {
           __typename: 'Login',
@@ -12,6 +12,6 @@ export const loginGraphqlHandlers = [
           refresh_token: 'refresh-test-token',
         },
       },
-    });
-  }),
+    }),
+  ),
 ];

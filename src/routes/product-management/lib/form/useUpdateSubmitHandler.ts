@@ -29,16 +29,16 @@ interface UpdateSubmitArgs {
   imageFiles: FilesBoxItem[];
 }
 
-export function useUpdateSubmitHandler() {
+export const useUpdateSubmitHandler = () => {
   const router = useRouter();
   const [updateProduct, { loading }] = useMutation(UpdateProductDocument);
   const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
 
-  async function handleSubmit({
+  const handleSubmit = async ({
     productId,
     values,
     imageFiles,
-  }: UpdateSubmitArgs): Promise<FilesBoxItem[]> {
+  }: UpdateSubmitArgs): Promise<FilesBoxItem[]> => {
     let filesState = imageFiles;
     const uploadResult = await uploadQueuedFilesBoxItemsWithLoading(
       imageFiles,
@@ -112,11 +112,11 @@ export function useUpdateSubmitHandler() {
       toast.error('Failed to update product');
       return filesState;
     }
-  }
+  };
 
   return {
     loading,
     imagesUploadLoading,
     handleSubmit,
   };
-}
+};

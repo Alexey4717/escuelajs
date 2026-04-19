@@ -6,11 +6,13 @@ import { Slot } from 'radix-ui';
 
 import { cn } from '../../../lib/styles/cn';
 
-export function SidebarGroupAction({
+export const SidebarGroupAction = ({
   className,
   asChild = false,
   ...props
-}: ComponentProps<'button'> & { asChild?: boolean }) {
+}: ComponentProps<'button'> & {
+  asChild?: boolean;
+}) => {
   const Comp = asChild ? Slot.Root : 'button';
 
   return (
@@ -24,4 +26,4 @@ export function SidebarGroupAction({
       {...props}
     />
   );
-}
+};

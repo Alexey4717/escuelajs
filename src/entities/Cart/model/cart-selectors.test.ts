@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { selectCartItemCount, selectIsProductInCart } from './cart-selectors';
 import type { CartState } from './types';
 
-function stateWithItems(items: CartState['items']): CartState {
+const stateWithItems = (items: CartState['items']): CartState => {
   const noop = () => {};
   return {
     items,
@@ -12,8 +12,7 @@ function stateWithItems(items: CartState['items']): CartState {
     toggleItem: noop,
     clearCart: noop,
   };
-}
-
+};
 describe('selectCartItemCount', () => {
   it('возвращает 0 для пустой корзины', () => {
     expect(selectCartItemCount(stateWithItems([]))).toBe(0);

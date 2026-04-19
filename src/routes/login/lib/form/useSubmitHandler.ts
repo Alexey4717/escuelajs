@@ -23,7 +23,7 @@ export const useSubmitHandler = () => {
     [searchParams],
   );
 
-  async function handleSubmit({ email, password }: LoginFormStateOutput) {
+  const handleSubmit = async ({ email, password }: LoginFormStateOutput) => {
     try {
       await login({
         variables: { email: email.trim(), password },
@@ -35,7 +35,7 @@ export const useSubmitHandler = () => {
       console.error(err);
       toast.error('Sign in failed');
     }
-  }
+  };
 
   return {
     handleSubmit,

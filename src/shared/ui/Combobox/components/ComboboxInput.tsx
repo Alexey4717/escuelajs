@@ -11,36 +11,34 @@ import { InputGroupAddon } from './input-group/InputGroupAddon';
 import { InputGroupButton } from './input-group/InputGroupButton';
 import { InputGroupInput } from './input-group/InputGroupInput';
 
-export function ComboboxInput({
+export const ComboboxInput = ({
   className,
   children,
   disabled = false,
   showTrigger = true,
   showClear = false,
   ...props
-}: ComboboxInputProps) {
-  return (
-    <InputGroup className={cn('w-auto', className)}>
-      <ComboboxPrimitive.Input
-        render={<InputGroupInput disabled={disabled} />}
-        {...props}
-      />
-      <InputGroupAddon align="inline-end">
-        {showTrigger && (
-          <InputGroupButton
-            size="icon-xs"
-            variant="ghost"
-            asChild
-            data-slot="input-group-button"
-            className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
-            disabled={disabled}
-          >
-            <ComboboxTrigger />
-          </InputGroupButton>
-        )}
-        {showClear && <ComboboxClear disabled={disabled} />}
-      </InputGroupAddon>
-      {children}
-    </InputGroup>
-  );
-}
+}: ComboboxInputProps) => (
+  <InputGroup className={cn('w-auto', className)}>
+    <ComboboxPrimitive.Input
+      render={<InputGroupInput disabled={disabled} />}
+      {...props}
+    />
+    <InputGroupAddon align="inline-end">
+      {showTrigger && (
+        <InputGroupButton
+          size="icon-xs"
+          variant="ghost"
+          asChild
+          data-slot="input-group-button"
+          className="group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
+          disabled={disabled}
+        >
+          <ComboboxTrigger />
+        </InputGroupButton>
+      )}
+      {showClear && <ComboboxClear disabled={disabled} />}
+    </InputGroupAddon>
+    {children}
+  </InputGroup>
+);

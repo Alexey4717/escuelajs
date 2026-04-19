@@ -30,7 +30,7 @@ export type TextareaFieldProps = Omit<
   'data-testid'?: string;
 } & Pick<ComponentProps<typeof Field>, 'orientation'>;
 
-export function TextareaField({
+export const TextareaField = ({
   id: idProp,
   label,
   description,
@@ -41,7 +41,7 @@ export function TextareaField({
   'aria-describedby': ariaDescribedByProp,
   'aria-invalid': ariaInvalidProp,
   ...textareaProps
-}: TextareaFieldProps) {
+}: TextareaFieldProps) => {
   const generatedId = useId();
   const controlId = idProp ?? generatedId;
   const descriptionId = description ? `${controlId}-description` : undefined;
@@ -90,4 +90,4 @@ export function TextareaField({
       </FieldContent>
     </Field>
   );
-}
+};

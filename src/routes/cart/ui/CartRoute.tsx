@@ -15,7 +15,7 @@ import { CartCheckoutSection } from './components/CartCheckoutSection/CartChecko
 import { CartEmptyState } from './components/CartEmptyState';
 import { CartItemsList } from './components/CartItemsList';
 
-export function CartRoute() {
+export const CartRoute = () => {
   const { items, removeItemByProductId, handleOrder, clearCart } =
     useCartRoute();
   const hasMounted = useIsClient();
@@ -34,13 +34,14 @@ export function CartRoute() {
     }, CART_LIST_ITEM_ANIMATION_MS);
   }, [bulkExiting, clearCart, items.length]);
 
-  useEffect(() => {
-    return () => {
+  useEffect(
+    () => () => {
       if (clearTimeoutRef.current !== null) {
         window.clearTimeout(clearTimeoutRef.current);
       }
-    };
-  }, []);
+    },
+    [],
+  );
 
   if (!hasMounted) {
     return <CartPageLoading />;
@@ -74,4 +75,4 @@ export function CartRoute() {
       </div>
     </Page>
   );
-}
+};

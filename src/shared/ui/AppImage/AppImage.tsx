@@ -24,7 +24,7 @@ export type { AppImageProps } from './types';
  * Пока ресурс не подтверждён через предзагрузку, показывается `fallback` или встроенный скелетон;
  * при ошибке — `errorFallback`, иначе снова `fallback` или скелетон.
  */
-export function AppImage({
+export const AppImage = ({
   className,
   src,
   alt = DEFAULT_APP_IMAGE_ALT,
@@ -34,7 +34,7 @@ export function AppImage({
   disableDefaultLoadingSkeleton = false,
   errorFallback,
   ...imgProps
-}: AppImageProps) {
+}: AppImageProps) => {
   const { isLoading, hasError, resolvedSrc } = useAppImagePreload(
     src,
     proxifyEscuelaRest,
@@ -86,4 +86,4 @@ export function AppImage({
     // eslint-disable-next-line @next/next/no-img-element -- намеренно нативный img; см. JSDoc модуля.
     <img className={className} src={resolvedSrc} alt={alt} {...imgProps} />
   );
-}
+};

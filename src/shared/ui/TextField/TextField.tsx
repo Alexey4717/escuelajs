@@ -36,7 +36,7 @@ export type TextFieldProps = Omit<
   loading?: boolean;
 } & Pick<ComponentProps<typeof Field>, 'orientation'>;
 
-export function TextField({
+export const TextField = ({
   id: idProp,
   label,
   description,
@@ -48,7 +48,7 @@ export function TextField({
   'aria-invalid': ariaInvalidProp,
   loading = false,
   ...inputProps
-}: TextFieldProps) {
+}: TextFieldProps) => {
   const generatedId = useId();
   const inputId = idProp ?? generatedId;
   const descriptionId = description ? `${inputId}-description` : undefined;
@@ -108,4 +108,4 @@ export function TextField({
       </FieldContent>
     </Field>
   );
-}
+};

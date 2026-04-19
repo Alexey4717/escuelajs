@@ -25,11 +25,11 @@ export interface CartCheckoutSectionProps {
   clearCartDisabled?: boolean;
 }
 
-export function CartCheckoutSection({
+export const CartCheckoutSection = ({
   onCheckoutSubmit,
   onClearCart,
   clearCartDisabled = false,
-}: CartCheckoutSectionProps) {
+}: CartCheckoutSectionProps) => {
   const { user, loading } = useCurrentUser();
   const userName = user?.name ?? null;
   const userEmail = user?.email ?? null;
@@ -50,20 +50,20 @@ export function CartCheckoutSection({
       userEmail={userEmail}
     />
   );
-}
+};
 
 interface CartCheckoutSectionReadyProps extends CartCheckoutSectionProps {
   userName: string | null;
   userEmail: string | null;
 }
 
-function CartCheckoutSectionReady({
+const CartCheckoutSectionReady = ({
   onCheckoutSubmit,
   onClearCart,
   clearCartDisabled,
   userName,
   userEmail,
-}: CartCheckoutSectionReadyProps) {
+}: CartCheckoutSectionReadyProps) => {
   const isLg = useIsLgAndUp();
   const checkoutFormMethods = useCartCheckoutForm({
     onCheckoutSubmit,
@@ -152,4 +152,4 @@ function CartCheckoutSectionReady({
       </div>
     </section>
   );
-}
+};

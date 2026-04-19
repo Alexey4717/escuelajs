@@ -7,8 +7,7 @@ import {
 } from './onboarding-demo-fixtures';
 
 export type GuestCartExpectation = 'empty' | 'onlyA' | 'both';
-
-function cartLineFromDemoProduct(id: string) {
+const cartLineFromDemoProduct = (id: string) => {
   const p = ONBOARDING_DEMO_PRODUCTS_LIST.find((x) => x.id === id);
   if (!p) {
     throw new Error(`Onboarding demo product missing: ${id}`);
@@ -19,18 +18,16 @@ function cartLineFromDemoProduct(id: string) {
     price: p.price,
     image: p.images[0] ?? '',
   };
-}
+};
 
-function itemA() {
-  return cartLineFromDemoProduct(ONBOARDING_DEMO_PRODUCT_A_ID);
-}
+const itemA = () => cartLineFromDemoProduct(ONBOARDING_DEMO_PRODUCT_A_ID);
 
-function itemB() {
-  return cartLineFromDemoProduct(ONBOARDING_DEMO_PRODUCT_B_ID);
-}
+const itemB = () => cartLineFromDemoProduct(ONBOARDING_DEMO_PRODUCT_B_ID);
 
 /** Приводит демо-корзину к ожидаемому для шага состоянию. */
-export function ensureGuestCartState(expectation: GuestCartExpectation): void {
+export const ensureGuestCartState = (
+  expectation: GuestCartExpectation,
+): void => {
   const { clearCart, addItem } = useCartStore.getState();
   clearCart();
   if (expectation === 'empty') {
@@ -41,12 +38,12 @@ export function ensureGuestCartState(expectation: GuestCartExpectation): void {
     return;
   }
   addItem(itemB());
-}
+};
 
 /** Ожидание корзины перед показом шага с индексом `stepIndex`. */
-export function guestCartExpectationForStep(
+export const guestCartExpectationForStep = (
   stepIndex: number,
-): GuestCartExpectation {
+): GuestCartExpectation => {
   if (stepIndex <= 2) {
     return 'empty';
   }
@@ -54,4 +51,4 @@ export function guestCartExpectationForStep(
     return 'onlyA';
   }
   return 'both';
-}
+};

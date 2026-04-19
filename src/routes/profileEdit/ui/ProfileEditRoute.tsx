@@ -11,7 +11,7 @@ import { ProfileEditLoadPage } from './ProfileEditLoadPage';
 
 const headingPage = 'Edit profile';
 
-export function ProfileEditRoute() {
+export const ProfileEditRoute = () => {
   const { user, loading, error } = useCurrentUser();
 
   if (error) {
@@ -33,4 +33,4 @@ export function ProfileEditRoute() {
       <ProfileEditFormCard user={user} />
     </Page>
   );
-}
+};

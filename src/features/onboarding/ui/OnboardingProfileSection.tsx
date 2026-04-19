@@ -39,7 +39,7 @@ const ADMIN_LABELS = [
   'Product actions',
 ];
 
-export function OnboardingProfileSection() {
+export const OnboardingProfileSection = () => {
   const { role, loading } = useCurrentUserRole();
   const tour = useOnboardingTourOptional();
   const { startTour, run, isDemoActive } = tour ?? {
@@ -166,4 +166,4 @@ export function OnboardingProfileSection() {
       ) : null}
     </div>
   );
-}
+};

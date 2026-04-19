@@ -7,10 +7,7 @@ import { useLazyQuery } from '@apollo/client/react';
 import { CategoriesDocument } from '@/shared/api/generated/graphql';
 import type { ComboboxOption } from '@/shared/ui/Combobox/Combobox';
 
-/**
- * Ленивая загрузка списка категорий при открытии комбобокса (общий запрос для фильтра и форм).
- */
-export function useCategoriesComboboxQuery() {
+export const useCategoriesComboboxQuery = () => {
   const [
     fetchCategories,
     { data: categoriesData, loading: categoriesLoading, called },
@@ -43,4 +40,4 @@ export function useCategoriesComboboxQuery() {
     onCategoriesOpenChange,
     fetchCategories,
   };
-}
+};

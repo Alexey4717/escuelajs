@@ -8,12 +8,12 @@ import { cn } from '../../../lib/styles/cn';
 import { Button } from '../../Button/Button';
 import { useCarousel } from './CarouselContext';
 
-export function CarouselNext({
+export const CarouselNext = ({
   className,
   variant = 'outline',
   size = 'icon-sm',
   ...props
-}: ComponentProps<typeof Button>) {
+}: ComponentProps<typeof Button>) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel();
 
   return (
@@ -36,4 +36,4 @@ export function CarouselNext({
       <span className="sr-only">Next slide</span>
     </Button>
   );
-}
+};

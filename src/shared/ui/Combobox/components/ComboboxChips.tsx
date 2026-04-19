@@ -6,12 +6,10 @@ import { cn } from '../../../lib/styles/cn';
 import { comboboxChipsClassName } from '../constants';
 import type { ComboboxChipsProps } from '../types';
 
-export function ComboboxChips({ className, ...props }: ComboboxChipsProps) {
-  return (
-    <ComboboxPrimitive.Chips
-      data-slot="combobox-chips"
-      className={cn(comboboxChipsClassName, className)}
-      {...props}
-    />
-  );
-}
+export const ComboboxChips = ({ className, ...props }: ComboboxChipsProps) => (
+  <ComboboxPrimitive.Chips
+    data-slot="combobox-chips"
+    className={cn(comboboxChipsClassName, className)}
+    {...props}
+  />
+);

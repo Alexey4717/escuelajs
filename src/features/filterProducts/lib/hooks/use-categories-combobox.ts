@@ -6,7 +6,7 @@ import { useCategoriesComboboxQuery } from '@/entities/Category';
 
 import { useFilterProductsStore } from '../../model/filter-products-store';
 
-export function useCategoriesCombobox() {
+export const useCategoriesCombobox = () => {
   const categoryId = useFilterProductsStore((s) => s.categoryId);
   const setCategoryId = useFilterProductsStore((s) => s.setCategoryId);
 
@@ -28,4 +28,4 @@ export function useCategoriesCombobox() {
     onCategoriesOpenChange,
     setCategoryId,
   };
-}
+};

@@ -7,8 +7,9 @@ import { cn } from '../../lib/styles/cn';
 import { badgeVariants } from './badgeVariants';
 
 type BadgeProps = ComponentProps<'span'> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean };
-
+  VariantProps<typeof badgeVariants> & {
+    asChild?: boolean;
+  };
 export const Badge = ({
   className,
   variant = 'default',

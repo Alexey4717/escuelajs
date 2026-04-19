@@ -5,7 +5,10 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MapMoveEndHandler } from './MapMoveEndHandler';
 
-type LatLng = { lat: number; lng: number };
+type LatLng = {
+  lat: number;
+  lng: number;
+};
 
 let currentCenter: LatLng = { lat: 55.75, lng: 37.61 };
 let moveendHandler: (() => void) | null = null;

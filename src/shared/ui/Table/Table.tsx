@@ -26,7 +26,7 @@ export type TableProps = ComponentProps<'table'> & {
   containerClassName?: string;
 };
 
-export function Table({
+export const Table = ({
   caption,
   footer,
   wrap = true,
@@ -34,7 +34,7 @@ export function Table({
   className,
   children,
   ...tableProps
-}: TableProps) {
+}: TableProps) => {
   const showCaption = caption != null && caption !== false;
   const showFooter = footer != null && footer !== false;
 
@@ -53,7 +53,7 @@ export function Table({
   return (
     <TableContainer className={containerClassName}>{table}</TableContainer>
   );
-}
+};
 
 export {
   TableBody,

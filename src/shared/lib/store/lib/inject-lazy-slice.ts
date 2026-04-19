@@ -28,12 +28,12 @@ const pending = new Map<string, Promise<void>>();
  * );
  * ```
  */
-export function ensureLazySlice(
+export const ensureLazySlice = (
   name: string,
   loader: () => Promise<{
     applySlice: (api: StoreApi<AppStore>) => void;
   }>,
-): Promise<void> {
+): Promise<void> => {
   const cached = pending.get(name);
   if (cached) return cached;
 
@@ -42,4 +42,4 @@ export function ensureLazySlice(
   });
   pending.set(name, promise);
   return promise;
-}
+};

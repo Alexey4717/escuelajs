@@ -22,13 +22,13 @@ export type ToggleCartItemButtonProps = {
   variant: 'card' | 'detail';
 } & CartLineItem;
 
-export function ToggleCartItemButton({
+export const ToggleCartItemButton = ({
   variant,
   id,
   title,
   price,
   image,
-}: ToggleCartItemButtonProps) {
+}: ToggleCartItemButtonProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const inCart = useCartStore(selectIsProductInCart(id));
   const toggleItem = useCartStore((s) => s.toggleItem);
@@ -37,7 +37,7 @@ export function ToggleCartItemButton({
 
   const lineItem: CartLineItem = { id, title, price, image };
 
-  function handleClick() {
+  const handleClick = () => {
     if (inCart) {
       toggleItem(lineItem);
       return;
@@ -49,8 +49,7 @@ export function ToggleCartItemButton({
     }
 
     addItem(lineItem);
-  }
-
+  };
   const flyBusy = !inCart && !!cartFly?.isFlightInProgress(id);
 
   if (variant === 'card') {
@@ -101,4 +100,4 @@ export function ToggleCartItemButton({
       {inCart ? 'Remove from cart' : 'Add to cart'}
     </Button>
   );
-}
+};

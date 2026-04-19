@@ -8,11 +8,10 @@ interface DeleteCurrentUserButtonProps {
   email: string;
   userId: string;
 }
-
-export function DeleteCurrentUserButton({
+export const DeleteCurrentUserButton = ({
   email,
   userId,
-}: DeleteCurrentUserButtonProps) {
+}: DeleteCurrentUserButtonProps) => {
   const { open } = useDeleteCurrentUserModal();
 
   const handleDeleteCurrentUser = () => {
@@ -31,4 +30,4 @@ export function DeleteCurrentUserButton({
       Delete account
     </Button>
   );
-}
+};

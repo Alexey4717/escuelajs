@@ -4,8 +4,8 @@ import { type ComponentProps } from 'react';
 
 import { Tooltip as TooltipPrimitive } from 'radix-ui';
 
-export function TooltipTrigger({
+export const TooltipTrigger = ({
   ...props
-}: ComponentProps<typeof TooltipPrimitive.Trigger>) {
-  return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />;
-}
+}: ComponentProps<typeof TooltipPrimitive.Trigger>) => (
+  <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
+);

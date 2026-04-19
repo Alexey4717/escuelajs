@@ -5,8 +5,8 @@ import { testGql } from './test-gql';
 export const TEST_USER_ID = 'test-user-1';
 
 export const userGraphqlHandlers = [
-  testGql.mutation('AddUser', () => {
-    return HttpResponse.json({
+  testGql.mutation('AddUser', () =>
+    HttpResponse.json({
       data: {
         addUser: {
           __typename: 'User',
@@ -20,8 +20,8 @@ export const userGraphqlHandlers = [
           updatedAt: '2020-01-01T00:00:00.000Z',
         },
       },
-    });
-  }),
+    }),
+  ),
   testGql.query('UserDetails', ({ variables }) => {
     const id = String(variables.id);
     return HttpResponse.json({

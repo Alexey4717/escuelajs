@@ -14,7 +14,7 @@ import { CategoryEditPageParams } from '../lib/types';
 import { CategoryEditLoadPage } from './CategoryEditLoadPage';
 import { CategoryEditFormCard } from './components/CategoryEditFormCard';
 
-export function CategoryEditRoute() {
+export const CategoryEditRoute = () => {
   const params = useParams<CategoryEditPageParams>();
   const categoryId = params.id;
 
@@ -46,4 +46,4 @@ export function CategoryEditRoute() {
       <CategoryEditFormCard category={data.category} />
     </Page>
   );
-}
+};

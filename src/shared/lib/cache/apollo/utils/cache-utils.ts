@@ -8,35 +8,35 @@ import type {
 } from './types';
 
 /** Удаляет поле из ROOT_QUERY и запускает сборку мусора кеша. */
-export function evictRootQueryField(
+export const evictRootQueryField = (
   cache: ApolloCache,
   fieldName: string,
-): void {
+): void => {
   cache.evict({ id: ROOT_QUERY_ID, fieldName });
   cache.gc();
-}
+};
 
 /** Удаляет поле из ROOT_QUERY с аргументами и запускает сборку мусора кеша. */
-export function evictRootQueryFieldByArgs({
+export const evictRootQueryFieldByArgs = ({
   cache,
   fieldName,
   args,
-}: EvictRootQueryFieldByArgsArgs): void {
+}: EvictRootQueryFieldByArgsArgs): void => {
   cache.evict({ id: ROOT_QUERY_ID, fieldName, args });
   cache.gc();
-}
+};
 
 /**
  * Обновляет кеш сущности через cache.modify.
  * Если сущность не найдена, опционально инвалидирует указанный ROOT_QUERY field.
  */
-export function updateEntityInCache({
+export const updateEntityInCache = ({
   cache,
   typename,
   id,
   fields,
   fallbackRootFieldName,
-}: UpdateEntityInCacheArgs): boolean {
+}: UpdateEntityInCacheArgs): boolean => {
   const entityCacheId = cache.identify({
     __typename: typename,
     id,
@@ -63,19 +63,19 @@ export function updateEntityInCache({
   });
 
   return true;
-}
+};
 
 /**
  * Пишет в кеш данные фрагмента для нормализованной сущности (`identify` + `writeFragment`).
  * @returns `false`, если `cache.identify` не смог построить id (сущность ещё не в кеше).
  */
-export function writeEntityFragmentToCache<
+export const writeEntityFragmentToCache = <
   TEntity extends WriteEntityFragmentToCacheArgs['entity'],
 >({
   cache,
   entity,
   fragment,
-}: WriteEntityFragmentToCacheArgs<TEntity>): boolean {
+}: WriteEntityFragmentToCacheArgs<TEntity>): boolean => {
   const cacheId = cache.identify(entity);
   if (!cacheId) {
     return false;
@@ -88,4 +88,4 @@ export function writeEntityFragmentToCache<
   });
 
   return true;
-}
+};

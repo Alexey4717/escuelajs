@@ -10,11 +10,10 @@ interface UseFilterTitleFieldParams {
   productsNetworkStatus: NetworkStatus;
   resetKey: number;
 }
-
-export function useFilterTitleField({
+export const useFilterTitleField = ({
   productsNetworkStatus,
   resetKey,
-}: UseFilterTitleFieldParams) {
+}: UseFilterTitleFieldParams) => {
   const title = useFilterProductsStore((s) => s.title);
   const setTitle = useFilterProductsStore((s) => s.setTitle);
 
@@ -62,4 +61,4 @@ export function useFilterTitleField({
     (titleAwaitingNetwork && productsNetworkStatus !== NetworkStatus.ready);
 
   return { titleInput, onTitleChange, titleLoading };
-}
+};

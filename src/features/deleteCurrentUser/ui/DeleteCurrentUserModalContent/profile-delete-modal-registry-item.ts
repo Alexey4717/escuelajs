@@ -11,7 +11,10 @@ export const profileDeleteModalRegistryItem: ModalRegistryItem<'profileDelete'> 
     renderFooter: (props) => createElement(DeleteCurrentUserModalFooter, props),
     resolveProps: (rawProps) => {
       if (!rawProps || typeof rawProps !== 'object') return null;
-      const candidate = rawProps as { email?: unknown; userId?: unknown };
+      const candidate = rawProps as {
+        email?: unknown;
+        userId?: unknown;
+      };
       if (typeof candidate.email !== 'string' || !candidate.email.trim()) {
         return null;
       }

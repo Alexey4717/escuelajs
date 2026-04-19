@@ -17,11 +17,11 @@ interface ProductCardProps {
   titleDataOnboarding?: string;
 }
 
-export function ProductCard({
+export const ProductCard = ({
   product,
   cartAction,
   titleDataOnboarding,
-}: ProductCardProps) {
+}: ProductCardProps) => {
   const imageUrl = product.images[0];
   const href = `/products/${product.id}`;
   const priceLabel = parsePrice(product.price);
@@ -54,4 +54,4 @@ export function ProductCard({
       footer={<ProductCardFooter priceLabel={priceLabel} action={cartAction} />}
     />
   );
-}
+};

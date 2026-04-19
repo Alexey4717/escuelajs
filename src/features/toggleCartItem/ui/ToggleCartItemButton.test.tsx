@@ -163,7 +163,7 @@ describe('ToggleCartItemButton', () => {
   });
 });
 
-function CartFlyTargetStub() {
+const CartFlyTargetStub = () => {
   const cartFly = useCartFlyOptional();
   const targetRef = useRef<HTMLSpanElement>(null);
 
@@ -177,9 +177,9 @@ function CartFlyTargetStub() {
       style={{ display: 'inline-block', width: 20, height: 20 }}
     />
   );
-}
+};
 
-function installAnimateMock() {
+const installAnimateMock = () => {
   Object.defineProperty(Element.prototype, 'animate', {
     configurable: true,
     writable: true,
@@ -190,4 +190,4 @@ function installAnimateMock() {
         }) as unknown as Animation,
     ),
   });
-}
+};

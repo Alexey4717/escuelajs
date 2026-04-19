@@ -36,11 +36,11 @@ export const ProfileRoute = () => {
     }
   }, [error, pathname, router]);
 
-  async function logout() {
+  const logout = async () => {
     await clearAuthSession();
     router.push(pagesPath.$url().path);
     router.refresh();
-  }
+  };
 
   if (loading) {
     return <ProfileLoadPage />;

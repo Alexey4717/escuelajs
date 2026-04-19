@@ -16,7 +16,7 @@ import type { CollapsibleProps } from './types';
  * ```tsx
  * import { Collapsible } from '@/shared/ui/Collapsible/Collapsible';
  *
- * export function FaqItem() {
+ * export const FaqItem = () => {
  *   return (
  *     <Collapsible
  *       defaultOpen
@@ -33,7 +33,7 @@ import type { CollapsibleProps } from './types';
  * import { CollapsibleContent } from '@/shared/ui/Collapsible/components/CollapsibleContent';
  * import { CollapsibleTrigger } from '@/shared/ui/Collapsible/components/CollapsibleTrigger';
  *
- * export function FaqItem() {
+ * export const FaqItem = () => {
  *   return (
  *     <Collapsible defaultOpen>
  *       <CollapsibleTrigger>Вопрос</CollapsibleTrigger>
@@ -51,14 +51,14 @@ import type { CollapsibleProps } from './types';
  * import { CollapsibleRoot } from '@/shared/ui/Collapsible/components/CollapsibleRoot';
  * import { CollapsibleTrigger } from '@/shared/ui/Collapsible/components/CollapsibleTrigger';
  *
- * export function Panel() {
+ * export const Panel = () => {
  *   return (
- *     <CollapsibleRoot defaultOpen>
- *       <CollapsibleTrigger>Секция</CollapsibleTrigger>
- *       <CollapsibleContent>Содержимое</CollapsibleContent>
- *     </CollapsibleRoot>
- *   );
- * }
+    <CollapsibleRoot defaultOpen>
+      <CollapsibleTrigger>Секция</CollapsibleTrigger>
+      <CollapsibleContent>Содержимое</CollapsibleContent>
+    </CollapsibleRoot>
+  );
+};
  * ```
  */
 export const Collapsible = ({

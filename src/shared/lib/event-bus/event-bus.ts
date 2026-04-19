@@ -39,6 +39,5 @@ export class EventBus<Events extends Record<string, unknown>> {
   }
 }
 
-export function createEventBus<Events extends Record<string, unknown>>() {
-  return new EventBus<Events>();
-}
+export const createEventBus = <Events extends Record<string, unknown>>() =>
+  new EventBus<Events>();

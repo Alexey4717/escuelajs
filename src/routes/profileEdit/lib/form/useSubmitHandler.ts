@@ -29,12 +29,12 @@ interface SubmitArgs {
   avatarFiles: FilesBoxItem[];
 }
 
-export function useSubmitHandler() {
+export const useSubmitHandler = () => {
   const router = useRouter();
   const [updateUser, { loading }] = useMutation(UpdateUserDocument);
   const [avatarUploadLoading, setAvatarUploadLoading] = useState(false);
 
-  async function uploadQueuedAvatarFiles(files: FilesBoxItem[]) {
+  const uploadQueuedAvatarFiles = async (files: FilesBoxItem[]) => {
     const next = [...files];
     let hasUploadError = false;
 
@@ -70,9 +70,9 @@ export function useSubmitHandler() {
     }
 
     return { files: next, hasUploadError };
-  }
+  };
 
-  function getActualAvatarUrl(files: FilesBoxItem[]): string | undefined {
+  const getActualAvatarUrl = (files: FilesBoxItem[]): string | undefined => {
     const candidates = files.filter(
       (file) =>
         file.status !== 'marked_for_removal' &&
@@ -80,13 +80,13 @@ export function useSubmitHandler() {
         file.uploadedUrl.length > 0,
     );
     return candidates.at(-1)?.uploadedUrl;
-  }
+  };
 
-  async function handleSubmit({
+  const handleSubmit = async ({
     userId,
     values,
     avatarFiles,
-  }: SubmitArgs): Promise<FilesBoxItem[]> {
+  }: SubmitArgs): Promise<FilesBoxItem[]> => {
     let filesState = avatarFiles;
     const needsAvatarUpload = avatarFiles.some(
       (item) => item.status === 'queued' && item.file,
@@ -150,11 +150,11 @@ export function useSubmitHandler() {
       toast.error('Failed to update profile');
       return filesState;
     }
-  }
+  };
 
   return {
     loading,
     avatarUploadLoading,
     handleSubmit,
   };
-}
+};

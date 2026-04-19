@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { getSubFromAccessToken } from './jwt-payload-sub';
 
 /** JWT header.payload.sig — payload JSON { "sub": "user-123" } */
-function makeJwtWithSub(sub: string): string {
+const makeJwtWithSub = (sub: string): string => {
   const header = Buffer.from(JSON.stringify({ alg: 'none' }), 'utf8').toString(
     'base64url',
   );
@@ -12,8 +12,7 @@ function makeJwtWithSub(sub: string): string {
     'base64url',
   );
   return `${header}.${payload}.sig`;
-}
-
+};
 describe('getSubFromAccessToken', () => {
   it('returns null for empty input', () => {
     expect(getSubFromAccessToken(undefined)).toBeNull();

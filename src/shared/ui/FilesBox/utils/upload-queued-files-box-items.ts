@@ -2,7 +2,7 @@ import { uploadFile } from '../../../api/rest/files/upload-file';
 import type { FilesBoxItem } from '../types';
 import { getActiveFiles } from './files-box-utils';
 
-export async function uploadQueuedFilesBoxItems(files: FilesBoxItem[]) {
+export const uploadQueuedFilesBoxItems = async (files: FilesBoxItem[]) => {
   const next = [...files];
   let hasUploadError = false;
 
@@ -38,25 +38,25 @@ export async function uploadQueuedFilesBoxItems(files: FilesBoxItem[]) {
   }
 
   return { files: next, hasUploadError };
-}
+};
 
-export function collectUploadedFileUrls(files: FilesBoxItem[]): string[] {
-  return getActiveFiles(files)
+export const collectUploadedFileUrls = (files: FilesBoxItem[]): string[] =>
+  getActiveFiles(files)
     .map((item) => item.uploadedUrl)
     .filter((url): url is string => typeof url === 'string' && url.length > 0);
-}
 
 /** Первый загруженный URL (например, для API с одним полем `image`). */
-export function firstUploadedFileUrl(
+export const firstUploadedFileUrl = (
   files: FilesBoxItem[],
-): string | undefined {
-  return collectUploadedFileUrls(files)[0];
-}
+): string | undefined => collectUploadedFileUrls(files)[0];
 
-export async function uploadQueuedFilesBoxItemsWithLoading(
+export const uploadQueuedFilesBoxItemsWithLoading = async (
   files: FilesBoxItem[],
   setUploadLoading: (loading: boolean) => void,
-): Promise<{ files: FilesBoxItem[]; hasUploadError: boolean }> {
+): Promise<{
+  files: FilesBoxItem[];
+  hasUploadError: boolean;
+}> => {
   const needsImageUpload = files.some(
     (item) => item.status === 'queued' && item.file,
   );
@@ -70,4 +70,4 @@ export async function uploadQueuedFilesBoxItemsWithLoading(
       setUploadLoading(false);
     }
   }
-}
+};

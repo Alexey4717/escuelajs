@@ -13,7 +13,7 @@ import {
 import { createErrorLink } from '../links/error-link';
 import { createHttpLink } from '../links/http-link';
 
-export function makeApolloClient(): ApolloClient {
+export const makeApolloClient = (): ApolloClient => {
   disableFragmentWarnings();
 
   const link = ApolloLink.from([createErrorLink(), createHttpLink()]);
@@ -48,4 +48,4 @@ export function makeApolloClient(): ApolloClient {
       },
     },
   });
-}
+};

@@ -14,18 +14,18 @@ interface MapMoveEndHandlerProps {
   suppressMoveEndRef: RefObject<boolean>;
 }
 
-function deriveSizeByZoom(zoom: number): number {
+const deriveSizeByZoom = (zoom: number): number => {
   if (zoom >= 15) return 8;
   if (zoom >= 13) return 12;
   if (zoom >= 11) return 18;
   if (zoom >= 9) return 25;
   return 35;
-}
+};
 
-function deriveRadiusKmFromViewport(
+const deriveRadiusKmFromViewport = (
   map: ReturnType<typeof useMap>,
   center: LatLngPoint,
-): number {
+): number => {
   const bounds = map.getBounds();
   const radiusMeters = Math.max(
     map.distance(center, bounds.getNorthEast()),
@@ -33,13 +33,13 @@ function deriveRadiusKmFromViewport(
   );
 
   return Math.max(1, Math.round(radiusMeters / 1000));
-}
+};
 
-export function MapMoveEndHandler({
+export const MapMoveEndHandler = ({
   onMapMoveEnd,
   isRequestInFlight,
   suppressMoveEndRef,
-}: MapMoveEndHandlerProps) {
+}: MapMoveEndHandlerProps) => {
   const lastMoveEndRequestAtRef = useRef(0);
   const lastRequestedCenterRef = useRef<LatLngPoint | null>(null);
   const map = useMap();
@@ -91,4 +91,4 @@ export function MapMoveEndHandler({
   }, [emitViewportQuery]);
 
   return null;
-}
+};

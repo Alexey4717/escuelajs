@@ -6,12 +6,10 @@ import { cn } from '../../../lib/styles/cn';
 import { ACCORDION_SLOT } from '../constants';
 import type { AccordionItemProps } from '../types';
 
-export function AccordionItem({ className, ...props }: AccordionItemProps) {
-  return (
-    <AccordionPrimitive.Item
-      data-slot={ACCORDION_SLOT.item}
-      className={cn('not-last:border-b', className)}
-      {...props}
-    />
-  );
-}
+export const AccordionItem = ({ className, ...props }: AccordionItemProps) => (
+  <AccordionPrimitive.Item
+    data-slot={ACCORDION_SLOT.item}
+    className={cn('not-last:border-b', className)}
+    {...props}
+  />
+);

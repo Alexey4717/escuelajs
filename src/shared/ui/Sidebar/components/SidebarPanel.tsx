@@ -12,7 +12,7 @@ import { SheetTitle } from '../../Sheet/components/SheetTitle';
 import { SIDEBAR_WIDTH_MOBILE } from '../constants';
 import { useSidebar } from '../sidebar-context';
 
-export function SidebarPanel({
+export const SidebarPanel = ({
   side = 'left',
   variant = 'sidebar',
   collapsible = 'offcanvas',
@@ -24,7 +24,7 @@ export function SidebarPanel({
   side?: 'left' | 'right';
   variant?: 'sidebar' | 'floating' | 'inset';
   collapsible?: 'offcanvas' | 'icon' | 'none';
-}) {
+}) => {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar();
 
   if (collapsible === 'none') {
@@ -110,4 +110,4 @@ export function SidebarPanel({
       </div>
     </div>
   );
-}
+};

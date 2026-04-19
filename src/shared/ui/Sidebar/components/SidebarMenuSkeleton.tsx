@@ -5,16 +5,14 @@ import { type ComponentProps, useState } from 'react';
 import { cn } from '../../../lib/styles/cn';
 import { Skeleton } from '../../Skeleton/Skeleton';
 
-export function SidebarMenuSkeleton({
+export const SidebarMenuSkeleton = ({
   className,
   showIcon = false,
   ...props
 }: ComponentProps<'div'> & {
   showIcon?: boolean;
-}) {
-  const [width] = useState(() => {
-    return `${Math.floor(Math.random() * 40) + 50}%`;
-  });
+}) => {
+  const [width] = useState(() => `${Math.floor(Math.random() * 40) + 50}%`);
 
   return (
     <div
@@ -40,4 +38,4 @@ export function SidebarMenuSkeleton({
       />
     </div>
   );
-}
+};

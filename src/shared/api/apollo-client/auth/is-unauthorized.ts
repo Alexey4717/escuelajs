@@ -1,18 +1,20 @@
 import { CombinedGraphQLErrors, ServerError } from '@apollo/client/errors';
 
-function isGraphQlUnauthorizedMessage(error: {
+const isGraphQlUnauthorizedMessage = (error: {
   message?: string;
-  extensions?: { code?: unknown };
-}): boolean {
+  extensions?: {
+    code?: unknown;
+  };
+}): boolean => {
   const code = error.extensions?.code;
   if (code === 'UNAUTHENTICATED') {
     return true;
   }
   const msg = (error.message ?? '').toLowerCase();
   return msg.includes('unauthorized');
-}
+};
 
-export function isUnauthorized(error: unknown): boolean {
+export const isUnauthorized = (error: unknown): boolean => {
   if (ServerError.is(error) && error.statusCode === 401) {
     return true;
   }
@@ -23,4 +25,4 @@ export function isUnauthorized(error: unknown): boolean {
     return isGraphQlUnauthorizedMessage({ message: error.message });
   }
   return false;
-}
+};

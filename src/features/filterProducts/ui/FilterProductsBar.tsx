@@ -16,10 +16,9 @@ interface FilterProductsBarProps {
   /** Статус сетевого запроса списка продуктов (`useQuery` + `notifyOnNetworkStatusChange`). */
   productsNetworkStatus: NetworkStatus;
 }
-
-export function FilterProductsBar({
+export const FilterProductsBar = ({
   productsNetworkStatus,
-}: FilterProductsBarProps) {
+}: FilterProductsBarProps) => {
   const resetStore = useFilterProductsStore((s) => s.reset);
 
   const [filterResetKey, setFilterResetKey] = useState(0);
@@ -49,4 +48,4 @@ export function FilterProductsBar({
       </div>
     </section>
   );
-}
+};

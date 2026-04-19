@@ -12,8 +12,8 @@ import { ModalProvider } from '@/app/modal/ui/ModalProvider';
  * Оболочка близка к корневому `app/layout.tsx`: TanStack Query, Apollo, модалки и toasts.
  * Для тестов без тёмной темы — `light`, десктоп (`initialIsMobile: false`).
  */
-export function renderWithProviders(ui: ReactElement) {
-  return render(
+export const renderWithProviders = (ui: ReactElement) =>
+  render(
     <QueryProvider>
       <ApolloProvider>
         <ModalProvider initialIsMobile={false}>
@@ -23,4 +23,3 @@ export function renderWithProviders(ui: ReactElement) {
       </ApolloProvider>
     </QueryProvider>,
   );
-}

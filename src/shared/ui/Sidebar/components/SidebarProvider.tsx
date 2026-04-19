@@ -20,7 +20,7 @@ import {
 } from '../constants';
 import { SidebarContext, type SidebarContextProps } from '../sidebar-context';
 
-export function SidebarProvider({
+export const SidebarProvider = ({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
@@ -32,7 +32,7 @@ export function SidebarProvider({
   defaultOpen?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-}) {
+}) => {
   const isMobile = useIsMobile();
   const [openMobile, setOpenMobile] = useState(false);
 
@@ -52,9 +52,11 @@ export function SidebarProvider({
     [setOpenProp, open],
   );
 
-  const toggleSidebar = useCallback(() => {
-    return isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open);
-  }, [isMobile, setOpen, setOpenMobile]);
+  const toggleSidebar = useCallback(
+    () =>
+      isMobile ? setOpenMobile((open) => !open) : setOpen((open) => !open),
+    [isMobile, setOpen, setOpenMobile],
+  );
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -107,4 +109,4 @@ export function SidebarProvider({
       </div>
     </SidebarContext.Provider>
   );
-}
+};

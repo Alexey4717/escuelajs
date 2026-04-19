@@ -5,45 +5,42 @@ import { render, type RenderOptions } from '@testing-library/react';
 
 import { makeQueryClient } from '@/shared/api/query-client/make-query-client';
 
-export function createTestQueryClient(): QueryClient {
+export const createTestQueryClient = (): QueryClient => {
   const client = makeQueryClient();
   client.setDefaultOptions({
     queries: { retry: false },
     mutations: { retry: false },
   });
   return client;
-}
+};
 
 type RenderWithQueryClientOptions = Omit<RenderOptions, 'wrapper'> & {
   queryClient?: QueryClient;
 };
 
-function renderOptionsWithoutQueryClient(
+const renderOptionsWithoutQueryClient = (
   options?: RenderWithQueryClientOptions,
-): Omit<RenderOptions, 'wrapper'> {
+): Omit<RenderOptions, 'wrapper'> => {
   if (!options) {
     return {};
   }
   const rest = { ...options };
   delete rest.queryClient;
   return rest;
-}
+};
 
-export function renderWithQueryClient(
+export const renderWithQueryClient = (
   ui: ReactElement,
   options?: RenderWithQueryClientOptions,
-) {
+) => {
   const queryClient = options?.queryClient ?? createTestQueryClient();
   const renderOptions = renderOptionsWithoutQueryClient(options);
 
-  function Wrapper({ children }: { children: ReactNode }) {
-    return (
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    );
-  }
-
+  const Wrapper = ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  );
   return {
     ...render(ui, { wrapper: Wrapper, ...renderOptions }),
     queryClient,
   };
-}
+};

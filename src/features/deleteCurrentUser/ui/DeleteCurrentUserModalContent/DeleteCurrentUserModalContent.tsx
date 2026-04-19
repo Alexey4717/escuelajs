@@ -20,12 +20,11 @@ import {
 type DeleteCurrentUserModalContentProps = ModalRegistryMap['profileDelete'] & {
   closeModal: () => void;
 };
-
-export function DeleteCurrentUserModalContent({
+export const DeleteCurrentUserModalContent = ({
   email,
   userId,
   closeModal,
-}: DeleteCurrentUserModalContentProps) {
+}: DeleteCurrentUserModalContentProps) => {
   const methods = useForm<
     DeleteCurrentUserFormStateInput,
     unknown,
@@ -35,11 +34,9 @@ export function DeleteCurrentUserModalContent({
     defaultValues: deleteCurrentUserFormDefaultValues,
   });
   const { submitDelete } = useDeleteCurrentUserSubmitHandler();
-
-  async function handleSubmit() {
+  const handleSubmit = async () => {
     await submitDelete({ userId, closeModal });
-  }
-
+  };
   return (
     <div className="space-y-4">
       <Typography
@@ -61,4 +58,4 @@ export function DeleteCurrentUserModalContent({
       </Form>
     </div>
   );
-}
+};

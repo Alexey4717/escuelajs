@@ -23,10 +23,10 @@ interface UseOnboardingProductCreateAutofillParams {
   setImageFiles: Dispatch<SetStateAction<FilesBoxItem[]>>;
 }
 
-export function useOnboardingProductCreateAutofill({
+export const useOnboardingProductCreateAutofill = ({
   methods,
   setImageFiles,
-}: UseOnboardingProductCreateAutofillParams) {
+}: UseOnboardingProductCreateAutofillParams) => {
   const didAutofillRef = useRef(false);
   const currentStepIndex = useOnboardingSessionStore((s) => s.currentStepIndex);
   const isAdminOnboardingDemo = useOnboardingSessionStore(
@@ -60,4 +60,4 @@ export function useOnboardingProductCreateAutofill({
       window.clearTimeout(timerId);
     };
   }, [currentStepIndex, isAdminOnboardingDemo, methods, setImageFiles]);
-}
+};

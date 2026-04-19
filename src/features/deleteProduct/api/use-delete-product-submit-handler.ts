@@ -14,8 +14,7 @@ type DeleteProductArgs = {
   productId: string;
   closeModal: () => void;
 };
-
-export function useDeleteProductSubmitHandler() {
+export const useDeleteProductSubmitHandler = () => {
   const router = useRouter();
   const [deleteProduct, { loading }] = useMutation(DeleteProductDocument);
 
@@ -48,4 +47,4 @@ export function useDeleteProductSubmitHandler() {
     submitDelete,
     loading,
   };
-}
+};

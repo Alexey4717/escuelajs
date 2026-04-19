@@ -1,9 +1,9 @@
 import { type ReactNode } from 'react';
 
-export function formatRequiredLabel(
+export const formatRequiredLabel = (
   label: ReactNode,
   required: boolean,
-): ReactNode {
+): ReactNode => {
   if (!required) {
     return label;
   }
@@ -18,4 +18,4 @@ export function formatRequiredLabel(
       {' *'}
     </>
   );
-}
+};

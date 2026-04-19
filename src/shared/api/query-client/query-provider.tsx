@@ -20,7 +20,7 @@ const ReactQueryDevtools = isDev
     )
   : () => null;
 
-export function QueryProvider({ children }: PropsWithChildren) {
+export const QueryProvider = ({ children }: PropsWithChildren) => {
   const queryClient = getQueryClient();
 
   return (
@@ -34,4 +34,4 @@ export function QueryProvider({ children }: PropsWithChildren) {
       ) : null}
     </QueryClientProvider>
   );
-}
+};

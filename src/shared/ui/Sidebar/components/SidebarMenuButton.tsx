@@ -11,7 +11,7 @@ import { Tooltip } from '../../Tooltip/Tooltip';
 import { useSidebar } from '../sidebar-context';
 import { sidebarMenuButtonVariants } from './sidebar-menu-button-variants';
 
-export function SidebarMenuButton({
+export const SidebarMenuButton = ({
   asChild = false,
   isActive = false,
   variant = 'default',
@@ -23,7 +23,7 @@ export function SidebarMenuButton({
   asChild?: boolean;
   isActive?: boolean;
   tooltip?: string | ComponentProps<typeof TooltipContent>;
-} & VariantProps<typeof sidebarMenuButtonVariants>) {
+} & VariantProps<typeof sidebarMenuButtonVariants>) => {
   const Comp = asChild ? Slot.Root : 'button';
   const { isMobile, state } = useSidebar();
 
@@ -60,4 +60,4 @@ export function SidebarMenuButton({
       }}
     />
   );
-}
+};

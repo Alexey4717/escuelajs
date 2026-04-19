@@ -22,34 +22,30 @@ import {
 } from '../../config/consts/cookie-max-age';
 
 /** Общие опции для токенов: XSS-сложнее прочитать, `SameSite=lax`, весь сайт по `path`. */
-function getAuthCookieBase() {
-  return {
-    httpOnly: true as const,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const,
-    path: '/',
-  };
-}
+const getAuthCookieBase = () => ({
+  httpOnly: true as const,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax' as const,
+  path: '/',
+});
 
 /** Опции для читаемого флага (без HttpOnly), иначе JS не увидит hint. */
-function getReadableCookieBase() {
-  return {
-    httpOnly: false as const,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax' as const,
-    path: '/',
-  };
-}
+const getReadableCookieBase = () => ({
+  httpOnly: false as const,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax' as const,
+  path: '/',
+});
 
 /**
  * После успешного `login` / `refreshToken` в BFF: записать пару токенов в HttpOnly
  * и выставить флаг `auth_has_refresh` с тем же maxAge, что и refresh.
  */
-export function applyAuthCookiesToResponse(
+export const applyAuthCookiesToResponse = (
   response: NextResponse,
   accessToken: string,
   refreshToken: string,
-): void {
+): void => {
   const base = getAuthCookieBase();
   response.cookies.set(ACCESS_TOKEN_KEY, accessToken, {
     ...base,
@@ -63,22 +59,22 @@ export function applyAuthCookiesToResponse(
     ...getReadableCookieBase(),
     maxAge: AUTH_REFRESH_MAX_AGE_SECONDS,
   });
-}
+};
 
 /**
  * Полный выход: удалить access, refresh и hint (например после невалидного refresh,
  * logout server action).
  */
-export function clearAuthCookiesOnResponse(response: NextResponse): void {
+export const clearAuthCookiesOnResponse = (response: NextResponse): void => {
   response.cookies.delete(ACCESS_TOKEN_KEY);
   response.cookies.delete(REFRESH_TOKEN_KEY);
   response.cookies.delete(REFRESH_HINT_COOKIE);
-}
+};
 
 /**
  * Только снять флаг-hint: refresh cookie уже нет, а клиент ещё думает, что сессия
  * обновляемая (например ответ BFF «No refresh token» без полного logout).
  */
-export function clearRefreshHintOnResponse(response: NextResponse): void {
+export const clearRefreshHintOnResponse = (response: NextResponse): void => {
   response.cookies.delete(REFRESH_HINT_COOKIE);
-}
+};

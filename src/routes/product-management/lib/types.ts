@@ -1,1 +1,3 @@
-export type ProductEditPageParams = { id: string };
+export type ProductEditPageParams = {
+  id: string;
+};

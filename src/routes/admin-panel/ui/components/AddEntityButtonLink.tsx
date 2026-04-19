@@ -17,23 +17,21 @@ export const AddEntityButtonLink = ({
   href,
   children,
   onboardingTarget,
-}: AddEntityButtonLinkProps) => {
-  return (
-    <Button
-      className="h-[200px] w-full flex-col gap-4 text-2xl font-semibold lg:text-3xl"
-      asChild
-      variant="outline"
+}: AddEntityButtonLinkProps) => (
+  <Button
+    className="h-[200px] w-full flex-col gap-4 text-2xl font-semibold lg:text-3xl"
+    asChild
+    variant="outline"
+  >
+    <Link
+      className="flex flex-row items-center justify-center gap-2"
+      href={href}
+      data-onboarding={onboardingTarget}
     >
-      <Link
-        className="flex flex-row items-center justify-center gap-2"
-        href={href}
-        data-onboarding={onboardingTarget}
-      >
-        <Plus className="size-8 lg:size-10" />
-        <span className="whitespace-normal text-center block w-fit">
-          {children}
-        </span>
-      </Link>
-    </Button>
-  );
-};
+      <Plus className="size-8 lg:size-10" />
+      <span className="whitespace-normal text-center block w-fit">
+        {children}
+      </span>
+    </Link>
+  </Button>
+);

@@ -6,7 +6,7 @@ import type { CarouselContextValue } from '../types';
 
 export const CarouselContext = createContext<CarouselContextValue | null>(null);
 
-export function useCarousel() {
+export const useCarousel = () => {
   const context = useContext(CarouselContext);
 
   if (!context) {
@@ -14,4 +14,4 @@ export function useCarousel() {
   }
 
   return context;
-}
+};

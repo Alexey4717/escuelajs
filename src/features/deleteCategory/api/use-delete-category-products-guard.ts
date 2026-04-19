@@ -9,17 +9,17 @@ import {
   type ProductsQueryVariables,
 } from '@/shared/api/generated/graphql';
 
-function categoryIdToFloat(categoryId: string): number | null {
+const categoryIdToFloat = (categoryId: string): number | null => {
   const n = Number(categoryId);
   return Number.isFinite(n) ? n : null;
-}
+};
 
 /**
  * Проверяет, есть ли товары в категории перед удалением: запрашивает список
  * продуктов с `limit: 1` по `categoryId`. Нужен, чтобы UI мог заблокировать
  * удаление или показать предупреждение, пока в категории остались товары.
  */
-export function useDeleteCategoryProductsGuard(categoryId: string) {
+export const useDeleteCategoryProductsGuard = (categoryId: string) => {
   const categoryIdFloat = useMemo(
     () => categoryIdToFloat(categoryId),
     [categoryId],
@@ -60,4 +60,4 @@ export function useDeleteCategoryProductsGuard(categoryId: string) {
     /** Запрос завершился успешно, можно решать, показывать ли удаление */
     guardReady,
   };
-}
+};

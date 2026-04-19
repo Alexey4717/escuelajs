@@ -29,43 +29,41 @@ const DialogBase = ({
   showContentCloseButton,
   showFooterCloseButton,
   ...rootProps
-}: DialogProps) => {
-  return (
-    <DialogRoot {...rootProps}>
-      {trigger && <DialogTrigger {...triggerProps}>{trigger}</DialogTrigger>}
+}: DialogProps) => (
+  <DialogRoot {...rootProps}>
+    {trigger && <DialogTrigger {...triggerProps}>{trigger}</DialogTrigger>}
 
-      {children ?? (
-        <DialogContent
-          {...contentProps}
-          overlayProps={overlayProps}
-          showCloseButton={showContentCloseButton}
-        >
-          {(title || description) && (
-            <DialogHeader {...headerProps}>
-              {title && <DialogTitle {...titleProps}>{title}</DialogTitle>}
-              {description && (
-                <DialogDescription {...descriptionProps}>
-                  {description}
-                </DialogDescription>
-              )}
-            </DialogHeader>
-          )}
+    {children ?? (
+      <DialogContent
+        {...contentProps}
+        overlayProps={overlayProps}
+        showCloseButton={showContentCloseButton}
+      >
+        {(title || description) && (
+          <DialogHeader {...headerProps}>
+            {title && <DialogTitle {...titleProps}>{title}</DialogTitle>}
+            {description && (
+              <DialogDescription {...descriptionProps}>
+                {description}
+              </DialogDescription>
+            )}
+          </DialogHeader>
+        )}
 
-          {content}
+        {content}
 
-          {(footer || showFooterCloseButton) && (
-            <DialogFooter
-              {...footerProps}
-              showCloseButton={showFooterCloseButton}
-            >
-              {footer}
-            </DialogFooter>
-          )}
-        </DialogContent>
-      )}
-    </DialogRoot>
-  );
-};
+        {(footer || showFooterCloseButton) && (
+          <DialogFooter
+            {...footerProps}
+            showCloseButton={showFooterCloseButton}
+          >
+            {footer}
+          </DialogFooter>
+        )}
+      </DialogContent>
+    )}
+  </DialogRoot>
+);
 
 type DialogComponent = typeof DialogBase & {
   Root: typeof DialogRoot;

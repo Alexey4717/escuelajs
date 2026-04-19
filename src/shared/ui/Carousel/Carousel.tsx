@@ -14,7 +14,7 @@ import { cn } from '../../lib/styles/cn';
 import { CarouselContext } from './components/CarouselContext';
 import type { CarouselApi, CarouselRootProps } from './types';
 
-export function Carousel({
+export const Carousel = ({
   orientation = 'horizontal',
   opts,
   setApi,
@@ -22,7 +22,7 @@ export function Carousel({
   className,
   children,
   ...props
-}: ComponentProps<'div'> & CarouselRootProps) {
+}: ComponentProps<'div'> & CarouselRootProps) => {
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -107,7 +107,7 @@ export function Carousel({
       </div>
     </CarouselContext.Provider>
   );
-}
+};
 
 export { CarouselContent } from './components/CarouselContent';
 export { CarouselItem } from './components/CarouselItem';

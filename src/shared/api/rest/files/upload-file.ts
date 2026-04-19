@@ -1,9 +1,11 @@
 import { EscuelaRestError, fetchEscuelaRest } from '../fetch-escuela-rest';
 import { EscuelaUploadedFileDto } from './types';
 
-const FILE_UPLOAD_TIMEOUT_MS = 20_000;
+const FILE_UPLOAD_TIMEOUT_MS = 20000;
 
-export async function uploadFile(file: File): Promise<EscuelaUploadedFileDto> {
+export const uploadFile = async (
+  file: File,
+): Promise<EscuelaUploadedFileDto> => {
   const formData = new FormData();
   formData.append('file', file);
 
@@ -40,4 +42,4 @@ export async function uploadFile(file: File): Promise<EscuelaUploadedFileDto> {
   }
 
   return response;
-}
+};

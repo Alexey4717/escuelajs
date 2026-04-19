@@ -12,11 +12,11 @@ interface FilesBoxItemRowProps {
   onToggleRemoval: (localId: string) => void;
 }
 
-export function FilesBoxItemRow({
+export const FilesBoxItemRow = ({
   item,
   disabled,
   onToggleRemoval,
-}: FilesBoxItemRowProps) {
+}: FilesBoxItemRowProps) => {
   const marked = item.status === 'marked_for_removal';
 
   return (
@@ -89,4 +89,4 @@ export function FilesBoxItemRow({
       </div>
     </li>
   );
-}
+};

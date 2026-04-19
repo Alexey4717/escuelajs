@@ -13,22 +13,20 @@ interface StoreTopbarProps {
   className?: string;
 }
 
-export function StoreTopbar({ isLoggedIn, className }: StoreTopbarProps) {
-  return (
-    <div
-      className={cn(
-        'flex h-full min-w-0 items-center justify-end gap-4 text-primary-foreground',
-        'dark:text-card-foreground',
-        className,
-      )}
-    >
-      <div className="ml-auto flex items-center gap-2">
-        <ShoppingCartButton />
-        <ThemeToggleButton />
-        <div className={topbarAuthSlotClassName}>
-          {isLoggedIn ? <LogoutButton /> : <LoginLink />}
-        </div>
+export const StoreTopbar = ({ isLoggedIn, className }: StoreTopbarProps) => (
+  <div
+    className={cn(
+      'flex h-full min-w-0 items-center justify-end gap-4 text-primary-foreground',
+      'dark:text-card-foreground',
+      className,
+    )}
+  >
+    <div className="ml-auto flex items-center gap-2">
+      <ShoppingCartButton />
+      <ThemeToggleButton />
+      <div className={topbarAuthSlotClassName}>
+        {isLoggedIn ? <LogoutButton /> : <LoginLink />}
       </div>
     </div>
-  );
-}
+  </div>
+);

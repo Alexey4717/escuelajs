@@ -9,11 +9,10 @@ import { useDeleteCategorySubmitHandler } from '../../api/use-delete-category-su
 type DeleteCategoryModalFooterProps = ModalRegistryMap['categoryDelete'] & {
   closeModal: () => void;
 };
-
-export function DeleteCategoryModalFooter({
+export const DeleteCategoryModalFooter = ({
   categoryId,
   closeModal,
-}: DeleteCategoryModalFooterProps) {
+}: DeleteCategoryModalFooterProps) => {
   const {
     loading: guardLoading,
     error: guardError,
@@ -54,4 +53,4 @@ export function DeleteCategoryModalFooter({
       ) : null}
     </div>
   );
-}
+};

@@ -8,11 +8,11 @@ type UseAppImagePreloadResult = {
   resolvedSrc: string;
 };
 
-export function useAppImagePreload(
+export const useAppImagePreload = (
   src: string | undefined,
   proxifyEscuelaRest: boolean,
   disablePreload: boolean,
-): UseAppImagePreloadResult {
+): UseAppImagePreloadResult => {
   const [isLoading, setIsLoading] = useState(() =>
     Boolean(src && !disablePreload),
   );
@@ -61,4 +61,4 @@ export function useAppImagePreload(
   /* eslint-enable react-hooks/set-state-in-effect */
 
   return { isLoading, hasError, resolvedSrc };
-}
+};

@@ -13,7 +13,7 @@ import { FilesBoxLimitHint } from './components/FilesBoxLimitHint';
 import { useFilesBox } from './hooks/useFilesBox';
 import type { FilesBoxProps } from './types';
 
-export function FilesBox(props: FilesBoxProps) {
+export const FilesBox = (props: FilesBoxProps) => {
   const {
     label,
     description,
@@ -105,4 +105,4 @@ export function FilesBox(props: FilesBoxProps) {
       </FieldContent>
     </Field>
   );
-}
+};

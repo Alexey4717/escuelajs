@@ -35,7 +35,7 @@ const baseCatalog: NavItem[] = [
   },
 ];
 
-export function getCatalogNav(role: Role | null): NavItem[] {
+export const getCatalogNav = (role: Role | null): NavItem[] => {
   if (role !== 'admin') {
     return baseCatalog;
   }
@@ -48,4 +48,4 @@ export function getCatalogNav(role: Role | null): NavItem[] {
       icon: Settings,
     },
   ];
-}
+};

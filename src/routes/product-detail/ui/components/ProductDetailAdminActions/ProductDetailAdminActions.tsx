@@ -19,10 +19,10 @@ interface ProductDetailAdminActionsProps {
   productTitle: string;
 }
 
-export function ProductDetailAdminActions({
+export const ProductDetailAdminActions = ({
   productId,
   productTitle,
-}: ProductDetailAdminActionsProps) {
+}: ProductDetailAdminActionsProps) => {
   const { role, loading } = useCurrentUserRole();
   const { open } = useDeleteProductModal();
   const isOnboardingFinalStep = useOnboardingSessionStore(
@@ -76,4 +76,4 @@ export function ProductDetailAdminActions({
       </Button>
     </div>
   );
-}
+};

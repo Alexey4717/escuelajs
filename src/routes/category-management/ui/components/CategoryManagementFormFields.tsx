@@ -9,23 +9,21 @@ interface CategoryManagementFormFieldsProps {
   onImageFilesChange: (files: FilesBoxItem[]) => void;
 }
 
-export function CategoryManagementFormFields({
+export const CategoryManagementFormFields = ({
   imageFiles,
   onImageFilesChange,
-}: CategoryManagementFormFieldsProps) {
-  return (
-    <>
-      <CategoryNameField placeholder="For example, Clothes" />
-      <FilesBox
-        label="Category image"
-        maxFiles={CATEGORY_IMAGE_FILES_MAX}
-        accept="image/*"
-        maxFileSizeMb={5}
-        uploadMode="onSubmit"
-        value={imageFiles}
-        onChange={onImageFilesChange}
-        data-testid="categoryForm__input__image"
-      />
-    </>
-  );
-}
+}: CategoryManagementFormFieldsProps) => (
+  <>
+    <CategoryNameField placeholder="For example, Clothes" />
+    <FilesBox
+      label="Category image"
+      maxFiles={CATEGORY_IMAGE_FILES_MAX}
+      accept="image/*"
+      maxFileSizeMb={5}
+      uploadMode="onSubmit"
+      value={imageFiles}
+      onChange={onImageFilesChange}
+      data-testid="categoryForm__input__image"
+    />
+  </>
+);

@@ -17,7 +17,7 @@ import { selectCartItemCount, useCartStore } from '@/entities/Cart';
 
 import { useShoppingCartBadgeFeedback } from '../../../../lib/hooks/useShoppingCartBadgeFeedback';
 
-export function ShoppingCartButton() {
+export const ShoppingCartButton = () => {
   const count = useCartStore(selectCartItemCount);
   const cartFly = useCartFlyOptional();
   const { tone, pulse, feedbackDurationMs, showBadge, badgeCount } =
@@ -85,4 +85,4 @@ export function ShoppingCartButton() {
       </Link>
     </Button>
   );
-}
+};

@@ -92,22 +92,20 @@ export const ONBOARDING_DEMO_CATEGORY_DETAILS: CategoryDetailsQuery['category'] 
     updatedAt: '2026-04-16T02:43:00.000Z',
   };
 
-function makeOnboardingProductListItem(
+const makeOnboardingProductListItem = (
   id: string,
   title: string,
   price: number,
   images: string[],
-): ProductsQuery['products'][number] {
-  return {
-    __typename: 'Product',
-    id,
-    title,
-    slug: `demo-${id}`,
-    price,
-    images,
-    category: categoryA,
-  };
-}
+): ProductsQuery['products'][number] => ({
+  __typename: 'Product',
+  id,
+  title,
+  slug: `demo-${id}`,
+  price,
+  images,
+  category: categoryA,
+});
 
 export const ONBOARDING_DEMO_PRODUCTS_LIST: ProductsQuery['products'] = [
   makeOnboardingProductListItem(
@@ -150,47 +148,43 @@ export const ONBOARDING_ADMIN_DEMO_PRODUCTS_LIST: ProductsQuery['products'] = [
   },
 ];
 
-export function makeOnboardingAdminProductDetails(
+export const makeOnboardingAdminProductDetails = (
   product: ProductsQuery['products'][number],
-): ProductDetailsQuery['product'] {
-  return {
-    __typename: 'Product',
-    id: product.id,
-    title: product.title,
-    slug: product.slug,
-    price: product.price,
-    description: ONBOARDING_ADMIN_DEMO_PRODUCT_FORM.description,
-    images: product.images,
-    creationAt: '2026-04-16T02:43:00',
-    updatedAt: '2026-04-16T02:43:00',
-    category: {
-      __typename: 'Category',
-      id: ONBOARDING_ADMIN_DEMO_CATEGORY_ID,
-      name: ONBOARDING_ADMIN_DEMO_CATEGORY_FORM.name,
-      slug: 'clothes',
-      image: ONBOARDING_ADMIN_DEMO_CATEGORY_FORM.image,
-    },
-  };
-}
+): ProductDetailsQuery['product'] => ({
+  __typename: 'Product',
+  id: product.id,
+  title: product.title,
+  slug: product.slug,
+  price: product.price,
+  description: ONBOARDING_ADMIN_DEMO_PRODUCT_FORM.description,
+  images: product.images,
+  creationAt: '2026-04-16T02:43:00',
+  updatedAt: '2026-04-16T02:43:00',
+  category: {
+    __typename: 'Category',
+    id: ONBOARDING_ADMIN_DEMO_CATEGORY_ID,
+    name: ONBOARDING_ADMIN_DEMO_CATEGORY_FORM.name,
+    slug: 'clothes',
+    image: ONBOARDING_ADMIN_DEMO_CATEGORY_FORM.image,
+  },
+});
 
-export function makeOnboardingProductDetails(
+export const makeOnboardingProductDetails = (
   product: ProductsQuery['products'][number],
-): ProductDetailsQuery['product'] {
-  return {
-    __typename: 'Product',
-    id: product.id,
-    title: product.title,
-    slug: product.slug,
-    price: product.price,
-    description:
-      ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS[product.id] ??
-      'Demo product description for onboarding.',
-    images: product.images,
-    creationAt: '2026-04-16T02:43:00.000Z',
-    updatedAt: '2026-04-16T02:43:00.000Z',
-    category: categoryDetail,
-  };
-}
+): ProductDetailsQuery['product'] => ({
+  __typename: 'Product',
+  id: product.id,
+  title: product.title,
+  slug: product.slug,
+  price: product.price,
+  description:
+    ONBOARDING_DEMO_PRODUCT_DESCRIPTIONS[product.id] ??
+    'Demo product description for onboarding.',
+  images: product.images,
+  creationAt: '2026-04-16T02:43:00.000Z',
+  updatedAt: '2026-04-16T02:43:00.000Z',
+  category: categoryDetail,
+});
 
 export const ONBOARDING_ADMIN_DEMO_PRIMARY_USER: UsersQuery['users'][number] = {
   __typename: 'User',
@@ -228,9 +222,9 @@ type OnboardingCurrentUserSource = {
   updatedAt?: unknown;
 };
 
-export function makeOnboardingAdminFallbackCurrentUser(
+export const makeOnboardingAdminFallbackCurrentUser = (
   source: OnboardingCurrentUserSource | null | undefined,
-): UsersQuery['users'][number] {
+): UsersQuery['users'][number] => {
   const normalizedSource = source ?? {};
   const id =
     typeof normalizedSource.id === 'string' ? normalizedSource.id : null;
@@ -267,20 +261,18 @@ export function makeOnboardingAdminFallbackCurrentUser(
         ? normalizedSource.updatedAt
         : ONBOARDING_ADMIN_DEMO_FALLBACK_CURRENT_USER.updatedAt,
   };
-}
+};
 
-export function makeOnboardingCurrentUser(
+export const makeOnboardingCurrentUser = (
   currentUser: UserDetailsQuery['user'],
-): UsersQuery['users'][number] {
-  return {
-    __typename: 'User',
-    id: currentUser.id,
-    name: currentUser.name,
-    email: currentUser.email,
-    password: currentUser.password,
-    role: currentUser.role,
-    avatar: currentUser.avatar,
-    creationAt: currentUser.creationAt,
-    updatedAt: currentUser.updatedAt,
-  };
-}
+): UsersQuery['users'][number] => ({
+  __typename: 'User',
+  id: currentUser.id,
+  name: currentUser.name,
+  email: currentUser.email,
+  password: currentUser.password,
+  role: currentUser.role,
+  avatar: currentUser.avatar,
+  creationAt: currentUser.creationAt,
+  updatedAt: currentUser.updatedAt,
+});

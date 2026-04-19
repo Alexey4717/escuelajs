@@ -5,7 +5,10 @@ import { type ComponentProps } from 'react';
 import { cn } from '../../../lib/styles/cn';
 import { useSidebar } from '../sidebar-context';
 
-export function SidebarRail({ className, ...props }: ComponentProps<'button'>) {
+export const SidebarRail = ({
+  className,
+  ...props
+}: ComponentProps<'button'>) => {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -28,4 +31,4 @@ export function SidebarRail({ className, ...props }: ComponentProps<'button'>) {
       {...props}
     />
   );
-}
+};

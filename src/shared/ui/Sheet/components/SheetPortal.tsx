@@ -4,8 +4,8 @@ import { type ComponentProps } from 'react';
 
 import { Dialog as SheetPrimitive } from 'radix-ui';
 
-export function SheetPortal({
+export const SheetPortal = ({
   ...props
-}: ComponentProps<typeof SheetPrimitive.Portal>) {
-  return <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />;
-}
+}: ComponentProps<typeof SheetPrimitive.Portal>) => (
+  <SheetPrimitive.Portal data-slot="sheet-portal" {...props} />
+);

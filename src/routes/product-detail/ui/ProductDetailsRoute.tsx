@@ -21,7 +21,9 @@ interface ProductDetailsRouteProps {
   productId: string;
 }
 
-export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
+export const ProductDetailsRoute = ({
+  productId,
+}: ProductDetailsRouteProps) => {
   const isAdminOnboardingDemo = useOnboardingSessionStore(
     (s) => s.isDemoActive && s.activeFlow === 'admin',
   );
@@ -75,4 +77,4 @@ export function ProductDetailsRoute({ productId }: ProductDetailsRouteProps) {
       </article>
     </Page>
   );
-}
+};

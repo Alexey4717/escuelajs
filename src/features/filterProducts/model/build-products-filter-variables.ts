@@ -14,12 +14,12 @@ type FilterVars = Partial<
  * Поля фильтрации для запроса `Products` (без limit/offset).
  * Не передаёт в API пустые/дефолтные ограничения.
  */
-export function buildProductsFilterVariables(
+export const buildProductsFilterVariables = (
   state: Pick<
     FilterProductsState,
     'title' | 'categoryId' | 'priceMin' | 'priceMax'
   >,
-): FilterVars {
+): FilterVars => {
   const result: FilterVars = {};
 
   const trimmed = state.title.trim();
@@ -44,4 +44,4 @@ export function buildProductsFilterVariables(
   }
 
   return result;
-}
+};

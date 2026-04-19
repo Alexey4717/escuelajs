@@ -3,12 +3,11 @@ import { HttpLink } from '@apollo/client/link/http';
 import { INTERNAL_GRAPHQL_PATH } from '../../../config/consts/escuela-graphql';
 import { getAppOrigin } from '../../../lib/app-origin';
 
-function graphqlEndpoint(): string {
-  return `${getAppOrigin()}${INTERNAL_GRAPHQL_PATH}`;
-}
+const graphqlEndpoint = (): string =>
+  `${getAppOrigin()}${INTERNAL_GRAPHQL_PATH}`;
 
-export function createHttpLink(): HttpLink {
-  return new HttpLink({
+export const createHttpLink = (): HttpLink =>
+  new HttpLink({
     uri: graphqlEndpoint(),
     fetch: async (uri, options) => {
       if (typeof window === 'undefined') {
@@ -29,4 +28,3 @@ export function createHttpLink(): HttpLink {
       });
     },
   });
-}

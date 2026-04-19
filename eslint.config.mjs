@@ -62,6 +62,8 @@ const eslintConfig = defineConfig([
   {
     files: ['**/*.{js,ts,jsx,tsx}'],
     rules: {
+      // Стрелка с единственным `return` — без фигурных скобок (краткое тело).
+      'arrow-body-style': ['warn', 'as-needed'],
       // recommended задаёт prettier/prettier: error — смягчаем до warning
       'prettier/prettier': 'warn',
       // Циклы по value-импортам. import type { … } правило намеренно не проверяет

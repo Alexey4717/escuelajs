@@ -10,12 +10,11 @@ import { DeleteUserDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils';
 
-type DeleteCurrentUserMutationArgs = {
+interface DeleteCurrentUserMutationArgs {
   userId: string;
   closeModal: () => void;
-};
-
-export function useDeleteCurrentUserSubmitHandler() {
+}
+export const useDeleteCurrentUserSubmitHandler = () => {
   const router = useRouter();
   const [deleteUser, { loading }] = useMutation(DeleteUserDocument);
 
@@ -46,4 +45,4 @@ export function useDeleteCurrentUserSubmitHandler() {
     submitDelete,
     loading,
   };
-}
+};

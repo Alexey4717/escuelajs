@@ -9,11 +9,10 @@ import { useDeleteCategoryProductsGuard } from '../../api/use-delete-category-pr
 type DeleteCategoryModalContentProps = ModalRegistryMap['categoryDelete'] & {
   closeModal: () => void;
 };
-
-export function DeleteCategoryModalContent({
+export const DeleteCategoryModalContent = ({
   categoryId,
   categoryName,
-}: DeleteCategoryModalContentProps) {
+}: DeleteCategoryModalContentProps) => {
   const { loading, error, hasProducts, guardReady } =
     useDeleteCategoryProductsGuard(categoryId);
 
@@ -59,4 +58,4 @@ export function DeleteCategoryModalContent({
       cannot be undone.
     </Typography>
   );
-}
+};

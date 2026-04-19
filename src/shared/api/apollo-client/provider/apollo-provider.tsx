@@ -7,7 +7,7 @@ import { ApolloNextAppProvider } from '@apollo/client-integration-nextjs';
 import { setBrowserApolloClient } from '../auth/browser-apollo-client';
 import { makeApolloClient } from '../client/make-apollo-client';
 
-export function ApolloProvider({ children }: PropsWithChildren) {
+export const ApolloProvider = ({ children }: PropsWithChildren) => {
   const client = useMemo(() => makeApolloClient(), []);
 
   useEffect(() => {
@@ -23,4 +23,4 @@ export function ApolloProvider({ children }: PropsWithChildren) {
       {children}
     </ApolloNextAppProvider>
   );
-}
+};

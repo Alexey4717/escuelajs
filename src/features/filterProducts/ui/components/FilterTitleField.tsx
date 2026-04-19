@@ -8,11 +8,10 @@ interface FilterTitleFieldProps {
   productsNetworkStatus: NetworkStatus;
   resetKey: number;
 }
-
-export function FilterTitleField({
+export const FilterTitleField = ({
   productsNetworkStatus,
   resetKey,
-}: FilterTitleFieldProps) {
+}: FilterTitleFieldProps) => {
   const { titleInput, onTitleChange, titleLoading } = useFilterTitleField({
     productsNetworkStatus,
     resetKey,
@@ -30,4 +29,4 @@ export function FilterTitleField({
       />
     </div>
   );
-}
+};

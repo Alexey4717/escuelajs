@@ -21,7 +21,7 @@ import { useOnboardingCategoryCreateAutofill } from '../../lib/hooks/useOnboardi
 import { CategoryManagementFormActions } from './CategoryManagementFormActions';
 import { CategoryManagementFormFields } from './CategoryManagementFormFields';
 
-export function CategoryCreateFormCard() {
+export const CategoryCreateFormCard = () => {
   const {
     handleSubmit: submitCategory,
     loading: submitLoading,
@@ -72,4 +72,4 @@ export function CategoryCreateFormCard() {
       </Form>
     </Card>
   );
-}
+};

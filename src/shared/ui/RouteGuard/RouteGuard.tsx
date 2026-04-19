@@ -15,12 +15,12 @@ interface RouteGuardProps {
   children: ReactNode;
 }
 
-export function RouteGuard({
+export const RouteGuard = ({
   requiredRole,
   redirectTo = '/forbidden',
   fallback = null,
   children,
-}: RouteGuardProps) {
+}: RouteGuardProps) => {
   const router = useRouter();
   const userId = useCurrentUserId();
   const { role, loading } = useCurrentUserRole();
@@ -44,4 +44,4 @@ export function RouteGuard({
   }
 
   return children;
-}
+};

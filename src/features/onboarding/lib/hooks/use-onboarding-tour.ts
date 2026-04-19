@@ -43,7 +43,7 @@ export type UseOnboardingTourResult = {
   activeFlow: OnboardingFlowId | null;
 };
 
-export function useOnboardingTour(): UseOnboardingTourResult {
+export const useOnboardingTour = (): UseOnboardingTourResult => {
   const client = useApolloClient();
   const router = useRouter();
   const activeFlowRef = useRef<OnboardingFlowId | null>(null);
@@ -327,4 +327,4 @@ export function useOnboardingTour(): UseOnboardingTourResult {
     isDemoActive: run && activeFlow !== null,
     activeFlow,
   };
-}
+};

@@ -7,10 +7,9 @@ import { hasActiveFilters } from '../../model/has-active-filters';
 interface FilterProductsBarHeaderProps {
   onReset: () => void;
 }
-
-export function FilterProductsBarHeader({
+export const FilterProductsBarHeader = ({
   onReset,
-}: FilterProductsBarHeaderProps) {
+}: FilterProductsBarHeaderProps) => {
   const title = useFilterProductsStore((s) => s.title);
   const categoryId = useFilterProductsStore((s) => s.categoryId);
   const priceMin = useFilterProductsStore((s) => s.priceMin);
@@ -44,4 +43,4 @@ export function FilterProductsBarHeader({
       </Button>
     </div>
   );
-}
+};

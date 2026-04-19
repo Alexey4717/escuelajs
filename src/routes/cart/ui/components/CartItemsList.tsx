@@ -19,11 +19,11 @@ export interface CartItemsListProps {
   bulkExiting?: boolean;
 }
 
-export function CartItemsList({
+export const CartItemsList = ({
   items,
   onRemoveItem,
   bulkExiting = false,
-}: CartItemsListProps) {
+}: CartItemsListProps) => {
   const [removingIds, setRemovingIds] = useState(() => new Set<string>());
 
   const requestRemove = useCallback(
@@ -61,4 +61,4 @@ export function CartItemsList({
       ))}
     </ul>
   );
-}
+};

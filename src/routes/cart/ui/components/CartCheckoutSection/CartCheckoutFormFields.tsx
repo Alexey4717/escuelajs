@@ -12,40 +12,38 @@ interface CartCheckoutFormFieldsProps {
   onPickOnMap: () => void;
 }
 
-export function CartCheckoutFormFields({
+export const CartCheckoutFormFields = ({
   isSubmitting,
   onPickOnMap,
-}: CartCheckoutFormFieldsProps) {
-  return (
-    <>
-      <CartCheckoutNameField autoComplete="name" />
-      <CartCheckoutEmailField type="email" autoComplete="email" />
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:gap-3">
-        <div className="min-w-0 flex-1">
-          <CartCheckoutPickupAddressField autoComplete="street-address" />
-        </div>
-        <Button
-          onClick={onPickOnMap}
-          type="button"
-          variant="outline"
-          className="w-full shrink-0 sm:mb-0 sm:w-auto"
-          data-testid="cartRoute__button__pickOnMap"
-          data-onboarding={ONBOARDING_TARGET_IDS.cartPickOnMapButton}
-          aria-haspopup="dialog"
-        >
-          Choose on map
-        </Button>
+}: CartCheckoutFormFieldsProps) => (
+  <>
+    <CartCheckoutNameField autoComplete="name" />
+    <CartCheckoutEmailField type="email" autoComplete="email" />
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:gap-3">
+      <div className="min-w-0 flex-1">
+        <CartCheckoutPickupAddressField autoComplete="street-address" />
       </div>
       <Button
-        type="submit"
-        size="lg"
-        className="w-full"
-        data-testid="cartRoute__button__placeOrder"
-        data-onboarding={ONBOARDING_TARGET_IDS.cartPlaceOrderButton}
-        disabled={isSubmitting}
+        onClick={onPickOnMap}
+        type="button"
+        variant="outline"
+        className="w-full shrink-0 sm:mb-0 sm:w-auto"
+        data-testid="cartRoute__button__pickOnMap"
+        data-onboarding={ONBOARDING_TARGET_IDS.cartPickOnMapButton}
+        aria-haspopup="dialog"
       >
-        Place order
+        Choose on map
       </Button>
-    </>
-  );
-}
+    </div>
+    <Button
+      type="submit"
+      size="lg"
+      className="w-full"
+      data-testid="cartRoute__button__placeOrder"
+      data-onboarding={ONBOARDING_TARGET_IDS.cartPlaceOrderButton}
+      disabled={isSubmitting}
+    >
+      Place order
+    </Button>
+  </>
+);

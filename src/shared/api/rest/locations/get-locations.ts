@@ -1,11 +1,11 @@
 import { fetchEscuelaRest } from '../fetch-escuela-rest';
 import type { EscuelaLocationDto, GetEscuelaLocationsParams } from './types';
 
-export async function getLocations({
+export const getLocations = async ({
   radius,
   size,
   origin,
-}: GetEscuelaLocationsParams): Promise<EscuelaLocationDto[]> {
+}: GetEscuelaLocationsParams): Promise<EscuelaLocationDto[]> => {
   const searchParams = new URLSearchParams({
     radius: String(radius),
     size: String(size),
@@ -15,4 +15,4 @@ export async function getLocations({
   return fetchEscuelaRest<EscuelaLocationDto[]>(
     `/locations?${searchParams.toString()}`,
   );
-}
+};

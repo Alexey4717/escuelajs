@@ -9,8 +9,8 @@ import { refreshTokensOnce } from '../auth/refresh-token';
 import { SKIP_ERROR_TOAST_KEY } from '../context/context-keys';
 import { getErrorToastMessage } from '../errors/get-error-toast-message';
 
-export function createErrorLink(): ErrorLink {
-  return new ErrorLink(({ error, operation, forward }) => {
+export const createErrorLink = (): ErrorLink =>
+  new ErrorLink(({ error, operation, forward }) => {
     const context = operation.getContext();
 
     if (context[RETRY_UNAUTHORIZED_KEY]) {
@@ -47,4 +47,3 @@ export function createErrorLink(): ErrorLink {
       }),
     );
   });
-}

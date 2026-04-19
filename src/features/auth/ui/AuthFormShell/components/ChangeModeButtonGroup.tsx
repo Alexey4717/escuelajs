@@ -21,52 +21,50 @@ export const ChangeModeButtonGroup = ({
   mode,
   loginHref = pagesPath.login.$url().path,
   registerHref = pagesPath.register.$url().path,
-}: ChangeModeButtonGroupProps) => {
-  return (
-    <ButtonGroup className="mb-5 w-full overflow-hidden rounded-md border border-border">
-      {mode === 'login' ? (
-        <>
-          <Button
-            variant="default"
-            size="sm"
-            className={authTabActiveButtonClassName}
-            asChild
-          >
-            <span aria-current="page">Sign in</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            className={authTabButtonClassName}
-            asChild
-          >
-            <Link href={registerHref} prefetch>
-              Sign up
-            </Link>
-          </Button>
-        </>
-      ) : (
-        <>
-          <Button
-            variant="outline"
-            size="sm"
-            className={authTabButtonClassName}
-            asChild
-          >
-            <Link href={loginHref} prefetch>
-              Sign in
-            </Link>
-          </Button>
-          <Button
-            variant="default"
-            size="sm"
-            className={authTabActiveButtonClassName}
-            asChild
-          >
-            <span aria-current="page">Sign up</span>
-          </Button>
-        </>
-      )}
-    </ButtonGroup>
-  );
-};
+}: ChangeModeButtonGroupProps) => (
+  <ButtonGroup className="mb-5 w-full overflow-hidden rounded-md border border-border">
+    {mode === 'login' ? (
+      <>
+        <Button
+          variant="default"
+          size="sm"
+          className={authTabActiveButtonClassName}
+          asChild
+        >
+          <span aria-current="page">Sign in</span>
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          className={authTabButtonClassName}
+          asChild
+        >
+          <Link href={registerHref} prefetch>
+            Sign up
+          </Link>
+        </Button>
+      </>
+    ) : (
+      <>
+        <Button
+          variant="outline"
+          size="sm"
+          className={authTabButtonClassName}
+          asChild
+        >
+          <Link href={loginHref} prefetch>
+            Sign in
+          </Link>
+        </Button>
+        <Button
+          variant="default"
+          size="sm"
+          className={authTabActiveButtonClassName}
+          asChild
+        >
+          <span aria-current="page">Sign up</span>
+        </Button>
+      </>
+    )}
+  </ButtonGroup>
+);

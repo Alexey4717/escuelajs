@@ -6,7 +6,7 @@ import { Slot } from 'radix-ui';
 
 import { cn } from '../../../lib/styles/cn';
 
-export function SidebarMenuAction({
+export const SidebarMenuAction = ({
   className,
   asChild = false,
   showOnHover = false,
@@ -14,7 +14,7 @@ export function SidebarMenuAction({
 }: ComponentProps<'button'> & {
   asChild?: boolean;
   showOnHover?: boolean;
-}) {
+}) => {
   const Comp = asChild ? Slot.Root : 'button';
 
   return (
@@ -30,4 +30,4 @@ export function SidebarMenuAction({
       {...props}
     />
   );
-}
+};

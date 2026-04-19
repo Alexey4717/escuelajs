@@ -27,7 +27,7 @@ interface CreateSubmitArgs {
   imageFiles: FilesBoxItem[];
 }
 
-export function useCreateSubmitHandler() {
+export const useCreateSubmitHandler = () => {
   const router = useRouter();
   const [addCategory, { loading }] = useMutation(AddCategoryDocument);
   const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
@@ -36,10 +36,10 @@ export function useCreateSubmitHandler() {
       s.isDemoActive && s.activeFlow === 'admin' && s.currentStepIndex === 4,
   );
 
-  async function handleSubmit({
+  const handleSubmit = async ({
     values,
     imageFiles,
-  }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
+  }: CreateSubmitArgs): Promise<FilesBoxItem[]> => {
     if (isAdminOnboardingCreateStep) {
       toast.success('Demo category created');
       router.replace(pagesPath.categories.$url().path);
@@ -101,11 +101,11 @@ export function useCreateSubmitHandler() {
       toast.error('Failed to create category');
       return filesState;
     }
-  }
+  };
 
   return {
     loading,
     imagesUploadLoading,
     handleSubmit,
   };
-}
+};

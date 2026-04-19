@@ -57,7 +57,7 @@ const PRODUCTS_VARS = {
   categoryId: null,
 } satisfies ProductsQueryVariables;
 
-function seedCatalogCache(client: ApolloClient): void {
+const seedCatalogCache = (client: ApolloClient): void => {
   client.writeQuery({
     query: ProductsDocument,
     variables: PRODUCTS_VARS,
@@ -83,9 +83,9 @@ function seedCatalogCache(client: ApolloClient): void {
       data: { product: makeOnboardingProductDetails(p) },
     });
   }
-}
+};
 
-function seedUsersCache(client: ApolloClient): void {
+const seedUsersCache = (client: ApolloClient): void => {
   const currentUserId = useAppStore.getState().currentUserId;
   const currentUserFromCache = currentUserId
     ? client.readQuery({
@@ -110,12 +110,12 @@ function seedUsersCache(client: ApolloClient): void {
     variables: { limit: USERS_LIST_LIMIT },
     data: { users },
   });
-}
+};
 
-function resolveCurrentAdminUserFromCache(
+const resolveCurrentAdminUserFromCache = (
   client: ApolloClient,
   currentUserId: string | null,
-): CacheUserEntity | null {
+): CacheUserEntity | null => {
   const snapshot = client.cache.extract() as Record<string, unknown>;
   const rootQuery =
     snapshot.ROOT_QUERY != null && typeof snapshot.ROOT_QUERY === 'object'
@@ -152,17 +152,17 @@ function resolveCurrentAdminUserFromCache(
   }
 
   return null;
-}
+};
 
-function isAdminCacheUser(user: CacheUserEntity | null | undefined): boolean {
-  return (
-    user?.__typename === 'User' &&
-    typeof user.id === 'string' &&
-    user.role === 'admin'
-  );
-}
+const isAdminCacheUser = (user: CacheUserEntity | null | undefined): boolean =>
+  user?.__typename === 'User' &&
+  typeof user.id === 'string' &&
+  user.role === 'admin';
 
-function seedAdminCatalogCache(client: ApolloClient, stepIndex: number): void {
+const seedAdminCatalogCache = (
+  client: ApolloClient,
+  stepIndex: number,
+): void => {
   const shouldShowCreatedCategory = stepIndex >= 4;
   const shouldShowCreatedProduct = stepIndex >= 8;
 
@@ -195,13 +195,12 @@ function seedAdminCatalogCache(client: ApolloClient, stepIndex: number): void {
       data: { product: makeOnboardingAdminProductDetails(product) },
     });
   }
-}
+};
 
-/** Pезолв демо-данных Apollo и корзины под шаг гостевого сценария. */
-export function applyOnboardingGuestPreset(
+export const applyOnboardingGuestPreset = (
   client: ApolloClient,
   stepIndex: number,
-): void {
+): void => {
   seedCatalogCache(client);
   const filterStore = useFilterProductsStore.getState();
   if (stepIndex >= 1) {
@@ -210,27 +209,26 @@ export function applyOnboardingGuestPreset(
     filterStore.reset();
   }
   ensureGuestCartState(guestCartExpectationForStep(stepIndex));
-}
+};
 
-/** Минимальные данные для админ-шагов (каталог + пользователи). */
-export function applyOnboardingAdminPreset(
+export const applyOnboardingAdminPreset = (
   client: ApolloClient,
   stepIndex: number,
-): void {
+): void => {
   seedAdminCatalogCache(client, stepIndex);
   seedUsersCache(client);
   useFilterProductsStore.getState().reset();
-}
+};
 
-export function resetOnboardingApolloDemo(
+export const resetOnboardingApolloDemo = (
   client: ApolloClient,
   flow: 'guest' | 'admin' | null,
-): void {
+): void => {
   void client;
   if (flow === 'guest') {
     useFilterProductsStore.getState().reset();
   }
-}
+};
 
 export {
   ONBOARDING_DEMO_PRODUCT_A_ID,

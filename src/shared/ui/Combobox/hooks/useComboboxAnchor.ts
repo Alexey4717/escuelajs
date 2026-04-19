@@ -1,5 +1,3 @@
 import { useRef } from 'react';
 
-export function useComboboxAnchor() {
-  return useRef<HTMLDivElement | null>(null);
-}
+export const useComboboxAnchor = () => useRef<HTMLDivElement | null>(null);

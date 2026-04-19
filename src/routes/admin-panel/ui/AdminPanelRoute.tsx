@@ -8,23 +8,21 @@ import {
 } from '../lib/constants';
 import { AddEntityButtonLink } from './components/AddEntityButtonLink';
 
-export const AdminPanelRoute = () => {
-  return (
-    <Page narrow heading={adminPanelHeadingPage}>
-      <div
-        className="grid grid-cols-1 gap-4 md:grid-cols-2"
-        data-onboarding={ONBOARDING_TARGET_IDS.adminPanelGrid}
-      >
-        {addEntitiesButtonsConfig.map((item) => (
-          <AddEntityButtonLink
-            key={item.href}
-            href={item.href}
-            onboardingTarget={item.onboardingTarget}
-          >
-            {item.title}
-          </AddEntityButtonLink>
-        ))}
-      </div>
-    </Page>
-  );
-};
+export const AdminPanelRoute = () => (
+  <Page narrow heading={adminPanelHeadingPage}>
+    <div
+      className="grid grid-cols-1 gap-4 md:grid-cols-2"
+      data-onboarding={ONBOARDING_TARGET_IDS.adminPanelGrid}
+    >
+      {addEntitiesButtonsConfig.map((item) => (
+        <AddEntityButtonLink
+          key={item.href}
+          href={item.href}
+          onboardingTarget={item.onboardingTarget}
+        >
+          {item.title}
+        </AddEntityButtonLink>
+      ))}
+    </div>
+  </Page>
+);

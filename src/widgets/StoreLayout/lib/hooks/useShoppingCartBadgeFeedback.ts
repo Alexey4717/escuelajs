@@ -6,7 +6,9 @@ import { CART_BADGE_FEEDBACK_DURATION_MS } from '@/shared/lib/animations/cart-ba
 
 export type CartBadgeFeedbackTone = 'neutral' | 'up' | 'down';
 
-export function useShoppingCartBadgeFeedback(count: number): {
+export const useShoppingCartBadgeFeedback = (
+  count: number,
+): {
   tone: CartBadgeFeedbackTone;
   pulse: boolean;
   feedbackDurationMs: number;
@@ -14,7 +16,7 @@ export function useShoppingCartBadgeFeedback(count: number): {
   showBadge: boolean;
   /** Число на Badge (при выходе — последнее ненулевое до обнуления). */
   badgeCount: number;
-} {
+} => {
   const prev = useRef<number | null>(null);
   const [tone, setTone] = useState<CartBadgeFeedbackTone>('neutral');
   const [pulse, setPulse] = useState(false);
@@ -78,4 +80,4 @@ export function useShoppingCartBadgeFeedback(count: number): {
     showBadge,
     badgeCount,
   };
-}
+};

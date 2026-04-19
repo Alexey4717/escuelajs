@@ -11,22 +11,22 @@ export class EscuelaRestError extends Error {
   }
 }
 
-function joinUrl(path: string): string {
+const joinUrl = (path: string): string => {
   if (path.startsWith('http://') || path.startsWith('https://')) {
     return path;
   }
   const normalized = path.startsWith('/') ? path : `/${path}`;
   return `${ESCUELA_REST_API_BASE_URL}${normalized}`;
-}
+};
 
 /**
  * `fetch` к публичному REST Escuela с JSON по умолчанию.
  * Для авторизованных эндпоинтов передайте `Authorization` в `init.headers`.
  */
-export async function fetchEscuelaRest<T>(
+export const fetchEscuelaRest = async <T>(
   path: string,
   init?: RequestInit,
-): Promise<T> {
+): Promise<T> => {
   const { headers: initHeaders, ...rest } = init ?? {};
   const headers = new Headers(initHeaders);
 
@@ -74,4 +74,4 @@ export async function fetchEscuelaRest<T>(
   }
 
   return (asJson ? JSON.parse(text) : text) as T;
-}
+};

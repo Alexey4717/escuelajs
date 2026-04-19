@@ -32,9 +32,10 @@ declare module 'zod/v4/core' {
 /**
  * Читает `formField` из meta поля объекта Zod (после `.meta({ formField: … })`).
  */
-export function getZodFormFieldUiMeta<
+export const getZodFormFieldUiMeta = <
   TSchema extends ZodObject,
   K extends keyof TSchema['shape'] & string,
->(schema: TSchema, key: K): ZodFormFieldUiMeta | undefined {
-  return schema.shape[key].meta()?.formField;
-}
+>(
+  schema: TSchema,
+  key: K,
+): ZodFormFieldUiMeta | undefined => schema.shape[key].meta()?.formField;

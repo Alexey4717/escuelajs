@@ -8,11 +8,10 @@ import { useDeleteProductSubmitHandler } from '../../api/use-delete-product-subm
 type DeleteProductModalFooterProps = ModalRegistryMap['productDelete'] & {
   closeModal: () => void;
 };
-
-export function DeleteProductModalFooter({
+export const DeleteProductModalFooter = ({
   productId,
   closeModal,
-}: DeleteProductModalFooterProps) {
+}: DeleteProductModalFooterProps) => {
   const { submitDelete, loading } = useDeleteProductSubmitHandler();
 
   const handleDeleteProduct = () => {
@@ -43,4 +42,4 @@ export function DeleteProductModalFooter({
       </Button>
     </div>
   );
-}
+};

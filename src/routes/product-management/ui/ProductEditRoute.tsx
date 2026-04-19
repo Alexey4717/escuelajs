@@ -14,7 +14,7 @@ import { ProductEditPageParams } from '../lib/types';
 import { ProductEditFormCard } from './components/ProductEditFormCard';
 import { ProductEditLoadPage } from './ProductEditLoadPage';
 
-export function ProductEditRoute() {
+export const ProductEditRoute = () => {
   const params = useParams<ProductEditPageParams>();
   const productId = params.id;
 
@@ -46,4 +46,4 @@ export function ProductEditRoute() {
       <ProductEditFormCard product={data.product} />
     </Page>
   );
-}
+};

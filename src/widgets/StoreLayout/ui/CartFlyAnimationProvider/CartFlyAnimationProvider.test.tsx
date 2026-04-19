@@ -77,7 +77,7 @@ describe('CartFlyAnimationProvider', () => {
   });
 });
 
-function CartFlyProviderHarness() {
+const CartFlyProviderHarness = () => {
   const cartFly = useCartFlyOptional();
   const targetRef = useRef<HTMLSpanElement>(null);
   const sourceARef = useRef<HTMLButtonElement>(null);
@@ -127,9 +127,9 @@ function CartFlyProviderHarness() {
       </span>
     </div>
   );
-}
+};
 
-function installAnimateMock() {
+const installAnimateMock = () => {
   Object.defineProperty(Element.prototype, 'animate', {
     configurable: true,
     writable: true,
@@ -140,4 +140,4 @@ function installAnimateMock() {
         }) as unknown as Animation,
     ),
   });
-}
+};

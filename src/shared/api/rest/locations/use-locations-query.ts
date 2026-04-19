@@ -10,11 +10,11 @@ interface UseLocationsQueryOptions {
   mockData?: EscuelaLocationDto[] | null;
 }
 
-export function useLocationsQuery(
+export const useLocationsQuery = (
   params: GetEscuelaLocationsParams | null,
   options?: UseLocationsQueryOptions,
-) {
-  return useQuery({
+) =>
+  useQuery({
     queryKey: [
       ...escuelaRestQueryKeys.locations.list(),
       params?.origin ?? null,
@@ -35,4 +35,3 @@ export function useLocationsQuery(
     },
     enabled: Boolean(params) || Boolean(options?.mockData),
   });
-}

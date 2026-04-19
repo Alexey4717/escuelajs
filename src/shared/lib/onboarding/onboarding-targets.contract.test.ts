@@ -8,7 +8,7 @@ import {
   OnboardingTargetId,
 } from './onboarding-target-ids';
 
-function collectSourceFiles(dir: string): string[] {
+const collectSourceFiles = (dir: string): string[] => {
   const out: string[] = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const e of entries) {
@@ -26,7 +26,7 @@ function collectSourceFiles(dir: string): string[] {
     }
   }
   return out;
-}
+};
 
 describe('onboarding data-onboarding contract', () => {
   const srcRoot = path.join(process.cwd(), 'src');

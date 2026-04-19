@@ -9,7 +9,7 @@ import {
   TooltipSimpleProps,
 } from './types';
 
-export function Tooltip(props: TooltipProps) {
+export const Tooltip = (props: TooltipProps) => {
   if ('trigger' in props && props.trigger !== undefined) {
     const { trigger, content, contentProps, triggerProps, ...rootProps } =
       props as TooltipSimpleProps;
@@ -23,4 +23,4 @@ export function Tooltip(props: TooltipProps) {
   }
 
   return <TooltipRoot {...(props as TooltipCompoundProps)} />;
-}
+};

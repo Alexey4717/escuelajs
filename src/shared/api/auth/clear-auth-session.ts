@@ -9,9 +9,9 @@ import {
 } from '../../config/consts/auth';
 
 /** Сброс HttpOnly и флага сессии (без отдельного HTTP route). */
-export async function clearAuthSession(): Promise<void> {
+export const clearAuthSession = async (): Promise<void> => {
   const c = await cookies();
   c.delete(ACCESS_TOKEN_KEY);
   c.delete(REFRESH_TOKEN_KEY);
   c.delete(REFRESH_HINT_COOKIE);
-}
+};

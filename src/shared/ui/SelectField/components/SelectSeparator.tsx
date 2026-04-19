@@ -6,15 +6,13 @@ import { Select as SelectPrimitive } from 'radix-ui';
 
 import { cn } from '../../../lib/styles/cn';
 
-export function SelectSeparator({
+export const SelectSeparator = ({
   className,
   ...props
-}: ComponentProps<typeof SelectPrimitive.Separator>) {
-  return (
-    <SelectPrimitive.Separator
-      data-slot="select-separator"
-      className={cn('pointer-events-none -mx-1 my-1 h-px bg-border', className)}
-      {...props}
-    />
-  );
-}
+}: ComponentProps<typeof SelectPrimitive.Separator>) => (
+  <SelectPrimitive.Separator
+    data-slot="select-separator"
+    className={cn('pointer-events-none -mx-1 my-1 h-px bg-border', className)}
+    {...props}
+  />
+);

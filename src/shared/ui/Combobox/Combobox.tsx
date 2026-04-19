@@ -88,7 +88,7 @@ export type ComboboxProps<TValue extends string = string> = Omit<
  * }
  * ```
  */
-export function Combobox<TValue extends string = string>({
+export const Combobox = <TValue extends string = string>({
   id: idProp,
   label,
   description,
@@ -110,7 +110,7 @@ export function Combobox<TValue extends string = string>({
   listLoading = false,
   disabled,
   ...rootProps
-}: ComboboxProps<TValue>) {
+}: ComboboxProps<TValue>) => {
   const generatedId = useId();
   const triggerId = idProp ?? generatedId;
   const descriptionId = description ? `${triggerId}-description` : undefined;
@@ -189,4 +189,4 @@ export function Combobox<TValue extends string = string>({
       </Field>
     </ComboboxRoot>
   );
-}
+};

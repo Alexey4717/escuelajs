@@ -4,8 +4,8 @@ import { QueryClient } from '@tanstack/react-query';
  * Настройки по умолчанию для клиентского кеша (TanStack Query v5).
  * @see https://tanstack.com/query/v5/docs/framework/react/guides/important-defaults
  */
-export function makeQueryClient(): QueryClient {
-  return new QueryClient({
+export const makeQueryClient = (): QueryClient =>
+  new QueryClient({
     defaultOptions: {
       queries: {
         /** Не дёргать сеть на каждый mount, пока данные «свежие». */
@@ -24,4 +24,3 @@ export function makeQueryClient(): QueryClient {
       },
     },
   });
-}

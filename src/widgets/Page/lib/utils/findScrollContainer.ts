@@ -1,7 +1,7 @@
 /** Реальный скролл в магазине — viewport Radix ScrollArea, а не сам `<main>`. */
-export function findScrollContainer(
+export const findScrollContainer = (
   from: HTMLElement | null,
-): HTMLElement | null {
+): HTMLElement | null => {
   let node: HTMLElement | null = from?.parentElement ?? null;
   while (node) {
     if (node.getAttribute('data-slot') === 'scroll-area-viewport') {
@@ -19,15 +19,15 @@ export function findScrollContainer(
     node = node.parentElement;
   }
   return null;
-}
+};
 
 /**
  * Viewport для Virtuoso `customScrollParent`: сначала предки с `data-slot`,
  * иначе тот же поиск, что у сохранения скролла страницы.
  */
-export function resolveScrollAreaViewport(
+export const resolveScrollAreaViewport = (
   from: HTMLElement | null,
-): HTMLElement | null {
+): HTMLElement | null => {
   if (!from) {
     return null;
   }
@@ -36,4 +36,4 @@ export function resolveScrollAreaViewport(
     return byClosest;
   }
   return findScrollContainer(from);
-}
+};

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
+import { Button } from '@/shared/ui/Button/Button';
 
 const logoutButtonClassName = cn(
   'inline-flex w-full min-w-0 shrink-0 items-center justify-center rounded-md border border-white/20 bg-transparent px-3.5 py-1.5 text-[13px] text-inherit',
@@ -15,22 +16,23 @@ interface LogoutButtonProps {
   className?: string;
 }
 
-export function LogoutButton({ className }: LogoutButtonProps) {
+export const LogoutButton = ({ className }: LogoutButtonProps) => {
   const router = useRouter();
 
-  async function logout() {
+  const logout = async () => {
     await clearAuthSession();
     router.push(pagesPath.$url().path);
     router.refresh();
-  }
+  };
 
   return (
-    <button
+    <Button
       type="button"
       className={cn(logoutButtonClassName, className)}
       onClick={logout}
+      data-testid="auth__button__logout"
     >
       Sign out
-    </button>
+    </Button>
   );
-}
+};

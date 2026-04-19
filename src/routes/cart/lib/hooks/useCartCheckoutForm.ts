@@ -21,11 +21,11 @@ interface UseCartCheckoutFormParams {
   userEmail: string | null;
 }
 
-export function useCartCheckoutForm({
+export const useCartCheckoutForm = ({
   onCheckoutSubmit,
   userName,
   userEmail,
-}: UseCartCheckoutFormParams) {
+}: UseCartCheckoutFormParams) => {
   const isOnboardingDemoActive = useOnboardingSessionStore(
     (s) => s.isDemoActive && s.activeFlow === 'guest',
   );
@@ -98,4 +98,4 @@ export function useCartCheckoutForm({
   }, [isOnboardingDemoActive, onboardingStepIndex, methods]);
 
   return { methods, onSubmit };
-}
+};

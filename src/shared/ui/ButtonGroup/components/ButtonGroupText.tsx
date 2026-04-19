@@ -1,14 +1,16 @@
+import { type ComponentProps } from 'react';
+
 import { Slot } from 'radix-ui';
 
 import { cn } from '../../../lib/styles/cn';
 
-export function ButtonGroupText({
+export const ButtonGroupText = ({
   className,
   asChild = false,
   ...props
-}: React.ComponentProps<'div'> & {
+}: ComponentProps<'div'> & {
   asChild?: boolean;
-}) {
+}) => {
   const Comp = asChild ? Slot.Root : 'div';
 
   return (
@@ -20,4 +22,4 @@ export function ButtonGroupText({
       {...props}
     />
   );
-}
+};

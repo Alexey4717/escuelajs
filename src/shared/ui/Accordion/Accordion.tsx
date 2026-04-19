@@ -11,22 +11,20 @@ export const Accordion = ({
   items,
   children,
   ...rootProps
-}: AccordionProps) => {
-  return (
-    <AccordionRoot className={className} {...rootProps}>
-      {items !== undefined
-        ? items.map((item) => (
-            <AccordionItem
-              key={item.value}
-              value={item.value}
-              disabled={item.disabled}
-              className={item.className}
-            >
-              <AccordionTrigger>{item.trigger}</AccordionTrigger>
-              <AccordionContent>{item.content}</AccordionContent>
-            </AccordionItem>
-          ))
-        : children}
-    </AccordionRoot>
-  );
-};
+}: AccordionProps) => (
+  <AccordionRoot className={className} {...rootProps}>
+    {items !== undefined
+      ? items.map((item) => (
+          <AccordionItem
+            key={item.value}
+            value={item.value}
+            disabled={item.disabled}
+            className={item.className}
+          >
+            <AccordionTrigger>{item.trigger}</AccordionTrigger>
+            <AccordionContent>{item.content}</AccordionContent>
+          </AccordionItem>
+        ))
+      : children}
+  </AccordionRoot>
+);

@@ -7,7 +7,7 @@ import type { ModalRegistryMap } from '@/shared/lib/store/slices/modal/types';
 
 type PickupPointMapModalProps = ModalRegistryMap['pickupPointMap'];
 
-export function usePickupPointMapModal() {
+export const usePickupPointMapModal = () => {
   const openModal = useAppStore((state) => state.openModal);
   const closeModal = useAppStore((state) => state.closeModal);
 
@@ -22,4 +22,4 @@ export function usePickupPointMapModal() {
     open,
     close: closeModal,
   };
-}
+};

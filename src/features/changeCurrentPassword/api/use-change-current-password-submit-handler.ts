@@ -16,15 +16,15 @@ interface ChangeCurrentPasswordArgs {
   onSuccess?: () => void;
 }
 
-export function useChangeCurrentPasswordSubmitHandler() {
+export const useChangeCurrentPasswordSubmitHandler = () => {
   const [updateUser, { loading }] = useMutation(UpdateUserDocument);
 
   const userId = useCurrentUserId();
 
-  async function submitChangePassword({
+  const submitChangePassword = async ({
     password,
     onSuccess,
-  }: ChangeCurrentPasswordArgs) {
+  }: ChangeCurrentPasswordArgs) => {
     try {
       if (!userId) {
         throw new Error('Unable to resolve current user id');
@@ -53,10 +53,10 @@ export function useChangeCurrentPasswordSubmitHandler() {
       console.error(err);
       toast.error('Failed to change password');
     }
-  }
+  };
 
   return {
     submitChangePassword,
     loading,
   };
-}
+};

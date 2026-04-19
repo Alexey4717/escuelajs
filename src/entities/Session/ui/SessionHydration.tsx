@@ -13,7 +13,10 @@ interface SessionHydrationProps {
  * Пробрасывает id пользователя с сервера в клиентский Zustand, чтобы не тащить пропсы глубоко вниз.
  * useLayoutEffect — чтобы не мутировать глобальный стор во время SSR и обновить состояние до отрисовки на клиенте.
  */
-export function SessionHydration({ userId, children }: SessionHydrationProps) {
+export const SessionHydration = ({
+  userId,
+  children,
+}: SessionHydrationProps) => {
   const setCurrentUserId = useAppStore((s) => s.setCurrentUserId);
 
   useLayoutEffect(() => {
@@ -21,4 +24,4 @@ export function SessionHydration({ userId, children }: SessionHydrationProps) {
   }, [userId, setCurrentUserId]);
 
   return children;
-}
+};

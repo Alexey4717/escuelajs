@@ -5,7 +5,7 @@ import { Combobox, type ComboboxOption } from '@/shared/ui/Combobox/Combobox';
 
 import { useCategoriesCombobox } from '../../lib/hooks/use-categories-combobox';
 
-function FilterCategoryFieldInner() {
+const FilterCategoryFieldInner = () => {
   const {
     categoryOptions,
     selectedCategoryOption,
@@ -35,6 +35,6 @@ function FilterCategoryFieldInner() {
       />
     </div>
   );
-}
+};
 
 export const FilterCategoryField = memo(FilterCategoryFieldInner);

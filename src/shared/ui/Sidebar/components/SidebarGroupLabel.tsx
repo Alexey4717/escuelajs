@@ -6,11 +6,13 @@ import { Slot } from 'radix-ui';
 
 import { cn } from '../../../lib/styles/cn';
 
-export function SidebarGroupLabel({
+export const SidebarGroupLabel = ({
   className,
   asChild = false,
   ...props
-}: ComponentProps<'div'> & { asChild?: boolean }) {
+}: ComponentProps<'div'> & {
+  asChild?: boolean;
+}) => {
   const Comp = asChild ? Slot.Root : 'div';
 
   return (
@@ -24,4 +26,4 @@ export function SidebarGroupLabel({
       {...props}
     />
   );
-}
+};

@@ -6,8 +6,7 @@ import { useAppStore } from '@/shared/lib/store';
 import type { ModalRegistryMap } from '@/shared/lib/store/slices/modal/types';
 
 type DeleteCurrentUserModalProps = ModalRegistryMap['profileDelete'];
-
-export function useDeleteCurrentUserModal() {
+export const useDeleteCurrentUserModal = () => {
   const openModal = useAppStore((state) => state.openModal);
   const closeModal = useAppStore((state) => state.closeModal);
   const isOpen = useAppStore((state) => state.openedModal === 'profileDelete');
@@ -24,4 +23,4 @@ export function useDeleteCurrentUserModal() {
     close: closeModal,
     isOpen,
   };
-}
+};

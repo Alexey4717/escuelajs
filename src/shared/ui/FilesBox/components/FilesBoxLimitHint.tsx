@@ -6,11 +6,11 @@ interface FilesBoxLimitHintProps {
   text: string;
 }
 
-export function FilesBoxLimitHint({
+export const FilesBoxLimitHint = ({
   overLimit,
   atLimit,
   text,
-}: FilesBoxLimitHintProps) {
+}: FilesBoxLimitHintProps) => {
   if (!atLimit && !overLimit) return null;
 
   return (
@@ -23,4 +23,4 @@ export function FilesBoxLimitHint({
       {text}
     </p>
   );
-}
+};

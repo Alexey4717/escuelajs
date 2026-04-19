@@ -5,12 +5,12 @@ import {
 } from '../../../lib/form/schemas/files';
 import type { FilesBoxItem } from '../types';
 
-export function normalizeMaxFiles(maxFiles: number | undefined): number {
+export const normalizeMaxFiles = (maxFiles: number | undefined): number => {
   if (!maxFiles || maxFiles < 1) return 1;
   return Math.min(maxFiles, DEFAULT_MAX_IMAGE_FILES);
-}
+};
 
-export function createQueuedItem(file: File): FilesBoxItem {
+export const createQueuedItem = (file: File): FilesBoxItem => {
   const previewUrl = URL.createObjectURL(file);
 
   return {
@@ -23,14 +23,13 @@ export function createQueuedItem(file: File): FilesBoxItem {
     isObjectUrlPreview: true,
     status: 'queued',
   };
-}
+};
 
-export function getActiveFiles(items: FilesBoxItem[]) {
-  return items.filter((item) => item.status !== 'marked_for_removal');
-}
+export const getActiveFiles = (items: FilesBoxItem[]) =>
+  items.filter((item) => item.status !== 'marked_for_removal');
 
 /** Человекочитаемый размер для UI карточки файла (`0` — без известного размера, например удалённый blob). */
-export function formatFileSize(bytes: number): string {
+export const formatFileSize = (bytes: number): string => {
   if (bytes === 0) return '—';
   const mb = bytes / (1024 * 1024);
   if (mb >= 1) {
@@ -40,44 +39,45 @@ export function formatFileSize(bytes: number): string {
   const kb = bytes / 1024;
   const roundedKb = kb >= 10 ? Math.round(kb) : Math.round(kb * 10) / 10;
   return `${roundedKb} KB`;
-}
+};
 
-export function isFilesBoxOverLimit(
+export const isFilesBoxOverLimit = (
   items: FilesBoxItem[],
   maxFiles?: number,
-): boolean {
-  return getActiveFiles(items).length > normalizeMaxFiles(maxFiles);
-}
+): boolean => getActiveFiles(items).length > normalizeMaxFiles(maxFiles);
 
-export function formatFilesBoxMaxFilesHint(maxFiles: number): string {
+export const formatFilesBoxMaxFilesHint = (maxFiles: number): string => {
   const max = normalizeMaxFiles(maxFiles);
   if (max === 1) return 'Maximum 1 file';
   return `Maximum ${max} files`;
-}
+};
 
-export function formatFilesBoxOverLimitHint(maxFiles: number): string {
+export const formatFilesBoxOverLimitHint = (maxFiles: number): string => {
   const max = normalizeMaxFiles(maxFiles);
   return `File limit exceeded (${max}). Remove extra files.`;
-}
+};
 
-export function getFilesBoxRequirementDescription(
+export const getFilesBoxRequirementDescription = (
   accept: string,
   maxFileSizeMb: number,
-): string {
+): string => {
   const typePart =
     accept.trim() === 'image/*' || accept.startsWith('image/')
       ? 'Allowed image formats (JPEG, PNG, WebP, etc.)'
       : `Allowed types: ${accept}`;
   return `${typePart}. Maximum size per file: ${maxFileSizeMb} MB.`;
-}
+};
 
-export function validateSelectedFiles(
+export const validateSelectedFiles = (
   files: File[],
   opts: {
     maxFileSizeMb?: number;
     maxFiles?: number;
   },
-): { validFiles: File[]; errors: string[] } {
+): {
+  validFiles: File[];
+  errors: string[];
+} => {
   const maxFiles = normalizeMaxFiles(opts.maxFiles);
   const maxFileSizeMb = opts.maxFileSizeMb ?? DEFAULT_MAX_IMAGE_FILE_SIZE_MB;
   const validFiles: File[] = [];
@@ -100,31 +100,29 @@ export function validateSelectedFiles(
     validFiles: validFiles.slice(0, maxFiles),
     errors,
   };
-}
+};
 
-export function revokeItemPreview(item: FilesBoxItem) {
+export const revokeItemPreview = (item: FilesBoxItem) => {
   if (item.isObjectUrlPreview && item.previewUrl) {
     URL.revokeObjectURL(item.previewUrl);
   }
-}
+};
 
-export function createRemoteFileItem(url: string): FilesBoxItem {
-  return {
-    localId: crypto.randomUUID(),
-    name: 'uploaded-file',
-    size: 0,
-    mimeType: 'image/*',
-    uploadedUrl: url,
-    previewUrl: url,
-    status: 'idle',
-  };
-}
+export const createRemoteFileItem = (url: string): FilesBoxItem => ({
+  localId: crypto.randomUUID(),
+  name: 'uploaded-file',
+  size: 0,
+  mimeType: 'image/*',
+  uploadedUrl: url,
+  previewUrl: url,
+  status: 'idle',
+});
 
-export function setItemStatus(
+export const setItemStatus = (
   items: FilesBoxItem[],
   localId: string,
-): FilesBoxItem[] {
-  return items.map((item) => {
+): FilesBoxItem[] =>
+  items.map((item) => {
     if (item.localId !== localId) return item;
     if (item.status === 'marked_for_removal') {
       return {
@@ -139,13 +137,12 @@ export function setItemStatus(
       previousStatus: item.status,
     };
   });
-}
 
-export function mergeWithLimit(
+export const mergeWithLimit = (
   prev: FilesBoxItem[],
   nextFiles: File[],
   maxFiles: number,
-): FilesBoxItem[] {
+): FilesBoxItem[] => {
   const queuedItems = nextFiles.map((file) => createQueuedItem(file));
   if (maxFiles === 1) {
     return [
@@ -159,4 +156,4 @@ export function mergeWithLimit(
   const active = getActiveFiles(prev);
   const slotsLeft = Math.max(maxFiles - active.length, 0);
   return [...prev, ...queuedItems.slice(0, slotsLeft)];
-}
+};

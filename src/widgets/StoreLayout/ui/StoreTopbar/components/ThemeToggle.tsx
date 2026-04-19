@@ -8,7 +8,7 @@ import { THEME_COOKIE_MAX_AGE_SECONDS } from '@/shared/config/consts';
 import { cn } from '@/shared/lib/styles/cn';
 import { Button } from '@/shared/ui/Button/Button';
 
-function subscribe(onStoreChange: () => void) {
+const subscribe = (onStoreChange: () => void) => {
   if (typeof document === 'undefined') {
     return () => {};
   }
@@ -16,19 +16,16 @@ function subscribe(onStoreChange: () => void) {
   const obs = new MutationObserver(onStoreChange);
   obs.observe(el, { attributes: true, attributeFilter: ['class'] });
   return () => obs.disconnect();
-}
+};
 
-function getSnapshot() {
+const getSnapshot = () => {
   if (typeof document === 'undefined') {
     return false;
   }
   return document.documentElement.classList.contains('dark');
-}
+};
 
-function getServerSnapshot() {
-  return false;
-}
-
+const getServerSnapshot = () => false;
 export const ThemeToggleButton = () => {
   const isDark = useSyncExternalStore(
     subscribe,

@@ -28,35 +28,33 @@ export const ProfileSummaryCard = ({
   roleLabel,
   roleBadgeVariant,
   avatarSrc,
-}: ProfileSummaryCardProps) => {
-  return (
-    <CardRoot className="gap-0 py-0 shadow-sm ring-border/60">
-      <CardContent className="flex flex-col items-center gap-5 pb-6 pt-6">
-        <Avatar
-          className="size-24"
-          src={avatarSrc.trim() !== '' ? avatarSrc : undefined}
-          alt={name}
-        />
-        <div className="flex w-full flex-col items-center gap-2 text-center">
-          <Typography variant="h3" component="p" className="text-balance">
-            {name}
-          </Typography>
-          <Typography
-            variant="body2"
-            component="p"
-            className="text-muted-foreground"
-          >
-            {email}
-          </Typography>
-          <Badge variant={roleBadgeVariant}>{roleLabel}</Badge>
-        </div>
-        <div className="flex w-full flex-col gap-2">
-          <Button type="button" variant="outline" className="w-full" asChild>
-            <Link href={pagesPath.profile.edit.$url().path}>Edit profile</Link>
-          </Button>
-          <DeleteCurrentUserButton email={email} userId={userId} />
-        </div>
-      </CardContent>
-    </CardRoot>
-  );
-};
+}: ProfileSummaryCardProps) => (
+  <CardRoot className="gap-0 py-0 shadow-sm ring-border/60">
+    <CardContent className="flex flex-col items-center gap-5 pb-6 pt-6">
+      <Avatar
+        className="size-24"
+        src={avatarSrc.trim() !== '' ? avatarSrc : undefined}
+        alt={name}
+      />
+      <div className="flex w-full flex-col items-center gap-2 text-center">
+        <Typography variant="h3" component="p" className="text-balance">
+          {name}
+        </Typography>
+        <Typography
+          variant="body2"
+          component="p"
+          className="text-muted-foreground"
+        >
+          {email}
+        </Typography>
+        <Badge variant={roleBadgeVariant}>{roleLabel}</Badge>
+      </div>
+      <div className="flex w-full flex-col gap-2">
+        <Button type="button" variant="outline" className="w-full" asChild>
+          <Link href={pagesPath.profile.edit.$url().path}>Edit profile</Link>
+        </Button>
+        <DeleteCurrentUserButton email={email} userId={userId} />
+      </div>
+    </CardContent>
+  </CardRoot>
+);

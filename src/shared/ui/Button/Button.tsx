@@ -15,7 +15,7 @@ type ButtonProps = ComponentProps<'button'> &
   };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  function Button(
+  (
     {
       className,
       variant = 'default',
@@ -27,7 +27,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ...props
     },
     ref,
-  ) {
+  ) => {
     const Comp = asChild ? Slot.Root : 'button';
     const isDisabled = asChild ? disabled : disabled || loading;
 
@@ -54,3 +54,5 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     );
   },
 );
+
+Button.displayName = 'Button';

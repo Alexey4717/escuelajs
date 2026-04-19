@@ -9,7 +9,7 @@ import { TypographyProps } from './types';
 import { typographyVariants } from './typographyVariants';
 
 export const Typography = forwardRef<HTMLElement, TypographyProps>(
-  function Typography(
+  (
     {
       className,
       variant = 'body1',
@@ -21,7 +21,7 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(
       ...props
     },
     ref,
-  ) {
+  ) => {
     const Comp = asChild
       ? Slot.Root
       : (component ?? defaultComponentByVariant[variant]);
@@ -45,3 +45,5 @@ export const Typography = forwardRef<HTMLElement, TypographyProps>(
     );
   },
 );
+
+Typography.displayName = 'Typography';

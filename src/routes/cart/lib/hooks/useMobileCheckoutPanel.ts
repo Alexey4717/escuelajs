@@ -5,7 +5,7 @@ const MOBILE_MIN_HEIGHT = 65;
 const MOBILE_MAX_HEIGHT_LIMIT = 880;
 const MOBILE_VIEWPORT_RATIO = 0.7;
 
-export function useMobileCheckoutPanel() {
+export const useMobileCheckoutPanel = () => {
   const dragStartYRef = useRef<number | null>(null);
   const dragStartHeightRef = useRef<number>(MOBILE_MIN_HEIGHT);
   const [viewportHeight, setViewportHeight] = useState(0);
@@ -102,4 +102,4 @@ export function useMobileCheckoutPanel() {
     handlePointerUp,
     handlePointerCancel,
   };
-}
+};

@@ -1,12 +1,12 @@
 import { FILTER_PRICE_SLIDER_MAX, FILTER_PRICE_SLIDER_MIN } from './constants';
 import type { FilterProductsState } from './filter-products-store';
 
-export function hasActiveFilters(
+export const hasActiveFilters = (
   state: Pick<
     FilterProductsState,
     'title' | 'categoryId' | 'priceMin' | 'priceMax'
   >,
-): boolean {
+): boolean => {
   if (state.title.trim() !== '') {
     return true;
   }
@@ -20,4 +20,4 @@ export function hasActiveFilters(
     return true;
   }
   return false;
-}
+};

@@ -12,7 +12,7 @@ interface CategoryCardProps {
   category: Category;
 }
 
-export function CategoryCard({ category }: CategoryCardProps) {
+export const CategoryCard = ({ category }: CategoryCardProps) => {
   const href = pagesPath.categories._id(category.id).$url().path;
 
   return (
@@ -27,4 +27,4 @@ export function CategoryCard({ category }: CategoryCardProps) {
       <CategoryCardBody category={category} className="cursor-pointer" />
     </Link>
   );
-}
+};

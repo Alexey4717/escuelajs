@@ -4,8 +4,10 @@ import { HomeTestimonial } from '../types';
 
 type UserRow = HomeLandingQuery['users'][number];
 type ProductRow = HomeLandingQuery['products'][number];
-
-const REVIEW_BLUEPRINTS: Array<{ quote: string; subtitle: string }> = [
+const REVIEW_BLUEPRINTS: Array<{
+  quote: string;
+  subtitle: string;
+}> = [
   {
     quote:
       'I ordered a jacket and headphones — fast delivery, and the catalog makes sizes and specs easy to understand.',
@@ -48,18 +50,18 @@ const REVIEW_BLUEPRINTS: Array<{ quote: string; subtitle: string }> = [
   },
 ];
 
-function withProductHint(
+const withProductHint = (
   quote: string,
   product: ProductRow | undefined,
-): string {
+): string => {
   if (!product?.title) {
     return quote;
   }
   return `${quote} A standout for me was “${product.title}”.`;
-}
+};
 
-function fallbackTestimonials(): HomeTestimonial[] {
-  return REVIEW_BLUEPRINTS.slice(0, 6).map((b, i) => ({
+const fallbackTestimonials = (): HomeTestimonial[] =>
+  REVIEW_BLUEPRINTS.slice(0, 6).map((b, i) => ({
     id: `demo-${i}`,
     name:
       ['Anna K.', 'Michael S.', 'Elena V.', 'Dmitry P.', 'Olga M.', 'Igor T.'][
@@ -69,12 +71,11 @@ function fallbackTestimonials(): HomeTestimonial[] {
     quote: b.quote,
     avatarUrl: null,
   }));
-}
 
-export function buildHomeTestimonials(
+export const buildHomeTestimonials = (
   users: UserRow[],
   products: ProductRow[],
-): HomeTestimonial[] {
+): HomeTestimonial[] => {
   if (!users.length) {
     return fallbackTestimonials();
   }
@@ -96,4 +97,4 @@ export function buildHomeTestimonials(
       avatarUrl: user.avatar?.trim() ? user.avatar : null,
     };
   });
-}
+};

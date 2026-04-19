@@ -11,10 +11,10 @@ interface ModalProviderProps {
   initialIsMobile: boolean;
 }
 
-export function ModalProvider({
+export const ModalProvider = ({
   children,
   initialIsMobile,
-}: ModalProviderProps) {
+}: ModalProviderProps) => {
   const resolvedIsMobile = useIsMobileWithServerSnapshot(initialIsMobile);
 
   return (
@@ -23,4 +23,4 @@ export function ModalProvider({
       <ModalHost isMobile={resolvedIsMobile} />
     </>
   );
-}
+};

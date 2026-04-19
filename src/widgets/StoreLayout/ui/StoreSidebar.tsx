@@ -28,26 +28,23 @@ import { ProfileLink } from '@/features/profileLink';
 
 import { getCatalogNav, type NavItem } from '../model/catalog-nav';
 
-function StoreSidebarBrand({ onNavigate }: { onNavigate: () => void }) {
-  return (
-    <Link
-      href={pagesPath.$url().path}
-      className="flex h-full min-h-0 items-center gap-2 rounded-md px-2 text-sidebar-foreground transition-colors hover:bg-sidebar-accent/50"
-      onClick={onNavigate}
+const StoreSidebarBrand = ({ onNavigate }: { onNavigate: () => void }) => (
+  <Link
+    href={pagesPath.$url().path}
+    className="flex h-full min-h-0 items-center gap-2 rounded-md px-2 text-sidebar-foreground transition-colors hover:bg-sidebar-accent/50"
+    onClick={onNavigate}
+  >
+    <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-[12px] font-bold text-sidebar-primary-foreground">
+      E
+    </span>
+    <Typography
+      variant="large"
+      className="text-[15px] font-semibold leading-tight"
     >
-      <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-[12px] font-bold text-sidebar-primary-foreground">
-        E
-      </span>
-      <Typography
-        variant="large"
-        className="text-[15px] font-semibold leading-tight"
-      >
-        Escuela<span className="text-sidebar-primary">.</span>io
-      </Typography>
-    </Link>
-  );
-}
-
+      Escuela<span className="text-sidebar-primary">.</span>io
+    </Typography>
+  </Link>
+);
 const onboardingForNavItem = (href: string) => {
   if (href === pagesPath.products.$url().path) {
     return ONBOARDING_TARGET_IDS.sidebarNavProducts;
@@ -65,7 +62,7 @@ interface StoreSidebarProps {
   isLoggedIn: boolean;
 }
 
-export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
+export const StoreSidebar = ({ isLoggedIn }: StoreSidebarProps) => {
   const pathname = usePathname();
   const { role } = useCurrentUserRole();
   const { setOpenMobile } = useSidebar();
@@ -78,9 +75,7 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
     setOpenMobile(false);
   };
 
-  const isActive = (item: NavItem) => {
-    return pathname === item.href;
-  };
+  const isActive = (item: NavItem) => pathname === item.href;
   const catalog = getCatalogNav(role);
 
   return (
@@ -135,4 +130,4 @@ export function StoreSidebar({ isLoggedIn }: StoreSidebarProps) {
       ) : null}
     </Sidebar>
   );
-}
+};

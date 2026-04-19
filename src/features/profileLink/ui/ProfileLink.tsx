@@ -16,31 +16,29 @@ const profileLinkClassName = cn(
   'hover:bg-sidebar-accent/40',
 );
 
-function ProfileLinkFallback({ className }: { className?: string }) {
-  return (
-    <Link
-      href={pagesPath.profile.$url().path}
-      className={cn(profileLinkClassName, className)}
-      aria-label="Profile"
+const ProfileLinkFallback = ({ className }: { className?: string }) => (
+  <Link
+    href={pagesPath.profile.$url().path}
+    className={cn(profileLinkClassName, className)}
+    aria-label="Profile"
+  >
+    <span
+      className="flex size-[26px] shrink-0 items-center justify-center rounded-lg bg-accent text-[11px] font-semibold text-accent-foreground"
+      aria-hidden
     >
-      <span
-        className="flex size-[26px] shrink-0 items-center justify-center rounded-lg bg-accent text-[11px] font-semibold text-accent-foreground"
-        aria-hidden
-      >
-        P
-      </span>
-      <span className="min-w-0 flex-1 truncate text-left text-[12px] opacity-80">
-        Profile
-      </span>
-    </Link>
-  );
-}
+      P
+    </span>
+    <span className="min-w-0 flex-1 truncate text-left text-[12px] opacity-80">
+      Profile
+    </span>
+  </Link>
+);
 
 interface ProfileLinkProps {
   className?: string;
 }
 
-export function ProfileLink({ className }: ProfileLinkProps) {
+export const ProfileLink = ({ className }: ProfileLinkProps) => {
   const { user, loading } = useCurrentUser();
 
   if (!user) {
@@ -103,4 +101,4 @@ export function ProfileLink({ className }: ProfileLinkProps) {
       </div>
     </Link>
   );
-}
+};

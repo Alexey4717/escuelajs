@@ -4,7 +4,7 @@ import { useSidebar } from '@/shared/ui/Sidebar/Sidebar';
 
 import { onboardingEventBus } from '@/features/onboarding';
 
-export function useOnboardingMobileSidebarBridge(): void {
+export const useOnboardingMobileSidebarBridge = (): void => {
   const { isMobile, setOpenMobile } = useSidebar();
 
   useEffect(() => {
@@ -16,4 +16,4 @@ export function useOnboardingMobileSidebarBridge(): void {
 
     return unsubscribe;
   }, [isMobile, setOpenMobile]);
-}
+};

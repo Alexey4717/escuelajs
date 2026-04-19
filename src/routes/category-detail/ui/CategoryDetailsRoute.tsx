@@ -19,9 +19,9 @@ interface CategoryDetailsRouteProps {
   categoryId: string;
 }
 
-export function CategoryDetailsRoute({
+export const CategoryDetailsRoute = ({
   categoryId,
-}: CategoryDetailsRouteProps) {
+}: CategoryDetailsRouteProps) => {
   const { data, error } = useSuspenseQuery(CategoryDetailsDocument, {
     variables: { id: categoryId },
     errorPolicy: 'all',
@@ -96,4 +96,4 @@ export function CategoryDetailsRoute({
       </article>
     </Page>
   );
-}
+};

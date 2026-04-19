@@ -29,16 +29,16 @@ interface UpdateSubmitArgs {
   imageFiles: FilesBoxItem[];
 }
 
-export function useUpdateSubmitHandler() {
+export const useUpdateSubmitHandler = () => {
   const router = useRouter();
   const [updateCategory, { loading }] = useMutation(UpdateCategoryDocument);
   const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
 
-  async function handleSubmit({
+  const handleSubmit = async ({
     categoryId,
     values,
     imageFiles,
-  }: UpdateSubmitArgs): Promise<FilesBoxItem[]> {
+  }: UpdateSubmitArgs): Promise<FilesBoxItem[]> => {
     let filesState = imageFiles;
     const uploadResult = await uploadQueuedFilesBoxItemsWithLoading(
       imageFiles,
@@ -105,11 +105,11 @@ export function useUpdateSubmitHandler() {
       toast.error('Failed to update category');
       return filesState;
     }
-  }
+  };
 
   return {
     loading,
     imagesUploadLoading,
     handleSubmit,
   };
-}
+};

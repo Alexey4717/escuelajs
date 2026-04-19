@@ -17,11 +17,10 @@ interface FilterPriceRangeFieldProps {
   productsNetworkStatus: NetworkStatus;
   resetKey: number;
 }
-
-export function FilterPriceRangeField({
+export const FilterPriceRangeField = ({
   productsNetworkStatus,
   resetKey,
-}: FilterPriceRangeFieldProps) {
+}: FilterPriceRangeFieldProps) => {
   const {
     priceRangeLocal,
     onPriceSliderChange,
@@ -78,4 +77,4 @@ export function FilterPriceRangeField({
       </div>
     </div>
   );
-}
+};

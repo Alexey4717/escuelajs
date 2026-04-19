@@ -7,10 +7,10 @@ interface CartCheckoutSectionHeaderProps {
   className?: string;
 }
 
-export function CartCheckoutSectionHeader({
+export const CartCheckoutSectionHeader = ({
   children,
   className,
-}: CartCheckoutSectionHeaderProps) {
+}: CartCheckoutSectionHeaderProps) => {
   const rootClassName = ['flex items-center justify-between gap-3', className]
     .filter(Boolean)
     .join(' ');
@@ -27,4 +27,4 @@ export function CartCheckoutSectionHeader({
       {children}
     </div>
   );
-}
+};

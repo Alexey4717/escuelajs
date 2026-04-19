@@ -14,11 +14,10 @@ type UseFilterPriceRangeFieldParams = {
   productsNetworkStatus: NetworkStatus;
   resetKey: number;
 };
-
-export function useFilterPriceRangeField({
+export const useFilterPriceRangeField = ({
   productsNetworkStatus,
   resetKey,
-}: UseFilterPriceRangeFieldParams) {
+}: UseFilterPriceRangeFieldParams) => {
   const priceMin = useFilterProductsStore((s) => s.priceMin);
   const priceMax = useFilterProductsStore((s) => s.priceMax);
   const setPriceRange = useFilterProductsStore((s) => s.setPriceRange);
@@ -90,4 +89,4 @@ export function useFilterPriceRangeField({
     thumbMinFrac,
     thumbMaxFrac,
   };
-}
+};

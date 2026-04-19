@@ -1,20 +1,20 @@
+import { type ComponentProps } from 'react';
+
 import { type VariantProps } from 'class-variance-authority';
 
 import { cn } from '../../../lib/styles/cn';
 import { buttonGroupVariants } from '../buttonGroupVariants';
 
-export function ButtonGroupRoot({
+export const ButtonGroupRoot = ({
   className,
   orientation,
   ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof buttonGroupVariants>) {
-  return (
-    <div
-      role="group"
-      data-slot="button-group"
-      data-orientation={orientation}
-      className={cn(buttonGroupVariants({ orientation }), className)}
-      {...props}
-    />
-  );
-}
+}: ComponentProps<'div'> & VariantProps<typeof buttonGroupVariants>) => (
+  <div
+    role="group"
+    data-slot="button-group"
+    data-orientation={orientation}
+    className={cn(buttonGroupVariants({ orientation }), className)}
+    {...props}
+  />
+);

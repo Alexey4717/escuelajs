@@ -12,7 +12,7 @@ const DynamicDrawer = dynamic(() =>
   import('@/shared/ui/Drawer/Drawer').then((m) => ({ default: m.Drawer })),
 );
 
-export function Modal({
+export const Modal = ({
   isMobile = false,
   preserveMounted = false,
   open,
@@ -33,7 +33,7 @@ export function Modal({
   showContentCloseButton,
   showFooterCloseButton,
   dialogClassName,
-}: ModalProps) {
+}: ModalProps) => {
   if (isMobile) {
     return (
       <DynamicDrawer
@@ -87,4 +87,4 @@ export function Modal({
       {children}
     </DynamicDialog>
   );
-}
+};

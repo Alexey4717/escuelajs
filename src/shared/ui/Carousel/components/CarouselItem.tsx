@@ -5,7 +5,10 @@ import { type ComponentProps } from 'react';
 import { cn } from '../../../lib/styles/cn';
 import { useCarousel } from './CarouselContext';
 
-export function CarouselItem({ className, ...props }: ComponentProps<'div'>) {
+export const CarouselItem = ({
+  className,
+  ...props
+}: ComponentProps<'div'>) => {
   const { orientation } = useCarousel();
 
   return (
@@ -21,4 +24,4 @@ export function CarouselItem({ className, ...props }: ComponentProps<'div'>) {
       {...props}
     />
   );
-}
+};

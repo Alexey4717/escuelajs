@@ -10,19 +10,17 @@ interface SliderTrackProps {
   rangeClassName?: string;
 }
 
-export function SliderTrack({
+export const SliderTrack = ({
   trackClassName,
   rangeClassName,
-}: SliderTrackProps) {
-  return (
-    <SliderPrimitive.Track
-      data-slot="slider-track"
-      className={cn(sliderTrackClassName, trackClassName)}
-    >
-      <SliderPrimitive.Range
-        data-slot="slider-range"
-        className={cn(sliderRangeClassName, rangeClassName)}
-      />
-    </SliderPrimitive.Track>
-  );
-}
+}: SliderTrackProps) => (
+  <SliderPrimitive.Track
+    data-slot="slider-track"
+    className={cn(sliderTrackClassName, trackClassName)}
+  >
+    <SliderPrimitive.Range
+      data-slot="slider-range"
+      className={cn(sliderRangeClassName, rangeClassName)}
+    />
+  </SliderPrimitive.Track>
+);

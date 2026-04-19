@@ -32,31 +32,29 @@ export type AvatarProps = Omit<
   badge?: ReactNode;
 };
 
-export function Avatar({
+export const Avatar = ({
   src,
   alt,
   badge,
   className,
   ...rootProps
-}: AvatarProps) {
-  return (
-    <AvatarRoot className={className} {...rootProps}>
-      {src != null && src !== '' ? (
-        <AppImage
-          src={src}
-          alt={alt ?? ''}
-          className="aspect-square size-full rounded-full object-cover"
-          fallback={
-            <Skeleton className="size-full rounded-full bg-muted" aria-hidden />
-          }
-          errorFallback={
-            <div className={avatarShellClassName}>{avatarPlaceholderIcon}</div>
-          }
-        />
-      ) : (
-        <AvatarFallback>{avatarPlaceholderIcon}</AvatarFallback>
-      )}
-      {badge != null ? <AvatarBadge>{badge}</AvatarBadge> : null}
-    </AvatarRoot>
-  );
-}
+}: AvatarProps) => (
+  <AvatarRoot className={className} {...rootProps}>
+    {src != null && src !== '' ? (
+      <AppImage
+        src={src}
+        alt={alt ?? ''}
+        className="aspect-square size-full rounded-full object-cover"
+        fallback={
+          <Skeleton className="size-full rounded-full bg-muted" aria-hidden />
+        }
+        errorFallback={
+          <div className={avatarShellClassName}>{avatarPlaceholderIcon}</div>
+        }
+      />
+    ) : (
+      <AvatarFallback>{avatarPlaceholderIcon}</AvatarFallback>
+    )}
+    {badge != null ? <AvatarBadge>{badge}</AvatarBadge> : null}
+  </AvatarRoot>
+);

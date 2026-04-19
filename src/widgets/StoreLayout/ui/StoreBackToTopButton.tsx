@@ -15,7 +15,9 @@ interface StoreBackToTopButtonProps {
   scrollRef: RefObject<HTMLDivElement | null>;
 }
 
-export function StoreBackToTopButton({ scrollRef }: StoreBackToTopButtonProps) {
+export const StoreBackToTopButton = ({
+  scrollRef,
+}: StoreBackToTopButtonProps) => {
   const visible = useScrollPastThreshold(
     scrollRef,
     BACK_TO_TOP_SCROLL_THRESHOLD_PX,
@@ -45,4 +47,4 @@ export function StoreBackToTopButton({ scrollRef }: StoreBackToTopButtonProps) {
       />
     </div>
   );
-}
+};

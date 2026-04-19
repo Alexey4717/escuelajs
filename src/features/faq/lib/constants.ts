@@ -1,4 +1,8 @@
-export const FAQ_ITEMS: Array<{ id: string; q: string; a: string }> = [
+export const FAQ_ITEMS: Array<{
+  id: string;
+  q: string;
+  a: string;
+}> = [
   {
     id: 'auth',
     q: 'How do I sign in?',

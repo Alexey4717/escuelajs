@@ -11,13 +11,11 @@ interface ProductCardFooterProps {
 export const ProductCardFooter = ({
   priceLabel,
   action,
-}: ProductCardFooterProps) => {
-  return (
-    <div className="flex items-center justify-between gap-2 w-full">
-      <Typography variant="small" className="tabular-nums text-base sm:text-lg">
-        Price: {priceLabel}
-      </Typography>
-      {action}
-    </div>
-  );
-};
+}: ProductCardFooterProps) => (
+  <div className="flex items-center justify-between gap-2 w-full">
+    <Typography variant="small" className="tabular-nums text-base sm:text-lg">
+      Price: {priceLabel}
+    </Typography>
+    {action}
+  </div>
+);

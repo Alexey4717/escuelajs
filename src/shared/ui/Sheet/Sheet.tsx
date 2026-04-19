@@ -9,7 +9,7 @@ import {
   type SheetSimpleProps,
 } from './types';
 
-export function Sheet(props: SheetProps) {
+export const Sheet = (props: SheetProps) => {
   if ('trigger' in props && props.trigger !== undefined) {
     const { trigger, content, contentProps, triggerProps, ...rootProps } =
       props as SheetSimpleProps;
@@ -23,4 +23,4 @@ export function Sheet(props: SheetProps) {
   }
 
   return <SheetRoot {...(props as SheetCompoundProps)} />;
-}
+};

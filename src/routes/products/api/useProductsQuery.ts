@@ -176,9 +176,7 @@ export const useProductsQuery = (
     };
   }, [pathname, applyMainToScrollParent]);
 
-  useEffect(() => {
-    return () => setScrollParent(null);
-  }, []);
+  useEffect(() => () => setScrollParent(null), []);
 
   return {
     data: dataResolved,

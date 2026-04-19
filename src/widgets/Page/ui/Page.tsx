@@ -21,26 +21,24 @@ export const Page = ({
   'data-testid': dataTestId,
   mainRef,
   onScrollEnd,
-}: PageProps) => {
-  return (
-    <PageRoot
-      withSavingScrollPosition={withSavingScrollPosition}
-      className={cn(
-        narrow && 'w-full lg:mx-auto lg:max-w-6xl space-y-6',
-        className,
-      )}
-      data-testid={dataTestId}
-      mainRef={mainRef}
-      onScrollEnd={onScrollEnd}
-    >
-      {typeof heading === 'string' ? (
-        <Typography variant="h1" className="text-left mb-6">
-          {heading}
-        </Typography>
-      ) : (
-        (heading ?? null)
-      )}
-      {children}
-    </PageRoot>
-  );
-};
+}: PageProps) => (
+  <PageRoot
+    withSavingScrollPosition={withSavingScrollPosition}
+    className={cn(
+      narrow && 'w-full lg:mx-auto lg:max-w-6xl space-y-6',
+      className,
+    )}
+    data-testid={dataTestId}
+    mainRef={mainRef}
+    onScrollEnd={onScrollEnd}
+  >
+    {typeof heading === 'string' ? (
+      <Typography variant="h1" className="text-left mb-6">
+        {heading}
+      </Typography>
+    ) : (
+      (heading ?? null)
+    )}
+    {children}
+  </PageRoot>
+);

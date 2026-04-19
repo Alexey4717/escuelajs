@@ -1,1 +1,3 @@
-export type CategoryEditPageParams = { id: string };
+export type CategoryEditPageParams = {
+  id: string;
+};

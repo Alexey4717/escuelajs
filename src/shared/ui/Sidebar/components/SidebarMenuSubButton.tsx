@@ -6,7 +6,7 @@ import { Slot } from 'radix-ui';
 
 import { cn } from '../../../lib/styles/cn';
 
-export function SidebarMenuSubButton({
+export const SidebarMenuSubButton = ({
   asChild = false,
   size = 'md',
   isActive = false,
@@ -16,7 +16,7 @@ export function SidebarMenuSubButton({
   asChild?: boolean;
   size?: 'sm' | 'md';
   isActive?: boolean;
-}) {
+}) => {
   const Comp = asChild ? Slot.Root : 'a';
 
   return (
@@ -32,4 +32,4 @@ export function SidebarMenuSubButton({
       {...props}
     />
   );
-}
+};

@@ -15,8 +15,7 @@ interface DeleteCategoryArgs {
   categoryId: string;
   closeModal: () => void;
 }
-
-export function useDeleteCategorySubmitHandler() {
+export const useDeleteCategorySubmitHandler = () => {
   const router = useRouter();
   const [deleteCategory, { loading }] = useMutation(DeleteCategoryDocument);
 
@@ -58,4 +57,4 @@ export function useDeleteCategorySubmitHandler() {
     submitDelete,
     loading,
   };
-}
+};

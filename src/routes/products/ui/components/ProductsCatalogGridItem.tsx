@@ -15,7 +15,7 @@ import { ToggleCartItemButton } from '@/features/toggleCartItem';
 type ProductListItem = ProductsQuery['products'][number];
 
 export const ProductsCatalogGridItem = memo(
-  function ProductsCatalogGridItem({ product }: { product: ProductListItem }) {
+  ({ product }: { product: ProductListItem }) => {
     const isDemoA = product.id === ONBOARDING_DEMO_PRODUCT_A_ID;
     const isDemoB = product.id === ONBOARDING_DEMO_PRODUCT_B_ID;
     const isAdminDemoProductA =
@@ -57,3 +57,5 @@ export const ProductsCatalogGridItem = memo(
     prev.product.images[0] === next.product.images[0] &&
     prev.product.category.name === next.product.category.name,
 );
+
+ProductsCatalogGridItem.displayName = 'ProductsCatalogGridItem';

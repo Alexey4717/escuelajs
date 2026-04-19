@@ -14,7 +14,7 @@ vi.mock('../lib/hooks/useCartRoute', () => ({
   useCartRoute: () => useCartRouteMock(),
 }));
 
-function mockDesktopViewport() {
+const mockDesktopViewport = () => {
   window.matchMedia = vi.fn().mockImplementation((query: string) => ({
     matches: query === MEDIA_QUERIES.lgAndUp,
     media: query,
@@ -23,8 +23,7 @@ function mockDesktopViewport() {
     dispatchEvent: vi.fn(),
     onchange: null,
   }));
-}
-
+};
 describe('CartRoute', () => {
   const removeItemByProductId = vi.fn();
   const handleOrder = vi.fn();

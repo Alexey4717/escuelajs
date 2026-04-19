@@ -18,18 +18,18 @@ export type ImageFileValidationOptions = {
   allowedExtensions?: readonly string[];
 };
 
-function hasAllowedImageExtension(
+const hasAllowedImageExtension = (
   fileName: string,
   allowedExtensions: readonly string[],
-) {
+) => {
   const lower = fileName.toLowerCase();
   return allowedExtensions.some((ext) => lower.endsWith(ext));
-}
+};
 
-export function validateImageFile(
+export const validateImageFile = (
   file: File,
   options: ImageFileValidationOptions = {},
-): string | undefined {
+): string | undefined => {
   const maxFileSizeMb = options.maxFileSizeMb ?? DEFAULT_MAX_IMAGE_FILE_SIZE_MB;
   const allowedExtensions = options.allowedExtensions ?? IMAGE_FILE_EXTENSIONS;
   const maxBytes = maxFileSizeMb * 1024 * 1024;
@@ -51,15 +51,15 @@ export function validateImageFile(
   }
 
   return undefined;
-}
+};
 
-export function createImageFilesSchema(
+export const createImageFilesSchema = (
   options: {
     maxFiles?: number;
     maxFileSizeMb?: number;
     allowedExtensions?: readonly string[];
   } = {},
-) {
+) => {
   const maxFiles = Math.min(options.maxFiles ?? 1, DEFAULT_MAX_IMAGE_FILES);
 
   return array(custom<File>((value) => value instanceof File, 'Invalid file'))
@@ -75,4 +75,4 @@ export function createImageFilesSchema(
         });
       });
     });
-}
+};

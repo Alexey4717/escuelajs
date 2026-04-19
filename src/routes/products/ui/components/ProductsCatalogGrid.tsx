@@ -54,7 +54,7 @@ const VIRTUAL_ROW_STYLE: CSSProperties = {
   width: '100%',
 };
 
-function resolveProductsGridColumns(width: number) {
+const resolveProductsGridColumns = (width: number) => {
   if (width >= BREAKPOINTS_PX.lg) {
     return 4;
   }
@@ -65,46 +65,44 @@ function resolveProductsGridColumns(width: number) {
     return 2;
   }
   return 1;
-}
+};
 
-function resolveProductsGridGap(width: number) {
+const resolveProductsGridGap = (width: number) => {
   if (width >= BREAKPOINTS_PX.sm) {
     return GRID_GAP_PX_SM;
   }
   return GRID_GAP_PX_BASE;
-}
+};
 
-function ProductsCatalogGridLoad() {
-  return (
-    <div
-      className="space-y-6"
-      data-onboarding={ONBOARDING_TARGET_IDS.productsList}
-    >
-      <div className="flex flex-wrap gap-2.5" aria-hidden>
-        <Skeleton className="h-10 w-44 rounded-md" />
-        <Skeleton className="h-10 w-36 rounded-md" />
-        <Skeleton className="h-10 w-28 rounded-md" />
-        <Skeleton className="h-10 w-40 rounded-md" />
-      </div>
-      <div
-        className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4"
-        aria-hidden
-      >
-        {productsSkeletonItems.map((item) => (
-          <Skeleton key={item} loading className="rounded-xl bg-muted/70">
-            <div className="h-[22rem] rounded-xl border border-border/40" />
-          </Skeleton>
-        ))}
-      </div>
+const ProductsCatalogGridLoad = () => (
+  <div
+    className="space-y-6"
+    data-onboarding={ONBOARDING_TARGET_IDS.productsList}
+  >
+    <div className="flex flex-wrap gap-2.5" aria-hidden>
+      <Skeleton className="h-10 w-44 rounded-md" />
+      <Skeleton className="h-10 w-36 rounded-md" />
+      <Skeleton className="h-10 w-28 rounded-md" />
+      <Skeleton className="h-10 w-40 rounded-md" />
     </div>
-  );
-}
+    <div
+      className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 lg:grid-cols-4"
+      aria-hidden
+    >
+      {productsSkeletonItems.map((item) => (
+        <Skeleton key={item} loading className="rounded-xl bg-muted/70">
+          <div className="h-[22rem] rounded-xl border border-border/40" />
+        </Skeleton>
+      ))}
+    </div>
+  </div>
+);
 
-export function ProductsCatalogGrid({
+export const ProductsCatalogGrid = ({
   pathname,
   mainRef,
   isAdmin,
-}: ProductsCatalogGridProps) {
+}: ProductsCatalogGridProps) => {
   const {
     data,
     initialLoading,
@@ -314,4 +312,4 @@ export function ProductsCatalogGrid({
       ) : null}
     </div>
   );
-}
+};

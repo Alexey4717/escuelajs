@@ -21,13 +21,11 @@ const emptyFlow = (): FlowProgress => ({
   bottomBarDismissed: false,
 });
 
-function sortUnique(nums: number[]): number[] {
-  return [...new Set(nums)].sort((a, b) => a - b);
-}
+const sortUnique = (nums: number[]): number[] =>
+  [...new Set(nums)].sort((a, b) => a - b);
 
-function defineFlowKey(flow: OnboardingFlowId) {
-  return flow === 'guest' ? 'guest' : 'admin';
-}
+const defineFlowKey = (flow: OnboardingFlowId) =>
+  flow === 'guest' ? 'guest' : 'admin';
 
 interface OnboardingProgressState {
   guest: FlowProgress;
@@ -87,19 +85,17 @@ export const useOnboardingProgressStore = create<OnboardingProgressState>()(
         guest: state.guest,
         admin: state.admin,
       }),
-      onRehydrateStorage: () => {
-        return (state) => {
-          state?.markHydrated();
-        };
+      onRehydrateStorage: () => (state) => {
+        state?.markHydrated();
       },
     },
   ),
 );
 
-export function progressPercentForFlow(
+export const progressPercentForFlow = (
   flow: OnboardingFlowId,
   totalSteps: number,
-): number {
+): number => {
   const { completedStepIndices } =
     useOnboardingProgressStore.getState()[defineFlowKey(flow)];
   if (totalSteps <= 0) {
@@ -109,4 +105,4 @@ export function progressPercentForFlow(
     100,
     Math.round((completedStepIndices.length / totalSteps) * 100),
   );
-}
+};

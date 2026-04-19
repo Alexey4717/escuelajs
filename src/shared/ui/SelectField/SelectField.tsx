@@ -51,7 +51,7 @@ export type SelectFieldProps<TValue extends string = string> = Omit<
     'aria-describedby' | 'aria-invalid'
   >;
 
-export function SelectField<TValue extends string = string>({
+export const SelectField = <TValue extends string = string>({
   id: idProp,
   label,
   description,
@@ -69,7 +69,7 @@ export function SelectField<TValue extends string = string>({
   'aria-invalid': ariaInvalidProp,
   'data-testid': dataTestId,
   ...selectProps
-}: SelectFieldProps<TValue>) {
+}: SelectFieldProps<TValue>) => {
   const generatedId = useId();
   const triggerId = idProp ?? generatedId;
   const descriptionId = description ? `${triggerId}-description` : undefined;
@@ -133,7 +133,7 @@ export function SelectField<TValue extends string = string>({
       </Field>
     </Select>
   );
-}
+};
 
 export { SelectGroup } from './components/SelectGroup';
 export { SelectItem } from './components/SelectItem';

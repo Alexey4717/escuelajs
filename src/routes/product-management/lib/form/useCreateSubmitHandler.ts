@@ -27,7 +27,7 @@ interface CreateSubmitArgs {
   imageFiles: FilesBoxItem[];
 }
 
-export function useCreateSubmitHandler() {
+export const useCreateSubmitHandler = () => {
   const router = useRouter();
   const [addProduct, { loading }] = useMutation(AddProductDocument);
   const [imagesUploadLoading, setImagesUploadLoading] = useState(false);
@@ -36,10 +36,10 @@ export function useCreateSubmitHandler() {
       s.isDemoActive && s.activeFlow === 'admin' && s.currentStepIndex === 7,
   );
 
-  async function handleSubmit({
+  const handleSubmit = async ({
     values,
     imageFiles,
-  }: CreateSubmitArgs): Promise<FilesBoxItem[]> {
+  }: CreateSubmitArgs): Promise<FilesBoxItem[]> => {
     if (isAdminOnboardingCreateStep) {
       toast.success('Demo product created');
       router.replace(pagesPath.products.$url().path);
@@ -102,11 +102,11 @@ export function useCreateSubmitHandler() {
       toast.error('Failed to create product');
       return filesState;
     }
-  }
+  };
 
   return {
     loading,
     imagesUploadLoading,
     handleSubmit,
   };
-}
+};

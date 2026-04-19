@@ -8,11 +8,11 @@ import { cn } from '../../../lib/styles/cn';
 import { Button } from '../../Button/Button';
 import { useSidebar } from '../sidebar-context';
 
-export function SidebarTrigger({
+export const SidebarTrigger = ({
   className,
   onClick,
   ...props
-}: ComponentProps<typeof Button>) {
+}: ComponentProps<typeof Button>) => {
   const { toggleSidebar } = useSidebar();
 
   return (
@@ -32,4 +32,4 @@ export function SidebarTrigger({
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
-}
+};

@@ -13,12 +13,12 @@ interface CategoryManagementFormActionsProps {
   submitDisabled?: boolean;
 }
 
-export function CategoryManagementFormActions({
+export const CategoryManagementFormActions = ({
   submitLabel,
   submitLoading,
   imagesUploadLoading,
   submitDisabled = false,
-}: CategoryManagementFormActionsProps) {
+}: CategoryManagementFormActionsProps) => {
   const busy = imagesUploadLoading || submitLoading;
 
   return (
@@ -47,4 +47,4 @@ export function CategoryManagementFormActions({
       </Button>
     </div>
   );
-}
+};

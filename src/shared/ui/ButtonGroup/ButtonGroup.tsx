@@ -21,13 +21,13 @@ export type ButtonGroupProps = React.ComponentProps<'div'> &
     items?: ButtonGroupItem[];
   };
 
-function ButtonGroupConstructor({
+const ButtonGroupConstructor = ({
   className,
   orientation,
   items,
   children,
   ...rest
-}: ButtonGroupProps) {
+}: ButtonGroupProps) => {
   if (items !== undefined) {
     return (
       <ButtonGroupRoot
@@ -69,7 +69,7 @@ function ButtonGroupConstructor({
       {children}
     </ButtonGroupRoot>
   );
-}
+};
 
 /**
  * Группа связанных контролов с общей рамкой стыковки (скругления и границы между сегментами).

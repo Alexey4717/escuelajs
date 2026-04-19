@@ -11,11 +11,10 @@ import {
   RegisterFormStateInput,
 } from '../form/scheme';
 
-function computePasswordValid(password: string) {
-  return passwordSchema.safeParse(password).success;
-}
+const computePasswordValid = (password: string) =>
+  passwordSchema.safeParse(password).success;
 
-export function useRegisterPasswordValidity() {
+export const useRegisterPasswordValidity = () => {
   const { watch, setValue, getValues } =
     useFormContext<RegisterFormStateInput>();
 
@@ -49,4 +48,4 @@ export function useRegisterPasswordValidity() {
   }, [passwordIsValid, setValue]);
 
   return passwordIsValid;
-}
+};

@@ -17,11 +17,11 @@ interface UseOnboardingCartCheckoutBridgeParams {
   mobilePanel: ReturnType<typeof useMobileCheckoutPanel>;
 }
 
-export function useOnboardingCartCheckoutBridge({
+export const useOnboardingCartCheckoutBridge = ({
   methods,
   isLg,
   mobilePanel,
-}: UseOnboardingCartCheckoutBridgeParams): void {
+}: UseOnboardingCartCheckoutBridgeParams): void => {
   const clearPickupAddress = useCallback(() => {
     methods.setValue('pickupAddress', '', {
       shouldDirty: false,
@@ -52,4 +52,4 @@ export function useOnboardingCartCheckoutBridge({
       unsubscribeOpen();
     };
   }, [clearPickupAddress, openMobileCheckout]);
-}
+};

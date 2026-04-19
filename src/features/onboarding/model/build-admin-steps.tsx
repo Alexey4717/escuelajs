@@ -31,10 +31,10 @@ const ADMIN_TARGETS = [
   onboardingSelector(ONBOARDING_TARGET_IDS.productDetailAdminActions),
 ] as const;
 
-async function waitForTarget(
+const waitForTarget = async (
   selector: string,
   timeoutMs = 15000,
-): Promise<void> {
+): Promise<void> => {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
     if (document.querySelector(selector)) {
@@ -42,13 +42,13 @@ async function waitForTarget(
     }
     await delay(100);
   }
-}
+};
 
-export function buildAdminOnboardingSteps({
+export const buildAdminOnboardingSteps = ({
   client,
   navigate,
   getPathname,
-}: BuildAdminStepsParams): Step[] {
+}: BuildAdminStepsParams): Step[] => {
   const usersPath = pagesPath.users.$url().path;
   const adminPath = pagesPath.admin_panel.$url().path;
   const categoriesPath = pagesPath.categories.$url().path;
@@ -59,7 +59,9 @@ export function buildAdminOnboardingSteps({
     ._id(ONBOARDING_ADMIN_DEMO_PRODUCT_A_ID)
     .$url().path;
 
-  const routeTargets: Array<{ pathname: string | null }> = [
+  const routeTargets: Array<{
+    pathname: string | null;
+  }> = [
     { pathname: null },
     { pathname: usersPath },
     { pathname: null },
@@ -112,9 +114,9 @@ export function buildAdminOnboardingSteps({
       },
     };
   });
-}
+};
 
-function AdminStepContent({ index }: { index: number }) {
+const AdminStepContent = ({ index }: { index: number }) => {
   const bodies: string[] = [
     'Open the “Users” tab in the sidebar.',
     'Here you can review information about registered users.',
@@ -129,4 +131,4 @@ function AdminStepContent({ index }: { index: number }) {
   ];
 
   return <p className="text-sm leading-relaxed">{bodies[index] ?? ''}</p>;
-}
+};

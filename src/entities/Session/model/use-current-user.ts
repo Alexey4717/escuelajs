@@ -8,7 +8,7 @@ import { parseUserRole } from '@/entities/User/@x/session';
 
 import { useCurrentUserId } from './use-current-user-id';
 
-export function useCurrentUser() {
+export const useCurrentUser = () => {
   const userId = useCurrentUserId();
   const { data, loading, error } = useQuery(
     UserDetailsDocument,
@@ -29,18 +29,18 @@ export function useCurrentUser() {
     loading: Boolean(userId) && loading,
     error,
   };
-}
+};
 
-export function useCurrentUserRole() {
+export const useCurrentUserRole = () => {
   const { user, loading } = useCurrentUser();
 
   return {
     role: user?.role ? parseUserRole(user.role) : null,
     loading,
   };
-}
+};
 
-export function useCurrentUserPassword() {
+export const useCurrentUserPassword = () => {
   const { user, userId, loading } = useCurrentUser();
 
   return {
@@ -48,4 +48,4 @@ export function useCurrentUserPassword() {
     loading,
     profilePassword: user?.password ?? null,
   };
-}
+};

@@ -2,10 +2,10 @@ import { input, object, output } from 'zod/v4';
 
 import { passwordSchema } from '@/shared/lib/form/schemas/password';
 
-export function createChangeCurrentPasswordFormSchema(options: {
+export const createChangeCurrentPasswordFormSchema = (options: {
   profilePassword: string | null;
-}) {
-  return object({
+}) =>
+  object({
     currentPassword: passwordSchema.meta({
       formField: {
         label: 'Current password',
@@ -45,7 +45,6 @@ export function createChangeCurrentPasswordFormSchema(options: {
       });
     }
   });
-}
 
 export type ChangeCurrentPasswordFormSchema = ReturnType<
   typeof createChangeCurrentPasswordFormSchema

@@ -8,20 +8,20 @@ import { useOnboardingSessionStore } from '@/features/onboarding';
 
 import type { CartCheckoutFormOutput } from '../form/scheme';
 
-export function useCartRoute() {
+export const useCartRoute = () => {
   const items = useCartStore((s) => s.items);
   const removeItemByProductId = useCartStore((s) => s.removeItemByProductId);
   const isOnboardingDemoActive = useOnboardingSessionStore(
     (s) => s.isDemoActive,
   );
 
-  async function handleOrder(data: CartCheckoutFormOutput) {
+  const handleOrder = async (data: CartCheckoutFormOutput) => {
     await new Promise((r) => setTimeout(r, 1000));
     toast.success(`Order placed (demo): ${data.email}`);
     if (!isOnboardingDemoActive) {
       clearCart();
     }
-  }
+  };
 
   return {
     items,
@@ -29,4 +29,4 @@ export function useCartRoute() {
     handleOrder,
     clearCart,
   };
-}
+};

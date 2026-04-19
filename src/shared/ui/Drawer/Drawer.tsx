@@ -29,37 +29,35 @@ const DrawerBase = ({
   showOverlay,
   showHandle,
   ...rootProps
-}: DrawerProps) => {
-  return (
-    <DrawerRoot {...rootProps}>
-      {trigger && <DrawerTrigger {...triggerProps}>{trigger}</DrawerTrigger>}
+}: DrawerProps) => (
+  <DrawerRoot {...rootProps}>
+    {trigger && <DrawerTrigger {...triggerProps}>{trigger}</DrawerTrigger>}
 
-      {children ?? (
-        <DrawerContent
-          {...contentProps}
-          overlayProps={overlayProps}
-          showOverlay={showOverlay}
-          showHandle={showHandle}
-        >
-          {(title || description) && (
-            <DrawerHeader {...headerProps}>
-              {title && <DrawerTitle {...titleProps}>{title}</DrawerTitle>}
-              {description && (
-                <DrawerDescription {...descriptionProps}>
-                  {description}
-                </DrawerDescription>
-              )}
-            </DrawerHeader>
-          )}
+    {children ?? (
+      <DrawerContent
+        {...contentProps}
+        overlayProps={overlayProps}
+        showOverlay={showOverlay}
+        showHandle={showHandle}
+      >
+        {(title || description) && (
+          <DrawerHeader {...headerProps}>
+            {title && <DrawerTitle {...titleProps}>{title}</DrawerTitle>}
+            {description && (
+              <DrawerDescription {...descriptionProps}>
+                {description}
+              </DrawerDescription>
+            )}
+          </DrawerHeader>
+        )}
 
-          {content && <div className="px-4 pb-4">{content}</div>}
+        {content && <div className="px-4 pb-4">{content}</div>}
 
-          {footer && <DrawerFooter {...footerProps}>{footer}</DrawerFooter>}
-        </DrawerContent>
-      )}
-    </DrawerRoot>
-  );
-};
+        {footer && <DrawerFooter {...footerProps}>{footer}</DrawerFooter>}
+      </DrawerContent>
+    )}
+  </DrawerRoot>
+);
 
 type DrawerComponent = typeof DrawerBase & {
   Root: typeof DrawerRoot;

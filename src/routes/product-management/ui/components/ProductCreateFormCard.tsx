@@ -21,7 +21,7 @@ import { useOnboardingProductCreateAutofill } from '../../lib/hooks/useOnboardin
 import { ProductManagementFormActions } from './ProductManagementFormActions';
 import { ProductManagementFormFields } from './ProductManagementFormFields';
 
-export function ProductCreateFormCard() {
+export const ProductCreateFormCard = () => {
   const {
     handleSubmit: submitProduct,
     loading: submitLoading,
@@ -69,4 +69,4 @@ export function ProductCreateFormCard() {
       </Form>
     </Card>
   );
-}
+};

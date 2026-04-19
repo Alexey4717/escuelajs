@@ -5,14 +5,14 @@ import { cn } from '@/shared/lib/styles/cn';
 
 import { getOnboardingStepData } from '../lib/onboarding-step-behavior';
 
-export function OnboardingJoyrideTooltip({
+export const OnboardingJoyrideTooltip = ({
   backProps,
   closeProps,
   index,
   primaryProps,
   step,
   tooltipProps,
-}: TooltipRenderProps) {
+}: TooltipRenderProps) => {
   const advanceMode = getOnboardingStepData(step)?.advanceMode;
   const showPrimaryButton =
     advanceMode === 'tooltipNext' || advanceMode === 'tooltipLast';
@@ -79,4 +79,4 @@ export function OnboardingJoyrideTooltip({
       ) : null}
     </section>
   );
-}
+};

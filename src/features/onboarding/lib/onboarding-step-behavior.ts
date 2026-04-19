@@ -9,8 +9,9 @@ export type OnboardingStepAdvanceMode =
 export type OnboardingStepData = {
   advanceMode: OnboardingStepAdvanceMode;
 };
-
-export function getOnboardingStepData(step: Step): OnboardingStepData | null {
+export const getOnboardingStepData = (
+  step: Step,
+): OnboardingStepData | null => {
   const data = step.data;
   if (data == null || typeof data !== 'object') {
     return null;
@@ -29,4 +30,4 @@ export function getOnboardingStepData(step: Step): OnboardingStepData | null {
   return {
     advanceMode: maybeAdvanceMode,
   };
-}
+};

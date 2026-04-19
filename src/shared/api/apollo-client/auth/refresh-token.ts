@@ -5,7 +5,7 @@ import { getBrowserApolloClient } from './browser-apollo-client';
 
 let refreshInFlight: Promise<boolean> | null = null;
 
-async function refreshSession(): Promise<boolean> {
+const refreshSession = async (): Promise<boolean> => {
   if (typeof window === 'undefined') {
     return false;
   }
@@ -31,13 +31,13 @@ async function refreshSession(): Promise<boolean> {
   }
 
   return !!result.data;
-}
+};
 
-export function refreshTokensOnce(): Promise<boolean> {
+export const refreshTokensOnce = (): Promise<boolean> => {
   if (!refreshInFlight) {
     refreshInFlight = refreshSession().finally(() => {
       refreshInFlight = null;
     });
   }
   return refreshInFlight;
-}
+};

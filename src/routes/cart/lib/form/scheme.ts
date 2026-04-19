@@ -30,13 +30,11 @@ export const cartCheckoutFormSchema = object({
 export type CartCheckoutFormInput = input<typeof cartCheckoutFormSchema>;
 export type CartCheckoutFormOutput = output<typeof cartCheckoutFormSchema>;
 
-export function getCartCheckoutDefaultValues(user?: {
+export const getCartCheckoutDefaultValues = (user?: {
   name?: string | null;
   email?: string | null;
-}): CartCheckoutFormInput {
-  return {
-    name: user?.name ?? '',
-    email: user?.email ?? '',
-    pickupAddress: '',
-  };
-}
+}): CartCheckoutFormInput => ({
+  name: user?.name ?? '',
+  email: user?.email ?? '',
+  pickupAddress: '',
+});

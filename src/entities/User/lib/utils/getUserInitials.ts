@@ -1,5 +1,4 @@
-/** Инициалы для отображения по полному имени (аватар, подписи). */
-export function getUserInitials(name: string): string {
+export const getUserInitials = (name: string): string => {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) {
     return '?';
@@ -10,4 +9,4 @@ export function getUserInitials(name: string): string {
   const first = parts[0]![0];
   const last = parts[parts.length - 1]![0];
   return `${first}${last}`.toUpperCase();
-}
+};

@@ -15,7 +15,7 @@ interface HomeTestimonialsProps {
   data: HomeLandingQuery;
 }
 
-export function HomeTestimonials({ data }: HomeTestimonialsProps) {
+export const HomeTestimonials = ({ data }: HomeTestimonialsProps) => {
   const buildedTestimonials = useMemo(
     () => buildHomeTestimonials(data.users, data.products),
     [data.users, data.products],
@@ -59,4 +59,4 @@ export function HomeTestimonials({ data }: HomeTestimonialsProps) {
       </div>
     </section>
   );
-}
+};

@@ -28,7 +28,7 @@ interface ProductEditFormCardProps {
   product: ProductDetailsQuery['product'];
 }
 
-export function ProductEditFormCard({ product }: ProductEditFormCardProps) {
+export const ProductEditFormCard = ({ product }: ProductEditFormCardProps) => {
   const {
     handleSubmit: submitProduct,
     loading: submitLoading,
@@ -91,4 +91,4 @@ export function ProductEditFormCard({ product }: ProductEditFormCardProps) {
       </Form>
     </Card>
   );
-}
+};

@@ -8,22 +8,19 @@ interface CategoryListLabelProps {
   categoryName: string;
   categoryImg?: string;
 }
-
-export function CategoryListLabel({
+export const CategoryListLabel = ({
   className,
   categoryName,
   categoryImg,
-}: CategoryListLabelProps) {
-  return (
-    <Badge variant="secondary" className={className}>
-      {categoryImg ? (
-        <AppImage
-          src={categoryImg}
-          alt={categoryName}
-          className="size-3 shrink-0 rounded-full align-middle"
-        />
-      ) : null}
-      {categoryName}
-    </Badge>
-  );
-}
+}: CategoryListLabelProps) => (
+  <Badge variant="secondary" className={className}>
+    {categoryImg ? (
+      <AppImage
+        src={categoryImg}
+        alt={categoryName}
+        className="size-3 shrink-0 rounded-full align-middle"
+      />
+    ) : null}
+    {categoryName}
+  </Badge>
+);

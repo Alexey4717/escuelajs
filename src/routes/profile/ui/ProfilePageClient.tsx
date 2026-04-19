@@ -12,6 +12,4 @@ const ProfileDynamicRoute = dynamic(
   },
 );
 
-export function ProfilePageClient() {
-  return <ProfileDynamicRoute />;
-}
+export const ProfilePageClient = () => <ProfileDynamicRoute />;

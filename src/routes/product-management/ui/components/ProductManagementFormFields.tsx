@@ -14,29 +14,24 @@ interface ProductManagementFormFieldsProps {
   onImageFilesChange: (files: FilesBoxItem[]) => void;
 }
 
-export function ProductManagementFormFields({
+export const ProductManagementFormFields = ({
   imageFiles,
   onImageFilesChange,
-}: ProductManagementFormFieldsProps) {
-  return (
-    <>
-      <ProductTitleField placeholder="For example, Awesome Shirt" />
-      <ProductPriceField type="number" min={1} step="0.01" placeholder="1999" />
-      <ProductDescriptionField
-        rows={4}
-        placeholder="Short product description"
-      />
-      <ProductManagementCategoryField />
-      <FilesBox
-        label="Product images"
-        maxFiles={PRODUCT_IMAGES_MAX_FILES}
-        accept="image/*"
-        maxFileSizeMb={5}
-        uploadMode="onSubmit"
-        value={imageFiles}
-        onChange={onImageFilesChange}
-        data-testid="productForm__input__image"
-      />
-    </>
-  );
-}
+}: ProductManagementFormFieldsProps) => (
+  <>
+    <ProductTitleField placeholder="For example, Awesome Shirt" />
+    <ProductPriceField type="number" min={1} step="0.01" placeholder="1999" />
+    <ProductDescriptionField rows={4} placeholder="Short product description" />
+    <ProductManagementCategoryField />
+    <FilesBox
+      label="Product images"
+      maxFiles={PRODUCT_IMAGES_MAX_FILES}
+      accept="image/*"
+      maxFileSizeMb={5}
+      uploadMode="onSubmit"
+      value={imageFiles}
+      onChange={onImageFilesChange}
+      data-testid="productForm__input__image"
+    />
+  </>
+);

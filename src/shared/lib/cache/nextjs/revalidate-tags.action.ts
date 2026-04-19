@@ -7,10 +7,10 @@ type RevalidateTagsActionArgs = {
   paths?: string[];
 };
 
-export async function revalidateTagsAction({
+export const revalidateTagsAction = async ({
   tags = [],
   paths = [],
-}: RevalidateTagsActionArgs) {
+}: RevalidateTagsActionArgs) => {
   for (const tag of tags) {
     revalidateTag(tag, 'max');
   }
@@ -18,4 +18,4 @@ export async function revalidateTagsAction({
   for (const path of paths) {
     revalidatePath(path);
   }
-}
+};

@@ -19,11 +19,10 @@ type BuildGuestStepsParams = {
   getPathname: () => string;
   openMapModal: () => void;
 };
-
-async function waitForTarget(
+const waitForTarget = async (
   selector: string,
   timeoutMs = 15000,
-): Promise<void> {
+): Promise<void> => {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
     if (document.querySelector(selector)) {
@@ -31,7 +30,7 @@ async function waitForTarget(
     }
     await delay(100);
   }
-}
+};
 
 const GUEST_TARGETS = [
   onboardingSelector(ONBOARDING_TARGET_IDS.sidebarNavProducts),
@@ -49,12 +48,12 @@ const GUEST_TARGETS = [
 /**
  * Создаёт шаги гостевого сценария. `before` — пресет и маршрут перед показом шага.
  */
-export function buildGuestOnboardingSteps({
+export const buildGuestOnboardingSteps = ({
   client,
   navigate,
   getPathname,
   openMapModal,
-}: BuildGuestStepsParams): Step[] {
+}: BuildGuestStepsParams): Step[] => {
   const productsPath = pagesPath.products.$url().path;
   const cartPath = pagesPath.cart.$url().path;
   const homePath = pagesPath.$url().path;
@@ -62,7 +61,9 @@ export function buildGuestOnboardingSteps({
     ._id(ONBOARDING_DEMO_PRODUCT_B_ID)
     .$url().path;
 
-  const routeTargets: Array<{ pathname: string | null }> = [
+  const routeTargets: Array<{
+    pathname: string | null;
+  }> = [
     { pathname: null },
     { pathname: productsPath },
     { pathname: productsPath },
@@ -134,9 +135,9 @@ export function buildGuestOnboardingSteps({
       },
     };
   });
-}
+};
 
-function GuestStepContent({ index }: { index: number }) {
+const GuestStepContent = ({ index }: { index: number }) => {
   const bodies: string[] = [
     'Open the “Products” item in the sidebar.',
     'Use catalog filters to narrow the product list. Filter fields are auto-filled for demo mode.',
@@ -151,4 +152,4 @@ function GuestStepContent({ index }: { index: number }) {
   ];
 
   return <p className="text-sm leading-relaxed">{bodies[index] ?? ''}</p>;
-}
+};

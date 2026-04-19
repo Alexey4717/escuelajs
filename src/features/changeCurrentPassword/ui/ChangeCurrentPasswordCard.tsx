@@ -24,11 +24,10 @@ interface ChangeCurrentPasswordFormInnerProps {
   profilePassword: string | null;
   userLoading: boolean;
 }
-
-function ChangeCurrentPasswordFormInner({
+const ChangeCurrentPasswordFormInner = ({
   profilePassword,
   userLoading,
-}: ChangeCurrentPasswordFormInnerProps) {
+}: ChangeCurrentPasswordFormInnerProps) => {
   const formSchema = useMemo(
     () => createChangeCurrentPasswordFormSchema({ profilePassword }),
     [profilePassword],
@@ -51,16 +50,14 @@ function ChangeCurrentPasswordFormInner({
     useChangeCurrentPasswordSubmitHandler();
 
   const fieldsDisabled = userLoading || !profilePassword;
-
-  async function handleSubmit({
+  const handleSubmit = async ({
     password,
-  }: ChangeCurrentPasswordFormStateOutput) {
+  }: ChangeCurrentPasswordFormStateOutput) => {
     await submitChangePassword({
       password,
       onSuccess: () => methods.reset(changeCurrentPasswordFormDefaultValues),
     });
-  }
-
+  };
   return (
     <Form methods={methods} onSubmit={handleSubmit}>
       <div className="flex flex-col gap-2">
@@ -89,9 +86,8 @@ function ChangeCurrentPasswordFormInner({
       </div>
     </Form>
   );
-}
-
-export function ChangeCurrentPasswordCard() {
+};
+export const ChangeCurrentPasswordCard = () => {
   const {
     userId,
     loading: userLoading,
@@ -112,4 +108,4 @@ export function ChangeCurrentPasswordCard() {
       />
     </Card>
   );
-}
+};

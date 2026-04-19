@@ -10,16 +10,14 @@ interface SliderThumbsProps {
   thumbClassName?: string;
 }
 
-export function SliderThumbs({ count, thumbClassName }: SliderThumbsProps) {
-  return (
-    <>
-      {Array.from({ length: count }, (_, index) => (
-        <SliderPrimitive.Thumb
-          key={index}
-          data-slot="slider-thumb"
-          className={cn(sliderThumbClassName, thumbClassName)}
-        />
-      ))}
-    </>
-  );
-}
+export const SliderThumbs = ({ count, thumbClassName }: SliderThumbsProps) => (
+  <>
+    {Array.from({ length: count }, (_, index) => (
+      <SliderPrimitive.Thumb
+        key={index}
+        data-slot="slider-thumb"
+        className={cn(sliderThumbClassName, thumbClassName)}
+      />
+    ))}
+  </>
+);

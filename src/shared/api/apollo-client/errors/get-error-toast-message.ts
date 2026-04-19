@@ -9,21 +9,18 @@ import { isUnauthorized } from '../auth/is-unauthorized';
 const MSG_CLIENT_ERROR = 'Something went wrong';
 const MSG_SERVER_ERROR = 'Internal server error';
 
-function getHttpStatusCode(error: unknown): number | undefined {
+const getHttpStatusCode = (error: unknown): number | undefined => {
   if (ServerError.is(error) || ServerParseError.is(error)) {
     return error.statusCode;
   }
   return undefined;
-}
+};
 
-function hasGraphQlInternalServerError(error: CombinedGraphQLErrors): boolean {
-  return error.errors.some(
-    (e) => e.extensions?.code === 'INTERNAL_SERVER_ERROR',
-  );
-}
+const hasGraphQlInternalServerError = (error: CombinedGraphQLErrors): boolean =>
+  error.errors.some((e) => e.extensions?.code === 'INTERNAL_SERVER_ERROR');
 
 /** Сообщение для toast или `null`, если тост показывать не нужно. */
-export function getErrorToastMessage(error: unknown): string | null {
+export const getErrorToastMessage = (error: unknown): string | null => {
   if (isUnauthorized(error)) {
     return null;
   }
@@ -47,4 +44,4 @@ export function getErrorToastMessage(error: unknown): string | null {
   }
 
   return null;
-}
+};

@@ -19,7 +19,9 @@ interface OnboardingBottomBarProps {
   isLoggedIn: boolean;
 }
 
-export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
+export const OnboardingBottomBar = ({
+  isLoggedIn,
+}: OnboardingBottomBarProps) => {
   const { role, loading } = useCurrentUserRole();
   const { startTour, run, isDemoActive } = useOnboardingTourContext();
 
@@ -125,4 +127,4 @@ export function OnboardingBottomBar({ isLoggedIn }: OnboardingBottomBarProps) {
       </div>
     </div>
   );
-}
+};

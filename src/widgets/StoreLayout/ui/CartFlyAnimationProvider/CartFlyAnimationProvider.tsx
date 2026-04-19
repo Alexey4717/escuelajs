@@ -29,7 +29,7 @@ type Particle = {
 };
 
 /** Только визуал; commit в стор делает `setTimeout` в провайдере (устойчиво к Strict Mode / отмене WAAPI). */
-function CartFlyParticle({
+const CartFlyParticle = ({
   sx,
   sy,
   tx,
@@ -39,7 +39,7 @@ function CartFlyParticle({
   sy: number;
   tx: number;
   ty: number;
-}) {
+}) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -103,13 +103,13 @@ function CartFlyParticle({
       +1
     </div>
   );
-}
+};
 
-export function CartFlyAnimationProvider({
+export const CartFlyAnimationProvider = ({
   children,
 }: {
   children: React.ReactNode;
-}) {
+}) => {
   const targetRef = useRef<HTMLElement | null>(null);
   const timeoutIdsRef = useRef<Map<number, number>>(new Map());
   const inFlightIdsRef = useRef<Set<string>>(new Set());
@@ -216,4 +216,4 @@ export function CartFlyAnimationProvider({
         )}
     </CartFlyContext.Provider>
   );
-}
+};

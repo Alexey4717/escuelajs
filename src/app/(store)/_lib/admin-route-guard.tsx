@@ -65,15 +65,13 @@ export async function protectAdminRouteOnServer(fromPath: string) {
   }
 }
 
-function AdminRouteGuardLoadPage({ heading }: { heading: string }) {
-  return (
-    <Page narrow heading={heading}>
-      <div className="flex min-h-24 items-center justify-center">
-        <Spinner className="size-6 text-muted-foreground" />
-      </div>
-    </Page>
-  );
-}
+const AdminRouteGuardLoadPage = ({ heading }: { heading: string }) => (
+  <Page narrow heading={heading}>
+    <div className="flex min-h-24 items-center justify-center">
+      <Spinner className="size-6 text-muted-foreground" />
+    </div>
+  </Page>
+);
 
 interface AdminRouteClientGuardProps {
   heading: string;
@@ -81,17 +79,15 @@ interface AdminRouteClientGuardProps {
   fallback?: ReactNode;
 }
 
-export function AdminRouteClientGuard({
+export const AdminRouteClientGuard = ({
   heading,
   children,
   fallback,
-}: AdminRouteClientGuardProps) {
-  return (
-    <RouteGuard
-      requiredRole="admin"
-      fallback={fallback ?? <AdminRouteGuardLoadPage heading={heading} />}
-    >
-      {children}
-    </RouteGuard>
-  );
-}
+}: AdminRouteClientGuardProps) => (
+  <RouteGuard
+    requiredRole="admin"
+    fallback={fallback ?? <AdminRouteGuardLoadPage heading={heading} />}
+  >
+    {children}
+  </RouteGuard>
+);

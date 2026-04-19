@@ -19,7 +19,7 @@ const OnboardingTourContext = createContext<UseOnboardingTourResult | null>(
   null,
 );
 
-export function OnboardingTourProvider({ children }: PropsWithChildren) {
+export const OnboardingTourProvider = ({ children }: PropsWithChildren) => {
   const tour = useOnboardingTour();
 
   useEffect(() => {
@@ -39,9 +39,9 @@ export function OnboardingTourProvider({ children }: PropsWithChildren) {
       {tour.Tour}
     </OnboardingTourContext.Provider>
   );
-}
+};
 
-export function useOnboardingTourContext(): UseOnboardingTourResult {
+export const useOnboardingTourContext = (): UseOnboardingTourResult => {
   const ctx = useContext(OnboardingTourContext);
   if (!ctx) {
     throw new Error(
@@ -49,8 +49,7 @@ export function useOnboardingTourContext(): UseOnboardingTourResult {
     );
   }
   return ctx;
-}
+};
 
-export function useOnboardingTourOptional(): UseOnboardingTourResult | null {
-  return useContext(OnboardingTourContext);
-}
+export const useOnboardingTourOptional = (): UseOnboardingTourResult | null =>
+  useContext(OnboardingTourContext);

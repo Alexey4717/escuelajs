@@ -11,18 +11,16 @@ interface BuildPageMetadataArgs {
   noIndex?: boolean;
 }
 
-export function getMetadataBase(): URL {
-  return new URL(getAppOrigin());
-}
+export const getMetadataBase = (): URL => new URL(getAppOrigin());
 
-export function buildPageMetadata({
+export const buildPageMetadata = ({
   title,
   description,
   path,
   images = [],
   type = 'website',
   noIndex = false,
-}: BuildPageMetadataArgs): Metadata {
+}: BuildPageMetadataArgs): Metadata => {
   const cleanPath = path?.startsWith('/')
     ? path
     : path
@@ -63,16 +61,14 @@ export function buildPageMetadata({
   };
 
   return metadata;
-}
-
+};
 interface BuildNoIndexMetadataArgs {
   title: string;
   description?: string;
 }
 
-export function buildNoIndexMetadata({
+export const buildNoIndexMetadata = ({
   title,
   description,
-}: BuildNoIndexMetadataArgs): Metadata {
-  return buildPageMetadata({ title, description, noIndex: true });
-}
+}: BuildNoIndexMetadataArgs): Metadata =>
+  buildPageMetadata({ title, description, noIndex: true });

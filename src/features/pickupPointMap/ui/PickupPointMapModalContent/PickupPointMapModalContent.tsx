@@ -29,10 +29,10 @@ const TileLayer = dynamic(
   },
 );
 
-export function PickupPointMapModalContent({
+export const PickupPointMapModalContent = ({
   closeModal,
   onSelectPickupPoint,
-}: ModalComponentProps<'pickupPointMap'>) {
+}: ModalComponentProps<'pickupPointMap'>) => {
   const isOnboardingGuestMapStep = useOnboardingSessionStore(
     (s) =>
       s.isDemoActive && s.activeFlow === 'guest' && s.currentStepIndex >= 6,
@@ -125,4 +125,4 @@ export function PickupPointMapModalContent({
       />
     </div>
   );
-}
+};
