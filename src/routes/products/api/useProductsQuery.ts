@@ -18,6 +18,7 @@ import {
   ProductsDocument,
   type ProductsQueryVariables,
 } from '@/shared/api/generated/graphql';
+import { type AppPathname } from '@/shared/config/routes/types';
 
 import {
   buildProductsFilterVariables,
@@ -30,7 +31,7 @@ import { resolveScrollAreaViewport } from '@/widgets/Page/lib/utils/findScrollCo
 import { PRODUCTS_PAGE_SIZE } from '../constants';
 
 export const useProductsQuery = (
-  pathname: string,
+  pathname: AppPathname,
   mainRef: RefObject<HTMLElement | null>,
 ) => {
   const [scrollParent, setScrollParent] = useState<HTMLElement | null>(null);

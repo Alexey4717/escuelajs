@@ -1,12 +1,13 @@
 import Link from 'next/link';
 
+import { type AppPath } from '@/shared/config/routes/types';
 import { cn } from '@/shared/lib/styles/cn';
 import { AppImage } from '@/shared/ui/AppImage/AppImage';
 
 import { CategoryListLabel } from '@/entities/Category/@x/product';
 
 interface ProductCardCoverLinkProps {
-  href: string;
+  href: AppPath;
   imageUrl?: string;
   categoryName?: string;
   dataOnboarding?: string;

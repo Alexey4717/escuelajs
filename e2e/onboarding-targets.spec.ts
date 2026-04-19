@@ -8,8 +8,7 @@ test.describe('onboarding DOM targets', () => {
     const form = page.locator(
       `[data-onboarding="${ONBOARDING_TARGET_IDS.homeContactForm}"]`,
     );
-    await form.scrollIntoViewIfNeeded();
-    await expect(form).toBeAttached();
+    await expect(form).toBeVisible();
   });
 
   test('сайдбар: ссылка на продукты', async ({ page }) => {

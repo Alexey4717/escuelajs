@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 
+import { AppPath, AppPathname } from '../../config/routes/types';
 import { getAppOrigin } from '../app-origin';
 
 interface BuildPageMetadataArgs {
   title: string;
   description?: string;
-  path?: string;
+  path?: AppPath | AppPathname;
   images?: string[];
   type?: 'website' | 'article';
   noIndex?: boolean;

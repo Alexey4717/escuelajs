@@ -14,6 +14,7 @@ import {
 } from 'react-joyride';
 
 import { pagesPath } from '@/shared/config/routes/$path';
+import { type AppPath } from '@/shared/config/routes/types';
 import { type OnboardingFlowId } from '@/shared/lib/onboarding';
 import { useAppStore } from '@/shared/lib/store';
 
@@ -63,7 +64,7 @@ export const useOnboardingTour = (): UseOnboardingTourResult => {
   const currentStepIndex = useOnboardingSessionStore((s) => s.currentStepIndex);
 
   const navigate = useCallback(
-    (path: string) => {
+    (path: AppPath) => {
       router.push(path);
     },
     [router],

@@ -33,7 +33,6 @@ import { useProductsQuery } from '../../api/useProductsQuery';
 import { ProductsCatalogGridItem } from './ProductsCatalogGridItem';
 
 export type ProductsCatalogGridProps = {
-  pathname: string;
   mainRef: RefObject<HTMLElement | null>;
   isAdmin: boolean;
 };
@@ -98,8 +97,9 @@ const ProductsCatalogGridLoad = () => (
   </div>
 );
 
+const pathname = pagesPath.products.$url().pathname;
+
 export const ProductsCatalogGrid = ({
-  pathname,
   mainRef,
   isAdmin,
 }: ProductsCatalogGridProps) => {
@@ -137,11 +137,11 @@ export const ProductsCatalogGrid = ({
 
   useEffect(() => {
     hasUserScrollSignalRef.current = false;
-  }, [pathname, products.length]);
+  }, [products.length]);
 
   useEffect(() => {
     restoredScrollPathRef.current = null;
-  }, [pathname]);
+  }, []);
 
   useEffect(() => {
     if (!scrollParent) {
@@ -215,7 +215,7 @@ export const ProductsCatalogGrid = ({
       cancelAnimationFrame(rafId);
       window.clearTimeout(timeoutId);
     };
-  }, [pathname, products.length, scrollParent]);
+  }, [products.length, scrollParent]);
 
   // eslint-disable-next-line react-hooks/incompatible-library -- `useVirtualizer` is required for windowing.
   const rowVirtualizer = useVirtualizer({

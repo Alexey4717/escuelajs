@@ -2,6 +2,7 @@ import { type ApolloClient } from '@apollo/client';
 import { type Step } from 'react-joyride';
 
 import { pagesPath } from '@/shared/config/routes/$path';
+import { type AppPath } from '@/shared/config/routes/types';
 import {
   ONBOARDING_TARGET_IDS,
   onboardingSelector,
@@ -13,15 +14,16 @@ import { onboardingEventBus } from '../lib/onboarding-event-bus';
 import { type OnboardingStepAdvanceMode } from '../lib/onboarding-step-behavior';
 import { delay } from '../lib/utils/delay';
 
-type BuildGuestStepsParams = {
+interface BuildGuestStepsParams {
   client: ApolloClient;
-  navigate: (path: string) => void;
+  navigate: (path: AppPath) => void;
   getPathname: () => string;
   openMapModal: () => void;
-};
+}
+
 const waitForTarget = async (
   selector: string,
-  timeoutMs = 15000,
+  timeoutMs = 15_000,
 ): Promise<void> => {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
@@ -62,7 +64,7 @@ export const buildGuestOnboardingSteps = ({
     .$url().path;
 
   const routeTargets: Array<{
-    pathname: string | null;
+    pathname: AppPath | null;
   }> = [
     { pathname: null },
     { pathname: productsPath },

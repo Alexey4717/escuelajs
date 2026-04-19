@@ -45,7 +45,7 @@ const StoreSidebarBrand = ({ onNavigate }: { onNavigate: () => void }) => (
     </Typography>
   </Link>
 );
-const onboardingForNavItem = (href: string) => {
+const onboardingForNavItem = (href: NavItem['href']) => {
   if (href === pagesPath.products.$url().path) {
     return ONBOARDING_TARGET_IDS.sidebarNavProducts;
   }

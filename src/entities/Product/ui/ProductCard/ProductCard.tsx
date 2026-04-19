@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import Link from 'next/link';
 
 import type { ProductsQuery } from '@/shared/api/generated/graphql';
+import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
 import { Card } from '@/shared/ui/Card/Card';
 
@@ -23,7 +24,7 @@ export const ProductCard = ({
   titleDataOnboarding,
 }: ProductCardProps) => {
   const imageUrl = product.images[0];
-  const href = `/products/${product.id}`;
+  const href = pagesPath.products._id(product.id).$url().path;
   const priceLabel = parsePrice(product.price);
 
   return (

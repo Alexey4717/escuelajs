@@ -4,11 +4,12 @@ import Link from 'next/link';
 
 import { Plus } from 'lucide-react';
 
+import { type AppPath } from '@/shared/config/routes/types';
 import { type OnboardingTargetId } from '@/shared/lib/onboarding';
 import { Button } from '@/shared/ui/Button/Button';
 
 interface AddEntityButtonLinkProps {
-  href: string;
+  href: AppPath;
   children: ReactNode;
   onboardingTarget?: OnboardingTargetId;
 }

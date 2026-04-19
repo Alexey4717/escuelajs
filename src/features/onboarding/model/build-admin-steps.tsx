@@ -2,6 +2,7 @@ import { type ApolloClient } from '@apollo/client';
 import { type Step } from 'react-joyride';
 
 import { pagesPath } from '@/shared/config/routes/$path';
+import { type AppPath } from '@/shared/config/routes/types';
 import {
   ONBOARDING_TARGET_IDS,
   onboardingSelector,
@@ -14,7 +15,7 @@ import { delay } from '../lib/utils/delay';
 
 interface BuildAdminStepsParams {
   client: ApolloClient;
-  navigate: (path: string) => void;
+  navigate: (path: AppPath) => void;
   getPathname: () => string;
 }
 
@@ -60,7 +61,7 @@ export const buildAdminOnboardingSteps = ({
     .$url().path;
 
   const routeTargets: Array<{
-    pathname: string | null;
+    pathname: AppPath | null;
   }> = [
     { pathname: null },
     { pathname: usersPath },

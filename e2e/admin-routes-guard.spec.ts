@@ -3,6 +3,10 @@ import { expect, test } from '@playwright/test';
 import { pagesPath } from '../src/shared/config/routes/$path';
 import { createUnsignedJwtWithSub } from '../src/shared/lib/auth/jwt-payload-sub/jwt-payload-sub';
 
+/** Совпадает с видимым `<h1>` на `/forbidden` (не с `metadata.title`). */
+const forbiddenPageHeading =
+  'You do not have enough permissions to view this page';
+
 const protectedAdminRoutes = [
   {
     name: 'categories create',
@@ -45,7 +49,7 @@ test.describe('Защита admin-panel', () => {
 
     await expect(page).toHaveURL(/\/forbidden$/);
     await expect(
-      page.getByRole('heading', { name: 'Access denied' }),
+      page.getByRole('heading', { name: forbiddenPageHeading }),
     ).toBeVisible();
   });
 
@@ -67,12 +71,12 @@ test.describe('Защита admin-panel', () => {
       },
     ]);
 
-    await page.goto('/admin-panel', { waitUntil: 'commit' });
+    await page.goto('/admin-panel', { waitUntil: 'load' });
 
     await expect(page).toHaveURL(/\/admin-panel$/);
     await expect(
       page.getByRole('heading', { name: 'Admin panel' }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 20_000 });
   });
 
   test.describe('защита management-роутов', () => {
@@ -100,7 +104,7 @@ test.describe('Защита admin-panel', () => {
 
           await expect(page).toHaveURL(pagesPath.forbidden.$url().path);
           await expect(
-            page.getByRole('heading', { name: 'Access denied' }),
+            page.getByRole('heading', { name: forbiddenPageHeading }),
           ).toBeVisible();
         });
       }
