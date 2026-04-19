@@ -1,3 +1,11 @@
+# [1.19.0](https://github.com/Alexey4717/escuelajs/compare/v1.18.0...v1.19.0) (2026-04-19)
+
+
+### Features
+
+* add typing app paths, updates e2e tests ([9c751ec](https://github.com/Alexey4717/escuelajs/commit/9c751ec9de2cf2e5a8743706558d1197893844b3))
+* redesign forbidden page ([ae0a7dd](https://github.com/Alexey4717/escuelajs/commit/ae0a7dd34b6ee4e61173b8022be87200861fbbe4))
+
 # [1.18.0](https://github.com/Alexey4717/escuelajs/compare/v1.17.0...v1.18.0) (2026-04-18)
 
 
