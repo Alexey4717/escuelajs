@@ -6,7 +6,6 @@ import {
   REFRESH_TOKEN_KEY,
 } from './src/shared/config/consts';
 import { pagesPath } from './src/shared/config/routes/$path';
-import { emitDebugSessionLog } from './src/shared/lib/debug-session-log';
 
 // Не забывать обновлять config.matcher
 const protectedPaths = [
@@ -25,19 +24,6 @@ export function middleware(request: NextRequest) {
 
   const hasAccess = request.cookies.has(ACCESS_TOKEN_KEY);
   const hasRefresh = request.cookies.has(REFRESH_TOKEN_KEY);
-  // #region agent log
-  emitDebugSessionLog({
-    hypothesisId: 'H1',
-    location: 'middleware.ts',
-    message: 'protected route',
-    data: {
-      pathname,
-      hasAccess,
-      hasRefresh,
-      decision: !hasAccess && !hasRefresh ? 'redirect-login' : 'next',
-    },
-  });
-  // #endregion
   if (!hasAccess && !hasRefresh) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('from', pathname);

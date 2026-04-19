@@ -8,7 +8,6 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isUnauthorized } from '@/shared/api/apollo-client';
 import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { pagesPath } from '@/shared/config/routes/$path';
-import { emitDebugSessionLog } from '@/shared/lib/debug-session-log';
 import { loginPageUrlWithFrom } from '@/shared/lib/redirects/safe-login-redirect';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
@@ -33,14 +32,6 @@ export const ProfileRoute = () => {
   useEffect(() => {
     if (!error) return;
     if (isUnauthorized(error)) {
-      // #region agent log
-      emitDebugSessionLog({
-        hypothesisId: 'H7',
-        location: 'ProfileRoute.tsx',
-        message: 'client redirect: GraphQL unauthorized',
-        data: { pathname },
-      });
-      // #endregion
       router.replace(loginPageUrlWithFrom(pathname));
     }
   }, [error, pathname, router]);
