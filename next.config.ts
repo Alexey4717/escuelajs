@@ -22,6 +22,7 @@ const nextConfig: NextConfig = {
           define: {
             'globalThis.__DEV__': 'false',
           },
+          reactRemoveProperties: { properties: ['^data-testid$'] },
         },
       }
     : {}),

@@ -14,13 +14,6 @@ const eslintConfig = defineConfig([
   ...nextTs,
   eslintPluginPrettierRecommended,
   {
-    files: ['babel.config.js'],
-    rules: {
-      // Next.js принимает только babel.config.js (CommonJS); .mjs не поддерживается лоадером.
-      '@typescript-eslint/no-require-imports': 'off',
-    },
-  },
-  {
     files: [
       '**/*.{test,spec}.{ts,tsx}',
       'src/test/**/*.{ts,tsx}',

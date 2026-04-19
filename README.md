@@ -13,7 +13,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 | `pnpm start` | Serve the last production build. |
 | `pnpm clean` | Deletes build and cache folders: `.next`, `out`, `build`, `coverage`, `.turbo` (via [`rimraf`](https://www.npmjs.com/package/rimraf), cross-platform). |
 | `pnpm clean:full` | Runs `clean`, then removes `node_modules`. Run `pnpm install` afterward. |
-| `pnpm lint` | ESLint (`src`, `e2e`, корневые `next.config.ts`, `vitest.config.ts`, `playwright.config.ts`, `babel.config.js`) и Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
+| `pnpm lint` | ESLint (`src`, `e2e`, корневые `next.config.ts`, `vitest.config.ts`, `playwright.config.ts`) и Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
 | `pnpm lint:fix` | Same linters with auto-fix. |
 | `pnpm lint:ts` | ESLint только по перечисленным путям (см. [`package.json`](package.json)): `./src/**/*.{ts,tsx}`, `./e2e/**/*.ts`, корневые конфиги. Явный список вместо глобального `**/*.{ts,tsx}` — меньше риска затронуть посторонние каталоги без донастройки ignore; при необходимости можно сузить до `./src` и отдельно добавить нужные файлы. |
 | `pnpm lint:ts:fix` | ESLint с `--fix` для тех же путей (`--no-warn-ignored`). |
