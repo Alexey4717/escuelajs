@@ -1,3 +1,10 @@
+## [1.19.1](https://github.com/Alexey4717/escuelajs/compare/v1.19.0...v1.19.1) (2026-04-19)
+
+
+### Bug Fixes
+
+* redirect to profile after success login, hypothesis 1, add new logs for sure ([c341778](https://github.com/Alexey4717/escuelajs/commit/c341778fe96e9c3321f6c898868f165fbcb3c22f))
+
 # [1.19.0](https://github.com/Alexey4717/escuelajs/compare/v1.18.0...v1.19.0) (2026-04-19)
 
 
