@@ -34,12 +34,13 @@ export const useSubmitHandler = () => {
         hypothesisId: 'H6',
         location: 'useSubmitHandler login',
         message: 'Login mutation settled on client',
-        data: { redirectTo, nextNavigation: 'push+refresh' },
+        data: { redirectTo, nextNavigation: 'replace-only' },
       });
       // #endregion
       toast.success('Signed in successfully');
-      router.push(redirectTo);
-      router.refresh();
+      // Не вызывать router.refresh() сразу после входа: на текущем URL ещё /login,
+      // refresh перезапрашивает RSC именно логина и может «перебить» переход на /profile.
+      router.replace(redirectTo);
     } catch (err) {
       console.error(err);
       toast.error('Sign in failed');

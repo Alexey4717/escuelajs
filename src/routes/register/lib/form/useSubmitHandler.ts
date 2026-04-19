@@ -54,12 +54,11 @@ export const useSubmitHandler = () => {
         hypothesisId: 'H6',
         location: 'useSubmitHandler register',
         message: 'AddUser+Login mutations settled on client',
-        data: { redirectTo, nextNavigation: 'push+refresh' },
+        data: { redirectTo, nextNavigation: 'replace-only' },
       });
       // #endregion
       toast.success('Registration completed successfully');
-      router.push(redirectTo);
-      router.refresh();
+      router.replace(redirectTo);
     } catch (err) {
       console.error(err);
     }
