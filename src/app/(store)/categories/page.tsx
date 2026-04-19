@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import type { Metadata } from 'next';
 
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
@@ -8,7 +6,7 @@ import { pagesPath } from '@/shared/config/routes/$path';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { buildPageMetadata } from '@/shared/lib/seo';
 
-import { CategoriesLoadPage, CategoriesRoute } from '@/routes/categories';
+import { CategoriesRoute } from '@/routes/categories';
 
 const CATEGORIES_REVALIDATE_SEC = 86_400; // 24 ч — категории меняются редко
 
@@ -40,9 +38,7 @@ export default function CategoriesPage() {
       errorPolicy="all"
       context={categoriesFetchContext}
     >
-      <Suspense fallback={<CategoriesLoadPage />}>
-        <CategoriesRoute />
-      </Suspense>
+      <CategoriesRoute />
     </PreloadQuery>
   );
 }

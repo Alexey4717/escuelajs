@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import type { Metadata } from 'next';
 
 import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
@@ -11,7 +9,6 @@ import { buildPageMetadata } from '@/shared/lib/seo';
 import {
   HOME_FEATURED_PRODUCTS_LIMIT,
   HOME_TESTIMONIAL_USERS_LIMIT,
-  HomeLoadPage,
   HomeRoute,
 } from '@/routes/home';
 
@@ -50,9 +47,7 @@ export default function HomePage() {
       errorPolicy="all"
       context={homeLandingFetchContext}
     >
-      <Suspense fallback={<HomeLoadPage />}>
-        <HomeRoute />
-      </Suspense>
+      <HomeRoute />
     </PreloadQuery>
   );
 }

@@ -3,8 +3,6 @@ import type { ReactNode } from 'react';
 import { cn } from '@/shared/lib/styles/cn';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
-import { Page } from '@/widgets/Page';
-
 const categoriesSkeletonItems = Array.from({ length: 10 }, (_, index) => index);
 
 interface CategoriesGridProps {
@@ -41,10 +39,4 @@ export const CategoriesSkeletonGrid = ({ ariaHidden = false }) => (
       <CategorySkeletonItem key={item} />
     ))}
   </CategoriesGrid>
-);
-
-export const CategoriesLoadPage = () => (
-  <Page heading="Categories">
-    <CategoriesSkeletonGrid ariaHidden />
-  </Page>
 );

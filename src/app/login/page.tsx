@@ -1,10 +1,8 @@
-import { Suspense } from 'react';
-
 import type { Metadata } from 'next';
 
 import { buildNoIndexMetadata } from '@/shared/lib/seo';
 
-import { LoginLoadPage, LoginRoute } from '@/routes/login';
+import { LoginRoute } from '@/routes/login';
 
 export const metadata: Metadata = {
   ...buildNoIndexMetadata({
@@ -14,9 +12,5 @@ export const metadata: Metadata = {
 };
 
 export default function LoginPage() {
-  return (
-    <Suspense fallback={<LoginLoadPage />}>
-      <LoginRoute />
-    </Suspense>
-  );
+  return <LoginRoute />;
 }

@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import type { Metadata } from 'next';
 
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
@@ -8,10 +6,7 @@ import { pagesPath } from '@/shared/config/routes/$path';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { buildPageMetadata } from '@/shared/lib/seo';
 
-import {
-  ProductDetailsLoadPage,
-  ProductDetailsRoute,
-} from '@/routes/product-detail';
+import { ProductDetailsRoute } from '@/routes/product-detail';
 
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';
@@ -77,9 +72,7 @@ export default async function ProductDetailsPage({
       errorPolicy="all"
       context={productDetailsQueryContext(id)}
     >
-      <Suspense fallback={<ProductDetailsLoadPage />}>
-        <ProductDetailsRoute productId={id} />
-      </Suspense>
+      <ProductDetailsRoute productId={id} />
     </PreloadQuery>
   );
 }

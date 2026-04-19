@@ -1,2 +1,2 @@
 export { CategoriesRoute } from './ui/CategoriesRoute';
-export { CategoriesLoadPage } from './ui/CategoriesSkeletons';
+export { CategoriesSkeletonGrid } from './ui/CategoriesSkeletons';

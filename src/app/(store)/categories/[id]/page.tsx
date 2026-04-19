@@ -1,5 +1,3 @@
-import { Suspense } from 'react';
-
 import type { Metadata } from 'next';
 
 import { PreloadQuery, query } from '@/shared/api/apollo-client/rsc';
@@ -8,10 +6,7 @@ import { pagesPath } from '@/shared/config/routes/$path';
 import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { buildPageMetadata } from '@/shared/lib/seo';
 
-import {
-  CategoryDetailsLoadPage,
-  CategoryDetailsRoute,
-} from '@/routes/category-detail';
+import { CategoryDetailsRoute } from '@/routes/category-detail';
 
 export const revalidate = 3600;
 
@@ -71,9 +66,7 @@ export default async function CategoryDetailsPage({
       errorPolicy="all"
       context={categoryDetailsQueryContext(id)}
     >
-      <Suspense fallback={<CategoryDetailsLoadPage />}>
-        <CategoryDetailsRoute categoryId={id} />
-      </Suspense>
+      <CategoryDetailsRoute categoryId={id} />
     </PreloadQuery>
   );
 }
