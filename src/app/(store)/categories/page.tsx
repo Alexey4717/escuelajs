@@ -11,7 +11,7 @@ import { CategoriesRoute } from '@/routes/categories';
 const CATEGORIES_REVALIDATE_SEC = 86_400; // 24 ч — категории меняются редко
 
 const description =
-  'Product categories in the catalog: clothing, electronics, furniture, footwear, and more.';
+  'Browse product categories in the shared catalog — from everyday essentials to specialty picks.';
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({

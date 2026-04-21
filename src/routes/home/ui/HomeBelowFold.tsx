@@ -2,8 +2,6 @@
 
 import dynamic from 'next/dynamic';
 
-import { Separator } from '@/shared/ui/Separator/Separator';
-
 const HomeHowItWorks = dynamic(() =>
   import('./components/HomeHowItWorks').then((m) => m.HomeHowItWorks),
 );
@@ -15,9 +13,7 @@ const ContactUsForm = dynamic(() =>
 export const HomeBelowFold = () => (
   <>
     <HomeHowItWorks />
-    <Separator className="my-14" />
     <HomeFaq />
-    <Separator className="my-14" />
     <ContactUsForm />
   </>
 );

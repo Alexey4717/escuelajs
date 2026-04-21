@@ -10,18 +10,18 @@ const REVIEW_BLUEPRINTS: Array<{
 }> = [
   {
     quote:
-      'I ordered a jacket and headphones — fast delivery, and the catalog makes sizes and specs easy to understand.',
-    subtitle: 'Shopper, Clothing',
+      'Checkout was smooth, and product pages spell out the details — variants and specs are easy to compare.',
+    subtitle: 'Catalog shopper',
   },
   {
     quote:
-      'Easy to compare prices across categories. My cart lives elsewhere, but here it’s great for browsing the assortment.',
-    subtitle: 'Shopper, electronics',
+      'Easy to compare prices across categories. I use another cart for real purchases, but browsing the assortment here is a pleasure.',
+    subtitle: 'Browser, multi-category',
   },
   {
     quote:
       'Calm interface without noise. I found what I needed with a couple of clicks using the category filter.',
-    subtitle: 'Escuela.io customer',
+    subtitle: 'Returning visitor',
   },
   {
     quote:
@@ -30,8 +30,8 @@ const REVIEW_BLUEPRINTS: Array<{
   },
   {
     quote:
-      'I buy gifts for colleagues here: T-shirts and gadgets. Product photos are top-notch.',
-    subtitle: 'HR, corporate purchasing',
+      'I pick gifts for the team here — great photos across unrelated categories. Makes shortlisting simple.',
+    subtitle: 'Team buyer',
   },
   {
     quote:
@@ -40,12 +40,12 @@ const REVIEW_BLUEPRINTS: Array<{
   },
   {
     quote:
-      'We order clothes and tech for the family in one place. Saves time on searching.',
-    subtitle: 'Family shopper',
+      'One storefront for the whole family’s wishlist. Less jumping between shops.',
+    subtitle: 'Household shopper',
   },
   {
     quote:
-      'Product pages with photo carousels are great. You know exactly what you’re getting.',
+      'Product pages with image carousels are great — you know what you’re getting before you add to cart.',
     subtitle: 'Returning customer',
   },
 ];

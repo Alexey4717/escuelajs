@@ -18,7 +18,7 @@ import {
 export const dynamic = 'force-dynamic';
 
 const description =
-  'Online store for clothing and electronics: catalog, reviews, getting started guide, and FAQ.';
+  'Learning store with a shared product catalog: categories, reviews, getting started guide, and FAQ.';
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
@@ -30,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function HomePage() {
   return (
-    <Page className="space-y-0">
+    <Page>
       <HomeHero />
       <Suspense fallback={<HomeLandingSkeleton />}>
         <HomeLandingSection />

@@ -65,6 +65,15 @@ vi.mock('sonner', async (importOriginal) => {
 });
 
 beforeAll(() => {
+  /** jsdom: `@radix-ui/react-scroll-area` вызывает ResizeObserver в layout effect. */
+  if (typeof globalThis.ResizeObserver === 'undefined') {
+    globalThis.ResizeObserver = class ResizeObserver {
+      observe(): void {}
+      unobserve(): void {}
+      disconnect(): void {}
+    } as typeof ResizeObserver;
+  }
+
   if (typeof window !== 'undefined' && !window.matchMedia) {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,

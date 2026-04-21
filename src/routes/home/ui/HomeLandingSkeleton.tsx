@@ -1,4 +1,5 @@
 import { cn } from '@/shared/lib/styles/cn';
+import { PAGE_SECTION_CLASSNAME } from '@/shared/ui/PageSection/constants';
 import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 
 import {
@@ -22,10 +23,10 @@ const productCoverAspectClassName =
 /** Скелетон блоков «Подборка» + отзывы — только то, что зависит от HomeLanding. */
 export const HomeLandingSkeleton = () => (
   <>
-    <section className="space-y-5" aria-hidden>
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-        <Skeleton className="h-11 w-full max-w-sm rounded-md" />
-        <Skeleton className="h-9 w-full rounded-lg sm:w-36 sm:shrink-0" />
+    <section className={cn('space-y-5', PAGE_SECTION_CLASSNAME)} aria-hidden>
+      <div className="flex flex-col items-center gap-3 text-center">
+        <Skeleton className="mx-auto h-11 w-full max-w-md rounded-md" />
+        <Skeleton className="h-9 w-36 shrink-0 rounded-lg" />
       </div>
       <ul
         className={cn('grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4')}
@@ -58,9 +59,10 @@ export const HomeLandingSkeleton = () => (
 
     <section
       className={cn(
-        'relative min-w-0 space-y-8 py-10',
+        'relative min-w-0 space-y-8',
+        PAGE_SECTION_CLASSNAME,
         '-mx-[var(--spacing-layout)] w-[calc(100%+2*var(--spacing-layout))] max-w-none',
-        'border-y border-border bg-muted/30 dark:bg-muted/20',
+        'bg-muted/30 dark:bg-muted/20',
       )}
       aria-hidden
     >

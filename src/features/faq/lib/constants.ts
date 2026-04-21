@@ -11,12 +11,17 @@ export const FAQ_ITEMS: Array<{
   {
     id: 'order',
     q: 'How do I order a product?',
-    a: 'Pick a product in the catalog, open its page, and review the description and price. In this learning project the cart and checkout are not wired to a payment gateway — next steps depend on your backend setup.',
+    a: 'Add items to your cart from a product page, then open the Cart page (link in the header when items are present). Review your line items and submit the checkout form with your contact and pickup or delivery details. This is a demo: no real payment is processed — you will see a practice confirmation only.',
   },
   {
     id: 'admin-role',
     q: 'What does the administrator role include?',
     a: 'Administrators typically get access to managing products (create, edit), the users section, and other protected screens. The exact permissions are defined on the server.',
+  },
+  {
+    id: 'role-demo',
+    q: 'Can I try the app with different user roles?',
+    a: 'Yes. After you sign in, open Profile and use the edit form to change your role (for example customer vs administrator). That lets you explore role-specific flows in this learning project without a separate account. Which roles appear depends on the server.',
   },
   {
     id: 'guest-catalog',

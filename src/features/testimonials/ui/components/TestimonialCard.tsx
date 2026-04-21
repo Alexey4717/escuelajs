@@ -11,8 +11,8 @@ interface TestimonialCardProps {
 export const TestimonialCard = ({ item }: TestimonialCardProps) => (
   <article
     className={cn(
-      'flex w-full max-w-sm shrink-0 gap-4 border-l border-border pl-6 pr-2 sm:pl-8 sm:pr-4',
-      'first:border-l-0 first:pl-0 sm:first:pl-0',
+      'flex w-full max-w-sm shrink-0 gap-4 pl-0 pr-2 lg:border-l sm:border-border lg:pl-8 sm:pr-4',
+      'lg:first:border-l-0 lg:first:pl-0',
     )}
     aria-label={`Testimonial: ${item.name}`}
   >

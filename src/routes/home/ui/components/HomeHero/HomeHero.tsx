@@ -245,7 +245,7 @@ export const HomeHero = () => (
           'dark:from-white dark:via-sky-100 dark:to-sky-300/90',
         )}
       >
-        Clothing and electronics in one catalog
+        A shared catalog for every category
       </Typography>
       <Typography
         variant="body1"
@@ -255,7 +255,7 @@ export const HomeHero = () => (
           'dark:text-sky-100/75',
         )}
       >
-        Find your next outfit or gadget with curated categories, transparent
+        Browse products from the community with curated categories, transparent
         pricing, and fast product previews.
       </Typography>
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

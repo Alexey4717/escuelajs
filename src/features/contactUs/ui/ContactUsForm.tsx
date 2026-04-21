@@ -8,7 +8,9 @@ import { toast } from 'sonner';
 
 import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Form } from '@/shared/ui/Form/Form';
-import { Typography } from '@/shared/ui/Typography/Typography';
+import { PageSection } from '@/shared/ui/PageSection/PageSection';
+import { PageSectionBody } from '@/shared/ui/PageSection/PageSectionBody';
+import { PageSectionHeader } from '@/shared/ui/PageSection/PageSectionHeader';
 
 import {
   ContactUsEmailField,
@@ -42,39 +44,38 @@ export const ContactUsForm = () => {
   };
 
   return (
-    <section
+    <PageSection
       aria-labelledby={`${formId}-heading`}
-      className="mt-16 space-y-6"
       data-onboarding={ONBOARDING_TARGET_IDS.homeContactForm}
     >
-      <div>
-        <Typography id={`${formId}-heading`} variant="h2" gutterBottom>
-          Contact us
-        </Typography>
-        <Typography variant="muted">
-          Leave a message and we&apos;ll reply to your email.
-        </Typography>
-      </div>
-      <Form
-        methods={methods}
-        onSubmit={onSubmit}
-        className="max-w-xl space-y-4 rounded-xl border border-border bg-card/60 p-6 shadow-sm backdrop-blur-sm"
-      >
-        <ContactUsNameField
-          autoComplete="name"
-          placeholder="How should we address you?"
-        />
-        <ContactUsEmailField
-          type="email"
-          autoComplete="email"
-          placeholder="you@example.com"
-        />
-        <ContactUsMessageField
-          rows={4}
-          placeholder="Question about your order, delivery, or products"
-        />
-        <ContactUsSubmitButton />
-      </Form>
-    </section>
+      <PageSectionHeader
+        titleId={`${formId}-heading`}
+        title="Contact us"
+        description={"Leave a message and we'll reply to your email."}
+      />
+
+      <PageSectionBody>
+        <Form
+          methods={methods}
+          onSubmit={onSubmit}
+          className="mx-auto max-w-xl space-y-4 rounded-xl border border-border bg-card/60 p-6 shadow-sm backdrop-blur-sm"
+        >
+          <ContactUsNameField
+            autoComplete="name"
+            placeholder="How should we address you?"
+          />
+          <ContactUsEmailField
+            type="email"
+            autoComplete="email"
+            placeholder="you@example.com"
+          />
+          <ContactUsMessageField
+            rows={4}
+            placeholder="Question about your order, delivery, or products"
+          />
+          <ContactUsSubmitButton />
+        </Form>
+      </PageSectionBody>
+    </PageSection>
   );
 };
