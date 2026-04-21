@@ -1,3 +1,13 @@
+## [1.19.2](https://github.com/Alexey4717/escuelajs/compare/v1.19.1...v1.19.2) (2026-04-21)
+
+
+### Bug Fixes
+
+* analyze script ([a83b25e](https://github.com/Alexey4717/escuelajs/commit/a83b25e3799e884476b1a988fd3e738652d05f13))
+* products filters ([edffd9c](https://github.com/Alexey4717/escuelajs/commit/edffd9c975794a51df8e18667333cb7b8fe33ad8))
+* products list skeletons ([28ebb0d](https://github.com/Alexey4717/escuelajs/commit/28ebb0d194fd1631ebb03ebb0b48169433948c2d))
+* router source in store sidebar ([e4013d0](https://github.com/Alexey4717/escuelajs/commit/e4013d06a23fb295ee508b1ffd10dfed50603e8b))
+
 ## [1.19.1](https://github.com/Alexey4717/escuelajs/compare/v1.19.0...v1.19.1) (2026-04-19)
 
 
