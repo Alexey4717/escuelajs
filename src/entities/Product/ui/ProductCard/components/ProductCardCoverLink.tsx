@@ -11,6 +11,8 @@ interface ProductCardCoverLinkProps {
   imageUrl?: string;
   categoryName?: string;
   dataOnboarding?: string;
+  fetchPriority?: 'high' | 'low' | 'auto';
+  loading?: 'eager' | 'lazy';
 }
 
 export const ProductCardCoverLink = ({
@@ -18,6 +20,8 @@ export const ProductCardCoverLink = ({
   imageUrl,
   categoryName,
   dataOnboarding,
+  fetchPriority,
+  loading = 'lazy',
 }: ProductCardCoverLinkProps) => (
   <Link
     prefetch={false}
@@ -34,8 +38,9 @@ export const ProductCardCoverLink = ({
         src={imageUrl}
         alt="product image"
         disablePreload
-        loading="lazy"
+        loading={loading}
         decoding="async"
+        fetchPriority={fetchPriority}
         className="absolute inset-0 size-full object-cover transition-transform duration-300 group-hover/cover:scale-[1.02]"
       />
     ) : null}

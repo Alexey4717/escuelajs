@@ -36,6 +36,10 @@ const FLOATING_CARDS = [
   },
 ] as const;
 
+/**
+ * LCP на главной чаще всего даёт **крупный текст (h1)** или, на узких экранах,
+ * первая карточка товара ниже — см. `prioritizeCoverImage` в `HomeProducts`.
+ */
 export const HomeHero = () => (
   <section
     aria-label="Main banner"

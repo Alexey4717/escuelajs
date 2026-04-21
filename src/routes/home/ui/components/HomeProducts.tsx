@@ -29,10 +29,11 @@ export const HomeProducts = ({ products }: HomeProductsProps) => (
       <ul
         className={cn('grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4')}
       >
-        {products.map((product) => (
+        {products.map((product, index) => (
           <li key={product.id} className="min-w-0">
             <ProductCard
               product={product}
+              prioritizeCoverImage={index === 0}
               cartAction={
                 <ToggleCartItemButton
                   variant="card"

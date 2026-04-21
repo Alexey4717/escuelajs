@@ -1,5 +1,4 @@
-export {
-  HOME_FEATURED_PRODUCTS_LIMIT,
-  HOME_TESTIMONIAL_USERS_LIMIT,
-} from './constants';
-export { HomeRoute } from './ui/HomeRoute';
+export { HomeBelowFold } from './ui/HomeBelowFold';
+export { HomeHero } from './ui/components/HomeHero/HomeHero';
+export { HomeLandingSection } from './ui/HomeLandingSection';
+export { HomeLandingSkeleton } from './ui/HomeLandingSkeleton';

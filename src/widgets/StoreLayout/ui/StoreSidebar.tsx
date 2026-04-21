@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { pagesPath } from '@/shared/config/routes/$path';
 import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
@@ -20,31 +20,14 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/shared/ui/Sidebar/Sidebar';
-import { Typography } from '@/shared/ui/Typography/Typography';
 
 import { useCurrentUserRole } from '@/entities/Session';
 
 import { ProfileLink } from '@/features/profileLink';
 
 import { getCatalogNav, type NavItem } from '../model/catalog-nav';
+import { StoreSidebarBrand } from './StoreSidebarBrand';
 
-const StoreSidebarBrand = ({ onNavigate }: { onNavigate: () => void }) => (
-  <Link
-    href={pagesPath.$url().path}
-    className="flex h-full min-h-0 items-center gap-2 rounded-md px-2 text-sidebar-foreground transition-colors hover:bg-sidebar-accent/50"
-    onClick={onNavigate}
-  >
-    <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-sidebar-primary text-[12px] font-bold text-sidebar-primary-foreground">
-      E
-    </span>
-    <Typography
-      variant="large"
-      className="text-[15px] font-semibold leading-tight"
-    >
-      Escuela<span className="text-sidebar-primary">.</span>io
-    </Typography>
-  </Link>
-);
 const onboardingForNavItem = (href: NavItem['href']) => {
   if (href === pagesPath.products.$url().path) {
     return ONBOARDING_TARGET_IDS.sidebarNavProducts;
@@ -64,6 +47,7 @@ interface StoreSidebarProps {
 
 export const StoreSidebar = ({ isLoggedIn }: StoreSidebarProps) => {
   const pathname = usePathname();
+  const router = useRouter();
   const { role } = useCurrentUserRole();
   const { setOpenMobile } = useSidebar();
 
@@ -74,6 +58,13 @@ export const StoreSidebar = ({ isLoggedIn }: StoreSidebarProps) => {
   const closeMobileSheet = () => {
     setOpenMobile(false);
   };
+
+  const prefetchNavHref = useCallback(
+    (href: string) => () => {
+      void router.prefetch(href);
+    },
+    [router],
+  );
 
   const isActive = (item: NavItem) => pathname === item.href;
   const catalog = getCatalogNav(role);
@@ -103,6 +94,8 @@ export const StoreSidebar = ({ isLoggedIn }: StoreSidebarProps) => {
                     >
                       <Link
                         href={item.href}
+                        prefetch={false}
+                        onMouseEnter={prefetchNavHref(item.href)}
                         onClick={closeMobileSheet}
                         data-onboarding={onboardingForNavItem(item.href)}
                       >

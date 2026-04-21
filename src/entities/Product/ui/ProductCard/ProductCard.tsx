@@ -16,12 +16,15 @@ interface ProductCardProps {
   product: ProductsQuery['products'][number];
   cartAction?: ReactNode;
   titleDataOnboarding?: string;
+  /** Первый кадр сетки на главной: выше приоритет загрузки обложки для LCP. */
+  prioritizeCoverImage?: boolean;
 }
 
 export const ProductCard = ({
   product,
   cartAction,
   titleDataOnboarding,
+  prioritizeCoverImage,
 }: ProductCardProps) => {
   const imageUrl = product.images[0];
   const href = pagesPath.products._id(product.id).$url().path;
@@ -39,6 +42,8 @@ export const ProductCard = ({
           imageUrl={imageUrl}
           categoryName={product.category.name}
           dataOnboarding={titleDataOnboarding}
+          fetchPriority={prioritizeCoverImage ? 'high' : undefined}
+          loading={prioritizeCoverImage ? 'eager' : 'lazy'}
         />
       }
       title={

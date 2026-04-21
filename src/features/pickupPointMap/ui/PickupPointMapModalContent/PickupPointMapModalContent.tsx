@@ -14,9 +14,17 @@ import {
   DEMO_PICKUP_POINT_SECONDARY_ID,
 } from './model/demo-pickup-point-ids';
 import { usePickupPointMapController } from './model/usePickupPointMapController';
-import { MapMoveEndHandler } from './ui/MapMoveEndHandler';
 import { PickupPointMapStatus } from './ui/PickupPointMapStatus';
 import { PickupPointMarkers } from './ui/PickupPointMarkers';
+
+/** Отдельный чанк: `react-leaflet` не попадает в синхронный бандл модалки. */
+const MapMoveEndHandler = dynamic(
+  () =>
+    import('./ui/MapMoveEndHandler').then((mod) => ({
+      default: mod.MapMoveEndHandler,
+    })),
+  { ssr: false },
+);
 
 const MapContainer = dynamic(
   () => import('react-leaflet').then((m) => m.MapContainer),

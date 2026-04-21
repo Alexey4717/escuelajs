@@ -1,25 +1,18 @@
+import { Suspense } from 'react';
+
 import type { Metadata } from 'next';
 
-import { PreloadQuery } from '@/shared/api/apollo-client/rsc';
-import { HomeLandingDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
-import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 import { buildPageMetadata } from '@/shared/lib/seo';
 
-import {
-  HOME_FEATURED_PRODUCTS_LIMIT,
-  HOME_TESTIMONIAL_USERS_LIMIT,
-  HomeRoute,
-} from '@/routes/home';
+import { Page } from '@/widgets/Page';
 
-/** Теги `products` / `users` — для `revalidateTag` после мутаций (подборка и отзывы на главной). */
-const homeLandingFetchContext = {
-  fetchOptions: {
-    next: {
-      tags: [nextCacheTags.products, nextCacheTags.users],
-    },
-  },
-} as const;
+import {
+  HomeBelowFold,
+  HomeHero,
+  HomeLandingSection,
+  HomeLandingSkeleton,
+} from '@/routes/home';
 
 /** Apollo RSC + BFF используют `headers()` (cookie) — страница не статическая. */
 export const dynamic = 'force-dynamic';
@@ -37,17 +30,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default function HomePage() {
   return (
-    <PreloadQuery
-      query={HomeLandingDocument}
-      variables={{
-        productsLimit: HOME_FEATURED_PRODUCTS_LIMIT,
-        productsOffset: 0,
-        usersLimit: HOME_TESTIMONIAL_USERS_LIMIT,
-      }}
-      errorPolicy="all"
-      context={homeLandingFetchContext}
-    >
-      <HomeRoute />
-    </PreloadQuery>
+    <Page className="space-y-0">
+      <HomeHero />
+      <Suspense fallback={<HomeLandingSkeleton />}>
+        <HomeLandingSection />
+      </Suspense>
+      <HomeBelowFold />
+    </Page>
   );
 }

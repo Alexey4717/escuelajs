@@ -9,6 +9,8 @@ import { clearAuthSession } from '@/shared/api/auth/clear-auth-session';
 import { DeleteUserDocument } from '@/shared/api/generated/graphql';
 import { pagesPath } from '@/shared/config/routes/$path';
 import { evictRootQueryField } from '@/shared/lib/cache/apollo/utils/cache-utils';
+import { revalidateTagsAction } from '@/shared/lib/cache/nextjs/revalidate-tags.action';
+import { nextCacheTags } from '@/shared/lib/cache/nextjs/tags';
 
 interface DeleteCurrentUserMutationArgs {
   userId: string;
@@ -28,6 +30,11 @@ export const useDeleteCurrentUserSubmitHandler = () => {
         update(cache) {
           evictRootQueryField(cache, 'users');
         },
+      });
+
+      await revalidateTagsAction({
+        tags: [nextCacheTags.users, nextCacheTags.user(userId)],
+        paths: [pagesPath.users.$url().path],
       });
 
       await clearAuthSession();

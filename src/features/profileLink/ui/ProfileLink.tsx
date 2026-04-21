@@ -1,6 +1,9 @@
 'use client';
 
+import { useCallback } from 'react';
+
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 import { pagesPath } from '@/shared/config/routes/$path';
 import { cn } from '@/shared/lib/styles/cn';
@@ -10,17 +13,29 @@ import { Skeleton } from '@/shared/ui/Skeleton/Skeleton';
 import { useCurrentUser } from '@/entities/Session';
 import { getRoleText } from '@/entities/User';
 
+const profileHref = pagesPath.profile.$url().path;
+
 const profileLinkClassName = cn(
   'flex w-full min-w-0 cursor-pointer items-center gap-2 rounded-lg border border-sidebar-border bg-sidebar-accent/20 py-1.5 pr-2.5 pl-1',
   'text-sidebar-foreground transition-colors',
   'hover:bg-sidebar-accent/40',
 );
 
-const ProfileLinkFallback = ({ className }: { className?: string }) => (
+interface ProfileLinkFallbackProps {
+  className?: string;
+  onPointerEnterPrefetch: () => void;
+}
+
+const ProfileLinkFallback = ({
+  className,
+  onPointerEnterPrefetch,
+}: ProfileLinkFallbackProps) => (
   <Link
-    href={pagesPath.profile.$url().path}
+    href={profileHref}
+    prefetch={false}
     className={cn(profileLinkClassName, className)}
     aria-label="Profile"
+    onMouseEnter={onPointerEnterPrefetch}
   >
     <span
       className="flex size-[26px] shrink-0 items-center justify-center rounded-lg bg-accent text-[11px] font-semibold text-accent-foreground"
@@ -39,10 +54,20 @@ interface ProfileLinkProps {
 }
 
 export const ProfileLink = ({ className }: ProfileLinkProps) => {
+  const router = useRouter();
   const { user, loading } = useCurrentUser();
 
+  const prefetchProfile = useCallback(() => {
+    void router.prefetch(profileHref);
+  }, [router]);
+
   if (!user) {
-    return <ProfileLinkFallback className={className} />;
+    return (
+      <ProfileLinkFallback
+        className={className}
+        onPointerEnterPrefetch={prefetchProfile}
+      />
+    );
   }
   const avatarSrc =
     user?.avatar != null && user.avatar.trim() !== '' ? user.avatar : undefined;
@@ -50,9 +75,11 @@ export const ProfileLink = ({ className }: ProfileLinkProps) => {
 
   return (
     <Link
-      href={pagesPath.profile.$url().path}
+      href={profileHref}
+      prefetch={false}
       className={cn(profileLinkClassName, 'group', className)}
       aria-label={user ? `Profile: ${user.name}` : 'Profile'}
+      onPointerEnter={prefetchProfile}
     >
       <Avatar
         className="size-[26px] shrink-0 self-center after:border-0"
