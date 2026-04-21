@@ -60,50 +60,51 @@ export const ProductsCatalogVirtualizedGrid = ({
       {showFilterBar ? (
         <FilterProductsBar productsNetworkStatus={productsNetworkStatus} />
       ) : null}
-      <div ref={virtualGridRef} className="relative">
-        <div
-          className="relative w-full"
-          style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
-        >
-          {virtualRows.map((virtualRow) => {
-            const rowStart = virtualRow.index * columnsCount;
-            const rowEnd = rowStart + columnsCount;
-            const rowProducts = products.slice(rowStart, rowEnd);
-            return (
-              <div
-                key={virtualRow.key}
-                data-index={virtualRow.index}
-                ref={rowVirtualizer.measureElement}
-                style={{
-                  ...VIRTUAL_ROW_STYLE,
-                  paddingBottom:
-                    virtualRow.index === rowsCount - 1 ? 0 : `${rowGapPx}px`,
-                  transform: `translateY(${virtualRow.start}px)`,
-                }}
-              >
-                <div className={PRODUCTS_GRID_CLASSNAME}>
-                  {rowProducts.map((product) => (
-                    <ProductsCatalogGridItem
-                      key={product.id}
-                      product={product}
-                    />
-                  ))}
+      <div className="space-y-3 sm:space-y-4">
+        <div ref={virtualGridRef} className="relative">
+          <div
+            className="relative w-full"
+            style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
+          >
+            {virtualRows.map((virtualRow) => {
+              const rowStart = virtualRow.index * columnsCount;
+              const rowEnd = rowStart + columnsCount;
+              const rowProducts = products.slice(rowStart, rowEnd);
+              return (
+                <div
+                  key={virtualRow.key}
+                  data-index={virtualRow.index}
+                  ref={rowVirtualizer.measureElement}
+                  style={{
+                    ...VIRTUAL_ROW_STYLE,
+                    paddingBottom:
+                      virtualRow.index === rowsCount - 1 ? 0 : `${rowGapPx}px`,
+                    transform: `translateY(${virtualRow.start}px)`,
+                  }}
+                >
+                  <div className={PRODUCTS_GRID_CLASSNAME}>
+                    {rowProducts.map((product) => (
+                      <ProductsCatalogGridItem
+                        key={product.id}
+                        product={product}
+                      />
+                    ))}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
+        {loadingMore ? (
+          <div className={PRODUCTS_GRID_CLASSNAME} aria-hidden>
+            {PRODUCTS_CATALOG_GRID_SKELETON_INDICES.slice(0, 4).map((item) => (
+              <Skeleton key={item} loading className="rounded-xl bg-muted/70">
+                <div className="h-[22rem] rounded-xl border border-border/40" />
+              </Skeleton>
+            ))}
+          </div>
+        ) : null}
       </div>
-      {loadingMore ? (
-        <div className="grid grid-cols-1 gap-3 py-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {PRODUCTS_CATALOG_GRID_SKELETON_INDICES.slice(0, 4).map((item) => (
-            <>
-              ggg
-              <Skeleton key={item} className="h-3.5 rounded-md" />
-            </>
-          ))}
-        </div>
-      ) : null}
     </div>
   );
 };
