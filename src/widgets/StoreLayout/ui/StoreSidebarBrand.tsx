@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 import { pagesPath } from '@/shared/config/routes/$path';
 import { Typography } from '@/shared/ui/Typography/Typography';
