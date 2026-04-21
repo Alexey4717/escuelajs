@@ -9,10 +9,11 @@ import { cn } from '../../lib/styles/cn';
 export const ScrollArea = forwardRef<
   HTMLDivElement,
   ComponentProps<typeof ScrollAreaPrimitive.Root>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, type = 'auto', ...props }, ref) => (
   <ScrollAreaPrimitive.Root
     data-slot="scroll-area"
     className={cn('relative', className)}
+    type={type}
     {...props}
   >
     <ScrollAreaPrimitive.Viewport
