@@ -1,329 +1,154 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EscuelaJS
 
-Шрифты подключаются через [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) ([Geist](https://vercel.com/font)).
+Витрина и админка поверх публичного [Escuela JS API](https://api.escuelajs.co/graphql): Next.js (App Router), GraphQL через Apollo, часть REST через TanStack Query, UI на React 19 и shadcn/radix. Репозиторий заточен под предсказуемую разработку: строгие линтеры, проверка сгенерированных файлов в CI, unit и интеграционные тесты на Vitest, e2e на Playwright.
 
-## Scripts
+----
 
-| Command | Description |
-| --- | --- |
-| `pnpm dev` | Dev server (Turbopack). |
-| `pnpm scss:types` | Generates `*.module.scss.d.ts` for CSS Modules typings. |
-| `pnpm scss:types:check` | Verifies generated `*.module.scss.d.ts` are up to date (fails on diff). |
-| `pnpm build` | Production build. |
-| `pnpm start` | Serve the last production build. |
-| `pnpm clean` | Deletes build and cache folders: `.next`, `out`, `build`, `coverage`, `.turbo` (via [`rimraf`](https://www.npmjs.com/package/rimraf), cross-platform). |
-| `pnpm clean:full` | Runs `clean`, then removes `node_modules`. Run `pnpm install` afterward. |
-| `pnpm lint` | ESLint (`src`, `e2e`, корневые `next.config.ts`, `vitest.config.ts`, `playwright.config.ts`) и Stylelint (CSS/SCSS). Fails on warnings (ESLint `--max-warnings 0`). |
-| `pnpm lint:fix` | Same linters with auto-fix. |
-| `pnpm lint:ts` | ESLint только по перечисленным путям (см. [`package.json`](package.json)): `./src/**/*.{ts,tsx}`, `./e2e/**/*.ts`, корневые конфиги. Явный список вместо глобального `**/*.{ts,tsx}` — меньше риска затронуть посторонние каталоги без донастройки ignore; при необходимости можно сузить до `./src` и отдельно добавить нужные файлы. |
-| `pnpm lint:ts:fix` | ESLint с `--fix` для тех же путей (`--no-warn-ignored`). |
-| `pnpm lint:style` | Stylelint for `**/*.{css,scss}` (see `.stylelintrc.cjs`). |
-| `pnpm lint:style:fix` | Stylelint with `--fix`. |
-| `pnpm prettier` | Prettier write for `ts`, `tsx`, `json`, `css`, `scss`. |
-| `pnpm prettier:check` | Prettier check only (no writes); useful in CI. |
-| `pnpm analyze` | Bundle analyzer (see below). |
-| `pnpm prepare` | Installs [Husky](https://typicode.github.io/husky/) git hooks after `pnpm install`. |
-| `pnpm pathpida` | Генерация [`src/shared/config/routes/$path.ts`](src/shared/config/routes/$path.ts) из `src/app/` (pathpida + Prettier). Запускать после изменений роутов в `app`; см. [Типизированные URL (pathpida)](#типизированные-url-pathpida). |
-| `pnpm dev:path` | pathpida в режиме `--watch` для перегенерации при правках `app`. |
-| `pnpm codegen` | GraphQL Codegen: [`graphql.ts`](src/shared/api/generated/graphql.ts), [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts). После записи файлов в [`codegen.ts`](codegen.ts) через `hooks.afterAllFileWrite` запускается **`prettier --write`**, чтобы вывод совпадал с `prettier.config.mjs` (сырой текст плагина и Prettier расходятся по кавычкам и переносам). См. [Codegen и политики кеша Apollo](#codegen-и-политики-кеша-apollo). |
-| `pnpm verify:generated` | Проверка сгенерированных артефактов: `codegen`, Prettier для `src/shared/api/generated/*.ts`, pathpida, Prettier для [`$path.ts`](src/shared/config/routes/$path.ts), `scss:types:check`, затем `git diff` по generated-путям (включая `*.module.scss.d.ts`). См. [CI: сгенерированные файлы](#ci-сгенерированные-файлы). |
-| `pnpm test:unit` | Один прогон unit/integration: [Vitest](https://vitest.dev/) + Testing Library + [MSW](https://mswjs.io/) (сеть к GraphQL не уходит — только моки). Конфиг: [`vitest.config.ts`](vitest.config.ts). |
-| `pnpm test:unit:watch` | Vitest в режиме watch (локальная разработка тестов). |
-| `pnpm test:unit:coverage` | Vitest с отчётом покрытия (V8). |
-| `pnpm test:e2e` | E2E: [Playwright](https://playwright.dev/), каталог [`e2e/`](e2e). Поднимает dev-сервер через `webServer` в [`playwright.config.ts`](playwright.config.ts) (или использует уже запущенный `pnpm dev`). |
-| `pnpm test:e2e:ui` | Playwright с UI-режимом отладки. |
+## Запуск проекта
 
-TypeScript is checked during `pnpm build` (and via your editor). This stack uses **ESLint** directly (not `next lint` — not exposed in Next.js 16 CLI here).
-
-### Тестирование
-
-- **Unit и integration** — colocated: `*.test.ts` / `*.test.tsx` рядом с кодом; общие хелперы (рендер с Apollo, MSW, сброс Zustand) экспортируются только из [`src/test/testing.ts`](src/test/testing.ts), не из продовых `index.ts`.
-- **Имена файлов** — базовый шаблон `*.test.ts(x)`; для отдельного окружения Vitest (например, `node` без jsdom) вместо общего `src/**/*.test.ts` можно использовать суффиксы вроде **`*.node.test.ts`** и директиву `/** @vitest-environment node */` в начале файла (см. пример в репозитории).
-- **E2E** — сценарии в [`e2e/`](e2e); для первого клонирования репозитория установите браузеры Playwright: `pnpm exec playwright install` (в CI обычно кэшируют эту установку).
-- Типы и IDE: при необходимости подключайте [`tsconfig.vitest.json`](tsconfig.vitest.json) в настройках TypeScript проекта (или используйте «Solution» с несколькими `tsconfig`).
-
-## Версии и релизы
-
-Релизы и [`CHANGELOG.md`](CHANGELOG.md) ведутся автоматически через **[semantic-release](https://github.com/semantic-release/semantic-release)** в GitHub Actions (job **Release** после успешного CI на push в `main`). Нужны **[Conventional Commits](https://www.conventionalcommits.org/)** в сообщениях коммитов (`feat:`, `fix:`, `BREAKING CHANGE:` и т.д.), иначе версия может не подняться до следующего подходящего коммита. Локально формат проверяет **[commitlint](https://commitlint.js.org/)** в хуке **`.husky/commit-msg`** (не в `pre-commit`: текст сообщения к этому моменту ещё не зафиксирован). Merge- и revert-коммиты из Git пропускаются.
-
-- **Версия в `package.json`** обновляется релизным процессом вместе с `CHANGELOG.md` и GitHub Release (публикация в npm отключена: `private: true`).
-- **Права в репозитории:** для job Release у GitHub Actions должны быть разрешены запись в содержимое и создание релизов (см. Settings → Actions → Workflow permissions).
-
-### CI: сгенерированные файлы
-
-В pipeline после линтеров выполняется **`pnpm verify:generated`**: перезапускаются GraphQL Codegen и pathpida, для сгенерированных `*.ts` применяется тот же Prettier, дополнительно проверяется актуальность `*.module.scss.d.ts` через `scss:types:check`, затем **`git diff`** по `src/shared/api/generated/`, [`src/shared/config/routes/$path.ts`](src/shared/config/routes/$path.ts) и `*.module.scss.d.ts` (остальные незакоммиченные файлы на результат не влияют). Если забыли выполнить `pnpm codegen`, `pnpm pathpida` или обновить SCSS typings после правок модулей стилей, job упадёт — сгенерируйте файлы локально и закоммитьте.
-
-До production build в job **quality** также выполняются **`pnpm test:unit`**, установка Chromium для Playwright (**`pnpm exec playwright install --with-deps chromium`**) и **`pnpm test:e2e`**; затем **`pnpm build`** (та же команда, что и на проде). См. [`.github/workflows/ci.yml`](.github/workflows/ci.yml).
-
-**Git hooks:** `.husky/pre-commit` — `lint-staged` (Prettier, ESLint/Stylelint для staged `*.{ts,tsx}` и `*.{css,scss}`). `.husky/commit-msg` — `commitlint` по [`commitlint.config.cjs`](commitlint.config.cjs) (Conventional Commits), вызов через **`node`** к локальному CLI, чтобы коммит из GUI (GitHub Desktop, Cursor и т.д.) не ломался из‑за отсутствия `pnpm` в `PATH`. Сообщение должно быть вроде **`feat: …`**, **`fix: …`**, **`chore: …`** (scope необязателен: `feat(api): …`).
-
-## Архитектура приложения
-
-### Маршруты и стратегии рендера
-
-| Роут | Стратегия | Примечание |
-| --- | --- | --- |
-| `/forbidden` | `SSG` | Статичный контент без динамических API. |
-| `/categories/[id]` | `ISR (segment)` | `export const revalidate = 3600`. |
-| `/categories` | `ISR (fetch)` | `fetchOptions.next.revalidate` в Apollo `PreloadQuery` context. |
-| `/`, `/products`, `/products/[id]` | `SSR dynamic` | Явно `dynamic = 'force-dynamic'`. |
-| `/users` | `SSR no-store` | `fetchOptions.cache = 'no-store'`. |
-| `/profile` | `SSR no-store` | `PreloadQuery` + `fetchOptions.cache = 'no-store'` и проверка auth cookie. |
-| `/cart`, `/admin-panel`, `/products/create`, `/categories/create`, `*/edit` | `SSR (auth/session-aware)` | Маршруты в `(store)` используют серверные cookie/guard логику. |
-
-### Структура `src/`
-
-Архитектура по паттерну Feature-Sliced Design, но с учетом ограничений и особенностей Next.js.
-
-| Путь | Назначение |
-| --- | --- |
-| `src/app/` | App Router, BFF [`/api/graphql`](src/app/api/graphql/route.ts), страницы. |
-| `src/routes/` | Слой страниц FSD (не путать с Next.js `pages/` — в проекте только App Router). |
-| `src/widgets/` | Виджеты по FSD. |
-| `src/features/` | Фичи по FSD. |
-| `src/shared/` | Переиспользуемый функционал для всего проекта |
-
-### Типизированные URL (pathpida)
-
-По структуре `src/app/` генерируется файл [`src/shared/config/routes/$path.ts`](src/shared/config/routes/$path.ts) (импорт: [`@/shared/config/routes/$path`](src/shared/config/routes/$path.ts), объект **`pagesPath`**). Это нужно, чтобы ссылки и `router.push` не расходились с реальными роутами App Router и ловились типами TypeScript.
-
-**Когда запускать:** после добавления, переименования или удаления страниц/сегментов в `src/app/` (аналогично тому, как после смены GraphQL-схемы запускают `pnpm codegen`). Сгенерированный `$path.ts` **коммитится** в репозиторий.
-
-| Команда | Назначение |
-| --- | --- |
-| `pnpm pathpida` | Один раз пересобрать `$path.ts` и отформатировать его Prettier. |
-| `pnpm dev:path` | Режим `--watch`: перегенерация при изменениях в `app` (удобно держать в отдельном терминале во время правок роутов). |
-
-**Что возвращает `pagesPath....$url(...)`:** объект с полями **`pathname`**, **`path`**, при необходимости **`query`** / **`hash`**.
-
-- **`pathname`** — маршрут в формате Next.js: для статических страниц это тот же путь, что в браузере (`/register`); для динамических — шаблон с сегментами в квадратных скобках (`/products/[id]`). Используется в сценариях с объектным `href` и отдельным `query` (как в API `next/router`).
-- **`path`** — уже **готовая строка** URL: подставлены значения динамических сегментов, при вызове `$url({ query, hash })` добавлены query-string и фрагмент. Для `<Link href={...}>` и большинства переходов в App Router обычно берут **`path`**.
-- **`hash`** — отдельно переданный фрагмент `#...` из аргумента `$url({ hash: '...' })` (в **`path`** он тоже попадает через суффикс).
-
-### GraphQL, BFF и токены (HttpOnly)
-
-Upstream API: **`https://api.escuelajs.co/graphql`**. Браузер **не** ходит туда напрямую: Apollo шлёт запросы на **`/api/graphql`** (тот же origin). [Route Handler](src/app/api/graphql/route.ts) подставляет к upstream **`Authorization: Bearer`** из HttpOnly cookie и, для ответов мутаций **`login`** / **`refreshToken`**, выставляет cookie через [`auth-cookies`](src/shared/lib/auth-cookies.ts), а тела ответов **очищает от токенов** (чтобы они не попадали в кеш Apollo).
-
-- **Вход / refresh:** мутации `Login` ([`routes/login/api`](src/routes/login/api/auth-login.graphql)), `AddUser` ([`routes/register/api`](src/routes/register/api/register-add-user.graphql)), `Auth_RefreshToken` ([`shared/api/graphql/api`](src/shared/api/graphql/api/auth-refresh-token.graphql)) через Apollo; отдельных `app/api/auth/*` нет.
-- **Выход:** server action [`clearAuthSession`](src/shared/api/auth/clear-auth-session.ts) — сброс cookie на сервере без отдельного route.
-
-**SSR:** для абсолютного URL к `/api/graphql` используется [`getAppOrigin()`](src/shared/lib/app-origin.ts) (`NEXT_PUBLIC_APP_URL` или `VERCEL_URL` или `http://localhost:3000`). В проде задайте **`NEXT_PUBLIC_APP_URL`**.
-
-**Маршруты:** публичные **`/`**, **`/login`**; защищённый **`/profile`** (middleware + наличие cookie). См. [`middleware.ts`](middleware.ts).
-
-### TanStack Query (REST)
-
-В проекте TanStack Query используется для REST-запросов к Escuela API (например, `files` и `locations`), а Apollo остаётся для GraphQL.
-
-- **Провайдер:** [`QueryProvider`](src/shared/api/query-client/query-provider.tsx) подключён в корневом [`layout.tsx`](src/app/layout.tsx), в dev включает React Query Devtools.
-- **QueryClient-конфиг:** [`makeQueryClient`](src/shared/api/query-client/make-query-client.ts) задаёт базовые defaults (`staleTime`, `gcTime`, retry-поведение, `refetchOnWindowFocus`).
-- **SSR/CSR инстанс:** [`getQueryClient`](src/shared/api/query-client/get-query-client.ts) — на сервере новый клиент на запрос, в браузере singleton на вкладку.
-- **REST query keys:** [`escuelaRestQueryKeys`](src/shared/api/rest/query-keys.ts) — единая фабрика ключей (`['escuela-rest', ...]`) для стабильной инвалидaции.
-- **Инвалидация кеша:** утилиты TanStack-кеша в [`src/shared/lib/cache/tanstack/cache-utils.ts`](src/shared/lib/cache/tanstack/cache-utils.ts): `invalidateEscuelaRest`, `invalidateEscuelaRestFiles`, `invalidateEscuelaRestLocations`, `clearQueryCache`.
-
-### RouteGuard для `/admin-panel` (server + client)
-
-Доступ к **`/admin-panel`** реализован в два слоя:
-
-- **Server guard (основной)** — в [`src/app/(store)/admin-panel/page.tsx`](src/app/(store)/admin-panel/page.tsx): на сервере читается `access_token`, извлекается `sub`, запрашивается `UserDetails` и для роли не `admin` выполняется `redirect('/forbidden')` до рендера контента.
-- **Client guard (дополнительный)** — [`RouteGuard`](src/shared/ui/RouteGuard/RouteGuard.tsx): использует [`useCurrentUserRole`](src/entities/Session/model/use-current-user.ts) и делает `router.replace('/forbidden')`, если клиентское состояние роли не соответствует требуемой.
-
-Страница [`/forbidden`](src/app/(store)/forbidden/page.tsx) показывает сообщение, что контент недоступен, и короткую подсказку как получить доступ (запросить роль `admin` у администратора).
-
-**Где что вызывать**
-
-- **Server Components:** только из [`@/shared/api/apollo-client/rsc`](src/shared/api/apollo-client/rsc/index.ts) — `getClient`, `query`, `PreloadQuery` (см. [Apollo RSC](#apollo-rsc); модуль помечен `server-only`, **не** реэкспортируется из корня `apollo-client`). Для операций, доступных без входа, токен не обязателен; если нужна сессия, cookie входящего запроса к Next должны попасть в `fetch` — это уже делает [`http-link`](src/shared/api/apollo-client/links/http-link.ts) через `next/headers`.
-- **Клиентские компоненты:** хуки из `@apollo/client/react` — cookie уходят автоматически на `/api/graphql`.
-
-#### Codegen и политики кеша Apollo
-
-Схема: [`src/shared/api/graphql/schema.graphql`](src/shared/api/graphql/schema.graphql).
-Импортирована вручную из https://api.escuelajs.co/graphql (т.к. отдельный сервер и не монорепа).
-Операции — в [`src/shared/api/graphql/`](src/shared/api/graphql/) (папки по доменам: `auth`, `user`, …). Конфиг: [`codegen.ts`](codegen.ts).
-
-Генерация TypeScript-типов и `TypedDocumentNode` в одном файле [`graphql.ts`](src/shared/api/generated/graphql.ts), политики кеша — [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts).
-
-**Когда запускать:** после изменения схемы, добавления/правки `.graphql` (новые запросы, переменные, фрагменты). Сгенерированные файлы **коммитятся** в репозиторий.
-
-**Что генерируется**
-
-- [`graphql.ts`](src/shared/api/generated/graphql.ts) — типы схемы, типы операций и `TypedDocumentNode`.
-- [`apolloCachePolicies.ts`](src/shared/api/generated/apolloCachePolicies.ts) — политики `InMemoryCache`: пагинация `offset`/`limit` и при необходимости cursor (`after`/`first`); **корневые списки с аргументами без offset/cursor** (например `users(limit)`) — `queryListFieldsWithKeyArgs`; вложенные поля с аргументами и не-нормализованные типы. Логика в плагине [`tools/codegen-apollo-cache-plugin.js`](tools/codegen-apollo-cache-plugin.js) (те же `schema` и `documents`, что и у codegen). Политика для поля появляется, если это поле **есть в клиентских операциях** (см. `.graphql`).
-
-Политики подключаются в [`make-apollo-client.ts`](src/shared/api/apollo-client/client/make-apollo-client.ts). Редактировать `apolloCachePolicies.ts` вручную не нужно — только перегенерация. Для cursor-пагинации на плоских списках используется [`cursorLimitPagination`](src/shared/lib/cache/apollo/mergePolicies/cursorLimitPagination.ts) (импорт в сгенерированном файле появится, если такие поля есть в схеме и в документах).
-
-См. также: [keyArgs и пагинация в Apollo](https://www.apollographql.com/docs/react/pagination/key-args), [offset-based](https://www.apollographql.com/docs/react/pagination/offset-based).
-
-#### Apollo RSC
-
-Интеграция [`@apollo/client-integration-nextjs`](https://www.npmjs.com/package/@apollo/client-integration-nextjs) связывает Apollo с App Router и **React Server Components**: в [`rsc/apollo-rsc.ts`](src/shared/api/apollo-client/rsc/apollo-rsc.ts) вызывается [`registerApolloClient`](https://www.apollographql.com/docs/react/integrations/nextjs/), из [`@/shared/api/apollo-client/rsc`](src/shared/api/apollo-client/rsc/index.ts) экспортируются **`getClient`**, **`query`**, **`PreloadQuery`**.
-
-- **Зачем:** выполнять GraphQL на **сервере** при рендере RSC (данные можно получить до отдачи HTML), держать один контракт с клиентским Apollo и при необходимости предзагружать данные для гидрации (`PreloadQuery`).
-- **Связь с BFF:** тот же **`HttpLink`** на **`/api/graphql`**; [BFF `route.ts`](src/app/api/graphql/route.ts) по-прежнему проксирует на upstream. Серверный `query` ходит **в** этот маршрут, а не «в обход» Apollo.
-
-```ts
-import { getClient, query, PreloadQuery } from '@/shared/api/apollo-client/rsc';
+```
+Версия Node — 24.10.0;
+Версия pnpm — 10.33.0;
+pnpm install — установка зависимостей
+pnpm dev — сервер разработки Next.js
 ```
 
-**Структура [`shared/api/apollo-client/`](src/shared/api/apollo-client/)**
+Для продакшен-сборки и SSR к собственному приложению задайте **`NEXT_PUBLIC_APP_URL`** (см. `getAppOrigin` в коде). Секреты и локальные переменные — по вашему `.env` (см. .env.local.example).
 
-| Папка | Назначение |
-| --- | --- |
-| [`client/`](src/shared/api/apollo-client/client/) | Фабрика [`makeApolloClient`](src/shared/api/apollo-client/client/make-apollo-client.ts). |
-| [`links/`](src/shared/api/apollo-client/links/) | Цепочка Apollo Link: [`http-link`](src/shared/api/apollo-client/links/http-link.ts), [`error-link`](src/shared/api/apollo-client/links/error-link.ts). |
-| [`auth/`](src/shared/api/apollo-client/auth/) | Сессия в браузере: singleton клиента, [`refresh-token`](src/shared/api/apollo-client/auth/refresh-token.ts), [`isUnauthorized`](src/shared/api/apollo-client/auth/is-unauthorized.ts). |
-| [`context/`](src/shared/api/apollo-client/context/) | Ключи контекста операций, например [`SKIP_ERROR_TOAST_KEY`](src/shared/api/apollo-client/context/context-keys.ts). |
-| [`errors/`](src/shared/api/apollo-client/errors/) | Тексты для глобального toast — [`getErrorToastMessage`](src/shared/api/apollo-client/errors/get-error-toast-message.ts). |
-| [`provider/`](src/shared/api/apollo-client/provider/) | Клиентский [`ApolloProvider`](src/shared/api/apollo-client/provider/apollo-provider.tsx) (обёртка `ApolloNextAppProvider` + регистрация браузерного клиента). Импорт: `@/shared/api/apollo-client/provider`. |
-| [`rsc/`](src/shared/api/apollo-client/rsc/) | Регистрация Apollo для RSC — [`registerApolloClient`](https://www.apollographql.com/docs/react/integrations/nextjs/) (`getClient`, `query`, `PreloadQuery`). Импорт: `@/shared/api/apollo-client/rsc`. |
-| [`index.ts`](src/shared/api/apollo-client/index.ts) | Публичный реэкспорт (`makeApolloClient`, контекст, `isUnauthorized`) для импорта из `@/shared/api/apollo-client`. Клиентский провайдер и RSC — отдельными путями (`provider/`, `rsc/`). |
+----
 
-**Тосты при ошибках (Apollo `ErrorLink`)**
+## Скрипты
 
-В браузере глобальный [`ErrorLink`](src/shared/api/apollo-client/links/error-link.ts) показывает [Sonner](https://sonner.emilkowal.ski/) `toast.error` при сбоях запросов:
+- `pnpm dev` — режим разработки
+- `pnpm build` — production-сборка
+- `pnpm start` — запуск уже собранного приложения
+- `pnpm clean` — удаление артефактов сборки, кеша и отчётов тестов (`.next`, `out`, `coverage`, отчёты Playwright и т.д.)
+- `pnpm clean:full` — как `clean`, плюс `node_modules` (после этого снова `pnpm install`)
 
-- HTTP **4xx** — «Что-то пошло не так».
-- HTTP **5xx** — «Внутренняя ошибка сервера».
-- Ошибки в теле GraphQL-ответа (`errors`) — «Что-то пошло не так».
-- **401** и сценарии «нужен refresh» (см. [`isUnauthorized`](src/shared/api/apollo-client/auth/is-unauthorized.ts)) — тост **не** показывается, чтобы не дублировать обработку сессии.
+**Качество кода**
 
-Точечно отключить тост для одной операции можно через **контекст** Apollo: ключ [`SKIP_ERROR_TOAST_KEY`](src/shared/api/apollo-client/context/context-keys.ts) (`'skipErrorToast'`), реэкспортируется из [`@/shared/api/apollo-client`](src/shared/api/apollo-client/index.ts).
+- `pnpm lint` — ESLint (TypeScript/TSX, конфиги в корне) и Stylelint (CSS/SCSS); при любых предупреждениях ESLint команда падает (`--max-warnings 0`)
+- `pnpm lint:fix` — то же с автоисправлением
+- `pnpm lint:ts` / `pnpm lint:ts:fix` — только ESLint по явному списку путей (`src`, `e2e`, ключевые конфиги)
+- `pnpm lint:style` / `pnpm lint:style:fix` — только Stylelint
+- `pnpm prettier` — форматирование `ts`, `tsx`, `json`, `css`, `scss`
+- `pnpm prettier:check` — проверка форматирования без записи (удобно перед коммитом и в CI)
 
-```ts
-import { SKIP_ERROR_TOAST_KEY } from '@/shared/api/apollo-client';
+**Стили и типы CSS Modules**
 
-// Опции хука (useQuery / useMutation / useLazyQuery)
-useMutation(MY_MUTATION, {
-  context: { [SKIP_ERROR_TOAST_KEY]: true },
-});
+- `pnpm scss:types` — генерация `*.module.scss.d.ts`
+- `pnpm scss:types:check` — проверка, что типы актуальны (падает при расхождении)
 
-// Или при вызове mutate / execute
-mutate({ variables: { … } }, { context: { [SKIP_ERROR_TOAST_KEY]: true } });
-```
+**Маршруты и GraphQL**
 
-### Тема оформления (light / dark)
+- `pnpm pathpida` — генерация типизированных путей `src/shared/config/routes/$path.ts` из `src/app/`
+- `pnpm dev:path` — pathpida в режиме `--watch` (отдельный терминал при правках роутов)
+- `pnpm codegen` — GraphQL Codegen (`graphql.ts`, `apolloCachePolicies.ts` в `src/shared/api/generated/`)
 
-Цель — совместить **shadcn** (класс **`dark`** на `<html>` и CSS-переменные) и атрибут **`data-theme`**.
+**Проверка сгенерированного**
 
-1. **Сервер** — в [`src/app/layout.tsx`](src/app/layout.tsx) читается cookie **`theme`** (`dark` / иначе светлая тема для первого HTML). На `<html>` выставляются `data-theme` и класс `dark`, а также из `headers()` вычисляется server snapshot `isMobile` для [`ModalProvider`](src/app/modal/ui/ModalProvider.tsx).
-2. **Скрипт до отрисовки** — [`src/app/theme-bootstrap.tsx`](src/app/theme-bootstrap.tsx) подключает `/public/scripts/theme-bootstrap.js`, который синхронно уточняет тему по приоритету: cookie `theme` → `localStorage.getItem('theme')` → системная `prefers-color-scheme: dark`. Это дополнительно уменьшает flash при рассинхроне серверного и клиентского источников темы.
+- `pnpm verify:generated` — codegen, pathpida, Prettier для артефактов, проверка SCSS typings, затем `git diff` по ожидаемым путям (как в CI)
 
-При переключении темы в UI имеет смысл обновлять и cookie (например через server action или route handler), и `localStorage`, чтобы поведение совпадало при следующих заходах и при SSR.
+**Тесты**
 
-## Bundle analysis
+- `pnpm test:unit` — Vitest (Testing Library, MSW для сети)
+- `pnpm test:unit:watch` — Vitest в watch-режиме
+- `pnpm test:unit:coverage` — покрытие (V8)
+- `pnpm test:e2e` — Playwright (`e2e/`); при первом клоне: `pnpm exec playwright install`
+- `pnpm test:e2e:ui` — Playwright с UI
 
-This project includes [`@next/bundle-analyzer`](https://www.npmjs.com/package/@next/bundle-analyzer). To build with Webpack and open interactive bundle reports (client, Node.js, and edge), run:
+**Прочее**
 
-```bash
-pnpm analyze
-```
+- `pnpm analyze` — анализ бандла (`@next/bundle-analyzer`; для отчёта сборка идёт через Webpack: `next build --webpack`)
+- `pnpm prepare` — установка [Husky](https://typicode.github.io/husky/) после `pnpm install`
+- `pnpm release` — локальный вызов semantic-release (основной релиз идёт из GitHub Actions на `main`)
 
-Reports are written to `.next/analyze/` as HTML files (for example `client.html`). Next.js 16 uses Turbopack for production builds by default; the analyzer requires Webpack, so the script passes `--webpack` to `next build`.
+TypeScript проверяется при `pnpm build` и в редакторе. Стек использует **ESLint напрямую**, без отдельной команды `next lint` из CLI Next.js.
 
-## Image
-На проекте не используются Image from next/image, потому что по умолчанию не подгружает картинки с произвольных URL.
-Для внешних адресов в next.config нужно явно разрешить хосты через images.remotePatterns (или domains в старых версиях). Это сделано специально: оптимизация и прокси изображений только с доверенных источников.
-У Escuela в images приходят разные домены (imgur, unsplash, placehold.co и т.д.) и со временем могут появиться новые.
-Пока лучше не тащить в конфиг бесконечный зоопарк доменов ради витрины с динамическими ссылками. Если позже захотите именно next/image (оптимизация, размеры, blur), можно сузить список доменов у API или проксировать картинки через свой роут и тогда настроить один origin.
+----
 
-## Модалки (Modal flow)
+## Архитектура
 
-В проекте используется единый modal-flow: UI-обертка [`Modal`](src/shared/ui/Modal/Modal.tsx), глобальный хост в `app`, состояние открытости в Zustand (`openedModal`).
+Проект ориентирован на **Feature-Sliced Design**: слои `shared`, `entities`, `features`, `widgets`, сегменты страниц в `routes`, при этом маршрутизация и корневой layout живут в **Next.js App Router** (`src/app/`). Это не классический «чистый» FSD из туториала, а практичная адаптация под ограничения и возможности Next.js.
 
-### Основные элементы
+Официальное введение в методологию: [Feature-Sliced Design](https://feature-sliced.design/docs/get-started/tutorial).
 
-- **UI-адаптер:** [`src/shared/ui/Modal/Modal.tsx`](src/shared/ui/Modal/Modal.tsx)
-  - mobile: рендерит `Drawer`
-  - desktop: рендерит `Dialog`
-- **Глобальный хост и провайдер:** [`src/app/modal/ui/ModalHost.tsx`](src/app/modal/ui/ModalHost.tsx), [`src/app/modal/ui/ModalProvider.tsx`](src/app/modal/ui/ModalProvider.tsx)
-- **Реестр модалок:** [`src/app/modal/model/modal-registry.ts`](src/app/modal/model/modal-registry.ts)
-- **Стор:** [`src/shared/lib/store/slices/modal/create-modal-slice.ts`](src/shared/lib/store/slices/modal/create-modal-slice.ts)
-- **Типы ключей/пропсов модалок:** [`src/shared/lib/modal/types.ts`](src/shared/lib/modal/types.ts)
+**Ориентиры по `src/`**
 
-### Источник истины
+- `src/app/` — App Router, API route [`/api/graphql`](src/app/api/graphql/route.ts), композиция страниц
+- `src/routes/` — страничный слой FSD (не путать с устаревшим `pages/` Next)
+- `src/widgets/`, `src/features/`, `src/entities/` — виджеты, фичи, сущности
+- `src/shared/` — переиспользуемый код, API-клиенты, UI-примитивы, утилиты
+- `src/test/` — общие вещи для Vitest (точка входа, обёртки в провайдеры, MSW, моки)
 
-- Источник истины для открытости: Zustand.
-- Одновременно открыта только **одна** модалка.
+**Стратегии рендера по смыслу**
 
-### Как добавить новую модалку
+- Статика и ISR — отдельные разделы каталога (например категории с `revalidate`)
+- Динамический SSR — витрина товаров, главная и др. с `force-dynamic` там, где нужны свежие данные
+- Сегменты с сессией и админкой — серверные проверки cookie и редиректы; админ-панель дополнительно защищена на сервере и клиентом (`RouteGuard`)
 
-1. Добавьте ключ и props в [`ModalRegistryMap`](src/shared/lib/modal/types.ts):
+Подробности по Apollo (RSC, BFF, куки), TanStack Query, pathpida и codegen смотрите в исходниках: [`src/shared/api/apollo-client/`](src/shared/api/apollo-client/), [`src/app/api/graphql/route.ts`](src/app/api/graphql/route.ts), [`codegen.ts`](codegen.ts).
 
-```ts
-export interface ModalRegistryMap {
-  profileDelete: { email: string };
-  productEdit: { productId: string };
-}
-```
+----
 
-2. Создайте UI-компонент модалки в своей фиче/роуте (по FSD рядом с местом использования), например:
-   - `src/routes/products/ui/components/ProductEditModalContent.tsx`
+## Данные
 
-3. Зарегистрируйте модалку в [`modal-registry.ts`](src/app/modal/model/modal-registry.ts):
-   - `component`
-   - `title`, `description`
-   - опционально `renderFooter`
-   - опционально `dialogClassName` (только для desktop `Dialog`)
+- **GraphQL** — основной контракт с бэкендом; браузер ходит на **свой** origin (`/api/graphql`), route handler проксирует на upstream и работает с HttpOnly-сессией (токены не утекают в клиентский кеш ответов мутаций входа/refresh). Операции — файлы `.graphql` в `src/shared/api/graphql/` и рядом с фичами; типы и документы генерируются в `src/shared/api/generated/`.
+- **REST** — TanStack Query для части Escuela REST API (файлы, локации); провайдер в корневом layout, ключи и инвалидция — в `src/shared/api/rest/` и связанных утилитах кеша.
+- **Типизированные URL** — после изменений в `src/app/` запускайте `pnpm pathpida` (или `pnpm dev:path`); файл [`$path.ts`](src/shared/config/routes/$path.ts) коммитится в репозиторий.
+- **Схема GraphQL** — [`schema.graphql`](src/shared/api/graphql/schema.graphql); после правок схемы или `.graphql` — `pnpm codegen` и коммит сгенерированных файлов.
 
-4. Создайте локальный хук в слое фичи/роута (не в `app`), например:
-   - `src/routes/products/model/use-product-edit-modal.ts`
-   - внутри вызывайте `openModal('productEdit', props)`.
+----
 
-### Типизация `openModal`
+## Тесты
 
-`openModal` типизирован по `ModalKey` и `ModalRegistryMap`, поэтому:
+- **Unit / integration** — Vitest, тесты рядом с кодом: `*.test.ts`, `*.test.tsx`. Общие хелперы для тестового рендера и моков — из [`src/test/testing.ts`](src/test/testing.ts), не из продовых `index.ts`.
+- **E2E** — Playwright, каталог [`e2e/`](e2e). В CI поднимается dev-сервер через конфиг Playwright (или используйте уже запущенный `pnpm dev` локально).
 
-- неверный ключ (`openModal('productEdit1', ...)`) даст ошибку TypeScript;
-- props проверяются по ключу модалки;
-- при изменении `ModalRegistryMap` типы хука и стора синхронизируются автоматически.
+Для отдельных файлов под окружение Node в Vitest можно использовать суффиксы вроде `*.node.test.ts` и директиву `/** @vitest-environment node */`.
 
-### Footer и формы
+----
 
-- Для единообразного UI кнопки действий рекомендуется выносить в `footer` через `renderFooter` в registry.
-- Если контент модалки — форма, `submit` можно делать из footer-кнопки через `type="submit"` и `form="form-id"` (форма может находиться в `content`).
+## Линтинг и форматирование
 
-## Zustand
+В проекте **ESLint** (в том числе конфиг Next) для TypeScript/React и **Stylelint** для стилей. В **pre-commit** через Husky и lint-staged прогоняются Prettier, ESLint и Stylelint для индексированных файлов. Сообщения коммитов проверяет **commitlint** (Conventional Commits) в `.husky/commit-msg` — удобно писать в духе `feat: …`, `fix: …`, `chore: …`.
 
-Слайсы лучше описывать на уровне слоёв выше shared.
-В самой shared описана конфигурация Zustand.
+----
 
-### Ленивое подключение слайсов (code splitting)
+## CI и релизы
 
-Идея: тяжёлый кусок состояния и логики подгружается **динамическим `import()`** только когда пользователь попал на нужный раздел (как `injectReducer` в Redux).
+Файл [`.github/workflows/ci.yml`](.github/workflows/ci.yml): Prettier check, линтеры, **`pnpm verify:generated`**, unit-тесты, установка Chromium для Playwright, e2e, затем **`pnpm build`**. Push в `main` после зелёного CI запускает job **Release** с **semantic-release**: версия в `package.json`, `CHANGELOG.md` и GitHub Release обновляются по правилам Conventional Commits (публикация в npm отключена, `private: true`). Для job Release в настройках репозитория нужны права на запись контента и релизы.
 
-#### Как это устроено
+Коммит с текстом `[skip ci]` не гоняет CI (см. условия в workflow).
 
-Функция **`ensureLazySlice(name, loader)`**:
+----
 
-- принимает уникальный `name` (кэш: повторный вызов вернёт тот же `Promise`);
-- `loader` должен вернуть Promise с объектом `{ applySlice }`;
-- **`applySlice(api)`** получает `api` того же вида, что у Zustand (`setState`, `getState`, `subscribe`, …) и **дописывает** состояние и методы в корневой стор через `api.setState`.
+## Заметки для разработчиков
 
-#### Что сделать при добавлении ленивого слайса
+**Анализ бандла** — `pnpm analyze`, отчёты в `.next/analyze/`.
 
-1. Описать тип слайса (например `CartSlice`) и **расширить** `AppStore` в `app-store.ts`:  
-   `export type AppStore = SessionSlice & CartSlice`  
-   (либо поэтапно через пересечения.)
-2. Реализовать `applyCartSlice(api: StoreApi<AppStore>)` в отдельном модуле, который попадёт только в чанк страницы корзины.
-3. В клиентском компоненте (страница, layout сегмента) **один раз** вызвать:
+**Картинки** — сознательно не используется `next/image` для произвольных внешних URL витрины (много разных доменов у демо-данных).
 
-```ts
-import { ensureLazySlice } from '@/shared/lib/store';
+**Тема (светлая/тёмная)** — cookie `theme`, `data-theme` и класс `dark` на `<html>`, подстраховка скриптом из `public/scripts/theme-bootstrap.js` (см. [`layout.tsx`](src/app/layout.tsx), [`theme-bootstrap.tsx`](src/app/theme-bootstrap.tsx)).
 
-await ensureLazySlice('cart', () =>
-  import('@/entities/cart/model/apply-cart-slice').then((m) => ({
-    applySlice: m.applyCartSlice,
-  })),
-);
-```
+**Модалки** — единый реестр и Zustand-состояние: [`ModalHost`](src/app/modal/ui/ModalHost.tsx), [`modal-registry.ts`](src/app/modal/model/modal-registry.ts), типы [`ModalRegistryMap`](src/shared/lib/modal/types.ts).
 
-Удобно обернуть вызов в `useEffect` или вызывать при `transition` на маршрут — главное, не полагаться на стор до `await`, если UI зависит от данных слайса.
+**Zustand** — корневая конфигурация в shared; тяжёлые слайсы можно подключать лениво через `ensureLazySlice` (см. [`src/shared/lib/store`](src/shared/lib/store)).
 
-4. Пока чанк не загружен, в сторе нет полей корзины — учитывайте **загрузку и ошибки** в UI.
+Шрифты подключаются через [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) (в проекте — Geist).
 
-### Полезные ссылки
+----
 
-- [Документация Zustand](https://docs.pmnd.rs/zustand/getting-started/introduction)
-- [Предотвращение лишних ререндеров](https://docs.pmnd.rs/zustand/guides/prevent-rerenders-with-use-shallow)
-- [TypeScript](https://docs.pmnd.rs/zustand/guides/typescript)
-- [Slices / combine](https://docs.pmnd.rs/zustand/guides/slices-pattern)
+## Troubleshooting
+
+Публичный бэкенд [Escuela JS API](https://api.escuelajs.co/graphql) — демо-сервис: в схеме GraphQL и в REST есть поля и операции, которые **ведут себя непредсказуемо или не работают**. Это не баги фронтенда в этом репозитории; при странных ошибках имеет смысл сначала проверить ответ upstream и тело `errors` в GraphQL.
+
+**HTTP и коды ответа.** Для многих ситуаций, где ожидались бы коды **401**, **403** или **404**, сервер часто отвечает **500** или отдаёт GraphQL-ошибку без ясной семантики на уровне HTTP. Это нужно учитывать в UX и в логировании: по статусу одного запроса не всегда можно надёжно отличить «нет прав» от «не найдено».
+
+**Поля и запросы в схеме, но не на практике.** В типе `Query` объявлены, например, **`myProfile`** и **`isAvailable`** — в реальных вызовах они нередко падают или ведут себя некорректно, хотя в SDL выглядят штатно. Если фича опирается на такие точки, нужно закладывать обходные пути (другие запросы, деградацию UI, моки в тестах).
+
+**Нет явной документации бизнес-ограничений.** Правила вроде «нельзя удалить категорию, пока к ней привязаны товары» в открытой спецификации обычно **не описаны**: ошибка приходит уже в момент мутации, иногда обобщённо. Для админ-сценариев полезно дублировать очевидные ограничения в UI (подсказки, блокировка кнопки после проверки списка товаров и т.п.), не полагаясь только на текст ошибки с сервера.
+
+**Сброс данных и идентификаторы.** На стороне сервера демо-набор **периодически откатывается к дефолтному** (порядка **раз в сутки**; точное окно не контролируется клиентом). У сущностей **нет стабильных UUID**: используются простые числовые id, и после сброса **тот же номер может указывать уже на другую сущность**, в том числе «ваш» пользователь с привычным id завтра может не существовать или быть чужим. Не стоит считать закладки с id, скриншоты админки и локальные заметки про «id=5» долговечной правдой о мире API.
+
+**Общий доступ и сессия.** Это открытая песочница: **любой залогиненный пользователь может менять и удалять чужие сущности**, в том числе **вашу учётную запись**. Cookie с токеном при этом может оставаться «живой», пока срок не истёк, а сервер **не обязан** вернуть внятное «вас удалили» — возможны обрывы, пустые ответы или общие ошибки. Если поведение внезапно перестало сходиться с ожиданиями, **сначала попробуйте выйти и зайти снова** (новая сессия и актуальный контекст на демо-данных).
