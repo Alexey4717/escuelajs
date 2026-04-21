@@ -1,32 +1,9 @@
 import Link from 'next/link';
 
-import { NetworkStatus } from '@apollo/client';
-
 import { pagesPath } from '@/shared/config/routes/$path';
 import { ONBOARDING_TARGET_IDS } from '@/shared/lib/onboarding';
 import { Button } from '@/shared/ui/Button/Button';
 import { Typography } from '@/shared/ui/Typography/Typography';
-
-import {
-  FilteredProductsEmptyMessage,
-  FilterProductsBar,
-} from '@/features/filterProducts';
-
-interface ProductsCatalogGridEmptyFilteredProps {
-  productsNetworkStatus: NetworkStatus;
-}
-
-export const ProductsCatalogGridEmptyFiltered = ({
-  productsNetworkStatus,
-}: ProductsCatalogGridEmptyFilteredProps) => (
-  <div
-    className="space-y-6"
-    data-onboarding={ONBOARDING_TARGET_IDS.productsList}
-  >
-    <FilterProductsBar productsNetworkStatus={productsNetworkStatus} />
-    <FilteredProductsEmptyMessage />
-  </div>
-);
 
 interface ProductsCatalogGridEmptyCatalogProps {
   isAdmin: boolean;
